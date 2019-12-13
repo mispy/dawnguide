@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev-webpack": "webpack -w",
-    "dev-cloudworker": "nodemon --watch dist/index.js --exec cloudworker --kv-file SESSIONS=sessions.json --debug dist/index.js",
+    "dev-cloudworker": "nodemon --watch dist/index.js --exec cloudworker --debug --kv-file STORE=store.json --kv-set STORE.foo=bar dist/index.js",
     "dev": "npm-run-all --parallel dev-webpack dev-cloudworker",
     "build": "rm -rf build/* && webpack -p"
   },

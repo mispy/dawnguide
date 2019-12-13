@@ -8,7 +8,7 @@ import Router from './router'
 
 interface KVStore {
     get(key: string): Promise<string>
-    set(key: string, value: string): Promise<void>
+    put(key: string, value: string): Promise<void>
 }
 
 interface User {
@@ -37,8 +37,8 @@ async function signup(req: Request) {
     const crypted = await bcrypt.hash(password, 12)
 
     const id = uuidv4()
-    STORE.set(`users:${id}`, JSON.stringify({ id, username, email, password: crypted }))
-    STORE.set(`user_id_by_email:${email}`, id)
+    STORE.put(`users:${id}`, JSON.stringify({ id, username, email, password: crypted }))
+    STORE.put(`user_id_by_email:${email}`, id)
 
     const res = new Response("Signed up! " + id)
 
@@ -141,7 +141,7 @@ async function expectLogin(email: string, password: string): Promise<string> {
     if (validPassword) {
         // Login successful
 
-        const sessionId = uuidv4()
+        const sessionId = uuidv4() // XXX maybe make longer
         // TODO session expiry
         return sessionId
     } else {
