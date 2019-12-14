@@ -1,42 +1,47 @@
 import bcrypt = require('bcryptjs')
 import cookie = require('cookie')
 import db = require('./db')
+import { redirect } from './utils'
 
-export class SessionRequest {
+export interface SessionRequest extends Request {
     session: db.Session
-
-    constructor(req: Request, session: db.Session) {
-        this.session = session
-    }
 }
 
 export async function signup(req: Request) {
     const { username, email, password } = JSON.parse(await readRequestBody(req))
     const user = await db.users.create({ username, email, password })
 
-
-    const res = new Response("Signed up! " + user.id)
-
     // Log the user in to their first session
     const sessionKey = await db.sessions.create(user.id)
-    res.headers.set('Set-Cookie', sessionCookie(sessionKey))
 
+
+    const res = redirect('/')
+    res.headers.set('Set-Cookie', sessionCookie(sessionKey))
     return res
 }
 
 export async function login(req: Request) {
-    const { email, password } = JSON.parse(await readRequestBody(req))
+    const { usernameOrEmail, password } = JSON.parse(await readRequestBody(req))
 
-    const sessionKey = await expectLogin(email, password)
+    const sessionKey = await expectLogin(usernameOrEmail, password)
 
-    const res = new Response("Logged in! " + sessionKey)
+    const res = redirect('/')
     res.headers.set('Set-Cookie', sessionCookie(sessionKey))
-
     return res
 }
 
-export async function logout(req: SessionRequest) {
-    await db.sessions.expire(req.session.key)
+export async function logout(req: Request) {
+    const session = await getSession(req)
+    if (session) {
+        await db.sessions.expire(session.key)
+    }
+    return redirect('/')
+}
+
+export async function getSession(req: Request) {
+    const cookies = cookie.parse(req.headers.get('cookie') || '')
+    const sessionKey = cookies['sessionKey']
+    return sessionKey ? await db.sessions.get(sessionKey) : null
 }
 
 function sessionCookie(sessionKey: string) {
@@ -52,10 +57,10 @@ async function expectLogin(usernameOrEmail: string, password: string): Promise<s
         user = await db.users.getByUsername(usernameOrEmail)
     }
     if (!user) {
-        throw new Error("No such user")
+        throw new Error("Invalid user or password")
     }
 
-    const validPassword = await bcrypt.compare(password, user.password)
+    const validPassword = bcrypt.compareSync(password, user.password)
 
     if (validPassword) {
         // Login successful
@@ -63,7 +68,7 @@ async function expectLogin(usernameOrEmail: string, password: string): Promise<s
         const sessionKey = db.sessions.create(user.id)
         return sessionKey
     } else {
-        throw new Error("Invalid password")
+        throw new Error("Invalid user or password")
     }
 }
 

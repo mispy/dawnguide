@@ -1,11 +1,11 @@
 
 // declare const require: any
 const { getAssetFromKV } = require('@cloudflare/kv-asset-handler')
-import cookie = require('cookie')
 
 import Router from './router'
-import { signup, login, SessionRequest, logout } from './authentication'
-import db = require('./db')
+import { signup, login, SessionRequest, logout, getSession } from './authentication'
+import { IS_PRODUCTION } from './settings'
+import { redirect } from './utils'
 
 addEventListener('fetch', event => {
     event.respondWith(handleEvent(event))
@@ -13,63 +13,78 @@ addEventListener('fetch', event => {
 
 async function handleEvent(event: FetchEvent) {
     const r = new Router()
+    r.get('/(signup|login|assets/.*)', () => serveStatic(event))
+    r.get('/', () => rootPage(event))
     r.post('/signup', signup)
     r.post('/login', login)
     r.get('/logout', logout)
-    r.get('.*', () => serveStatic(event))
+    r.get('.*', () => requireLogin(event))
 
     const req = event.request
-    const cookies = cookie.parse(req.headers.get('cookie') || '')
-    console.log("cookies", cookies)
-
-    const sessionKey = cookies['sessionKey']
-    const session = await db.sessions.get(sessionKey)
-
-    if (session) {
-        return r.route(new SessionRequest(req, session))
-    } else {
-        return r.route(req)
+    try {
+        return await r.route(req)
+    } catch (e) {
+        return new Response(e.message || e.toString(), { status: 500 })
     }
 }
 
-const DEVELOPMENT = !(global as any).__STATIC_CONTENT
+async function rootPage(event: FetchEvent) {
+    const session = await getSession(event.request)
+
+    if (session) {
+        return redirect('/home')
+    } else {
+        return serveStatic(event)
+    }
+}
+
+async function requireLogin(event: FetchEvent) {
+    const req = event.request
+    const session = await getSession(req)
+
+    if (!session) {
+        return redirect('/login')
+    }
+
+    const r = new Router()
+    r.get('.*', () => serveStatic(event))
+
+    const sessionReq = req as SessionRequest
+    sessionReq.session = session
+    return r.route(sessionReq)
+}
+
 
 async function serveStatic(event: FetchEvent) {
-    // (global as any).__STATIC_CONTENT = "waffles"
     const url = new URL(event.request.url)
-    if (DEVELOPMENT) {
-        let pathname = url.pathname
-        console.log(pathname)
-        if (pathname == '/') {
-            pathname = '/index.html'
-        } else if (!pathname.includes('.')) {
-            pathname = pathname + '.html'
-        }
-        const response = await fetch(`http://localhost:8020${pathname}`)
-        return response
+    const pathname = transformStaticPath(url.pathname)
+    if (IS_PRODUCTION) {
+        return await serveStaticLive(event, pathname)
     } else {
-        return serveStaticLive(event)
+        return await fetch(`http://localhost:8020${pathname}`)
     }
+}
+
+function transformStaticPath(pathname: string): string {
+    if (pathname == '/') {
+        pathname = '/landing.html'
+    } else if (pathname == "/login" || pathname == "/signup") {
+        pathname = pathname + '.html'
+    } else if (!pathname.includes(".")) {
+        pathname = "/index.html"
+    }
+    return pathname
 }
 
 const DEBUG = false
 
-function mapRequestToAsset(req: Request) {
-    const url = new URL(req.url)
-
-    if (url.pathname.endsWith('/')) {
-        // If path looks like a directory append index.html
-        // e.g. If path is /about/ -> /about/index.html
-        url.pathname += "index.html"
-    } else if (!url.pathname.includes('.')) {
-        // Map pretty urls e.g. /signup => /signup.html
-        url.pathname += ".html"
+async function serveStaticLive(event: FetchEvent, pathname: string) {
+    const mapRequestToAsset = (req: Request) => {
+        const url = new URL(req.url)
+        url.pathname = pathname
+        return new Request(url.toString(), req as RequestInit)
     }
 
-    return new Request(url.toString(), req as RequestInit)
-}
-
-async function serveStaticLive(event: FetchEvent) {
     const options: any = {
         mapRequestToAsset: mapRequestToAsset
     }

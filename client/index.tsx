@@ -37,6 +37,9 @@ class Main extends React.Component {
                     </Container>
                 </Navbar>
             </header>
+            <div style={{ marginTop: "8rem", textAlign: "center" }}>
+                Nothing much here yet 😝
+            </div>
         </main>
     }
 }
