@@ -31,7 +31,7 @@ class Main extends React.Component {
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav>
-                                <Nav.Link href="#link">Account</Nav.Link>
+                                <Nav.Link href="/logout">Logout</Nav.Link>
                             </Nav>
                         </Navbar.Collapse>
                     </Container>

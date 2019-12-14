@@ -1,3 +1,5 @@
+import { SessionRequest } from "./authentication"
+
 /**
  * Helper functions that when passed a request will return a
  * boolean indicating if the request uses that HTTP method,
@@ -87,7 +89,7 @@ class Router {
         return this.handle([], handler)
     }
 
-    route(req: Request) {
+    route(req: Request|SessionRequest) {
         const route = this.resolve(req)
 
         if (route) {
@@ -107,7 +109,7 @@ class Router {
      * resolve returns the matching route for a request that returns
      * true for all conditions (if any).
      */
-    resolve(req: Request) {
+    resolve(req: Request|SessionRequest) {
         return this.routes.find(r => {
             if (!r.conditions || (Array.isArray(r) && !r.conditions.length)) {
                 return true
