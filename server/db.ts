@@ -1,14 +1,9 @@
 import uuidv4 = require('uuid/v4')
 import bcrypt = require('bcryptjs')
-
-export interface KVStore {
-    get(key: string): Promise<string | null>
-    put(key: string, value: string): Promise<void>
-    delete(key: string): Promise<void>
-}
+import { KVNamespace } from '@cloudflare/workers-types'
 
 declare const global: any
-const CloudflareStore: KVStore = global.STORE
+const CloudflareStore: KVNamespace = global.STORE
 
 export async function get(key: string): Promise<string | null> {
     return await CloudflareStore.get(key)
@@ -68,6 +63,8 @@ export namespace users {
     export async function create(props: Pick<User, 'username' | 'email' | 'password'>): Promise<User> {
         // TODO don't allow duplicate email/username
         const userId = uuidv4()
+
+        // Must be done synchronously or CF will think worker never exits
         const crypted = bcrypt.hashSync(props.password, 10)
         const user = {
             id: userId,

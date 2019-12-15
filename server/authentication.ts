@@ -14,7 +14,6 @@ export async function signup(req: Request) {
     // Log the user in to their first session
     const sessionKey = await db.sessions.create(user.id)
 
-
     const res = redirect('/')
     res.headers.set('Set-Cookie', sessionCookie(sessionKey))
     return res
@@ -60,6 +59,7 @@ async function expectLogin(usernameOrEmail: string, password: string): Promise<s
         throw new Error("Invalid user or password")
     }
 
+    // Must be done synchronously or CF will think worker never exits
     const validPassword = bcrypt.compareSync(password, user.password)
 
     if (validPassword) {
