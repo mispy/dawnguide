@@ -1,21 +1,18 @@
 import uuidv4 = require('uuid/v4')
 import bcrypt = require('bcryptjs')
+import moment = require('moment')
 import { KVNamespace } from '@cloudflare/workers-types'
+import { getTimeFromLevel } from './time'
 
 declare const global: any
 const CloudflareStore: KVNamespace = global.STORE
 
 export async function get(key: string): Promise<string | null> {
-    return await CloudflareStore.get(key)
+    return await CloudflareStore.get(key, "text")
 }
 
 export async function getJson<T>(key: string): Promise<T | null> {
-    const item = await CloudflareStore.get(key)
-    if (item === null) {
-        return null
-    } else {
-        return JSON.parse(item)
-    }
+    return await CloudflareStore.get(key, "json")
 }
 
 export async function put(key: string, value: string) {
@@ -39,6 +36,8 @@ export interface User {
     username: string
     email: string
     password: string
+    createdAt: number
+    updatedAt: number
 }
 
 export namespace users {
@@ -66,11 +65,14 @@ export namespace users {
 
         // Must be done synchronously or CF will think worker never exits
         const crypted = bcrypt.hashSync(props.password, 10)
+        const now = Date.now()
         const user = {
             id: userId,
             username: props.username,
             email: props.email,
-            password: crypted
+            password: crypted,
+            createdAt: now,
+            updatedAt: now
         }
 
         await db.putJson(`users:${userId}`, user)
@@ -104,5 +106,41 @@ export namespace sessions {
 
     export async function expire(sessionKey: string) {
         return await db.delete(`sessions:${sessionKey}`)
+    }
+}
+
+export interface LessonProgressItem {
+    /** Unique id of the lesson, which refers to a hardcoded string */
+    lessonId: string
+    /** SRS stage from 1 to 10 */
+    level: number
+
+    /** When this lesson was initially learned */
+    learnedAt: number
+    /** When last reviewed or learned */
+    reviewedAt: number
+}
+
+export interface UserLessonProgress {
+    lessons: { [lessonId: string]: LessonProgressItem | undefined }
+}
+
+export namespace lessonProgress {
+    function isReadyForReview(lesson: LessonProgressItem) {
+        return Date.now() > lesson.reviewedAt + getTimeFromLevel(lesson.level)
+    }
+
+    export async function get(userId: string): Promise<UserLessonProgress> {
+        return await db.getJson<UserLessonProgress>(`user_progress:${userId}`) || { lessons: {} }
+    }
+
+    /** Get previously learned lessons that are ready for a user to review */
+    export async function getReviewsFor(userId: string): Promise<LessonProgressItem[]> {
+        const progress = await lessonProgress.get(userId)
+        return (Object.values(progress.lessons) as LessonProgressItem[]).filter(isReadyForReview)
+    }
+
+    export async function set(userId: string, progress: UserLessonProgress) {
+        return await db.putJson(`user_progress:${userId}`, progress)
     }
 }

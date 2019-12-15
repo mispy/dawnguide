@@ -5,6 +5,7 @@ import Router from './router'
 import { signup, login, SessionRequest, logout, getSession } from './authentication'
 import { IS_PRODUCTION, WEBPACK_DEV_SERVER } from './settings'
 import { redirect } from './utils'
+import api = require('./api')
 
 // Workers require that this be a sync callback
 addEventListener('fetch', event => {
@@ -54,6 +55,7 @@ async function behindLogin(event: FetchEvent) {
     }
 
     const r = new Router()
+    r.get('/api/.*', api.processRequest)
     r.get('.*', () => serveStatic(event))
 
     const sessionReq = req as SessionRequest

@@ -69,6 +69,7 @@ class App extends React.Component {
                 <Route path="/home">
                     <Home />
                 </Route>
+                {/* TODO 404 */}
             </Switch>
         </Router>
     }

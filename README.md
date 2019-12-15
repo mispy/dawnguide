@@ -9,5 +9,3 @@ To deploy:
 - `webpack -p` in client
 - `webpack -p` in server
 - `wrangler publish` from root
-
-Deployment is currently: run `webpack -p` in both client and server dirs, then `wrangler publish` from root
