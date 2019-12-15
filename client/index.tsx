@@ -23,14 +23,14 @@ class AppLayout extends React.Component {
                         <Nav className="learnButtons">
                             <ul className="navigation-shortcuts">
                                 <li className="navigation-shortcut navigation-shortcut--lessons">
-                                    <a href="/lesson">
+                                    <Link to="/lesson">
                                         <span>49</span> Lessons
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li className="navigation-shortcut navigation-shortcut--reviews">
-                                    <a href="/review">
+                                    <Link to="/review">
                                         <span>194</span> Reviews
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </Nav>
