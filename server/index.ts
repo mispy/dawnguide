@@ -24,9 +24,9 @@ async function handleEvent(event: FetchEvent) {
     try {
         return await r.route(req)
     } catch (e) {
-        let message = e.message || e.toString
-        if (e.stack) {
-            message = `${message}\n${e.stack}`
+        let message = e.stack
+        if (!message) {
+            message = e.message || e.toString()
         }
         return new Response(message, { status: 500 })
     }
