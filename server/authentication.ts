@@ -9,7 +9,7 @@ export interface SessionRequest extends Request {
 
 export async function signup(req: Request) {
     const body = await expectRequestJson(req)
-    const { username, email, password } = expectStrings(body, 'username', 'email', 'password', 'waffles')
+    const { username, email, password } = expectStrings(body, 'username', 'email', 'password')
 
     const user = await db.users.create({ username, email, password })
 
