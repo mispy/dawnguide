@@ -1,3 +1,5 @@
+// CLOUDFLARE EXAMPLE CODE
+
 import { SessionRequest } from "./authentication"
 
 /**
@@ -34,14 +36,14 @@ const Path = (regExp: string) => (req: Request) => {
  */
 class Router {
     routes: {
-        conditions: Function|Function[],
+        conditions: Function | Function[],
         handler: Function
     }[]
     constructor() {
         this.routes = []
     }
 
-    handle(conditions: Function|Function[], handler: Function) {
+    handle(conditions: Function | Function[], handler: Function) {
         this.routes.push({
             conditions,
             handler,
@@ -89,7 +91,7 @@ class Router {
         return this.handle([], handler)
     }
 
-    route(req: Request|SessionRequest) {
+    route(req: Request | SessionRequest) {
         const route = this.resolve(req)
 
         if (route) {
@@ -109,7 +111,7 @@ class Router {
      * resolve returns the matching route for a request that returns
      * true for all conditions (if any).
      */
-    resolve(req: Request|SessionRequest) {
+    resolve(req: Request | SessionRequest) {
         return this.routes.find(r => {
             if (!r.conditions || (Array.isArray(r) && !r.conditions.length)) {
                 return true

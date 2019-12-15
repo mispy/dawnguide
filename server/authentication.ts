@@ -1,14 +1,16 @@
 import bcrypt = require('bcryptjs')
 import cookie = require('cookie')
 import db = require('./db')
-import { redirect } from './utils'
+import { redirect, expectRequestJson, expectStrings } from './utils'
 
 export interface SessionRequest extends Request {
     session: db.Session
 }
 
 export async function signup(req: Request) {
-    const { username, email, password } = JSON.parse(await readRequestBody(req))
+    const body = await expectRequestJson(req)
+    const { username, email, password } = expectStrings(body, 'username', 'email', 'password')
+
     const user = await db.users.create({ username, email, password })
 
     // Log the user in to their first session
@@ -20,7 +22,8 @@ export async function signup(req: Request) {
 }
 
 export async function login(req: Request) {
-    const { usernameOrEmail, password } = JSON.parse(await readRequestBody(req))
+    const body = await expectRequestJson(req)
+    const { usernameOrEmail, password } = expectStrings(body, 'usernameOrEmail', 'password')
 
     const sessionKey = await expectLogin(usernameOrEmail, password)
 
@@ -64,40 +67,9 @@ async function expectLogin(usernameOrEmail: string, password: string): Promise<s
 
     if (validPassword) {
         // Login successful
-
         const sessionKey = db.sessions.create(user.id)
         return sessionKey
     } else {
         throw new Error("Invalid user or password")
-    }
-}
-
-
-async function readRequestBody(request: Request) {
-    const { headers } = request
-    const contentType = headers.get('content-type')
-    if (!contentType) {
-        throw new Error("No content type")
-    }
-    if (contentType.includes('application/json')) {
-        const body = await request.json()
-        return JSON.stringify(body)
-    } else if (contentType.includes('application/text')) {
-        const body = await request.text()
-        return body
-    } else if (contentType.includes('text/html')) {
-        const body = await request.text()
-        return body
-    } else if (contentType.includes('form')) {
-        const formData = await request.formData()
-        let body: { [key: string]: string } = {}
-        for (let entry of (formData as any).entries()) {
-            body[entry[0]] = entry[1]
-        }
-        return JSON.stringify(body)
-    } else {
-        let myBlob = await request.blob()
-        var objectURL = URL.createObjectURL(myBlob)
-        return objectURL
     }
 }
