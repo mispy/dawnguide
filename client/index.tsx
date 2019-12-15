@@ -2,15 +2,21 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { observer } from 'mobx-react'
 import * as _ from 'lodash'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom"
 
 import './index.scss'
 import { Navbar, Nav, Container } from 'react-bootstrap'
 
 @observer
-class Main extends React.Component {
+class AppLayout extends React.Component {
     render() {
-        return <main>
-            <header className="SiteHeader">
+        return <>
+            <header className="AppHeader">
                 <Navbar>
                     <Container>
                         <Navbar.Brand href="#home">Sunpeep</Navbar.Brand>
@@ -37,11 +43,35 @@ class Main extends React.Component {
                     </Container>
                 </Navbar>
             </header>
-            <div style={{ marginTop: "8rem", textAlign: "center" }}>
-                Nothing much here yet 😝
-            </div>
-        </main>
+            <main className="container">
+                {this.props.children}
+            </main>
+        </>
     }
 }
 
-ReactDOM.render(<Main />, document.getElementById("root"))
+@observer
+class Home extends React.Component {
+    render() {
+        return <AppLayout>
+            <div style={{ marginTop: "8rem", textAlign: "center" }}>
+                Homepage! Nothing much here yet 😝
+            </div>
+        </AppLayout>
+    }
+}
+
+@observer
+class App extends React.Component {
+    render() {
+        return <Router>
+            <Switch>
+                <Route path="/home">
+                    <Home />
+                </Route>
+            </Switch>
+        </Router>
+    }
+}
+
+ReactDOM.render(<App />, document.getElementById("root"))
