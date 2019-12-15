@@ -18,7 +18,7 @@ async function handleEvent(event: FetchEvent) {
     r.post('/signup', signup)
     r.post('/login', login)
     r.get('/logout', logout)
-    r.get('.*', () => requireLogin(event))
+    r.get('.*', () => behindLogin(event))
 
     const req = event.request
     try {
@@ -36,13 +36,16 @@ async function rootPage(event: FetchEvent) {
     const session = await getSession(event.request)
 
     if (session) {
+        // Root url redirects to app if logged in
         return redirect('/home')
     } else {
         return serveStatic(event)
     }
 }
 
-async function requireLogin(event: FetchEvent) {
+async function behindLogin(event: FetchEvent) {
+    // Routes in here require login
+
     const req = event.request
     const session = await getSession(req)
 
@@ -57,7 +60,6 @@ async function requireLogin(event: FetchEvent) {
     sessionReq.session = session
     return r.route(sessionReq)
 }
-
 
 async function serveStatic(event: FetchEvent) {
     const url = new URL(event.request.url)

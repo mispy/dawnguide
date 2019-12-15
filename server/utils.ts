@@ -34,6 +34,7 @@ export async function expectRequestJson(request: Request): Promise<Json> {
     }
 }
 
+/** Expect a given json object to resolve some keys to string values */
 export function expectStrings<U extends keyof Json>(json: Json, ...keys: U[]): Pick<{ [key: string]: string }, U> {
     const obj: any = {}
     for (const key of keys) {
@@ -45,7 +46,6 @@ export function expectStrings<U extends keyof Json>(json: Json, ...keys: U[]): P
     }
     return obj
 }
-
 
 // Cloudflare's example code
 // export async function readRequestBody(request: Request) {
