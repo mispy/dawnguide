@@ -1,0 +1,11 @@
+name = "sunpeep"
+type = "javascript"
+account_id = "???"
+workers_dev = true
+kv-namespaces = [ 
+	 { binding = "STORE", id = "???" } 
+]
+
+[site]
+bucket = "./client/dist"
+entry-point = "./server/dist"
