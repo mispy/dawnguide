@@ -5,7 +5,7 @@ import db = require('./db')
 
 export async function processRequest(req: SessionRequest) {
     const r = new Router()
-    r.post('/api/reviews', submitReview)
+    r.post('/api/progress', submitProgress)
     r.route(req)
 }
 
@@ -13,7 +13,7 @@ export async function processRequest(req: SessionRequest) {
  * When a user successfully reviews a lesson, we increase the
  * SRS level in their lesson progress.
  **/
-async function submitReview(req: SessionRequest) {
+async function submitProgress(req: SessionRequest) {
     // TODO check level matches
     const json = await expectRequestJson(req)
     const { lessonId } = expectStrings(json, 'lessonId')

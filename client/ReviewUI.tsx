@@ -5,12 +5,12 @@ import { observable, action, computed } from "mobx"
 import { lessons, Lesson } from "./lessons"
 
 @observer
-export class ReviewUI extends React.Component {
+export class ReviewsUI extends React.Component<{ reviews: Lesson[] }> {
     @observable reviewIndex: number = 0
     @observable answer: string = ""
 
-    @computed get lessons() {
-        return lessons
+    @computed get currentReview() {
+        return this.props.reviews[this.reviewIndex]
     }
 
     @action.bound submitAnswer() {
@@ -29,13 +29,13 @@ export class ReviewUI extends React.Component {
     }
 
     render() {
-        const lesson = this.lessons[this.reviewIndex]
+        const review = this.currentReview
 
         return <>
             <div className="ReviewUI">
                 <button>&lt;</button>
                 <div>
-                    <p>{lesson.question}</p>
+                    <p>{review.question}</p>
                     <input type="text" value={this.answer} onInput={this.onInput} onKeyDown={this.onKeyDown} />
                 </div>
                 <button>&gt;</button>
