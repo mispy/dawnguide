@@ -14,6 +14,7 @@ export async function processRequest(req: SessionRequest) {
  * SRS level in their lesson progress.
  **/
 async function submitReview(req: SessionRequest) {
+    // TODO check level matches
     const json = await expectRequestJson(req)
     const { lessonId } = expectStrings(json, 'lessonId')
     const { userId } = req.session
