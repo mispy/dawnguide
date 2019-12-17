@@ -15,7 +15,7 @@ export class LessonPage extends React.Component {
         return lessons.slice(0, 5)
     }
 
-    @action.bound prevLesson() {
+    @action.bound prev() {
         if (this.reviewPrompt) {
             this.reviewPrompt = false
             return
@@ -24,9 +24,14 @@ export class LessonPage extends React.Component {
         this.lessonIndex = Math.max(0, this.lessonIndex - 1)
     }
 
-    @action.bound nextLesson() {
+    @action.bound next() {
+        if (this.reviewPrompt) {
+            this.mode = 'review'
+            return
+        }
+
         if (this.lessonIndex === this.lessons.length - 1) {
-            // Finished lesson batch, onwards to reviews
+            // Finished lesson batch, prompt to continue to review
             this.reviewPrompt = true
             return
         }
@@ -34,20 +39,20 @@ export class LessonPage extends React.Component {
         this.lessonIndex = Math.min(this.lessons.length - 1, this.lessonIndex + 1)
     }
 
-    @action.bound onKeydown(ev: KeyboardEvent) {
+    @action.bound onKeyup(ev: KeyboardEvent) {
         if (ev.key == "ArrowRight") {
-            this.nextLesson()
+            this.next()
         } else if (ev.key == "ArrowLeft") {
-            this.prevLesson()
+            this.prev()
         }
     }
 
     componentDidMount() {
-        window.addEventListener('keydown', this.onKeydown)
+        window.addEventListener('keyup', this.onKeyup)
     }
 
     componentWillUnmount() {
-        window.removeEventListener('keydown', this.onKeydown)
+        window.removeEventListener('keyup', this.onKeyup)
     }
 
     render() {
@@ -68,12 +73,12 @@ export class LessonPage extends React.Component {
                     <button>&gt;</button>
                 </div>
             </div>
-            {this.reviewPrompt && <div className="ReviewPrompt">
+            {this.reviewPrompt && <div className="LessonsEndOverlay">
                 <div>
                     <h1>Now that you have learned five new items, it is time to quiz you on the material</h1>
                     <div>
-                        <button className="btn">Need more time</button>
-                        <button className="btn">Start the quiz</button>
+                        <button className="btn" onClick={this.prev}>Need more time</button>
+                        <button className="btn" onClick={this.next}>Start the quiz</button>
                     </div>
                 </div>
             </div>}
