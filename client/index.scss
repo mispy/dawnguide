@@ -1,5 +1,11 @@
 @import "node_modules/bootstrap/scss/bootstrap";
 
+body {
+  color: #333;
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 .AppHeader {
   position: sticky;
   top: 0;
@@ -8,6 +14,10 @@
   background-color: #fafafa;
   border-bottom: 1px solid #d5d5d5;
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05);
+}
+
+.AppLayout main {
+  padding: 1rem;
 }
 
 #root {
@@ -172,5 +182,86 @@ ul.navigation-shortcuts {
     padding: 0 8px;
     text-align: center;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+  }
+}
+
+.SubscriptionPage {
+  .account-subscription-plan {
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  .account-subscription-plan {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 2rem 2rem 4rem;
+    background-color: #ffffff;
+    border-radius: 3px;
+    border: 3px solid #999;
+    box-sizing: border-box;
+  }
+
+  .account-subscription-plan ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  .account-subscription-plan ul li.account-subscription-plan-type {
+    font-size: 1.5rem;
+    line-height: 1em;
+  }
+
+  .account-subscription-plan ul li.account-subscription-plan-price .account-subscription-plan-price-num {
+    font-size: 3rem;
+    font-weight: bold;
+    line-height: 1em;
+  }
+
+  .account-subscription-plan ul li.account-subscription-plan-price .account-subscription-plan-price-denom-rate {
+    display: inline-block;
+    margin-top: 0.5rem;
+  }
+
+  .account-subscription-plan ul li {
+    display: block;
+    margin: 0;
+    text-align: center;
+  }
+
+  .account-subscription-plan ul li.account-subscription-plan-price {
+    margin: 2rem 0;
+    line-height: 1em;
+  }
+
+  .account-subscription-plan ul li:nth-child(3) {
+    padding-top: 0;
+  }
+
+  .account-subscription-plan ul li:nth-child(n + 4) {
+    padding: 2rem 0;
+    border-bottom: 1px solid #d5d5d5;
+  }
+
+  .account-subscription-plan ul li:last-child {
+    border-bottom: none;
+  }
+
+  .account-subscription-plan .account-subscription-plan-select {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+  }
+
+  .account-subscription-plan .account-subscription-plan-select button[type="button"].btn {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    background: #999 !important;
+    border: none;
+    border-radius: 0;
+    color: #ffffff;
+    font-weight: bold;
   }
 }

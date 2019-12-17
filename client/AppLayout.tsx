@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 @observer
 export class AppLayout extends React.Component {
     render() {
-        return <>
+        return <div className="AppLayout">
             <header className="AppHeader">
                 <Navbar>
                     <Container>
@@ -34,9 +34,9 @@ export class AppLayout extends React.Component {
                     </Container>
                 </Navbar>
             </header>
-            <main className="container">
+            <Container>
                 {this.props.children}
-            </main>
-        </>
+            </Container>
+        </div>
     }
 }
