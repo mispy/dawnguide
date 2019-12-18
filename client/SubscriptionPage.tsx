@@ -11,7 +11,33 @@ export const SubscriptionPage = () => {
     const { api } = React.useContext(AppContext)
 
     const subscribeMonthly = async () => {
-        const { checkoutSessionId } = await api.startCheckout()
+        const { checkoutSessionId } = await api.startCheckout('sunpeep_monthly')
+
+        const stripe = Stripe(STRIPE_PUBLIC_KEY)
+        const { error } = await stripe.redirectToCheckout({
+            sessionId: checkoutSessionId
+        })
+
+        if (error) {
+            throw error
+        }
+    }
+
+    const subscribeYearly = async () => {
+        const { checkoutSessionId } = await api.startCheckout('sunpeep_annual')
+
+        const stripe = Stripe(STRIPE_PUBLIC_KEY)
+        const { error } = await stripe.redirectToCheckout({
+            sessionId: checkoutSessionId
+        })
+
+        if (error) {
+            throw error
+        }
+    }
+
+    const subscribeLifetime = async () => {
+        const { checkoutSessionId } = await api.startCheckout('sunpeep_lifetime')
 
         const stripe = Stripe(STRIPE_PUBLIC_KEY)
         const { error } = await stripe.redirectToCheckout({
@@ -42,7 +68,7 @@ export const SubscriptionPage = () => {
                     </div>
                 </Col>
                 <Col>
-                    <div className="account-subscription-plan account-subscription-plan-annual" data-plan="20170721-year" data-name="Annual">
+                    <div className="account-subscription-plan account-subscription-plan-annual" data-plan="20170721-year" data-name="Annual" onClick={subscribeYearly}>
                         <ul>
                             <li className="account-subscription-plan-type">Annual</li>
                             <li className="account-subscription-plan-price"><span className="account-subscription-plan-price-num">89.00</span><br /><span className="account-subscription-plan-price-denom-rate">USD/yr</span></li>
@@ -54,7 +80,7 @@ export const SubscriptionPage = () => {
                     </div>
                 </Col>
                 <Col>
-                    <div className="account-subscription-plan account-subscription-plan-lifetime" data-plan="default-lifetime" data-name="Lifetime">
+                    <div className="account-subscription-plan account-subscription-plan-lifetime" data-plan="default-lifetime" data-name="Lifetime" onClick={subscribeLifetime}>
                         <ul>
                             <li className="account-subscription-plan-type">Lifetime</li>
                             <li className="account-subscription-plan-price"><span className="account-subscription-plan-price-num">299.00</span><br /><span className="account-subscription-plan-price-denom-rate">One-time Purchase</span></li>

@@ -4,7 +4,7 @@ const { getAssetFromKV } = require('@cloudflare/kv-asset-handler')
 import Router from './router'
 import { signup, login, SessionRequest, logout, getSession } from './authentication'
 import { IS_PRODUCTION, WEBPACK_DEV_SERVER } from './settings'
-import { redirect } from './utils'
+import { redirect, getQueryParams } from './utils'
 import api = require('./api')
 
 // Workers require that this be a sync callback
@@ -60,7 +60,9 @@ async function behindLogin(event: FetchEvent) {
 
     const sessionReq = req as SessionRequest
     sessionReq.session = session
-    return r.route(sessionReq)
+    const url = new URL(sessionReq.url)
+    sessionReq.params = getQueryParams(url.search)
+    return await r.route(sessionReq)
 }
 
 async function serveStatic(event: FetchEvent) {

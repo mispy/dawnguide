@@ -1,10 +1,11 @@
 import bcrypt = require('bcryptjs')
 import cookie = require('cookie')
 import db = require('./db')
-import { redirect, expectRequestJson, expectStrings } from './utils'
+import { redirect, expectRequestJson, expectStrings, QueryParams } from './utils'
 
 export interface SessionRequest extends Request {
     session: db.Session
+    params: QueryParams
 }
 
 export async function signup(req: Request) {

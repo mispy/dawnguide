@@ -47,6 +47,23 @@ export function expectStrings<U extends keyof Json>(json: Json, ...keys: U[]): P
     return obj
 }
 
+export interface QueryParams { [key: string]: string | undefined }
+
+export function getQueryParams(queryStr: string): QueryParams {
+    if (queryStr[0] === "?")
+        queryStr = queryStr.substring(1)
+
+    const querySplit = queryStr.split("&").filter(s => !!s)
+    const params: QueryParams = {}
+
+    for (const param of querySplit) {
+        const pair = param.split("=")
+        params[pair[0]] = pair[1]
+    }
+
+    return params
+}
+
 // Cloudflare's example code
 // export async function readRequestBody(request: Request) {
 //     const { headers } = request

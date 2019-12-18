@@ -12,8 +12,8 @@ export class SunpeepApi {
         })
     }
 
-    async startCheckout(): Promise<{ checkoutSessionId: string }> {
-        const { data } = await this.http.post('/api/checkout')
+    async startCheckout(planId: string): Promise<{ checkoutSessionId: string }> {
+        const { data } = await this.http.post(`/api/checkout?planId=${planId}`)
         return expectStrings(data, 'checkoutSessionId')
     }
 }

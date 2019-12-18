@@ -10,7 +10,7 @@ export async function processRequest(req: SessionRequest) {
     r.post('/api/progress', submitProgress)
     r.post('/api/checkout', startCheckout)
 
-    const resp = r.route(req)
+    const resp = await r.route(req)
     return new Response(JSON.stringify(resp), { headers: { 'Content-Type': 'application/json' } })
 }
 
@@ -50,22 +50,57 @@ async function submitProgress(req: SessionRequest) {
  */
 async function startCheckout(req: SessionRequest): Promise<{ checkoutSessionId: string }> {
     const user = await db.users.get(req.session.userId)
+    const { planId } = expectStrings(req.params, 'planId')
 
-    const resp = await http.post("https://api.stripe.com/v1/checkout/sessions", {
-        customer_email: user!.email,
-        payment_method_types: ['card'],
-        subscription_data: {
-            items: [{
-                plan: 'sunpeep_monthly',
-            }],
-        },
-        success_url: `${BASE_URL}/account/subscribe/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${BASE_URL}/account/subscribe`,
-    }, {
-        headers: {
-            'Authorization': `Bearer ${STRIPE_SECRET_KEY}`
+    if (planId === 'sunpeep_monthly' || planId === 'sunpeep_annual') {
+        const resp = await http.post("https://api.stripe.com/v1/checkout/sessions", {
+            customer_email: user!.email,
+            payment_method_types: ['card'],
+            subscription_data: {
+                items: [{
+                    plan: planId,
+                }],
+            },
+            success_url: `${BASE_URL}/account/subscribe/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${BASE_URL}/account/subscribe`,
+        }, {
+            headers: {
+                'Authorization': `Bearer ${STRIPE_SECRET_KEY}`
+            }
+        })
+
+        if (!resp.id) {
+            console.error(resp)
+            throw new Error("Unable to communicate with Stripe")
         }
-    })
 
-    return { checkoutSessionId: resp.id }
+        return { checkoutSessionId: resp.id }
+    } else if (planId === 'sunpeep_lifetime') {
+        const resp = await http.post("https://api.stripe.com/v1/checkout/sessions", {
+            customer_email: user!.email,
+            payment_method_types: ['card'],
+            line_items: [{
+                name: 'Sunpeep Lifetime',
+                description: 'Lifetime subscription to sunpeep',
+                amount: 29900,
+                currency: 'usd',
+                quantity: 1,
+            }],
+            success_url: `${BASE_URL}/account/subscribe/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${BASE_URL}/account/subscribe`,
+        }, {
+            headers: {
+                'Authorization': `Bearer ${STRIPE_SECRET_KEY}`
+            }
+        })
+
+        if (!resp.id) {
+            console.error(resp)
+            throw new Error("Unable to communicate with Stripe")
+        }
+
+        return { checkoutSessionId: resp.id }
+    } else {
+        throw new Error(`Unexpected planId ${planId}`)
+    }
 }
