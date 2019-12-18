@@ -2,11 +2,16 @@ import { SessionRequest } from "./authentication"
 import Router from "./router"
 import { expectRequestJson, expectStrings } from "./utils"
 import db = require('./db')
+import { STRIPE_SECRET_KEY, BASE_URL } from "./settings"
+import http from "./http"
 
 export async function processRequest(req: SessionRequest) {
     const r = new Router()
     r.post('/api/progress', submitProgress)
-    r.route(req)
+    r.post('/api/checkout', startCheckout)
+
+    const resp = r.route(req)
+    return new Response(JSON.stringify(resp), { headers: { 'Content-Type': 'application/json' } })
 }
 
 /** 
@@ -37,4 +42,30 @@ async function submitProgress(req: SessionRequest) {
     }
 
     await db.lessonProgress.set(userId, progress)
+}
+
+/** 
+ * Create a Stripe Checkout Session when a user
+ * wants to buy a subscription
+ */
+async function startCheckout(req: SessionRequest): Promise<{ checkoutSessionId: string }> {
+    const user = await db.users.get(req.session.userId)
+
+    const resp = await http.post("https://api.stripe.com/v1/checkout/sessions", {
+        customer_email: user!.email,
+        payment_method_types: ['card'],
+        subscription_data: {
+            items: [{
+                plan: 'sunpeep_monthly',
+            }],
+        },
+        success_url: `${BASE_URL}/account/subscribe/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${BASE_URL}/account/subscribe`,
+    }, {
+        headers: {
+            'Authorization': `Bearer ${STRIPE_SECRET_KEY}`
+        }
+    })
+
+    return { checkoutSessionId: resp.id }
 }

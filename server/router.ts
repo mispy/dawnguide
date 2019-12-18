@@ -87,8 +87,8 @@ class Router {
         return this.handle([Trace, Path(url)], handler)
     }
 
-    all(handler: Function) {
-        return this.handle([], handler)
+    all(url: string, handler: Function) {
+        return this.handle([Path(url)], handler)
     }
 
     route(req: Request | SessionRequest) {

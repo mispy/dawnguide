@@ -4,3 +4,4 @@ node_modules
 .awcache
 dist
 store.json
+.env

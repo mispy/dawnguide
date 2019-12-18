@@ -19,7 +19,7 @@ async function handleEvent(event: FetchEvent) {
     r.post('/signup', signup)
     r.post('/login', login)
     r.get('/logout', logout)
-    r.get('.*', () => behindLogin(event))
+    r.all('.*', () => behindLogin(event))
 
     const req = event.request
     try {
@@ -55,7 +55,7 @@ async function behindLogin(event: FetchEvent) {
     }
 
     const r = new Router()
-    r.get('/api/.*', api.processRequest)
+    r.all('/api/.*', api.processRequest)
     r.get('.*', () => serveStatic(event))
 
     const sessionReq = req as SessionRequest

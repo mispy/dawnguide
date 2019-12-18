@@ -1,4 +1,5 @@
 const path = require('path')
+const Dotenv = require('dotenv-webpack')
 
 module.exports = {
     target: "webworker",
@@ -18,5 +19,9 @@ module.exports = {
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist')
-    }
+    },
+    plugins: [
+        // This plugin loads settings from .env so we can import them
+        new Dotenv()
+    ]
 }
