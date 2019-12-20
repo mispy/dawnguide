@@ -4,7 +4,7 @@ const { getAssetFromKV } = require('@cloudflare/kv-asset-handler')
 import Router from './router'
 import { signup, login, SessionRequest, logout, getSession } from './authentication'
 import { IS_PRODUCTION, WEBPACK_DEV_SERVER } from './settings'
-import { redirect, getQueryParams } from './utils'
+import { redirect, getQueryParams, JsonResponse } from './utils'
 import api = require('./api')
 
 // Workers require that this be a sync callback
@@ -18,6 +18,7 @@ async function handleEvent(event: FetchEvent) {
     r.get('/', () => rootPage(event))
     r.post('/signup', signup)
     r.post('/login', login)
+    // r.post('/webhook/checkout', fulfillCheckout) // From Stripe
     r.get('/logout', logout)
     r.all('.*', () => behindLogin(event))
 
@@ -103,3 +104,28 @@ async function serveStaticLive(event: FetchEvent, pathname: string) {
 
     return await getAssetFromKV(event, options)
 }
+
+const stripe = require('stripe')('sk_test_9wcL4jDcQIs3Dm6PRSulNtLS');
+
+// async function fulfillCheckout() {
+//     const sig = request.headers['stripe-signature'];
+
+//     let event;
+
+//     try {
+//         event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+//     } catch (err) {
+//         return response.status(400).send(`Webhook Error: ${err.message}`);
+//     }
+
+//     // Handle the checkout.session.completed event
+//     if (event.type === 'checkout.session.completed') {
+//         const session = event.data.object;
+
+//         // Fulfill the purchase...
+//         handleCheckoutSession(session);
+//     }
+
+//     // Return a response to acknowledge receipt of the event
+//     return new JsonResponse({ received: true })
+// }

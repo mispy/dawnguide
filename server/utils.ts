@@ -10,7 +10,7 @@ export function redirect(dest: string, code: number = 302) {
     return new Response(res.body, res)
 }
 
-export type Json = { [key: string]: string | number | Json | null | undefined }
+export type Json = { [key: string]: string | number | Json | null | undefined | boolean }
 
 /** Parse request body, throw error if it's not an object */
 export async function expectRequestJson(request: Request): Promise<Json> {
@@ -62,6 +62,13 @@ export function getQueryParams(queryStr: string): QueryParams {
     }
 
     return params
+}
+
+export class JsonResponse extends Response {
+    constructor(obj: Json, init: ResponseInit = {}) {
+        init = _.extend({ headers: { 'Content-Type': 'application/json' } }, init)
+        super(JSON.stringify(obj), init)
+    }
 }
 
 // Cloudflare's example code

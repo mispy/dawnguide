@@ -1,6 +1,6 @@
 import { SessionRequest } from "./authentication"
 import Router from "./router"
-import { expectRequestJson, expectStrings } from "./utils"
+import { expectRequestJson, expectStrings, JsonResponse } from "./utils"
 import db = require('./db')
 import { STRIPE_SECRET_KEY, BASE_URL } from "./settings"
 import http from "./http"
@@ -11,7 +11,7 @@ export async function processRequest(req: SessionRequest) {
     r.post('/api/checkout', startCheckout)
 
     const resp = await r.route(req)
-    return new Response(JSON.stringify(resp), { headers: { 'Content-Type': 'application/json' } })
+    return new JsonResponse(resp)
 }
 
 /** 
