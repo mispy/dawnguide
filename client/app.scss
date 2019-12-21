@@ -69,6 +69,12 @@ body {
     grid-template-columns: repeat(3, 1fr);
     place-items: center;
   }
+
+  .lesson .next,
+  .lesson .prev {
+    font-size: 3rem;
+    color: #555;
+  }
 }
 
 .LessonsEndOverlay {

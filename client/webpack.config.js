@@ -10,13 +10,13 @@ module.exports = (env, argv) => {
     const isProduction = argv.mode === 'production'
     return {
         context: __dirname,
-        mode: argv.mode||'development',
+        mode: argv.mode || 'development',
         entry: {
-            app: path.join(__dirname, './index.tsx'),
+            app: path.join(__dirname, './app.tsx'),
             landing: path.join(__dirname, './landing.ts')
         },
         output: {
-            path: path.join(__dirname, "dist", BASE_PATH||""),
+            path: path.join(__dirname, "dist", BASE_PATH || ""),
             filename: "assets/[name].js",
             libraryTarget: 'umd'
         },
@@ -54,12 +54,12 @@ module.exports = (env, argv) => {
             // This plugin extracts css files required in the entry points
             // into a separate CSS bundle for download
             new ExtractTextPlugin('assets/[name].css'),
-            new CopyWebpackPlugin([{ 
+            new CopyWebpackPlugin([{
                 from: '../public',
                 transform: (content, path) => {
                     if (BASE_PATH && path.match(/.html$/)) {
                         const s = content.toString('utf8')
-                        return Buffer.from(s.replace(/\.\/assets/g, BASE_PATH+'/assets'))
+                        return Buffer.from(s.replace(/\.\/assets/g, BASE_PATH + '/assets'))
                     }
                     return content
                 }
@@ -70,6 +70,6 @@ module.exports = (env, argv) => {
             port: 8020,
             contentBase: path.join(__dirname, '../public'), // Webpack docs: it is recommended to use an absolute path
             watchContentBase: true
-        },    
+        },
     }
 }

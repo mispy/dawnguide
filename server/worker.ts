@@ -105,7 +105,7 @@ async function serveStaticLive(event: FetchEvent, pathname: string) {
     return await getAssetFromKV(event, options)
 }
 
-const stripe = require('stripe')('sk_test_9wcL4jDcQIs3Dm6PRSulNtLS');
+// const stripe = require('stripe')('sk_test_9wcL4jDcQIs3Dm6PRSulNtLS');
 
 // async function fulfillCheckout() {
 //     const sig = request.headers['stripe-signature'];

@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom'
 import { observer } from 'mobx-react'
 import * as _ from 'lodash'
 
-import './index.scss'
+import './app.scss'
 import { AppRouter } from './AppRouter'
 import { SunpeepApi } from './SunpeepAPI'
 import { AppContext } from './context'

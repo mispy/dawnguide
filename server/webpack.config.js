@@ -4,7 +4,7 @@ const Dotenv = require('dotenv-webpack')
 module.exports = {
     target: "webworker",
     entry: {
-        'index': './index.ts',
+        'worker': './worker.ts',
     },
     module: {
         rules: [{

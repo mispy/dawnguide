@@ -1,18 +1,24 @@
 import React = require("react")
 import { observer } from "mobx-react"
 import { observable, action, computed } from "mobx"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 
-import { lessons } from "./lessons"
+import { concepts } from "./concepts"
 import { ReviewsUI } from "./ReviewUI"
 
 @observer
 export class LessonPage extends React.Component {
-    @observable lessonIndex: number = 0
+    @observable conceptIndex: number = 0
     @observable reviewPrompt: boolean = false
     @observable mode: 'learn' | 'review' = 'learn'
 
-    @computed get lessons() {
-        return lessons.slice(0, 5)
+    @computed get concepts() {
+        return concepts.slice(0, 5)
+    }
+
+    @computed get currentConcept() {
+        return this.concepts[this.conceptIndex]
     }
 
     @action.bound prev() {
@@ -21,7 +27,7 @@ export class LessonPage extends React.Component {
             return
         }
 
-        this.lessonIndex = Math.max(0, this.lessonIndex - 1)
+        this.conceptIndex = Math.max(0, this.conceptIndex - 1)
     }
 
     @action.bound next() {
@@ -30,13 +36,13 @@ export class LessonPage extends React.Component {
             return
         }
 
-        if (this.lessonIndex === this.lessons.length - 1) {
+        if (this.conceptIndex === this.concepts.length - 1) {
             // Finished lesson batch, prompt to continue to review
             this.reviewPrompt = true
             return
         }
 
-        this.lessonIndex = Math.min(this.lessons.length - 1, this.lessonIndex + 1)
+        this.conceptIndex = Math.min(this.concepts.length - 1, this.conceptIndex + 1)
     }
 
     @action.bound onKeyup(ev: KeyboardEvent) {
@@ -56,21 +62,23 @@ export class LessonPage extends React.Component {
     }
 
     render() {
-        if (this.mode === 'review') {
-            return <ReviewsUI reviews={this.lessons} />
-        }
-
-        const lesson = this.lessons[this.lessonIndex]
+        // if (this.mode === 'review') {
+        //     return <ReviewsUI reviews={this.lessons} />
+        // }
 
         return <>
             <div className="LessonPage">
                 <div className="lesson">
-                    <button>&lt;</button>
+                    <button className="btn prev">
+                        <FontAwesomeIcon icon={faAngleLeft} />
+                    </button>
                     <div>
-                        <p>{lesson.question}</p>
-                        <p>{lesson.answer}</p>
+                        <p><strong>{this.currentConcept.title}</strong></p>
+                        <p>{this.currentConcept.introduction}</p>
                     </div>
-                    <button>&gt;</button>
+                    <button className="btn next">
+                        <FontAwesomeIcon icon={faAngleRight} />
+                    </button>
                 </div>
             </div>
             {this.reviewPrompt && <div className="LessonsEndOverlay">
