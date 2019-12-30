@@ -13,7 +13,7 @@ export function redirect(dest: string, code: number = 302) {
 export type Json = { [key: string]: string | number | Json | null | undefined | boolean }
 
 /** Parse request body, throw error if it's not an object */
-export async function expectRequestJson(request: Request): Promise<Json> {
+export async function expectRequestJson<T = Json>(request: Request): Promise<T> {
     const { headers } = request
     const contentType = headers.get('content-type')
     if (!contentType) {
@@ -28,7 +28,7 @@ export async function expectRequestJson(request: Request): Promise<Json> {
         for (let entry of (formData as any).entries()) {
             body[entry[0]] = entry[1]
         }
-        return body
+        return body as any as T
     } else {
         throw new Error(`Unexpected content type ${contentType}`)
     }

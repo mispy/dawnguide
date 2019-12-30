@@ -5,7 +5,7 @@ import * as _ from 'lodash'
 
 import './app.scss'
 import { AppRouter } from './AppRouter'
-import { SunpeepApi } from './SunpeepAPI'
+import { SunpeepApi } from './SunpeepApi'
 import { AppContext } from './context'
 
 @observer
@@ -14,6 +14,9 @@ class App extends React.Component {
         const context = {
             api: new SunpeepApi()
         }
+
+        _.extend(window, context)
+
         return <AppContext.Provider value={context}>
             <AppRouter />
         </AppContext.Provider>

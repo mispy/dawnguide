@@ -2,23 +2,31 @@ import React = require("react")
 import { observer } from "mobx-react"
 import { observable, action, computed } from "mobx"
 
-import { lessons, Lesson } from "./lessons"
 import _ = require("lodash")
+import { Exercise, Concept } from "./concepts"
+import { AppContext } from "./context"
+
+interface ExerciseWithConcept {
+    concept: Concept
+    exercise: Exercise
+}
 
 @observer
-export class ReviewsUI extends React.Component<{ reviews: Lesson[] }> {
+export class ReviewsUI extends React.Component<{ reviews: ExerciseWithConcept[] }> {
     @observable response: string = ""
     @observable answerFeedback: 'correct' | 'incorrect' | null = null
-    @observable reviewsToComplete: Lesson[] = []
+    @observable reviewsToComplete: ExerciseWithConcept[] = []
     responseInput = React.createRef<HTMLInputElement>()
+    static contextType = AppContext
+    declare context: React.ContextType<typeof AppContext>
 
-    constructor(props: { reviews: Lesson[] }) {
+    constructor(props: { reviews: ExerciseWithConcept[] }) {
         super(props)
         this.reviewsToComplete = _.shuffle(props.reviews)
     }
 
     @computed get currentReview() {
-        return _.last(this.reviewsToComplete) as Lesson
+        return _.last(this.reviewsToComplete)!
     }
 
     @computed get complete() {
@@ -26,11 +34,14 @@ export class ReviewsUI extends React.Component<{ reviews: Lesson[] }> {
     }
 
     @action.bound submitResponse() {
-        if (this.response.toLowerCase() === this.currentReview.answer.toLowerCase()) {
+        if (this.response.toLowerCase() === this.currentReview.exercise.answer.toLowerCase()) {
             this.answerFeedback = 'correct'
         } else {
             this.answerFeedback = 'incorrect'
         }
+
+        this.context.api.submitProgress(this.currentReview.concept.id, this.answerFeedback === 'correct')
+
     }
 
     @action.bound next() {
@@ -89,7 +100,7 @@ export class ReviewsUI extends React.Component<{ reviews: Lesson[] }> {
         return <>
             <div className="ReviewsUI">
                 {this.currentReview && <div>
-                    <p>{this.currentReview.question}</p>
+                    <p>{this.currentReview.exercise.question}</p>
                     <input
                         type="text"
                         ref={this.responseInput}

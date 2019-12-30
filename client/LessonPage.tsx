@@ -6,6 +6,7 @@ import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 
 import { concepts } from "./concepts"
 import { ReviewsUI } from "./ReviewUI"
+import _ = require("lodash")
 
 @observer
 export class LessonPage extends React.Component {
@@ -62,21 +63,22 @@ export class LessonPage extends React.Component {
     }
 
     render() {
-        // if (this.mode === 'review') {
-        //     return <ReviewsUI reviews={this.lessons} />
-        // }
+        if (this.mode === 'review') {
+            const reviews = this.concepts.map(c => ({ concept: c, exercise: c.exercises[0] }))
+            return <ReviewsUI reviews={reviews} />
+        }
 
         return <>
             <div className="LessonPage">
                 <div className="lesson">
                     <button className="btn prev">
-                        <FontAwesomeIcon icon={faAngleLeft} />
+                        <FontAwesomeIcon icon={faAngleLeft} onClick={this.prev} />
                     </button>
                     <div>
                         <p><strong>{this.currentConcept.title}</strong></p>
                         <p>{this.currentConcept.introduction}</p>
                     </div>
-                    <button className="btn next">
+                    <button className="btn next" onClick={this.next}>
                         <FontAwesomeIcon icon={faAngleRight} />
                     </button>
                 </div>

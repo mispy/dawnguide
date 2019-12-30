@@ -4,14 +4,21 @@ import { expectRequestJson, expectStrings, JsonResponse } from "./utils"
 import db = require('./db')
 import { STRIPE_SECRET_KEY, BASE_URL } from "./settings"
 import http from "./http"
+import { UserConceptProgress } from "../shared/types"
 
 export async function processRequest(req: SessionRequest) {
     const r = new Router()
-    r.post('/api/progress', submitProgress)
+    r.get('/api/progress', getProgress)
+    r.put('/api/progress', submitProgress)
     r.post('/api/checkout', startCheckout)
 
     const resp = await r.route(req)
     return new JsonResponse(resp)
+}
+
+async function getProgress(req: SessionRequest): Promise<UserConceptProgress> {
+    const { userId } = req.session
+    return await db.learningProgress.get(userId)
 }
 
 /** 
@@ -20,28 +27,33 @@ export async function processRequest(req: SessionRequest) {
  **/
 async function submitProgress(req: SessionRequest) {
     // TODO check level matches
-    const json = await expectRequestJson(req)
-    const { lessonId } = expectStrings(json, 'lessonId')
+    const json = await expectRequestJson<{ conceptId: string, remembered: boolean }>(req)
+    const { conceptId, remembered } = json
+
     const { userId } = req.session
 
-    const progress = await db.lessonProgress.get(req.session.userId)
+    const progress = await db.learningProgress.get(req.session.userId)
     const now = Date.now()
 
-    let lesson = progress.lessons[lessonId]
-    if (!lesson) {
-        lesson = {
-            lessonId: lessonId,
+    let concept = progress.concepts[conceptId]
+    if (!concept) {
+        concept = {
+            conceptId: conceptId,
             level: 1,
             learnedAt: now,
             reviewedAt: now
         }
-        progress.lessons[lessonId] = lesson
+        progress.concepts[conceptId] = concept
     } else {
-        lesson.reviewedAt = now
-        lesson.level += 1
+        concept.reviewedAt = now
+        if (remembered) {
+            concept.level = Math.min(concept.level + 1, 9)
+        } else {
+            concept.level = Math.max(concept.level - 1, 1)
+        }
     }
 
-    await db.lessonProgress.set(userId, progress)
+    await db.learningProgress.set(userId, progress)
 }
 
 /** 

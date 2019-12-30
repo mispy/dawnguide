@@ -4,6 +4,8 @@ import moment = require('moment')
 import { KVNamespace } from '@cloudflare/workers-types'
 import { getTimeFromLevel } from './time'
 
+import { ConceptProgressItem, UserConceptProgress } from '../shared/types'
+
 declare const global: any
 const CloudflareStore: KVNamespace = global.STORE
 
@@ -109,38 +111,22 @@ export namespace sessions {
     }
 }
 
-export interface LessonProgressItem {
-    /** Unique id of the lesson, which refers to a hardcoded string */
-    lessonId: string
-    /** SRS stage from 1 to 10 */
-    level: number
-
-    /** When this lesson was initially learned */
-    learnedAt: number
-    /** When last reviewed or learned */
-    reviewedAt: number
-}
-
-export interface UserLessonProgress {
-    lessons: { [lessonId: string]: LessonProgressItem | undefined }
-}
-
-export namespace lessonProgress {
-    function isReadyForReview(lesson: LessonProgressItem) {
+export namespace learningProgress {
+    function isReadyForReview(lesson: ConceptProgressItem) {
         return Date.now() > lesson.reviewedAt + getTimeFromLevel(lesson.level)
     }
 
-    export async function get(userId: string): Promise<UserLessonProgress> {
-        return await db.getJson<UserLessonProgress>(`user_progress:${userId}`) || { lessons: {} }
+    export async function get(userId: string): Promise<UserConceptProgress> {
+        return await db.getJson<UserConceptProgress>(`user_progress:${userId}`) || { concepts: {} }
     }
 
     /** Get previously learned lessons that are ready for a user to review */
-    export async function getReviewsFor(userId: string): Promise<LessonProgressItem[]> {
-        const progress = await lessonProgress.get(userId)
-        return (Object.values(progress.lessons) as LessonProgressItem[]).filter(isReadyForReview)
+    export async function getReviewsFor(userId: string): Promise<ConceptProgressItem[]> {
+        const progress = await learningProgress.get(userId)
+        return (Object.values(progress.concepts) as ConceptProgressItem[]).filter(isReadyForReview)
     }
 
-    export async function set(userId: string, progress: UserLessonProgress) {
+    export async function set(userId: string, progress: UserConceptProgress) {
         return await db.putJson(`user_progress:${userId}`, progress)
     }
 }

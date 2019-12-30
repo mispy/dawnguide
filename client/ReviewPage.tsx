@@ -2,9 +2,11 @@ import React = require("react")
 import { observer } from "mobx-react"
 import { observable, action, computed } from "mobx"
 
-import { lessons } from "./lessons"
+import { concepts } from "./concepts"
 import { ReviewsUI } from "./ReviewUI"
+import _ = require("lodash")
 
 export const ReviewPage = () => {
-    return <ReviewsUI reviews={lessons} />
+    const reviews = concepts.map(c => ({ concept: c, exercise: c.exercises[0] }))
+    return <ReviewsUI reviews={reviews} />
 }
