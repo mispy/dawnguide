@@ -3,7 +3,7 @@ import { observer } from "mobx-react"
 import { observable, action, computed } from "mobx"
 
 import _ = require("lodash")
-import { Exercise, Concept } from "./concepts"
+import { Exercise, Concept } from "../shared/concepts"
 import { AppContext } from "./context"
 
 interface ExerciseWithConcept {
@@ -83,7 +83,8 @@ export class ReviewsUI extends React.Component<{ reviews: ExerciseWithConcept[] 
 
     componentDidMount() {
         window.addEventListener('keydown', this.onKeyDown)
-        this.responseInput.current!.focus()
+        if (this.responseInput.current)
+            this.responseInput.current.focus()
     }
 
     componentWillUnmount() {

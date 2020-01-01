@@ -15,13 +15,13 @@ export const AppLayout = (props: { numLessons?: number, numReviews?: number, chi
                         <ul className="navigation-shortcuts">
                             <li className="navigation-shortcut navigation-shortcut--lessons">
                                 <Link to="/lesson">
-                                    <span>{props.numLessons}</span> Lessons
+                                    <span className={props.numLessons === 0 ? 'inactive' : undefined}>{props.numLessons}</span> Lessons
                                     </Link>
                             </li>
                             <li className="navigation-shortcut navigation-shortcut--reviews">
                                 <Link to="/review">
-                                    <span>{props.numReviews}</span> Reviews
-                                    </Link>
+                                    <span className={props.numReviews === 0 ? 'inactive' : undefined}>{props.numReviews}</span> Reviews
+                                </Link>
                             </li>
                         </ul>
                     </Nav>
