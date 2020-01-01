@@ -2,14 +2,14 @@ import React = require("react")
 import { observer } from "mobx-react"
 import { AppLayout } from "./AppLayout"
 import { AppContext } from "./context"
-import { conceptById, Concept, concepts } from "./concepts"
-import { observable, runInAction } from "mobx"
-import { ConceptProgressItem } from "../shared/types"
+import { Concept, concepts } from "../shared/concepts"
+import { observable, runInAction, computed } from "mobx"
+import { ConceptProgressItem, isReadyForReview } from "../shared/logic"
 import _ = require("lodash")
 
 interface ConceptWithProgress {
     concept: Concept
-    level: number
+    progress?: ConceptProgressItem
 }
 
 @observer
@@ -33,17 +33,25 @@ export class HomePage extends React.Component {
 
             conceptsWithProgress.push({
                 concept: concept,
-                level: item ? item.level : 0
+                progress: item
             })
         }
 
         runInAction(() => this.conceptsWithProgress = conceptsWithProgress)
     }
 
-    render() {
-        const { conceptsWithProgress } = this
+    @computed get numLessons() {
+        return this.conceptsWithProgress.length ? this.conceptsWithProgress.filter(c => c.progress === undefined).length : undefined
+    }
 
-        return <AppLayout>
+    @computed get numReviews() {
+        return this.conceptsWithProgress.filter(c => c.progress && isReadyForReview(c.progress)).length
+    }
+
+    render() {
+        const { conceptsWithProgress, numLessons, numReviews } = this
+
+        return <AppLayout numLessons={numLessons} numReviews={numReviews}>
             <div style={{ marginTop: "2rem", textAlign: "left" }}>
                 <p>Sunpeep is a tool for learning useful concepts in psychology that can be applied to everyday life.</p>
                 {conceptsWithProgress.length ? <>
@@ -58,7 +66,7 @@ export class HomePage extends React.Component {
                         <tbody>
                             {conceptsWithProgress.map(item => <tr>
                                 <td>{item.concept.title}</td>
-                                <td>{item.level}</td>
+                                <td>{item.progress ? item.progress.level : 0}</td>
                             </tr>)}
                         </tbody>
                     </table>

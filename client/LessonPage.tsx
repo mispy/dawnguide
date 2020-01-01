@@ -1,11 +1,14 @@
 import React = require("react")
 import { observer } from "mobx-react"
-import { observable, action, computed } from "mobx"
+import { observable, action, computed, runInAction } from "mobx"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 
-import { concepts } from "./concepts"
+import { concepts } from "../shared/concepts"
+import { ConceptWithProgress } from "../shared/logic"
+
 import { ReviewsUI } from "./ReviewUI"
+import { AppContext } from "./context"
 import _ = require("lodash")
 
 @observer
@@ -13,13 +16,22 @@ export class LessonPage extends React.Component {
     @observable conceptIndex: number = 0
     @observable reviewPrompt: boolean = false
     @observable mode: 'learn' | 'review' = 'learn'
+    @observable.ref conceptsWithProgress?: ConceptWithProgress[]
+
+    static contextType = AppContext
+    declare context: React.ContextType<typeof AppContext>
 
     @computed get concepts() {
-        return concepts.slice(0, 5)
+        return this.conceptsWithProgress ? this.conceptsWithProgress.filter(c => !c.progress).map(c => c.concept) : []
     }
 
     @computed get currentConcept() {
         return this.concepts[this.conceptIndex]
+    }
+
+    async getProgress() {
+        const data = await this.context.api.getConceptsWithProgress()
+        runInAction(() => this.conceptsWithProgress = data)
     }
 
     @action.bound prev() {
@@ -56,6 +68,7 @@ export class LessonPage extends React.Component {
 
     componentDidMount() {
         window.addEventListener('keyup', this.onKeyup)
+        this.getProgress()
     }
 
     componentWillUnmount() {
@@ -63,6 +76,10 @@ export class LessonPage extends React.Component {
     }
 
     render() {
+        if (!this.conceptsWithProgress) {
+            return "Loading..."
+        }
+
         if (this.mode === 'review') {
             const reviews = this.concepts.map(c => ({ concept: c, exercise: c.exercises[0] }))
             return <ReviewsUI reviews={reviews} />

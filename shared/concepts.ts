@@ -28,7 +28,10 @@ export const concepts: Concept[] = [
             year={2006},
             publisher={American Psychological Association}
           }`,
-        exercises: []
+        exercises: [{
+            question: "What is the evidence-based learning method used by Sunpeep?",
+            answer: "Spaced repetition"
+        }]
     },
     {
         id: "cognitive-restructuring",
@@ -41,12 +44,15 @@ Our emotions, thoughts, and behavior are linked. When one of these changes, the 
             answer: "Cognitive restructuring"
         }]
     },
-    {
-        id: "behavioral-activation",
-        title: "Behavioral Activation",
-        introduction: "",
-        exercises: []
-    }
+    // {
+    //     id: "behavioral-activation",
+    //     title: "Behavioral activation",
+    //     introduction: "",
+    //     exercises: [{
+    //         question: "",
+    //         answer: ""
+    //     }]
+    // }
 ]
 
 // {

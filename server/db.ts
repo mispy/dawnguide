@@ -5,6 +5,7 @@ import { KVNamespace } from '@cloudflare/workers-types'
 import { getTimeFromLevel } from './time'
 
 import { ConceptProgressItem, UserConceptProgress } from '../shared/types'
+import { isReadyForReview } from '../shared/logic'
 
 declare const global: any
 const CloudflareStore: KVNamespace = global.STORE
@@ -112,10 +113,6 @@ export namespace sessions {
 }
 
 export namespace learningProgress {
-    function isReadyForReview(lesson: ConceptProgressItem) {
-        return Date.now() > lesson.reviewedAt + getTimeFromLevel(lesson.level)
-    }
-
     export async function get(userId: string): Promise<UserConceptProgress> {
         return await db.getJson<UserConceptProgress>(`user_progress:${userId}`) || { concepts: {} }
     }

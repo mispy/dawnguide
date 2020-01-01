@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Navbar, Container, Nav, Modal, Button } from "react-bootstrap"
 import { Link } from "react-router-dom"
 
-export const AppLayout = (props: { children: any }) => {
+export const AppLayout = (props: { numLessons?: number, numReviews?: number, children: any }) => {
     const [showAbout, setShowAbout] = useState(false)
 
     return <div className="AppLayout">
@@ -15,12 +15,12 @@ export const AppLayout = (props: { children: any }) => {
                         <ul className="navigation-shortcuts">
                             <li className="navigation-shortcut navigation-shortcut--lessons">
                                 <Link to="/lesson">
-                                    <span>49</span> Lessons
+                                    <span>{props.numLessons}</span> Lessons
                                     </Link>
                             </li>
                             <li className="navigation-shortcut navigation-shortcut--reviews">
                                 <Link to="/review">
-                                    <span>194</span> Reviews
+                                    <span>{props.numReviews}</span> Reviews
                                     </Link>
                             </li>
                         </ul>

@@ -1,7 +1,8 @@
 import axios, { AxiosInstance } from 'axios'
 import { API_BASE_URL } from './settings'
 import { expectStrings } from './utils'
-import { UserConceptProgress } from '../shared/types'
+import { concepts, Concept } from '../shared/concepts'
+import { ConceptWithProgress, UserConceptProgress } from '../shared/logic'
 
 export class SunpeepApi {
     http: AxiosInstance
@@ -16,6 +17,22 @@ export class SunpeepApi {
     async getProgress(): Promise<UserConceptProgress> {
         const { data } = await this.http.get('/api/progress')
         return data
+    }
+
+    async getConceptsWithProgress(): Promise<ConceptWithProgress[]> {
+        const userProgress: UserConceptProgress = await this.getProgress()
+
+        const conceptsWithProgress: ConceptWithProgress[] = []
+        for (const concept of concepts) {
+            const item = userProgress.concepts[concept.id]
+
+            conceptsWithProgress.push({
+                concept: concept,
+                progress: item
+            })
+        }
+
+        return conceptsWithProgress
     }
 
     async submitProgress(conceptId: string, remembered: boolean): Promise<void> {
