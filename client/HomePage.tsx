@@ -23,25 +23,12 @@ export class HomePage extends React.Component {
     }
 
     async getProgress() {
-        const progress = await this.context.api.getProgress()
-        console.log(progress)
-
-        const conceptsWithProgress: ConceptWithProgress[] = []
-        for (const concept of concepts) {
-            const item = progress.concepts[concept.id]
-            // if (!item) continue
-
-            conceptsWithProgress.push({
-                concept: concept,
-                progress: item
-            })
-        }
-
+        const conceptsWithProgress = await this.context.api.getConceptsWithProgress()
         runInAction(() => this.conceptsWithProgress = conceptsWithProgress)
     }
 
     @computed get numLessons() {
-        return this.conceptsWithProgress.length ? this.conceptsWithProgress.filter(c => c.progress === undefined).length : undefined
+        return this.conceptsWithProgress.length ? this.conceptsWithProgress.filter(c => c.progress === undefined || c.progress.level === 0).length : undefined
     }
 
     @computed get numReviews() {
@@ -64,7 +51,7 @@ export class HomePage extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {conceptsWithProgress.map(item => <tr>
+                            {conceptsWithProgress.map(item => <tr key={item.concept.id}>
                                 <td>{item.concept.title}</td>
                                 <td>{item.progress ? item.progress.level : 0}</td>
                             </tr>)}

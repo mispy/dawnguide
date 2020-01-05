@@ -21,8 +21,12 @@ export class LessonPage extends React.Component {
     static contextType = AppContext
     declare context: React.ContextType<typeof AppContext>
 
+    readyToLearn(concept: ConceptWithProgress) {
+        return !concept.progress || concept.progress.level === 0
+    }
+
     @computed get concepts() {
-        return this.conceptsWithProgress ? this.conceptsWithProgress.filter(c => !c.progress).map(c => c.concept) : []
+        return this.conceptsWithProgress ? this.conceptsWithProgress.filter(c => this.readyToLearn(c)).map(c => c.concept) : []
     }
 
     @computed get currentConcept() {

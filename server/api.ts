@@ -39,7 +39,7 @@ async function submitProgress(req: SessionRequest) {
     if (!concept) {
         concept = {
             conceptId: conceptId,
-            level: 1,
+            level: remembered ? 1 : 0,
             learnedAt: now,
             reviewedAt: now
         }
@@ -49,7 +49,7 @@ async function submitProgress(req: SessionRequest) {
         if (remembered) {
             concept.level = Math.min(concept.level + 1, 9)
         } else {
-            concept.level = Math.max(concept.level - 1, 1)
+            concept.level = Math.max(concept.level - 1, 0)
         }
     }
 

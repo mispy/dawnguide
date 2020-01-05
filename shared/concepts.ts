@@ -1,4 +1,5 @@
-import _ = require("lodash")
+declare const require: any
+const _ = require("lodash")
 
 export type Exercise = {
     question: string
@@ -44,15 +45,17 @@ Our emotions, thoughts, and behavior are linked. When one of these changes, the 
             answer: "Cognitive restructuring"
         }]
     },
-    // {
-    //     id: "behavioral-activation",
-    //     title: "Behavioral activation",
-    //     introduction: "",
-    //     exercises: [{
-    //         question: "",
-    //         answer: ""
-    //     }]
-    // }
+    {
+        id: "behavioral-activation",
+        title: "Behavioral activation",
+        introduction: `Behavioral activation is a strategy for dealing with low moods based on the idea that *action can precede emotion*.
+        
+Depression can often lead us to "wait to feel better" before doing something. However, avoidance of activity often generates less motivation rather than more. We can counter this by using behavioral activation-- making the conscious decision to do something like going for a walk or talking to a friend, in defiance of depression.`,
+        exercises: [{
+            question: "What is it called when we make the conscious decision to do something enjoyable even if we don't feel like it?",
+            answer: "Behavioral activation"
+        }]
+    }
 ]
 
 // {
@@ -66,4 +69,4 @@ Our emotions, thoughts, and behavior are linked. When one of these changes, the 
 //     answer: "Spacie"
 // }]
 
-export const conceptById = _.keyBy(concepts, c => c.id)
+export const conceptById = _.keyBy(concepts, (c: Concept) => c.id)

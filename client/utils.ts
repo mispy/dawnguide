@@ -1,3 +1,6 @@
+declare const require: any
+const _ = require('lodash')
+
 export type Json = { [key: string]: string | number | Json | null | undefined }
 
 /** Expect a given json object to resolve some keys to string values */
