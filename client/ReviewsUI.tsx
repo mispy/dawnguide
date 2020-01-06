@@ -1,10 +1,11 @@
 import React = require("react")
 import { observer } from "mobx-react"
-import { observable, action, computed } from "mobx"
+import { observable, action, computed, autorun, IReactionDisposer, runInAction } from "mobx"
 
 import _ = require("lodash")
 import { Exercise, Concept } from "../shared/concepts"
 import { AppContext } from "./context"
+import { Link } from "react-router-dom"
 
 interface ExerciseWithConcept {
     concept: Concept
@@ -19,11 +20,6 @@ export class ReviewsUI extends React.Component<{ reviews: ExerciseWithConcept[] 
     responseInput = React.createRef<HTMLInputElement>()
     static contextType = AppContext
     declare context: React.ContextType<typeof AppContext>
-
-    constructor(props: { reviews: ExerciseWithConcept[] }) {
-        super(props)
-        this.reviewsToComplete = _.shuffle(props.reviews)
-    }
 
     @computed get currentReview() {
         return _.last(this.reviewsToComplete)!
@@ -81,13 +77,19 @@ export class ReviewsUI extends React.Component<{ reviews: ExerciseWithConcept[] 
         }
     }
 
+    dispose?: IReactionDisposer
     componentDidMount() {
+        this.dispose = autorun(() => {
+            const reviewsToComplete = _.shuffle(this.props.reviews)
+            runInAction(() => this.reviewsToComplete = reviewsToComplete)
+        })
         window.addEventListener('keydown', this.onKeyDown)
         if (this.responseInput.current)
             this.responseInput.current.focus()
     }
 
     componentWillUnmount() {
+        if (this.dispose) this.dispose()
         window.removeEventListener('keydown', this.onKeyDown)
     }
 
@@ -100,19 +102,24 @@ export class ReviewsUI extends React.Component<{ reviews: ExerciseWithConcept[] 
 
         return <>
             <div className="ReviewsUI">
-                {this.currentReview && <div>
-                    <p>{this.currentReview.exercise.question}</p>
-                    <input
-                        type="text"
-                        ref={this.responseInput}
-                        className={this.answerFeedback || undefined}
-                        value={this.response}
-                        placeholder="Your Response"
-                        onChange={this.onChange}
-                        onKeyDown={this.onResponseKeyDown}
-                        disabled={!!this.answerFeedback}
-                    />
-                </div>}
+                <div className="topbar">
+                    <Link to="/home">Home</Link>
+                </div>
+                <div className="reviewContainer">
+                    {this.currentReview && <div>
+                        <p>{this.currentReview.exercise.question}</p>
+                        <input
+                            type="text"
+                            ref={this.responseInput}
+                            className={this.answerFeedback || undefined}
+                            value={this.response}
+                            placeholder="Your Response"
+                            onChange={this.onChange}
+                            onKeyDown={this.onResponseKeyDown}
+                            disabled={!!this.answerFeedback}
+                        />
+                    </div>}
+                </div>
             </div>
         </>
     }

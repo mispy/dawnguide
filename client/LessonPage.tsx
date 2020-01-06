@@ -7,9 +7,10 @@ import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 import { concepts } from "../shared/concepts"
 import { ConceptWithProgress } from "../shared/logic"
 
-import { ReviewsUI } from "./ReviewUI"
+import { ReviewsUI } from "./ReviewsUI"
 import { AppContext } from "./context"
 import _ = require("lodash")
+import { Link } from "react-router-dom"
 
 @observer
 export class LessonPage extends React.Component {
@@ -91,18 +92,24 @@ export class LessonPage extends React.Component {
 
         return <>
             <div className="LessonPage">
-                <div className="lesson">
-                    <button className="btn prev">
-                        <FontAwesomeIcon icon={faAngleLeft} onClick={this.prev} />
-                    </button>
-                    <div>
-                        <p><strong>{this.currentConcept.title}</strong></p>
-                        <p>{this.currentConcept.introduction}</p>
-                    </div>
-                    <button className="btn next" onClick={this.next}>
-                        <FontAwesomeIcon icon={faAngleRight} />
-                    </button>
+                <div className="topbar">
+                    <Link to="/home">Home</Link>
                 </div>
+                <div className="lessonContainer">
+                    <div className="lesson">
+                        <button className="btn prev">
+                            <FontAwesomeIcon icon={faAngleLeft} onClick={this.prev} />
+                        </button>
+                        <div>
+                            <p><strong>{this.currentConcept.title}</strong></p>
+                            <p>{this.currentConcept.introduction}</p>
+                        </div>
+                        <button className="btn next" onClick={this.next}>
+                            <FontAwesomeIcon icon={faAngleRight} />
+                        </button>
+                    </div>
+                </div>
+
             </div>
             {this.reviewPrompt && <div className="LessonsEndOverlay">
                 <div>

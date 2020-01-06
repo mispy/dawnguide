@@ -26,9 +26,13 @@ body {
 
 .ReviewsUI {
   height: 100%;
-  display: grid;
-  place-items: center;
-  text-align: center;
+
+  .reviewContainer {
+    height: calc(100% - 8em);
+    display: grid;
+    place-items: center;
+    text-align: center;
+  }
 
   input {
     -webkit-appearance: none;
@@ -57,10 +61,22 @@ body {
   }
 }
 
+.topbar {
+  padding: 2em;
+
+  a {
+    color: #999;
+  }
+}
+
 .LessonPage {
-  display: grid;
   height: 100%;
-  place-items: center;
+
+  .lessonContainer {
+    display: grid;
+    height: calc(100% - 8em);
+    place-items: center;
+  }
 
   .lesson {
     display: grid;

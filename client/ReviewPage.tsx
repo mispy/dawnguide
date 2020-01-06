@@ -4,7 +4,7 @@ import { observable, action, computed } from "mobx"
 
 import { concepts, Concept, Exercise } from "../shared/concepts"
 
-import { ReviewsUI } from "./ReviewUI"
+import { ReviewsUI } from "./ReviewsUI"
 import _ = require("lodash")
 import { useState, useContext, useEffect } from "react"
 import { AppContext } from "./context"
@@ -35,7 +35,7 @@ export const ReviewPage = () => {
 
     useEffect(() => {
         getReviews()
-    })
+    }, [])
 
     return <ReviewsUI reviews={reviews} />
 }

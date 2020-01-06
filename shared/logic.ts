@@ -47,5 +47,5 @@ export function getTimeFromLevel(level: number) {
 }
 
 export function isReadyForReview(concept: ConceptProgressItem) {
-    return concept.level > 0 && Date.now() > concept.reviewedAt + getTimeFromLevel(concept.level)
+    return concept.level > 0 && Date.now() > concept.reviewedAt + getTimeFromLevel(concept.level - 1)
 }
