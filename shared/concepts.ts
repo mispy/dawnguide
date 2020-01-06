@@ -52,7 +52,7 @@ Our emotions, thoughts, and behavior are linked. When one of these changes, the 
         
 Depression can often lead us to "wait to feel better" before doing something. However, avoidance of activity often generates less motivation rather than more. We can counter this by using behavioral activation-- making the conscious decision to do something like going for a walk or talking to a friend, in defiance of depression.`,
         exercises: [{
-            question: "What is it called when we make the conscious decision to do something enjoyable even if we don't feel like it?",
+            question: "What is it called when we decide to do something enjoyable even if we don't feel like it?",
             answer: "Behavioral activation"
         }]
     }

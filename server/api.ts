@@ -116,3 +116,9 @@ async function startCheckout(req: SessionRequest): Promise<{ checkoutSessionId: 
         throw new Error(`Unexpected planId ${planId}`)
     }
 }
+
+export namespace admin {
+    export async function getUsers(): Promise<{ users: User[] }> {
+        return { users: await db.users.list() }
+    }
+}

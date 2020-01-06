@@ -26,13 +26,17 @@ export async function putJson(key: string, value: Object) {
     await CloudflareStore.put(key, JSON.stringify(value))
 }
 
+export async function list(prefix: string) {
+    return await CloudflareStore.list({ prefix: prefix })
+}
+
 async function deleteKey(key: string) {
     await CloudflareStore.delete(key)
 }
 
 export { deleteKey as delete }
 
-const db = { get, getJson, put, putJson, delete: deleteKey }
+const db = { get, getJson, put, putJson, list, delete: deleteKey }
 
 export interface User {
     id: string
@@ -60,6 +64,14 @@ export namespace users {
         if (!userId)
             return null
         return users.get(userId)
+    }
+
+    export async function list(): Promise<User[]> {
+        const { keys } = await db.list(`users:`)
+
+        const userReqs = keys.map(key => db.getJson(key.name))
+
+        return Promise.all(userReqs) as Promise<User[]>
     }
 
     export async function create(props: Pick<User, 'username' | 'email' | 'password'>): Promise<User> {

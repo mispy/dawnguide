@@ -1,5 +1,13 @@
 import { Concept } from "./concepts"
 
+export interface User {
+    id: string
+    username: string
+    email: string
+    createdAt: number
+    updatedAt: number
+}
+
 export interface ConceptProgressItem {
     /** Unique id of the concept, which refers to a hardcoded string */
     conceptId: string
