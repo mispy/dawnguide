@@ -5,6 +5,7 @@ import db = require('./db')
 import { STRIPE_SECRET_KEY, BASE_URL } from "./settings"
 import http from "./http"
 import { UserConceptProgress } from "../shared/types"
+import { User } from "../shared/logic"
 
 export async function processRequest(req: SessionRequest) {
     const r = new Router()

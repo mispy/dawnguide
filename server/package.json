@@ -4,7 +4,7 @@
         "dev-webpack": "webpack -w",
         "dev-cloudworker": "nodemon --watch dist/worker.js --exec cloudworker --debug --kv-file STORE=store.json dist/worker.js",
         "dev": "npm-run-all --parallel dev-webpack dev-cloudworker",
-        "build": "rm -rf build/* && webpack -p"
+        "build": "rm -rf dist/* && webpack -p && cp package.json dist/"
     },
     "dependencies": {
         "@cloudflare/kv-asset-handler": "^0.0.7",

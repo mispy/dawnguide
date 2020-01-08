@@ -8,4 +8,4 @@ kv-namespaces = [
 
 [site]
 bucket = "./client/dist"
-entry-point = "./server/dist"
+entry-point = "./server"
