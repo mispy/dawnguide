@@ -10,7 +10,7 @@ import { ConceptWithProgress } from "../shared/logic"
 import { ReviewsUI } from "./ReviewsUI"
 import { AppContext } from "./context"
 import _ = require("lodash")
-import { Link } from "react-router-dom"
+import { Link, Redirect } from "react-router-dom"
 
 @observer
 export class LessonPage extends React.Component {
@@ -83,6 +83,11 @@ export class LessonPage extends React.Component {
     render() {
         if (!this.conceptsWithProgress) {
             return "Loading..."
+        }
+
+        if (this.concepts.length === 0) {
+            // Nothing new to learn
+            return <Redirect to="/home" />
         }
 
         if (this.mode === 'review') {

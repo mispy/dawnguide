@@ -5,7 +5,7 @@ import { observable, action, computed, autorun, IReactionDisposer, runInAction }
 import _ = require("lodash")
 import { Exercise, Concept } from "../shared/concepts"
 import { AppContext } from "./context"
-import { Link } from "react-router-dom"
+import { Link, Redirect } from "react-router-dom"
 
 interface ExerciseWithConcept {
     concept: Concept
@@ -95,9 +95,7 @@ export class ReviewsUI extends React.Component<{ reviews: ExerciseWithConcept[] 
 
     render() {
         if (this.complete) {
-            return <div className="ReviewsUI">
-                Complete!
-            </div>
+            return <Redirect to="/home" />
         }
 
         return <>
@@ -117,6 +115,7 @@ export class ReviewsUI extends React.Component<{ reviews: ExerciseWithConcept[] 
                             onChange={this.onChange}
                             onKeyDown={this.onResponseKeyDown}
                             disabled={!!this.answerFeedback}
+                            autoFocus
                         />
                     </div>}
                 </div>
