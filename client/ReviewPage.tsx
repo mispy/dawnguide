@@ -16,7 +16,7 @@ interface Review {
 }
 
 export const ReviewPage = () => {
-    const [reviews, setReviews] = useState<Review[]>([])
+    const [reviews, setReviews] = useState<Review[] | null>(null)
     const { api } = useContext(AppContext)
 
     async function getReviews() {
@@ -37,5 +37,5 @@ export const ReviewPage = () => {
         getReviews()
     }, [])
 
-    return <ReviewsUI reviews={reviews} />
+    return reviews === null ? "Loading" : <ReviewsUI reviews={reviews} />
 }

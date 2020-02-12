@@ -14,6 +14,7 @@ interface ExerciseWithConcept {
 
 @observer
 export class ReviewsUI extends React.Component<{ reviews: ExerciseWithConcept[] }> {
+    @observable ready: boolean = false
     @observable response: string = ""
     @observable answerFeedback: 'correct' | 'incorrect' | null = null
     @observable reviewsToComplete: ExerciseWithConcept[] = []
@@ -21,12 +22,13 @@ export class ReviewsUI extends React.Component<{ reviews: ExerciseWithConcept[] 
     static contextType = AppContext
     declare context: React.ContextType<typeof AppContext>
 
+
     @computed get currentReview() {
         return _.last(this.reviewsToComplete)!
     }
 
     @computed get complete() {
-        return this.reviewsToComplete.length === 0
+        return this.ready && this.reviewsToComplete.length === 0
     }
 
     @action.bound submitResponse() {
@@ -81,7 +83,7 @@ export class ReviewsUI extends React.Component<{ reviews: ExerciseWithConcept[] 
     componentDidMount() {
         this.dispose = autorun(() => {
             const reviewsToComplete = _.shuffle(this.props.reviews)
-            runInAction(() => this.reviewsToComplete = reviewsToComplete)
+            runInAction(() => { this.ready = true; this.reviewsToComplete = reviewsToComplete })
         })
         window.addEventListener('keydown', this.onKeyDown)
         if (this.responseInput.current)

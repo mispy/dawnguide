@@ -4,7 +4,7 @@ import { expectRequestJson, expectStrings, JsonResponse } from "./utils"
 import db = require('./db')
 import { STRIPE_SECRET_KEY, BASE_URL } from "./settings"
 import http from "./http"
-import { UserConceptProgress } from "../shared/types"
+import { UserProgressItem } from '../shared/types'
 import { User } from "../shared/logic"
 
 export async function processRequest(req: SessionRequest) {
@@ -12,14 +12,15 @@ export async function processRequest(req: SessionRequest) {
     r.get('/api/progress', getProgress)
     r.put('/api/progress', submitProgress)
     r.post('/api/checkout', startCheckout)
+    r.post('/api/debug', debugHandler)
 
     const resp = await r.route(req)
     return new JsonResponse(resp)
 }
 
-async function getProgress(req: SessionRequest): Promise<UserConceptProgress> {
+async function getProgress(req: SessionRequest): Promise<{ items: UserProgressItem[] }> {
     const { userId } = req.session
-    return await db.learningProgress.get(userId)
+    return { items: await db.progressItems.allFor(userId) }
 }
 
 /** 
@@ -33,28 +34,27 @@ async function submitProgress(req: SessionRequest) {
 
     const { userId } = req.session
 
-    const progress = await db.learningProgress.get(req.session.userId)
+    let progressItem = await db.progressItems.get(userId, conceptId)
     const now = Date.now()
 
-    let concept = progress.concepts[conceptId]
-    if (!concept) {
-        concept = {
+    if (!progressItem) {
+        progressItem = {
+            userId: userId, 
             conceptId: conceptId,
             level: remembered ? 1 : 0,
             learnedAt: now,
             reviewedAt: now
         }
-        progress.concepts[conceptId] = concept
     } else {
-        concept.reviewedAt = now
+        progressItem.reviewedAt = now
         if (remembered) {
-            concept.level = Math.min(concept.level + 1, 9)
+            progressItem.level = Math.min(progressItem.level + 1, 9)
         } else {
-            concept.level = Math.max(concept.level - 1, 0)
+            progressItem.level = Math.max(progressItem.level - 1, 0)
         }
     }
 
-    await db.learningProgress.set(userId, progress)
+    await db.progressItems.save(progressItem)
 }
 
 /** 
@@ -118,6 +118,15 @@ async function startCheckout(req: SessionRequest): Promise<{ checkoutSessionId: 
     }
 }
 
+async function debugHandler(req: SessionRequest) {
+    const { userId } = req.session
+    if (req.params.action == 'moveReviewsForward') {
+        // const progress = await db.learningProgress.get(userId)
+        // await db.learningProgress.set(userId, progress)
+    }
+}
+
+// TODO
 export namespace admin {
     export async function getUsers(): Promise<{ users: User[] }> {
         return { users: await db.users.list() }

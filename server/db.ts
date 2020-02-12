@@ -4,8 +4,9 @@ import moment = require('moment')
 import { KVNamespace } from '@cloudflare/workers-types'
 import { getTimeFromLevel } from './time'
 
-import { ConceptProgressItem, UserConceptProgress } from '../shared/types'
+import { UserProgressItem } from '../shared/types'
 import { isReadyForReview } from '../shared/logic'
+import _ = require('lodash')
 
 declare const global: any
 const CloudflareStore: KVNamespace = global.STORE
@@ -124,18 +125,34 @@ export namespace sessions {
     }
 }
 
-export namespace learningProgress {
-    export async function get(userId: string): Promise<UserConceptProgress> {
-        return await db.getJson<UserConceptProgress>(`user_progress:${userId}`) || { concepts: {} }
+export namespace progressItems {
+    export async function allFor(userId: string): Promise<UserProgressItem[]> {
+        const progress = await db.getJson<any>(`user_progress:${userId}`)
+        return progress && progress.items ? _.values(progress.items) : []
+    }
+
+    export async function allByConceptId(userId: string): Promise<_.Dictionary<UserProgressItem>> {
+        const progress = await db.getJson<any>(`user_progress:${userId}`)
+        return progress && progress.items ? progress.items : {}
+    }
+
+    export async function get(userId: string, conceptId: string): Promise<UserProgressItem|undefined> {
+        const items = await progressItems.allFor(userId)
+        return items.find(i => i.conceptId === conceptId)
     }
 
     /** Get previously learned lessons that are ready for a user to review */
-    export async function getReviewsFor(userId: string): Promise<ConceptProgressItem[]> {
-        const progress = await learningProgress.get(userId)
-        return (Object.values(progress.concepts) as ConceptProgressItem[]).filter(isReadyForReview)
+    export async function getActiveReviews(userId: string): Promise<UserProgressItem[]> {
+        return (await progressItems.allFor(userId)).filter(isReadyForReview)
     }
 
-    export async function set(userId: string, progress: UserConceptProgress) {
-        return await db.putJson(`user_progress:${userId}`, progress)
+    export async function save(progressItem: UserProgressItem) {
+        const items = await progressItems.allByConceptId(progressItem.userId)
+        items[progressItem.conceptId] = progressItem
+        return await db.putJson(`user_progress:${progressItem.userId}`, { items: items })
+    }
+
+    export async function setAll(userId: string, progressItems: UserProgressItem[]) {
+        return await db.putJson(`user_progress:${userId}`, { items: _.keyBy(progressItems, item => item.conceptId) })
     }
 }

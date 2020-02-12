@@ -3,6 +3,8 @@ import { API_BASE_URL } from './settings'
 import { expectStrings } from './utils'
 import { concepts, Concept } from '../shared/concepts'
 import { ConceptWithProgress, UserConceptProgress, User } from '../shared/logic'
+import { UserProgressItem } from '../shared/types'
+import _ = require('lodash')
 
 export class SunpeepApi {
     http: AxiosInstance
@@ -17,17 +19,18 @@ export class SunpeepApi {
         this.admin = new AdminApi(this.http)
     }
 
-    async getProgress(): Promise<UserConceptProgress> {
+    async getProgressItems(): Promise<UserProgressItem[]> {
         const { data } = await this.http.get('/api/progress')
-        return data
+        return data.items
     }
 
     async getConceptsWithProgress(): Promise<ConceptWithProgress[]> {
-        const userProgress: UserConceptProgress = await this.getProgress()
+        const progressItems = await this.getProgressItems()
+        const progressByConceptId = _.keyBy(progressItems, item => item.conceptId)
 
         const conceptsWithProgress: ConceptWithProgress[] = []
         for (const concept of concepts) {
-            const item = userProgress.concepts[concept.id]
+            const item = progressByConceptId[concept.id]
 
             conceptsWithProgress.push({
                 concept: concept,

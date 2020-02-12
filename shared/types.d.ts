@@ -1,4 +1,6 @@
-export interface ConceptProgressItem {
+export interface UserProgressItem {
+    /** Database id of the user whose learning progress this is */
+    userId: string
     /** Unique id of the concept, which refers to a hardcoded string */
     conceptId: string
     /** SRS stage from 1 to 10 */
@@ -8,8 +10,4 @@ export interface ConceptProgressItem {
     learnedAt: number
     /** When last reviewed or learned */
     reviewedAt: number
-}
-
-export interface UserConceptProgress {
-    concepts: { [conceptId: string]: ConceptProgressItem | undefined }
 }
