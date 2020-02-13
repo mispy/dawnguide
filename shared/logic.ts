@@ -57,3 +57,32 @@ export function getTimeFromLevel(level: number) {
 export function isReadyForReview(concept: ConceptProgressItem) {
     return concept.level > 0 && Date.now() > concept.reviewedAt + getTimeFromLevel(concept.level - 1)
 }
+
+/** Tolerate more egregious typos in longer answers */
+function distanceTolerance(s: string) {
+    switch (s.length) {
+        case 1:
+        case 2:
+        case 3:
+            return 0
+        case 4:
+        case 5:
+            return 1
+        case 6:
+        case 7:
+            return 2
+        default:
+            return 2 + 1 * Math.floor(s.length / 7)
+    }
+}
+
+import { levenshtein } from './levenshtein'
+
+export function matchesAnswerPermissively(attempt: string, correctAnswer: string) {
+    if (attempt === correctAnswer) {
+        return true
+    } else {
+        const tolerance = distanceTolerance(correctAnswer)
+        return levenshtein(attempt, correctAnswer) <= tolerance
+    }
+}
