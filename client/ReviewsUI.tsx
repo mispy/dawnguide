@@ -4,6 +4,7 @@ import { observable, action, computed, autorun, IReactionDisposer, runInAction }
 
 import _ = require("lodash")
 import { Exercise, Concept } from "../shared/concepts"
+import { matchesAnswerPermissively } from '../shared/logic'
 import { AppContext } from "./context"
 import { Link, Redirect } from "react-router-dom"
 
@@ -32,7 +33,7 @@ export class ReviewsUI extends React.Component<{ reviews: ExerciseWithConcept[] 
     }
 
     @action.bound submitResponse() {
-        if (this.response.toLowerCase() === this.currentReview.exercise.answer.toLowerCase()) {
+        if (matchesAnswerPermissively(this.response, this.currentReview.exercise.answer)) {
             this.answerFeedback = 'correct'
         } else {
             this.answerFeedback = 'incorrect'
