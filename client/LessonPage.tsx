@@ -17,7 +17,6 @@ export class LessonPage extends React.Component {
     @observable conceptIndex: number = 0
     @observable reviewPrompt: boolean = false
     @observable mode: 'learn' | 'review' = 'learn'
-    @observable.ref conceptsWithProgress?: ConceptWithProgress[]
 
     static contextType = AppContext
     declare context: React.ContextType<typeof AppContext>
@@ -26,17 +25,16 @@ export class LessonPage extends React.Component {
         return !concept.progress || concept.progress.level === 0
     }
 
+    @computed get conceptsWithProgress() {
+        return this.context.store.conceptsWithProgress
+    }
+
     @computed get concepts() {
         return this.conceptsWithProgress ? this.conceptsWithProgress.filter(c => this.readyToLearn(c)).map(c => c.concept) : []
     }
 
     @computed get currentConcept() {
         return this.concepts[this.conceptIndex]
-    }
-
-    async getProgress() {
-        const data = await this.context.api.getConceptsWithProgress()
-        runInAction(() => this.conceptsWithProgress = data)
     }
 
     @action.bound prev() {
@@ -73,7 +71,6 @@ export class LessonPage extends React.Component {
 
     componentDidMount() {
         window.addEventListener('keyup', this.onKeyup)
-        this.getProgress()
     }
 
     componentWillUnmount() {

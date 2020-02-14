@@ -16,26 +16,6 @@ interface Review {
 }
 
 export const ReviewPage = () => {
-    const [reviews, setReviews] = useState<Review[] | null>(null)
-    const { api } = useContext(AppContext)
-
-    async function getReviews() {
-        const conceptsWithProgress = await api.getConceptsWithProgress()
-        const reviews: Review[] = []
-        for (const c of conceptsWithProgress) {
-            if (c.progress && isReadyForReview(c.progress)) {
-                const exercise = _.sample(c.concept.exercises)
-                if (exercise) {
-                    reviews.push({ concept: c.concept, exercise: exercise })
-                }
-            }
-        }
-        setReviews(reviews)
-    }
-
-    useEffect(() => {
-        getReviews()
-    }, [])
-
-    return reviews === null ? <div>Loading</div> : <ReviewsUI reviews={reviews} />
+    const { store } = useContext(AppContext)
+    return <ReviewsUI reviews={store.reviews} />
 }
