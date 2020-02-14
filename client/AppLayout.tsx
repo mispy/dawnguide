@@ -1,12 +1,27 @@
 import React = require('react')
-import { useState } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Navbar, Container, Nav, Modal, Button } from "react-bootstrap"
 import { Link } from "react-router-dom"
+import { AppStore } from './AppStore'
+import { runInAction } from 'mobx'
+import { AppContext } from './context'
+import { useObserver } from 'mobx-react'
 
-export const AppLayout = (props: { numLessons?: number, numReviews?: number, children: any }) => {
+export const AppLayout = (props: { children: any }) => {
     const [showAbout, setShowAbout] = useState(false)
 
-    return <div className="AppLayout">
+    const { api, store } = useContext(AppContext)
+
+    async function getProgress() {
+        const conceptsWithProgress = await api.getConceptsWithProgress()
+        runInAction(() => store.conceptsWithProgress = conceptsWithProgress)
+    }
+
+    useEffect(() => {
+        getProgress()
+    }, [])
+
+    return useObserver(() => <div className="AppLayout">
         <header className="AppHeader">
             <Navbar>
                 <Container>
@@ -15,12 +30,12 @@ export const AppLayout = (props: { numLessons?: number, numReviews?: number, chi
                         <ul className="navigation-shortcuts">
                             <li className="navigation-shortcut navigation-shortcut--lessons">
                                 <Link to="/lesson">
-                                    <span className={props.numLessons === 0 ? 'inactive' : undefined}>{props.numLessons}</span> Lessons
+                                    <span className={store.numLessons === 0 ? 'inactive' : undefined}>{store.numLessons}</span> Lessons
                                     </Link>
                             </li>
                             <li className="navigation-shortcut navigation-shortcut--reviews">
                                 <Link to="/review">
-                                    <span className={props.numReviews === 0 ? 'inactive' : undefined}>{props.numReviews}</span> Reviews
+                                    <span className={store.numReviews === 0 ? 'inactive' : undefined}>{store.numReviews}</span> Reviews
                                 </Link>
                             </li>
                         </ul>
@@ -54,5 +69,5 @@ export const AppLayout = (props: { numLessons?: number, numReviews?: number, chi
                 </Button>
             </Modal.Footer>
         </Modal>
-    </div >
+    </div>)
 }

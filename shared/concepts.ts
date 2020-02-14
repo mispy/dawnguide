@@ -16,9 +16,9 @@ export interface Concept {
 
 export const concepts: Concept[] = [
     {
-        id: "spaced-repetition",
-        title: "Spaced repetition",
-        introduction: `Spaced repetition is an evidence-based learning technique that is usually performed with flashcards. Newly introduced and more difficult flashcards are shown more frequently while older and less difficult flashcards are shown less frequently in order to exploit the psychological spacing effect. The use of spaced repetition has been shown to increase rate of learning`,
+        id: "spaced-learning",
+        title: "Spaced learning",
+        introduction: `Spaced learning is an evidence-based learning technique that is usually performed with flashcards. Newly introduced and more difficult flashcards are shown more frequently while older and less difficult flashcards are shown less frequently in order to exploit the psychological spacing effect. The use of spaced repetition has been shown to increase rate of learning`,
         citation: `@article{cepeda2006distributed,
             title={Distributed practice in verbal recall tasks: A review and quantitative synthesis.},
             author={Cepeda, Nicholas J and Pashler, Harold and Vul, Edward and Wixted, John T and Rohrer, Doug},
@@ -31,7 +31,7 @@ export const concepts: Concept[] = [
           }`,
         exercises: [{
             question: "What is the evidence-based learning method used by Sunpeep?",
-            answer: "Spaced repetition"
+            answer: "Spaced learning"
         }]
     },
     {

@@ -37,5 +37,5 @@ export const ReviewPage = () => {
         getReviews()
     }, [])
 
-    return reviews === null ? "Loading" : <ReviewsUI reviews={reviews} />
+    return reviews === null ? <div>Loading</div> : <ReviewsUI reviews={reviews} />
 }

@@ -10,6 +10,8 @@ import { HomePage } from "./HomePage"
 import { LessonPage } from "./LessonPage"
 import { ReviewPage } from "./ReviewPage"
 import { SubscriptionPage } from "./SubscriptionPage"
+import { ConceptPage } from './ConceptPage'
+import { concepts } from '../shared/concepts'
 
 @observer
 export class AppRouter extends React.Component {
@@ -28,6 +30,11 @@ export class AppRouter extends React.Component {
                 <Route path="/account/subscribe">
                     <SubscriptionPage />
                 </Route>
+                {concepts.map(concept =>
+                    <Route key={concept.id} path={`/concepts/${concept.id}`}>
+                        <ConceptPage concept={concept} />
+                    </Route>
+                )}
                 {/* TODO 404 */}
             </Switch>
         </Router>

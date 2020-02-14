@@ -78,7 +78,7 @@ function distanceTolerance(s: string) {
 
 import { levenshtein } from './levenshtein'
 
-export function matchesAnswerPermissively(attempt: string, correctAnswer: string) {
+export function matchesAnswerPermissively(attempt: string, correctAnswer: string): boolean {
     attempt = attempt.toLowerCase()
     correctAnswer = correctAnswer.toLowerCase()
 

@@ -7,12 +7,14 @@ import './app.scss'
 import { AppRouter } from './AppRouter'
 import { SunpeepApi } from './SunpeepApi'
 import { AppContext } from './context'
+import { AppStore } from './AppStore'
 
 @observer
 class App extends React.Component {
     render() {
         const context = {
-            api: new SunpeepApi()
+            api: new SunpeepApi(),
+            store: new AppStore()
         }
 
         _.extend(window, context)
