@@ -52,9 +52,7 @@ export const AppLayout = (props: { children: any }) => {
                 </Container>
             </Navbar>
         </header>
-        <Container>
-            {props.children}
-        </Container>
+        {props.children}
         <Modal show={showAbout} onHide={() => setShowAbout(false)}>
             <Modal.Header closeButton>
                 <Modal.Title>Modal heading</Modal.Title>

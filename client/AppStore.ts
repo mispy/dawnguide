@@ -1,10 +1,14 @@
 import { observable, runInAction, computed } from "mobx"
-import { ConceptWithProgress, isReadyForReview } from "../shared/logic"
+import { ConceptWithProgress, isReadyForReview, ConceptProgressItem } from "../shared/logic"
 import { Concept, Exercise } from "../shared/concepts"
 import _ = require("lodash")
 
 export class AppStore {
     @observable conceptsWithProgress: ConceptWithProgress[] = []
+
+    @computed get conceptsWithProgressById() {
+        return _.keyBy(this.conceptsWithProgress, c => c.concept.id)
+    }
 
     @computed get numLessons() {
         return this.conceptsWithProgress.length ? this.conceptsWithProgress.filter(c => c.progress === undefined || c.progress.level === 0).length : undefined

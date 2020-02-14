@@ -31,7 +31,7 @@ export class AppRouter extends React.Component {
                     <SubscriptionPage />
                 </Route>
                 {concepts.map(concept =>
-                    <Route key={concept.id} path={`/concepts/${concept.id}`}>
+                    <Route key={concept.id} path={`/concept/${concept.id}`}>
                         <ConceptPage concept={concept} />
                     </Route>
                 )}
