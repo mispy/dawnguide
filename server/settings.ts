@@ -8,3 +8,5 @@ export const WEBPACK_DEV_SERVER: string = "http://localhost:8020"
 export const BASE_URL: string = IS_PRODUCTION ? "https://sunpeep.suns.workers.dev" : "http://localhost:3000"
 
 export const STRIPE_SECRET_KEY: string = process.env.STRIPE_SECRET_KEY || ""
+
+export const SENDGRID_SECRET_KEY: string = process.env.SENDGRID_SECRET_KEY || ""

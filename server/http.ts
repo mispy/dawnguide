@@ -32,7 +32,6 @@ namespace http {
         return results
     }
 
-
     async function gatherResponse(response: Response) {
         const { headers } = response
         const contentType = headers.get('content-type')

@@ -2,7 +2,7 @@
 const { getAssetFromKV } = require('@cloudflare/kv-asset-handler')
 
 import Router from './router'
-import { signup, login, SessionRequest, logout, getSession } from './authentication'
+import { signup, login, SessionRequest, logout, getSession, resetPassword } from './authentication'
 import { IS_PRODUCTION, WEBPACK_DEV_SERVER } from './settings'
 import { redirect, getQueryParams, JsonResponse } from './utils'
 import api = require('./api')
@@ -14,10 +14,11 @@ addEventListener('fetch', event => {
 
 async function handleEvent(event: FetchEvent) {
     const r = new Router()
-    r.get('/(signup|login|assets/.*)', () => serveStatic(event))
+    r.get('/(signup|login|reset-password|assets/.*)', () => serveStatic(event))
     r.get('/', () => rootPage(event))
     r.post('/signup', signup)
     r.post('/login', login)
+    r.post('/reset-password', resetPassword)
     // r.post('/webhook/checkout', fulfillCheckout) // From Stripe
     r.get('/logout', logout)
     r.all('.*', () => behindLogin(event))
@@ -73,7 +74,7 @@ async function serveStatic(event: FetchEvent) {
     let pathname = url.pathname
     if (pathname == '/') {
         pathname = '/landing.html'
-    } else if (pathname == "/login" || pathname == "/signup") {
+    } else if (pathname == "/login" || pathname == "/signup" || pathname == "/reset-password") {
         pathname = pathname + '.html'
     } else if (!pathname.includes(".")) {
         pathname = "/index.html"

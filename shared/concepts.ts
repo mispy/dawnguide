@@ -12,6 +12,7 @@ export interface Concept {
     introduction: string
     exercises: Exercise[]
     citation?: string
+    references?: {[key: string]: string}
 }
 
 export const concepts: Concept[] = [
@@ -55,7 +56,15 @@ Depression can often lead us to "wait to feel better" before doing something. Ho
             question: "What is it called when we decide to do something enjoyable even if we don't feel like it?",
             answer: "Behavioral activation"
         }]
-    }
+    },
+    // https://www.researchgate.net/profile/Lilian_Jans-Beken_Phd/publication/335018983_Gratitude_and_health_An_updated_review/links/5d8e45c9299bf10cff15180e/Gratitude-and-health-An-updated-review.pdf
+    // {
+    //     id: "gratitude-journaling",
+    //     introduction: ``,
+    //     references: {
+    //         jansBekenReview: ``
+    //     }
+    // }
 ]
 
 // {

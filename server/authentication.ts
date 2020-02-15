@@ -2,6 +2,7 @@ import bcrypt = require('bcryptjs')
 import cookie = require('cookie')
 import db = require('./db')
 import { redirect, expectRequestJson, expectStrings, QueryParams } from './utils'
+import { sendMail } from './mail'
 
 export interface SessionRequest extends Request {
     session: db.Session
@@ -31,6 +32,22 @@ export async function login(req: Request) {
     const res = redirect('/')
     res.headers.set('Set-Cookie', sessionCookie(sessionKey))
     return res
+}
+
+export async function resetPassword(req: Request) {
+    const body = await expectRequestJson(req)
+    const { email } = expectStrings(body, 'email')
+    const user = await db.users.getByEmail(email)
+
+    if (user) {
+        await sendMail({
+            to: user.email,
+            from: "Sunpeep <sunpeep@example.com>",
+            subject: "Test email sending",
+            text: "Does it work?"
+        })
+    }
+
 }
 
 export async function logout(req: Request) {
