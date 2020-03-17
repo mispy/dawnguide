@@ -18,11 +18,9 @@ export async function sendMail(msg: EmailMessage): Promise<any> {
         "content": [{"type": "text/plain", "value": msg.text}]
     }
     
-    const response = await http.postJson("https://api.sendgrid.com/v3/mail/send", body, {
+    await http.postJson("https://api.sendgrid.com/v3/mail/send", body, {
         headers: {
             Authorization: `Bearer ${SENDGRID_SECRET_KEY}`
         }
     })
-
-    console.log(response)
 }

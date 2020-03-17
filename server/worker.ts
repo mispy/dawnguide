@@ -2,10 +2,11 @@
 const { getAssetFromKV } = require('@cloudflare/kv-asset-handler')
 
 import Router from './router'
-import { signup, login, SessionRequest, logout, getSession, resetPassword } from './authentication'
+import { signup, login, SessionRequest, logout, getSession, resetPasswordStart, serveResetPasswordForm, resetPasswordFinish } from './authentication'
 import { IS_PRODUCTION, WEBPACK_DEV_SERVER } from './settings'
 import { redirect, getQueryParams, JsonResponse } from './utils'
 import api = require('./api')
+import _ = require('lodash')
 
 // Workers require that this be a sync callback
 addEventListener('fetch', event => {
@@ -13,12 +14,16 @@ addEventListener('fetch', event => {
 })
 
 async function handleEvent(event: FetchEvent) {
+    const url = new URL(event.request.url)
+
     const r = new Router()
     r.get('/(signup|login|reset-password|assets/.*)', () => serveStatic(event))
     r.get('/', () => rootPage(event))
+    r.get('/reset-password/.*', serveResetPasswordForm)
+    r.post('/reset-password/.*', resetPasswordFinish)
     r.post('/signup', signup)
     r.post('/login', login)
-    r.post('/reset-password', resetPassword)
+    r.post('/reset-password', resetPasswordStart)
     // r.post('/webhook/checkout', fulfillCheckout) // From Stripe
     r.get('/logout', logout)
     r.all('.*', () => behindLogin(event))

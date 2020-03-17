@@ -36,7 +36,7 @@ namespace http {
         const { headers } = response
         const contentType = headers.get('content-type')
         if (!contentType)
-            throw new Error(`Unexpected contentType ${contentType}`)
+            return response
 
         if (contentType.includes('application/json')) {
             return await response.json()

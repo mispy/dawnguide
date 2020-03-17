@@ -43,7 +43,7 @@ export interface User {
     id: string
     username: string
     email: string
-    password: string
+    cryptedPassword: string
     createdAt: number
     updatedAt: number
 }
@@ -58,6 +58,14 @@ export namespace users {
         if (!userId)
             return null
         return users.get(userId)
+    }
+
+    export async function expectByEmail(email: string): Promise<User> {
+        const user = await users.getByEmail(email)
+        if (!user) {
+            throw new Error(`Expected to find user with email ${email}`)
+        }
+        return user
     }
 
     export async function getByUsername(username: string): Promise<User | null> {
@@ -75,18 +83,22 @@ export namespace users {
         return Promise.all(userReqs) as Promise<User[]>
     }
 
-    export async function create(props: Pick<User, 'username' | 'email' | 'password'>): Promise<User> {
+    export function encryptPassword(plaintext: string) {
+        return bcrypt.hashSync(plaintext, 10)
+    })
+
+    export async function create(props: Pick<User, 'username' | 'email'> & { 'password': string }): Promise<User> {
         // TODO don't allow duplicate email/username
         const userId = uuidv4()
 
         // Must be done synchronously or CF will think worker never exits
-        const crypted = bcrypt.hashSync(props.password, 10)
+        const crypted = users.encryptPassword(props.password)
         const now = Date.now()
         const user = {
             id: userId,
             username: props.username,
             email: props.email,
-            password: crypted,
+            cryptedPassword: crypted,
             createdAt: now,
             updatedAt: now
         }
@@ -95,6 +107,10 @@ export namespace users {
         await db.put(`user_id_by_email:${props.email}`, userId)
         await db.put(`user_id_by_username:${props.username}`, userId)
         return user
+    }
+
+    export async function save(user: User) {
+        await db.putJson(`users:${user.id}`, user)
     }
 }
 
@@ -154,5 +170,18 @@ export namespace progressItems {
 
     export async function setAll(userId: string, progressItems: UserProgressItem[]) {
         return await db.putJson(`user_progress:${userId}`, { items: _.keyBy(progressItems, item => item.conceptId) })
+    }
+}
+
+export namespace passwordResets {
+    export async function create(email: string): Promise<string> {
+        const token = uuidv4()
+        await CloudflareStore.put(`password_resets:${token}`, email, { expirationTtl: 60*60*24 }) // Expires after a day
+        return token
+    }
+
+    export async function get(token: string): Promise<string|undefined> {
+        const email = await CloudflareStore.get(`password_resets:${token}`)
+        return email||undefined
     }
 }
