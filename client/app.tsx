@@ -26,3 +26,8 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.getElementById("root"))
+
+declare const module: any
+if (module.hot) {
+    module.hot.accept()
+}

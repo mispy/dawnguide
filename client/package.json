@@ -1,7 +1,7 @@
 {
     "scripts": {
-        "dev": "webpack-dev-server",
-        "build": "rm -rf dist/* && webpack -p"
+        "dev": "parcel ../public/index.html",
+        "build": "rm -rf dist/* && parcel build ../public/index.html -d ../dist"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.2.26",
@@ -17,15 +17,12 @@
         "@types/stripe-v3": "^3.1.11",
         "axios": "^0.19.0",
         "bootstrap": "^4.1.1",
-        "copy-webpack-plugin": "^5.1.0",
-        "css-loader": "^0.26.2",
-        "extract-text-webpack-plugin": "^4.0.0.beta-0",
         "lodash": "^4.17.4",
         "mobx": "^5.15.1",
         "mobx-react": "^6.1.4",
         "moment": "^2.17.1",
         "node-sass": "^4.9.0",
-        "optimize-css-assets-webpack-plugin": "^5.0.3",
+        "parcel-bundler": "^1.12.4",
         "react": "^16.12.0",
         "react-bootstrap": "^1.0.0-beta.16",
         "react-dom": "^16.12.0",
@@ -33,14 +30,7 @@
         "react-router-dom": "^5.1.2",
         "react-stripe-elements": "^6.0.1",
         "react-timeago": "^4.4.0",
-        "sass-loader": "^7.0.3",
-        "style-loader": "^0.13.2",
-        "ts-loader": "^4.4.1",
-        "typescript": "^3.7.3",
-        "url-loader": "^0.5.8",
-        "webpack": "^4.41.2",
-        "webpack-cli": "^3.3.10",
-        "webpack-dev-server": "^3.9.0"
+        "typescript": "^3.7.3"
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^2.11.0",
