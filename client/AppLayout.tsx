@@ -7,7 +7,8 @@ import { runInAction } from 'mobx'
 import { AppContext } from './context'
 import { useObserver } from 'mobx-react'
 
-export const AppLayout = (props: { children: any }) => {
+export const AppLayout = (props: { children: any, noHeader?: boolean }) => {
+    const noHeader = props.noHeader || false
     const [showAbout, setShowAbout] = useState(false)
 
     const { api, store } = useContext(AppContext)
@@ -22,7 +23,7 @@ export const AppLayout = (props: { children: any }) => {
     }, [])
 
     return useObserver(() => <div className="AppLayout">
-        <header className="AppHeader">
+        {!noHeader ? <header className="AppHeader">
             <Navbar>
                 <Container>
                     <Navbar.Brand href="/home">Sunpeep</Navbar.Brand>
@@ -51,7 +52,7 @@ export const AppLayout = (props: { children: any }) => {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-        </header>
+        </header> : undefined}
         {props.children}
         <Modal show={showAbout} onHide={() => setShowAbout(false)}>
             <Modal.Header closeButton>

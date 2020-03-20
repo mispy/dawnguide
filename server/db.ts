@@ -85,7 +85,7 @@ export namespace users {
 
     export function encryptPassword(plaintext: string) {
         return bcrypt.hashSync(plaintext, 10)
-    })
+    }
 
     export async function create(props: Pick<User, 'username' | 'email'> & { 'password': string }): Promise<User> {
         // TODO don't allow duplicate email/username

@@ -7,6 +7,7 @@ import { Exercise, Concept } from "../shared/concepts"
 import { matchesAnswerPermissively } from '../shared/logic'
 import { AppContext } from "./context"
 import { Link, Redirect } from "react-router-dom"
+import { MemoryCard } from "./MemoryCard"
 
 interface ExerciseWithConcept {
     concept: Concept
@@ -22,7 +23,6 @@ export class ReviewsUI extends React.Component<{ reviews: ExerciseWithConcept[] 
     responseInput = React.createRef<HTMLInputElement>()
     static contextType = AppContext
     declare context: React.ContextType<typeof AppContext>
-
 
     @computed get currentReview() {
         return _.last(this.reviewsToComplete)!
@@ -53,9 +53,6 @@ export class ReviewsUI extends React.Component<{ reviews: ExerciseWithConcept[] 
         this.answerFeedback = null
         this.response = ""
 
-        if (this.reviewsToComplete.length) {
-            setTimeout(() => this.responseInput.current!.focus())
-        }
     }
 
     @action.bound onChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -69,14 +66,6 @@ export class ReviewsUI extends React.Component<{ reviews: ExerciseWithConcept[] 
             } else if (!this.complete) {
                 this.responseInput.current!.focus()
             }
-        }
-    }
-
-    @action.bound onResponseKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-        if (e.key === "Enter") {
-            e.stopPropagation()
-            e.preventDefault()
-            this.submitResponse()
         }
     }
 
@@ -107,20 +96,7 @@ export class ReviewsUI extends React.Component<{ reviews: ExerciseWithConcept[] 
                     <Link to="/home">Home</Link>
                 </div>
                 <div className="reviewContainer">
-                    {this.currentReview && <div>
-                        <p>{this.currentReview.exercise.question}</p>
-                        <input
-                            type="text"
-                            ref={this.responseInput}
-                            className={this.answerFeedback || undefined}
-                            value={this.response}
-                            placeholder="Your Response"
-                            onChange={this.onChange}
-                            onKeyDown={this.onResponseKeyDown}
-                            disabled={!!this.answerFeedback}
-                            autoFocus
-                        />
-                    </div>}
+                    {this.currentReview && <MemoryCard review={this.currentReview} onSubmit={() => ''} />}
                 </div>
             </div>
         </>

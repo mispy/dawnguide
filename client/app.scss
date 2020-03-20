@@ -72,24 +72,9 @@ body {
 .LessonPage {
   height: 100%;
 
-  .lessonContainer {
-    display: grid;
-    height: calc(100% - 8em);
-    place-items: center;
-  }
-
   .lesson {
-    display: grid;
-    width: 100%;
-    text-align: center;
-    grid-template-columns: repeat(3, 1fr);
-    place-items: center;
-  }
-
-  .lesson .next,
-  .lesson .prev {
-    font-size: 3rem;
-    color: #555;
+    margin: auto;
+    max-width: 600px;
   }
 }
 

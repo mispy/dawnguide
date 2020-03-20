@@ -1,127 +1,143 @@
 import React = require("react")
-import { observer } from "mobx-react"
-import { observable, action, computed, runInAction } from "mobx"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
+import { observer, useObserver, useLocalStore } from "mobx-react"
+import { observable, action, computed } from "mobx"
 
-import { concepts } from "../shared/concepts"
 import { ConceptWithProgress } from "../shared/logic"
 
 import { ReviewsUI } from "./ReviewsUI"
 import { AppContext } from "./context"
 import _ = require("lodash")
 import { Link, Redirect } from "react-router-dom"
+import { AppLayout } from "./AppLayout"
+import { AppStore } from "./AppStore"
+import { useContext } from "react"
+import { Concept } from "../shared/concepts"
 
-@observer
-export class LessonPage extends React.Component {
-    @observable conceptIndex: number = 0
-    @observable reviewPrompt: boolean = false
-    @observable mode: 'learn' | 'review' = 'learn'
 
-    static contextType = AppContext
-    declare context: React.ContextType<typeof AppContext>
+function readyToLearn(cwp: ConceptWithProgress) {
+    return !cwp.progress || cwp.progress.level === 0
+}
 
-    readyToLearn(concept: ConceptWithProgress) {
-        return !concept.progress || concept.progress.level === 0
+class LessonPageState {
+    constructor(readonly concept: Concept) {
     }
+}
 
-    @computed get conceptsWithProgress() {
-        return this.context.store.conceptsWithProgress
-    }
+export function LessonPageLoaded(props: { concept: Concept }) {
+    // const state = useLocalStore(() => new LessonPageState(props.concept))
 
-    @computed get concepts() {
-        return this.conceptsWithProgress ? this.conceptsWithProgress.filter(c => this.readyToLearn(c)).map(c => c.concept) : []
-    }
 
-    @computed get currentConcept() {
-        return this.concepts[this.conceptIndex]
-    }
+    return <div className="LessonPage">
+        <div className="topbar">
+            <Link to="/home">Home</Link>
+        </div>
+        <div className="lesson">
+            <div>
+                <p><strong>{props.concept.title}</strong></p>
+                <p>{props.concept.introduction}</p>
+                <button className="btn btn-success">Continue to review</button>
+            </div>
+        </div>
+    </div>
+}
 
-    @action.bound prev() {
-        if (this.reviewPrompt) {
-            this.reviewPrompt = false
-            return
-        }
+export function LessonPage() {
+    const { store } = useContext(AppContext)
 
-        this.conceptIndex = Math.max(0, this.conceptIndex - 1)
-    }
+    function content() {
+        const isLoading = !store.conceptsWithProgress.length
 
-    @action.bound next() {
-        if (this.reviewPrompt) {
-            this.mode = 'review'
-            return
-        }
+        if (isLoading)
+            return <div>Loading...</div>
 
-        if (this.conceptIndex === this.concepts.length - 1) {
-            // Finished lesson batch, prompt to continue to review
-            this.reviewPrompt = true
-            return
-        }
-
-        this.conceptIndex = Math.min(this.concepts.length - 1, this.conceptIndex + 1)
-    }
-
-    @action.bound onKeyup(ev: KeyboardEvent) {
-        if (ev.key == "ArrowRight") {
-            this.next()
-        } else if (ev.key == "ArrowLeft") {
-            this.prev()
-        }
-    }
-
-    componentDidMount() {
-        window.addEventListener('keyup', this.onKeyup)
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('keyup', this.onKeyup)
-    }
-
-    render() {
-        if (!this.conceptsWithProgress) {
-            return "Loading..."
-        }
-
-        if (this.concepts.length === 0) {
-            // Nothing new to learn
+        const cwp = store.conceptsWithProgress.find(c => readyToLearn(c))
+        if (!cwp) {
+            // Nothing ready to learn
             return <Redirect to="/home" />
         }
 
-        if (this.mode === 'review') {
-            const reviews = this.concepts.map(c => ({ concept: c, exercise: c.exercises[0] }))
-            return <ReviewsUI reviews={reviews} />
-        }
-
-        return <>
-            <div className="LessonPage">
-                <div className="topbar">
-                    <Link to="/home">Home</Link>
-                </div>
-                <div className="lessonContainer">
-                    <div className="lesson">
-                        <button className="btn prev">
-                            <FontAwesomeIcon icon={faAngleLeft} onClick={this.prev} />
-                        </button>
-                        <div>
-                            <p><strong>{this.currentConcept.title}</strong></p>
-                            <p>{this.currentConcept.introduction}</p>
-                        </div>
-                        <button className="btn next" onClick={this.next}>
-                            <FontAwesomeIcon icon={faAngleRight} />
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-            {this.reviewPrompt && <div className="LessonsEndOverlay">
-                <div>
-                    <h1>Now that you have learned five new items, it is time to quiz you on the material</h1>
-                    <div>
-                        <button className="btn" onClick={this.prev}>Need more time</button>
-                        <button className="btn" onClick={this.next}>Start the quiz</button>
-                    </div>
-                </div>
-            </div>}
-        </>
+        return <LessonPageLoaded concept={cwp.concept} />
     }
+
+    return useObserver(() => {
+        return <AppLayout noHeader>
+            {content()}
+        </AppLayout>
+    })
 }
+
+    // @observer
+    // export class LessonPage extends React.Component {
+    //     @observable conceptIndex: number = 0
+    //     @observable reviewPrompt: boolean = false
+    //     @observable mode: 'learn' | 'review' = 'learn'
+
+    //     static contextType = AppContext
+    //     declare context: React.ContextType<typeof AppContext>
+
+
+
+    //     @action.bound prev() {
+    //         if (this.reviewPrompt) {
+    //             this.reviewPrompt = false
+    //             return
+    //         }
+
+    //         this.conceptIndex = Math.max(0, this.conceptIndex - 1)
+    //     }
+
+    //     @action.bound next() {
+    //         if (this.reviewPrompt) {
+    //             this.mode = 'review'
+    //             return
+    //         }
+
+    //         if (this.conceptIndex === this.concepts.length - 1) {
+    //             // Finished lesson batch, prompt to continue to review
+    //             this.reviewPrompt = true
+    //             return
+    //         }
+
+    //         this.conceptIndex = Math.min(this.concepts.length - 1, this.conceptIndex + 1)
+    //     }
+
+    //     @action.bound onKeyup(ev: KeyboardEvent) {
+    //         if (ev.key == "ArrowRight") {
+    //             this.next()
+    //         } else if (ev.key == "ArrowLeft") {
+    //             this.prev()
+    //         }
+    //     }
+
+    //     componentDidMount() {
+    //         window.addEventListener('keyup', this.onKeyup)
+    //     }
+
+    //     componentWillUnmount() {
+    //         window.removeEventListener('keyup', this.onKeyup)
+    //     }
+
+    //     content() {
+    //         if (!this.conceptsWithProgress.length) {
+    //             return "Loading..."
+    //         }
+
+    //         if (this.concepts.length === 0) {
+    //             // Nothing new to learn
+    //             return <Redirect to="/home" />
+    //         }
+
+    //         if (this.mode === 'review') {
+    //             const reviews = this.concepts.map(c => ({ concept: c, exercise: c.exercises[0] }))
+    //             return <ReviewsUI reviews={reviews} />
+    //         }
+
+
+    //     }
+
+    //     render() {
+    //         return <AppLayout noHeader>
+    //             {this.content()}
+    //         </AppLayout>
+    //     }
+    // }
