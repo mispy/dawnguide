@@ -1,9 +1,16 @@
 @import "node_modules/bootstrap/scss/bootstrap";
 
+$base-color: #f5aa44;
+
 body {
   color: #333;
   margin: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.btn {
+  background: $base-color;
+  color: white;
 }
 
 .AppHeader {
@@ -274,5 +281,40 @@ ul.navigation-shortcuts {
     border-radius: 0;
     color: #ffffff;
     font-weight: bold;
+  }
+}
+
+.MemoryCard {
+  margin: auto;
+  max-width: 400px;
+
+  .card {
+    box-shadow: 0 7px 50px rgba(46,10,99,.05), 0 1px 1px 0.6px rgba(46,10,99,.1);
+    border-radius: 8px;  
+  }
+
+  .prompt {
+    padding: 1rem;
+  }
+
+  .answer:not(.revealed) {
+    cursor: pointer;
+  }
+
+  .answer {
+    padding: 1rem;
+  }
+
+  .buttons {
+    display: flex;
+  }
+
+  button {
+    flex-grow: 1;
+    cursor: pointer;
+  }
+
+  button:first-child {
+    margin-right: 0.5rem;
   }
 }

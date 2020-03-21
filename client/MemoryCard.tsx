@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react"
 import { useObserver, useLocalStore } from "mobx-react"
 import React = require("react")
 import { Concept, Exercise } from "../shared/concepts"
+import classnames from 'classnames'
 
 interface ExerciseWithConcept {
     concept: Concept
@@ -20,7 +21,13 @@ export function MemoryCard(props: { review: ExerciseWithConcept, onSubmit: (resp
     }, [])
 
     return useObserver(() => <div className="MemoryCard">
-        <p>{exercise.question}</p>
-        <div>{state.revealed ? "Click to reveal answer" : exercise.answer}</div>
+        <div className="card">
+            <div className="prompt">{exercise.question}</div>
+            <div className={classnames('answer', state.revealed && 'revealed')}>{!state.revealed ? "Click to reveal answer" : exercise.answer}</div>
+        </div>
+        <div className="buttons">
+            <button className="btn" disabled>Didn't remember</button>
+            <button className="btn" disabled>Remembered</button>
+        </div>
     </div>)
 }

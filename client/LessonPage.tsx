@@ -12,6 +12,7 @@ import { AppLayout } from "./AppLayout"
 import { AppStore } from "./AppStore"
 import { useContext } from "react"
 import { Concept } from "../shared/concepts"
+import { MultiReview } from "./MultiReview"
 
 
 function readyToLearn(cwp: ConceptWithProgress) {
@@ -19,26 +20,46 @@ function readyToLearn(cwp: ConceptWithProgress) {
 }
 
 class LessonPageState {
+    @observable reviewing: boolean = true
+    @observable exerciseIndex: number = 0
+
     constructor(readonly concept: Concept) {
+    }
+
+    @computed get exercise() {
+        return this.concept.exercises[this.exerciseIndex]
+    }
+
+    @computed get reviews() {
+        return this.concept.exercises.map(e => {
+            return {
+                concept: this.concept,
+                exercise: e
+            }
+        })
     }
 }
 
 export function LessonPageLoaded(props: { concept: Concept }) {
-    // const state = useLocalStore(() => new LessonPageState(props.concept))
+    const state = useLocalStore(() => new LessonPageState(props.concept))
 
+    const startReview = action(() => {
+        state.reviewing = true
+    })
 
-    return <div className="LessonPage">
+    return useObserver(() => <div className="LessonPage">
         <div className="topbar">
             <Link to="/home">Home</Link>
         </div>
-        <div className="lesson">
+
+        {state.reviewing ? <MultiReview reviews={state.reviews} /> : <div className="lesson">
             <div>
                 <p><strong>{props.concept.title}</strong></p>
                 <p>{props.concept.introduction}</p>
-                <button className="btn btn-success">Continue to review</button>
+                <button className="btn btn-success" onClick={startReview}>Continue to review</button>
             </div>
-        </div>
-    </div>
+        </div >}
+    </div >)
 }
 
 export function LessonPage() {
