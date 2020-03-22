@@ -1,17 +1,17 @@
 import React = require("react")
-import { useObserver, useLocalStore } from "mobx-react"
+import { useObserver, useLocalStore } from "mobx-react-lite"
 import { observable, action, computed } from "mobx"
 
 import { ConceptWithProgress } from "../shared/logic"
 
-import { AppContext } from "./context"
+import { AppContext } from "./AppContext"
 import _ = require("lodash")
 import { Link, Redirect } from "react-router-dom"
 import { AppLayout } from "./AppLayout"
 import { useContext } from "react"
 import { MultiReview } from "./MultiReview"
 import { Passage } from "./Passage"
-import { Concept } from '../shared/concepts'
+import { Concept } from '../shared/sunpedia'
 
 function readyToLearn(cwp: ConceptWithProgress) {
   return !cwp.progress || cwp.progress.level === 0
@@ -59,13 +59,14 @@ class LessonPageState {
 
 export function LessonPageLoaded(props: { concepts: Concept[] }) {
   const state = useLocalStore(() => new LessonPageState(props.concepts))
+  console.log(state.concept.title)
 
   function content() {
     if (state.showing === 'lesson') {
       return <div className="lesson">
         <div>
+          <p><strong>{state.concept.title}</strong></p>
           <Passage content={state.concept.content} />
-          {/* <p><strong>{state.concept.}</strong></p> */}
           {/* <Passage/> */}
           {/* <Markdown>{state.concept.introduction}</Markdown> */}
           {/* <MDXProvider components={{ ref: Reference }}><Content/></MDXProvider> */}

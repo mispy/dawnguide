@@ -1,10 +1,15 @@
 // @ts-ignore
 import Cite from 'citation-js'
 
-declare const require: any
+import conceptFiles from './concepts/*.mdx'
+import { computed } from 'mobx'
+
 type ConceptFile = {
-  bibliography: string
-  exercises: Exercise[]
+  metadata: {
+    title: string
+    exercises: Exercise[]
+    bibliography: string
+  }
   default: MDXElement
 }
 
@@ -13,31 +18,37 @@ export type Exercise = {
   answer: string
 }
 
-import _conceptFiles from './concepts/*.mdx'
-const conceptFiles = _conceptFiles as any as Record<string, ConceptFile>
-
 type MDXElement = (props: any) => JSX.Element
 
 export type Concept = {
   id: string
+  title: string
   exercises: Exercise[]
   content: MDXElement
 }
 
-export const concepts: Concept[] = []
+export class Sunpedia {
+  @computed get concepts(): Concept[] {
+    const concepts: Concept[] = []
 
-for (const id in conceptFiles) {
-  const file = conceptFiles[id]
-  console.log(file)
+    for (const id in (conceptFiles as Record<string, ConceptFile>)) {
+      const file = conceptFiles[id]
+      const { metadata } = file
+      console.log(file.metadata.title)
 
-  const cite = new Cite(file.bibliography)
-  console.log(cite.format('data', { format: 'object' }))
+      const cite = new Cite(metadata.bibliography)
+      console.log(cite.format('data', { format: 'object' }))
 
-  concepts.push({
-    id: id,
-    exercises: file.exercises,
-    content: conceptFiles[id].default
-  })
+      concepts.push({
+        id: id,
+        title: metadata.title,
+        exercises: metadata.exercises,
+        content: file.default
+      })
+    }
+
+    return concepts
+  }
 }
 
 // declare const require: any

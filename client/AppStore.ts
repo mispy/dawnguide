@@ -1,15 +1,18 @@
 import { observable, runInAction, computed } from "mobx"
 import { ConceptWithProgress, isReadyForReview } from "../shared/logic"
-import { Concept, Exercise } from "../shared/concepts"
+import { Concept, Exercise } from "../shared/sunpedia"
 import _ = require("lodash")
 import { SunpeepApi } from "./SunpeepApi"
+import { Sunpedia } from "../shared/sunpedia"
 
 export class AppStore {
   api: SunpeepApi
+  sunpedia: Sunpedia
   @observable conceptsWithProgress: ConceptWithProgress[] = []
 
-  constructor(api: SunpeepApi) {
-    this.api = api
+  constructor() {
+    this.sunpedia = new Sunpedia()
+    this.api = new SunpeepApi(this.sunpedia)
   }
 
   @computed get conceptsWithProgressById() {

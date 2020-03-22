@@ -1,10 +1,10 @@
 import React = require("react")
-import { useLocalStore, useObserver } from "mobx-react"
+import { useLocalStore, useObserver } from "mobx-react-lite"
 import { action } from "mobx"
 
 import _ = require("lodash")
 import { Exercise, Concept } from "../shared/concepts"
-import { AppContext } from "./context"
+import { AppContext } from "./AppContext"
 import { MemoryCard } from "./MemoryCard"
 import { useContext } from "react"
 

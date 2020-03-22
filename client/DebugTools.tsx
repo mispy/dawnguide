@@ -1,19 +1,19 @@
 import * as React from 'react'
-import { AppContext } from "./context"
+import { AppContext } from "./AppContext"
 import { useContext } from 'react'
 
 
 export const DebugTools = () => {
-    const { api } = useContext(AppContext)
+  const { api } = useContext(AppContext)
 
-    const moveReviewsForward = () => {
+  const moveReviewsForward = () => {
 
-    }
+  }
 
-    return <div className="DebugTools">
-        Debug Tools
+  return <div className="DebugTools">
+    Debug Tools
         <button className="btn" onClick={moveReviewsForward}>
-            Move Reviews Forward
+      Move Reviews Forward
         </button>
-    </div>
+  </div>
 }

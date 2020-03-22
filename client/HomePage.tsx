@@ -1,48 +1,42 @@
 import React = require("react")
-import { observer } from "mobx-react"
+import { useObserver } from "mobx-react-lite"
 import { AppLayout } from "./AppLayout"
-import { AppContext } from "./context"
-import { Concept, concepts } from "../shared/concepts"
-import { observable, runInAction, computed } from "mobx"
-import { ConceptProgressItem, isReadyForReview } from "../shared/logic"
+import { AppContext } from "./AppContext"
+import { Concept } from "../shared/sunpedia"
+import { ConceptProgressItem } from "../shared/logic"
 import _ = require("lodash")
 import { Container } from "react-bootstrap"
 import { Link } from "react-router-dom"
+import { useContext } from "react"
 
 interface ConceptWithProgress {
-    concept: Concept
-    progress?: ConceptProgressItem
+  concept: Concept
+  progress?: ConceptProgressItem
 }
 
-@observer
-export class HomePage extends React.Component {
-    static contextType = AppContext
-    declare context: React.ContextType<typeof AppContext>
+export function HomePage() {
+  const { store } = useContext(AppContext)
 
-    render() {
-        const { conceptsWithProgress } = this.context.store
-
-        return <AppLayout>
-            <Container style={{ marginTop: "2rem", textAlign: "left" }}>
-                <p>Sunpeep is a tool for learning useful concepts in psychology that can be applied to everyday life.</p>
-                {conceptsWithProgress.length ? <>
-                    <h3>Progress</h3>
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Concept</th>
-                                <th>Level</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {conceptsWithProgress.map(item => <tr key={item.concept.id}>
-                                <td><Link to={`/concept/${item.concept.id}`}>{item.concept.title}</Link></td>
-                                <td>{item.progress ? item.progress.level : 0}</td>
-                            </tr>)}
-                        </tbody>
-                    </table>
-                </> : undefined}
-            </Container>
-        </AppLayout>
-    }
+  return useObserver(() => <AppLayout>
+    <Container style={{ marginTop: "2rem", textAlign: "left" }}>
+      <p>Sunpeep is a tool for learning useful concepts in psychology that can be applied to everyday life.</p>
+      {store.conceptsWithProgress.length ? <>
+        <h3>Progress</h3>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Concept</th>
+              <th>Level</th>
+            </tr>
+          </thead>
+          <tbody>
+            {store.conceptsWithProgress.map(item => <tr key={item.concept.id}>
+              <td><Link to={`/concept/${item.concept.id}`}>{item.concept.title}</Link></td>
+              <td>{item.progress ? item.progress.level : 0}</td>
+            </tr>)}
+          </tbody>
+        </table>
+      </> : undefined}
+    </Container>
+  </AppLayout>)
 }

@@ -1,27 +1,27 @@
 import { useContext, useState, useEffect } from "react"
-import { AppContext } from "./context"
+import { AppContext } from "./AppContext"
 
 export const AdminPage = () => {
-    const [users, setUsers] = useState<User[]>([])
-    const { api } = useContext(AppContext)
+  const [users, setUsers] = useState<User[]>([])
+  const { api } = useContext(AppContext)
 
-    async function getUsers() {
-        const conceptsWithProgress = await api.admin.getUsers()
-        const reviews: Review[] = []
-        for (const c of conceptsWithProgress) {
-            if (c.progress && isReadyForReview(c.progress)) {
-                const exercise = _.sample(c.concept.exercises)
-                if (exercise) {
-                    reviews.push({ concept: c.concept, exercise: exercise })
-                }
-            }
+  async function getUsers() {
+    const conceptsWithProgress = await api.admin.getUsers()
+    const reviews: Review[] = []
+    for (const c of conceptsWithProgress) {
+      if (c.progress && isReadyForReview(c.progress)) {
+        const exercise = _.sample(c.concept.exercises)
+        if (exercise) {
+          reviews.push({ concept: c.concept, exercise: exercise })
         }
-        setReviews(reviews)
+      }
     }
+    setReviews(reviews)
+  }
 
-    useEffect(() => {
-        getUsers()
-    }, [])
+  useEffect(() => {
+    getUsers()
+  }, [])
 
-    return <ReviewsUI reviews={reviews} />
+  return <ReviewsUI reviews={reviews} />
 }

@@ -1,16 +1,17 @@
+import _ = require('lodash')
 import axios, { AxiosInstance } from 'axios'
+
 import { API_BASE_URL } from './settings'
 import { expectStrings } from './utils'
-import { concepts } from '../shared/concepts'
-import { ConceptWithProgress, UserConceptProgress, User } from '../shared/logic'
+import { ConceptWithProgress, User } from '../shared/logic'
 import { UserProgressItem } from '../shared/types'
-import _ = require('lodash')
+import { Sunpedia } from '../shared/sunpedia'
 
 export class SunpeepApi {
   http: AxiosInstance
   admin: AdminApi
 
-  constructor() {
+  constructor(readonly sunpedia: Sunpedia) {
     this.http = axios.create({
       baseURL: API_BASE_URL,
       timeout: 10000
@@ -29,7 +30,7 @@ export class SunpeepApi {
     const progressByConceptId = _.keyBy(progressItems, item => item.conceptId)
 
     const conceptsWithProgress: ConceptWithProgress[] = []
-    for (const concept of concepts) {
+    for (const concept of this.sunpedia.concepts) {
       const item = progressByConceptId[concept.id]
 
       conceptsWithProgress.push({
