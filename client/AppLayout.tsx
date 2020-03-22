@@ -11,15 +11,10 @@ export const AppLayout = (props: { children: any, noHeader?: boolean }) => {
     const noHeader = props.noHeader || false
     const [showAbout, setShowAbout] = useState(false)
 
-    const { api, store } = useContext(AppContext)
-
-    async function getProgress() {
-        const conceptsWithProgress = await api.getConceptsWithProgress()
-        runInAction(() => store.conceptsWithProgress = conceptsWithProgress)
-    }
+    const { store } = useContext(AppContext)
 
     useEffect(() => {
-        getProgress()
+        store.loadProgress()
     }, [])
 
     return useObserver(() => <div className="AppLayout">

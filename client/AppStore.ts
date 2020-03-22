@@ -2,9 +2,15 @@ import { observable, runInAction, computed } from "mobx"
 import { ConceptWithProgress, isReadyForReview, ConceptProgressItem } from "../shared/logic"
 import { Concept, Exercise } from "../shared/concepts"
 import _ = require("lodash")
+import { SunpeepApi } from "./SunpeepApi"
 
 export class AppStore {
+    api: SunpeepApi
     @observable conceptsWithProgress: ConceptWithProgress[] = []
+
+    constructor(api: SunpeepApi) {
+        this.api = api
+    }
 
     @computed get conceptsWithProgressById() {
         return _.keyBy(this.conceptsWithProgress, c => c.concept.id)
@@ -29,5 +35,10 @@ export class AppStore {
             }
         }
         return reviews
+    }
+
+    async loadProgress() {
+        const conceptsWithProgress = await this.api.getConceptsWithProgress()
+        runInAction(() => this.conceptsWithProgress = conceptsWithProgress)
     }
 }

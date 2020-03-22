@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom'
 import { observer } from 'mobx-react'
 import * as _ from 'lodash'
 
-import './app.scss'
+import './app.sass'
 import { AppRouter } from './AppRouter'
 import { SunpeepApi } from './SunpeepApi'
 import { AppContext } from './context'
@@ -12,9 +12,10 @@ import { AppStore } from './AppStore'
 @observer
 class App extends React.Component {
     render() {
+        const api = new SunpeepApi()
         const context = {
-            api: new SunpeepApi(),
-            store: new AppStore()
+            api: api,
+            store: new AppStore(api)
         }
 
         _.extend(window, context)

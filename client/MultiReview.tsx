@@ -8,18 +8,30 @@ import { matchesAnswerPermissively } from '../shared/logic'
 import { AppContext } from "./context"
 import { Link, Redirect } from "react-router-dom"
 import { MemoryCard } from "./MemoryCard"
+import { useContext } from "react"
 
 interface ExerciseWithConcept {
     concept: Concept
     exercise: Exercise
 }
 
-export function MultiReview(props: { reviews: ExerciseWithConcept[] }) {
-    const { reviews } = props
+export function MultiReview(props: { reviews: ExerciseWithConcept[], onComplete: () => void }) {
+    const { reviews, onComplete } = props
     const state = useLocalStore(() => ({ reviewIndex: 0 }))
+    const { api } = useContext(AppContext)
+
+    const onCardComplete = action((remembered: boolean) => {
+        api.submitProgress(reviews[state.reviewIndex].concept.id, remembered)
+
+        if (state.reviewIndex >= props.reviews.length - 2) {
+            onComplete()
+        } else {
+            state.reviewIndex += 1
+        }
+    })
 
     return useObserver(() => <div className="MultiReview">
-        <MemoryCard review={reviews[state.reviewIndex]} onSubmit={() => ''} />
+        <MemoryCard review={reviews[state.reviewIndex]} onSubmit={onCardComplete} />
     </div>)
 }
 

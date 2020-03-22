@@ -20,10 +20,15 @@ function readyToLearn(cwp: ConceptWithProgress) {
 }
 
 class LessonPageState {
-    @observable reviewing: boolean = true
+    @observable showing: 'lesson' | 'reviews' | 'complete' = 'complete'
+    @observable conceptIndex: number = 0
     @observable exerciseIndex: number = 0
 
-    constructor(readonly concept: Concept) {
+    constructor(readonly concepts: Concept[]) {
+    }
+
+    @computed get concept() {
+        return this.concepts[this.conceptIndex]
     }
 
     @computed get exercise() {
@@ -38,27 +43,57 @@ class LessonPageState {
             }
         })
     }
+
+    @action.bound startReview() {
+        this.showing = 'reviews'
+    }
+
+    @action.bound completeReview() {
+        this.showing = 'complete'
+    }
+
+    @action.bound nextLesson() {
+        this.conceptIndex += 1
+        this.exerciseIndex = 0
+        this.showing = 'lesson'
+    }
 }
 
-export function LessonPageLoaded(props: { concept: Concept }) {
-    const state = useLocalStore(() => new LessonPageState(props.concept))
+export function LessonPageLoaded(props: { concepts: Concept[] }) {
+    const state = useLocalStore(() => new LessonPageState(props.concepts))
 
-    const startReview = action(() => {
-        state.reviewing = true
-    })
+    function content() {
+        if (state.showing === 'lesson') {
+            return <div className="lesson">
+                <div>
+                    <p><strong>{state.concept.title}</strong></p>
+                    <p>{state.concept.introduction}</p>
+                    <button className="btn btn-success" onClick={state.startReview}>Continue to review</button>
+                </div>
+            </div>
+        } else if (state.showing === 'reviews') {
+            return <MultiReview reviews={state.reviews} onComplete={state.completeReview} />
+        } else {
+            return <div className="d-flex justify-content-center">
+                <div>
+                    <div className="text-center mb-2">
+                        Lesson complete!
+                    </div>
+                    <div>
+                        <Link className="btn" to="/home">Home</Link>
+                        {state.conceptIndex < state.concepts.length - 1 && <button className="btn ml-2" onClick={state.nextLesson}>Next Lesson</button>}
+                    </div>
+                </div>
+            </div>
+        }
+    }
 
     return useObserver(() => <div className="LessonPage">
         <div className="topbar">
             <Link to="/home">Home</Link>
         </div>
 
-        {state.reviewing ? <MultiReview reviews={state.reviews} /> : <div className="lesson">
-            <div>
-                <p><strong>{props.concept.title}</strong></p>
-                <p>{props.concept.introduction}</p>
-                <button className="btn btn-success" onClick={startReview}>Continue to review</button>
-            </div>
-        </div >}
+        {content()}
     </div >)
 }
 
@@ -71,13 +106,13 @@ export function LessonPage() {
         if (isLoading)
             return <div>Loading...</div>
 
-        const cwp = store.conceptsWithProgress.find(c => readyToLearn(c))
-        if (!cwp) {
+        const learnableConcepts = store.conceptsWithProgress.filter(c => readyToLearn(c))
+        if (!learnableConcepts.length) {
             // Nothing ready to learn
             return <Redirect to="/home" />
         }
 
-        return <LessonPageLoaded concept={cwp.concept} />
+        return <LessonPageLoaded concepts={learnableConcepts.map(c => c.concept)} />
     }
 
     return useObserver(() => {

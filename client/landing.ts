@@ -1,1 +1,1 @@
-import './landing.scss'
+import './landing.sass'
