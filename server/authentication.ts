@@ -7,56 +7,56 @@ import { BASE_URL } from './settings'
 import _ = require('lodash')
 
 export interface SessionRequest extends Request {
-    session: db.Session
-    params: QueryParams
+  session: db.Session
+  params: QueryParams
 }
 
 export async function signup(req: Request) {
-    const body = await expectRequestJson(req)
-    const { username, email, password } = expectStrings(body, 'username', 'email', 'password')
+  const body = await expectRequestJson(req)
+  const { username, email, password } = expectStrings(body, 'username', 'email', 'password')
 
-    const user = await db.users.create({ username, email, password })
+  const user = await db.users.create({ username, email, password })
 
-    // Log the user in to their first session
-    const sessionKey = await db.sessions.create(user.id)
+  // Log the user in to their first session
+  const sessionKey = await db.sessions.create(user.id)
 
-    const res = redirect('/')
-    res.headers.set('Set-Cookie', sessionCookie(sessionKey))
-    return res
+  const res = redirect('/')
+  res.headers.set('Set-Cookie', sessionCookie(sessionKey))
+  return res
 }
 
 export async function login(req: Request) {
-    const body = await expectRequestJson(req)
-    const { usernameOrEmail, password } = expectStrings(body, 'usernameOrEmail', 'password')
+  const body = await expectRequestJson(req)
+  const { usernameOrEmail, password } = expectStrings(body, 'usernameOrEmail', 'password')
 
-    const sessionKey = await expectLogin(usernameOrEmail, password)
+  const sessionKey = await expectLogin(usernameOrEmail, password)
 
-    const res = redirect('/')
-    res.headers.set('Set-Cookie', sessionCookie(sessionKey))
-    return res
+  const res = redirect('/')
+  res.headers.set('Set-Cookie', sessionCookie(sessionKey))
+  return res
 }
 
 export async function resetPasswordStart(req: Request) {
-    const body = await expectRequestJson(req)
-    const { email } = expectStrings(body, 'email')
-    const user = await db.users.getByEmail(email)
+  const body = await expectRequestJson(req)
+  const { email } = expectStrings(body, 'email')
+  const user = await db.users.getByEmail(email)
 
-    if (user) {
-        const token = await db.passwordResets.create(user.email)
-        await sendMail({
-            to: user.email,
-            from: "Sunpeep <sunpeep@example.com>",
-            subject: "Reset your password",
-            text: `Reset password here: ${BASE_URL}/reset-password/${token}`
-        })
-    }
+  if (user) {
+    const token = await db.passwordResets.create(user.email)
+    await sendMail({
+      to: user.email,
+      from: "Sunpeep <sunpeep@example.com>",
+      subject: "Reset your password",
+      text: `Reset password here: ${BASE_URL}/reset-password/${token}`
+    })
+  }
 }
 
 export async function serveResetPasswordForm(req: Request) {
-    const token = _.last(req.url.split('/')) as string
-    const email = await db.passwordResets.get(token)
+  const token = _.last(req.url.split('/')) as string
+  const email = await db.passwordResets.get(token)
 
-    const html = `
+  const html = `
     <!doctype html>
     <html lang="en">
     
@@ -84,68 +84,68 @@ export async function serveResetPasswordForm(req: Request) {
     </html>
     `.trim()
 
-    return new Response(html)
+  return new Response(html)
 }
 
 
 export async function resetPasswordFinish(req: Request) {
-    const body = await expectRequestJson(req)
-    const { newPassword, token } = expectStrings(body, 'newPassword', 'token')
+  const body = await expectRequestJson(req)
+  const { newPassword, token } = expectStrings(body, 'newPassword', 'token')
 
-    const email = await db.passwordResets.get(token)
-    if (!email) {
-        throw new Error("Invalid or expired token")
-    }
+  const email = await db.passwordResets.get(token)
+  if (!email) {
+    throw new Error("Invalid or expired token")
+  }
 
-    const user = await db.users.expectByEmail(email)
-    user.cryptedPassword = db.users.encryptPassword(newPassword)
-    await db.users.save(user)
+  const user = await db.users.expectByEmail(email)
+  user.cryptedPassword = db.users.encryptPassword(newPassword)
+  await db.users.save(user)
 
-    // Password updated, now log the user in
-    const sessionKey = await db.sessions.create(user.id)
-    const res = redirect('/')
-    res.headers.set('Set-Cookie', sessionCookie(sessionKey))
-    return res
+  // Password updated, now log the user in
+  const sessionKey = await db.sessions.create(user.id)
+  const res = redirect('/')
+  res.headers.set('Set-Cookie', sessionCookie(sessionKey))
+  return res
 }
 
 export async function logout(req: Request) {
-    const session = await getSession(req)
-    if (session) {
-        await db.sessions.expire(session.key)
-    }
-    return redirect('/')
+  const session = await getSession(req)
+  if (session) {
+    await db.sessions.expire(session.key)
+  }
+  return redirect('/')
 }
 
 export async function getSession(req: Request) {
-    const cookies = cookie.parse(req.headers.get('cookie') || '')
-    const sessionKey = cookies['sessionKey']
-    return sessionKey ? await db.sessions.get(sessionKey) : null
+  const cookies = cookie.parse(req.headers.get('cookie') || '')
+  const sessionKey = cookies['sessionKey']
+  return sessionKey ? await db.sessions.get(sessionKey) : null
 }
 
 function sessionCookie(sessionKey: string) {
-    return cookie.serialize('sessionKey', sessionKey, {
-        httpOnly: true,
-        maxAge: 60 * 60 * 24 * 7 // 1 week
-    })
+  return cookie.serialize('sessionKey', sessionKey, {
+    httpOnly: true,
+    maxAge: 60 * 60 * 24 * 7 // 1 week
+  })
 }
 
 async function expectLogin(usernameOrEmail: string, password: string): Promise<string> {
-    let user = await db.users.getByEmail(usernameOrEmail)
-    if (!user) {
-        user = await db.users.getByUsername(usernameOrEmail)
-    }
-    if (!user) {
-        throw new Error("Invalid user or password")
-    }
+  let user = await db.users.getByEmail(usernameOrEmail)
+  if (!user) {
+    user = await db.users.getByUsername(usernameOrEmail)
+  }
+  if (!user) {
+    throw new Error("Invalid user or password")
+  }
 
-    // Must be done synchronously or CF will think worker never exits
-    const validPassword = bcrypt.compareSync(password, user.cryptedPassword)
+  // Must be done synchronously or CF will think worker never exits
+  const validPassword = bcrypt.compareSync(password, user.cryptedPassword)
 
-    if (validPassword) {
-        // Login successful
-        const sessionKey = await db.sessions.create(user.id)
-        return sessionKey
-    } else {
-        throw new Error("Invalid user or password")
-    }
+  if (validPassword) {
+    // Login successful
+    const sessionKey = await db.sessions.create(user.id)
+    return sessionKey
+  } else {
+    throw new Error("Invalid user or password")
+  }
 }

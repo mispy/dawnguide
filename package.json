@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "client": "parcel ./public/index.html",
+    "client": "parcel ./public/*.html",
     "build": "rm -rf dist/* && parcel build ../public/index.html -d ../dist"
   },
   "dependencies": {

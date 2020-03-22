@@ -26,7 +26,7 @@ function BibliographyReference(props: { reference: Reference }) {
 
   const year = ref.issued['date-parts'][0]
 
-  return <li>
+  return <li id={ref.id}>
     {authorStr} ({year}). <a href={ref.URL}>{ref.title}</a> <em>{ref['container-title']}</em>, <em>{ref.volume}</em>({ref.issue}), {ref.page}.
   </li>
 }
