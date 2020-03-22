@@ -1,6 +1,10 @@
 {
-    "typescript.tsdk": "node_modules/typescript/lib",
-    "[typescriptreact]": {
-        "editor.formatOnSave": true
-    }
+  "editor.tabSize": 2,
+  "editor.wordWrap": true,
+  "editor.detectIndentation": false,
+  "editor.formatOnSave": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "[typescriptreact]": {
+    "editor.formatOnSave": true
+  }
 }

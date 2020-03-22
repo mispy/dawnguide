@@ -1,125 +1,126 @@
 import React = require("react")
-import { observer, useObserver, useLocalStore } from "mobx-react"
+import { useObserver, useLocalStore } from "mobx-react"
 import { observable, action, computed } from "mobx"
 
 import { ConceptWithProgress } from "../shared/logic"
 
-import { ReviewsUI } from "./ReviewsUI"
 import { AppContext } from "./context"
 import _ = require("lodash")
 import { Link, Redirect } from "react-router-dom"
 import { AppLayout } from "./AppLayout"
-import { AppStore } from "./AppStore"
 import { useContext } from "react"
-import { Concept } from "../shared/concepts"
 import { MultiReview } from "./MultiReview"
-
+import { Passage } from "./Passage"
+import { Concept } from '../shared/concepts'
 
 function readyToLearn(cwp: ConceptWithProgress) {
-    return !cwp.progress || cwp.progress.level === 0
+  return !cwp.progress || cwp.progress.level === 0
 }
 
 class LessonPageState {
-    @observable showing: 'lesson' | 'reviews' | 'complete' = 'complete'
-    @observable conceptIndex: number = 0
-    @observable exerciseIndex: number = 0
+  @observable showing: 'lesson' | 'reviews' | 'complete' = 'lesson'
+  @observable conceptIndex: number = 0
+  @observable exerciseIndex: number = 0
 
-    constructor(readonly concepts: Concept[]) {
-    }
+  constructor(readonly concepts: Concept[]) {
+  }
 
-    @computed get concept() {
-        return this.concepts[this.conceptIndex]
-    }
+  @computed get concept() {
+    return this.concepts[this.conceptIndex]
+  }
 
-    @computed get exercise() {
-        return this.concept.exercises[this.exerciseIndex]
-    }
+  @computed get exercise() {
+    return this.concept.exercises[this.exerciseIndex]
+  }
 
-    @computed get reviews() {
-        return this.concept.exercises.map(e => {
-            return {
-                concept: this.concept,
-                exercise: e
-            }
-        })
-    }
+  @computed get reviews() {
+    return this.concept.exercises.map(e => {
+      return {
+        concept: this.concept,
+        exercise: e
+      }
+    })
+  }
 
-    @action.bound startReview() {
-        this.showing = 'reviews'
-    }
+  @action.bound startReview() {
+    this.showing = 'reviews'
+  }
 
-    @action.bound completeReview() {
-        this.showing = 'complete'
-    }
+  @action.bound completeReview() {
+    this.showing = 'complete'
+  }
 
-    @action.bound nextLesson() {
-        this.conceptIndex += 1
-        this.exerciseIndex = 0
-        this.showing = 'lesson'
-    }
+  @action.bound nextLesson() {
+    this.conceptIndex += 1
+    this.exerciseIndex = 0
+    this.showing = 'lesson'
+  }
 }
 
 export function LessonPageLoaded(props: { concepts: Concept[] }) {
-    const state = useLocalStore(() => new LessonPageState(props.concepts))
+  const state = useLocalStore(() => new LessonPageState(props.concepts))
 
-    function content() {
-        if (state.showing === 'lesson') {
-            return <div className="lesson">
-                <div>
-                    <p><strong>{state.concept.title}</strong></p>
-                    <p>{state.concept.introduction}</p>
-                    <button className="btn btn-success" onClick={state.startReview}>Continue to review</button>
-                </div>
-            </div>
-        } else if (state.showing === 'reviews') {
-            return <MultiReview reviews={state.reviews} onComplete={state.completeReview} />
-        } else {
-            return <div className="d-flex justify-content-center">
-                <div>
-                    <div className="text-center mb-2">
-                        Lesson complete!
-                    </div>
-                    <div>
-                        <Link className="btn" to="/home">Home</Link>
-                        {state.conceptIndex < state.concepts.length - 1 && <button className="btn ml-2" onClick={state.nextLesson}>Next Lesson</button>}
-                    </div>
-                </div>
-            </div>
-        }
-    }
-
-    return useObserver(() => <div className="LessonPage">
-        <div className="topbar">
-            <Link to="/home">Home</Link>
+  function content() {
+    if (state.showing === 'lesson') {
+      return <div className="lesson">
+        <div>
+          <Passage content={state.concept.content} />
+          {/* <p><strong>{state.concept.}</strong></p> */}
+          {/* <Passage/> */}
+          {/* <Markdown>{state.concept.introduction}</Markdown> */}
+          {/* <MDXProvider components={{ ref: Reference }}><Content/></MDXProvider> */}
+          <button className="btn" onClick={state.startReview}>Continue to review</button>
         </div>
+      </div>
+    } else if (state.showing === 'reviews') {
+      return <MultiReview reviews={state.reviews} onComplete={state.completeReview} />
+    } else {
+      return <div className="d-flex justify-content-center">
+        <div>
+          <div className="text-center mb-2">
+            Lesson complete!
+                    </div>
+          <div>
+            <Link className="btn" to="/home">Home</Link>
+            {state.conceptIndex < state.concepts.length - 1 && <button className="btn ml-2" onClick={state.nextLesson}>Next Lesson</button>}
+          </div>
+        </div>
+      </div>
+    }
+  }
 
-        {content()}
-    </div >)
+  return useObserver(() => <div className="LessonPage">
+    <div className="topbar">
+      <Link to="/home">Home</Link>
+    </div>
+
+    {content()}
+  </div >)
 }
 
 export function LessonPage() {
-    const { store } = useContext(AppContext)
+  const { store } = useContext(AppContext)
 
-    function content() {
-        const isLoading = !store.conceptsWithProgress.length
+  function content() {
+    const isLoading = !store.conceptsWithProgress.length
 
-        if (isLoading)
-            return <div>Loading...</div>
+    if (isLoading)
+      return <div>Loading...</div>
 
-        const learnableConcepts = store.conceptsWithProgress.filter(c => readyToLearn(c))
-        if (!learnableConcepts.length) {
-            // Nothing ready to learn
-            return <Redirect to="/home" />
-        }
-
-        return <LessonPageLoaded concepts={learnableConcepts.map(c => c.concept)} />
+    const learnableConcepts = store.conceptsWithProgress.filter(c => readyToLearn(c))
+    if (!learnableConcepts.length) {
+      // Nothing ready to learn
+      return <Redirect to="/home" />
     }
 
-    return useObserver(() => {
-        return <AppLayout noHeader>
-            {content()}
-        </AppLayout>
-    })
+    return <LessonPageLoaded concepts={learnableConcepts.map(c => c.concept)} />
+  }
+
+  return useObserver(() => {
+    return <AppLayout noHeader>
+      {content()}
+    </AppLayout>
+  })
 }
 
     // @observer
