@@ -59,14 +59,13 @@ class LessonPageState {
 
 export function LessonPageLoaded(props: { concepts: Concept[] }) {
   const state = useLocalStore(() => new LessonPageState(props.concepts))
-  console.log(state.concept.title)
 
   function content() {
     if (state.showing === 'lesson') {
       return <div className="lesson">
         <div>
           <p><strong>{state.concept.title}</strong></p>
-          <Passage content={state.concept.content} />
+          <Passage concept={state.concept} />
           {/* <Passage/> */}
           {/* <Markdown>{state.concept.introduction}</Markdown> */}
           {/* <MDXProvider components={{ ref: Reference }}><Content/></MDXProvider> */}

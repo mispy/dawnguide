@@ -24,30 +24,91 @@ export type Concept = {
   id: string
   title: string
   exercises: Exercise[]
+  references: Reference[]
   content: MDXElement
 }
 
+export type Reference = {
+  id: string
+  title: string
+  author: { given: string, family: string }[]
+  "container-title": string
+  volume: number
+  issue: number
+  page: string
+  publisher: string
+  URL: string
+  issued: { "date-parts": number[] }
+}
+
 export class Sunpedia {
-  @computed get concepts(): Concept[] {
+  concepts: Concept[]
+
+  constructor() {
     const concepts: Concept[] = []
 
     for (const id in (conceptFiles as Record<string, ConceptFile>)) {
       const file = conceptFiles[id]
       const { metadata } = file
-      console.log(file.metadata.title)
 
-      const cite = new Cite(metadata.bibliography)
-      console.log(cite.format('data', { format: 'object' }))
+      // {
+      //   "title": "Distributed practice in verbal recall tasks: A review and quantitative synthesis.",
+      //   "author": [
+      //     {
+      //       "given": "Nicholas J",
+      //       "family": "Cepeda"
+      //     },
+      //     {
+      //       "given": "Harold",
+      //       "family": "Pashler"
+      //     },
+      //     {
+      //       "given": "Edward",
+      //       "family": "Vul"
+      //     },
+      //     {
+      //       "given": "John T",
+      //       "family": "Wixted"
+      //     },
+      //     {
+      //       "given": "Doug",
+      //       "family": "Rohrer"
+      //     }
+      //   ],
+      //   "container-title": "Psychological bulletin",
+      //   "volume": 132,
+      //   "issue": 3,
+      //   "page": "354",
+      //   "publisher": "American Psychological Association",
+      //   "URL": "https://escholarship.org/content/qt3rr6q10c/qt3rr6q10c.pdf",
+      //   "type": "article-journal",
+      //   "citation-label": "cepeda2006distributed",
+      //   "id": "cepeda2006distributed",
+      //   "year-suffix": "distributed",
+      //   "issued": {
+      //     "date-parts": [
+      //       [
+      //         2006
+      //       ]
+      //     ]
+      //   },
+      // }
+
+      // Cepeda, N. J., Pashler, H., Vul, E., Wixted, J. T., & Rohrer, D. (2006). Distributed practice in verbal recall tasks: A review and quantitative synthesis. Psychological Bulletin, 132(3), 354.
+
+      // console.log(cite.get())
+      // console.log(cite.format('bibliography', { format: 'html', template: 'apa' }))
 
       concepts.push({
         id: id,
         title: metadata.title,
         exercises: metadata.exercises,
+        references: new Cite(metadata.bibliography).get(),
         content: file.default
       })
     }
 
-    return concepts
+    this.concepts = concepts
   }
 }
 
