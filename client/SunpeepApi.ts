@@ -10,6 +10,7 @@ import { Sunpedia } from '../shared/sunpedia'
 export class SunpeepApi {
   http: AxiosInstance
   admin: AdminApi
+  debug: DebugApi
 
   constructor(readonly sunpedia: Sunpedia) {
     this.http = axios.create({
@@ -18,6 +19,7 @@ export class SunpeepApi {
     })
 
     this.admin = new AdminApi(this.http)
+    this.debug = new DebugApi(this.http)
   }
 
   async getProgressItems(): Promise<UserProgressItem[]> {
@@ -53,13 +55,22 @@ export class SunpeepApi {
 }
 
 export class AdminApi {
-  http: AxiosInstance
-  constructor(http: AxiosInstance) {
-    this.http = http
-  }
+  constructor(readonly http: AxiosInstance) { }
 
   async getUsers(): Promise<{ users: User[] }> {
     const { data } = await this.http.get('/api/admin/users')
     return data
+  }
+}
+
+export class DebugApi {
+  constructor(readonly http: AxiosInstance) { }
+
+  async resetProgress() {
+    await this.http.post('/api/debug', { action: 'resetProgress' })
+  }
+
+  async moveReviewsForward() {
+    await this.http.post('/api/debug', { action: 'moveReviewsForward' })
   }
 }

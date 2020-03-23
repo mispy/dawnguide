@@ -1,19 +1,23 @@
-import * as React from 'react'
+import { useContext } from "react"
+import React = require("react")
+
 import { AppContext } from "./AppContext"
-import { useContext } from 'react'
 
+export function DebugTools() {
+  const { store, api } = useContext(AppContext)
 
-export const DebugTools = () => {
-  const { api } = useContext(AppContext)
-
-  const moveReviewsForward = () => {
-
+  const moveReviewsForward = async () => {
+    await api.debug.moveReviewsForward()
+    await store.loadProgress()
   }
 
-  return <div className="DebugTools">
-    Debug Tools
-        <button className="btn" onClick={moveReviewsForward}>
-      Move Reviews Forward
-        </button>
-  </div>
+  const resetProgress = async () => {
+    await api.debug.resetProgress()
+    await store.loadProgress()
+  }
+
+  return <section className="DebugTools">
+    <p><button className="btn" onClick={moveReviewsForward}>Debug: Move Reviews Forward</button></p>
+    <p><button className="btn" onClick={resetProgress}>Debug: Reset Progress</button></p>
+  </section>
 }

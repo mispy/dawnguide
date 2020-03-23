@@ -9,14 +9,16 @@ import { Container } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { useContext } from "react"
 import { showReviewTime } from "./ConceptPage"
+import { DebugTools } from "./DebugTools"
 
 interface ConceptWithProgress {
   concept: Concept
   progress?: ExerciseProgressItem
 }
-
 export function HomePage() {
   const { store, sunpedia } = useContext(AppContext)
+
+  const debug = true
 
   return useObserver(() => <AppLayout>
     <Container style={{ marginTop: "2rem", textAlign: "left" }}>
@@ -42,6 +44,7 @@ export function HomePage() {
           </tbody>
         </table>
       </> : undefined}
+      {debug ? <DebugTools /> : undefined}
     </Container>
   </AppLayout>)
 }

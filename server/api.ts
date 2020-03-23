@@ -5,7 +5,7 @@ import db = require('./db')
 import { STRIPE_SECRET_KEY, BASE_URL } from "./settings"
 import http from "./http"
 import { UserProgressItem } from '../shared/types'
-import { User } from "../shared/logic"
+import { User, getReviewTime } from "../shared/logic"
 
 export async function processRequest(req: SessionRequest) {
   const r = new Router()
@@ -123,9 +123,22 @@ async function startCheckout(req: SessionRequest): Promise<{ checkoutSessionId: 
 
 async function debugHandler(req: SessionRequest) {
   const { userId } = req.session
-  if (req.params.action == 'moveReviewsForward') {
-    // const progress = await db.learningProgress.get(userId)
-    // await db.learningProgress.set(userId, progress)
+  const json = await expectRequestJson<{ action: string }>(req)
+
+  if (json.action === 'resetProgress') {
+    await db.progressItems.setAll(userId, [])
+  } else if (json.action === 'moveReviewsForward') {
+    const items = await db.progressItems.allFor(userId)
+
+    const now = Date.now()
+    for (const item of items) {
+      const nextReview = getReviewTime(item)
+      if (nextReview > now)
+        item.reviewedAt -= (nextReview - now)
+    }
+    await db.progressItems.setAll(userId, items)
+  } else {
+    throw new Error(`Unknown debug action ${json.action}`)
   }
 }
 
