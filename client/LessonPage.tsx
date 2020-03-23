@@ -10,6 +10,10 @@ import { useContext } from "react"
 import { Passage } from "../shared/Passage"
 import { Concept } from '../shared/sunpedia'
 import { MemoryCard, ExerciseWithConcept } from './MemoryCard'
+import { Container } from "react-bootstrap"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+
 
 function LessonReviews(props: { reviews: ExerciseWithConcept[], onComplete: () => void }) {
   const { reviews, onComplete } = props
@@ -88,15 +92,17 @@ function LessonPageLoaded(props: { concepts: Concept[] }) {
 
   function content() {
     if (state.showing === 'lesson') {
-      return <div className="lesson">
+      return <Container className="lesson">
         <div>
           <Passage concept={state.concept} />
           {/* <Passage/> */}
           {/* <Markdown>{state.concept.introduction}</Markdown> */}
           {/* <MDXProvider components={{ ref: Reference }}><Content/></MDXProvider> */}
-          <button className="btn" onClick={state.startReview}>Continue to review</button>
+          <div className="d-flex justify-content-end">
+            <button className="btn btn-sun" onClick={state.startReview}>Continue to review <FontAwesomeIcon icon={faArrowRight} /></button>
+          </div>
         </div>
-      </div>
+      </Container>
     } else if (state.showing === 'reviews') {
       return <LessonReviews reviews={state.reviews} onComplete={state.completeReview} />
     } else {
@@ -104,10 +110,10 @@ function LessonPageLoaded(props: { concepts: Concept[] }) {
         <div>
           <div className="text-center mb-2">
             Lesson complete!
-                    </div>
+          </div>
           <div>
-            <Link className="btn" to="/home">Home</Link>
-            {state.conceptIndex < state.concepts.length - 1 && <button className="btn ml-2" onClick={state.nextLesson}>Next Lesson</button>}
+            <Link className="btn btn-sun" to="/home">Home</Link>
+            {state.conceptIndex < state.concepts.length - 1 && <button className="btn btn-sun ml-2" onClick={state.nextLesson}>Next Lesson</button>}
           </div>
         </div>
       </div>

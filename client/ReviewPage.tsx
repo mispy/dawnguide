@@ -28,6 +28,18 @@ export function ReviewPage() {
     if (!store.reviews.length)
       return <div>Nothing to review!</div>
 
+    if (state.complete)
+      return <div className="d-flex justify-content-center">
+        <div>
+          <div className="text-center mb-2">
+            All reviews complete!
+        </div>
+          <div>
+            <Link className="btn" to="/home">Home</Link>
+          </div>
+        </div>
+      </div>
+
     return <MultiReview reviews={store.reviews} onComplete={state.completeReview} />
   }
 

@@ -30,7 +30,6 @@ export function ConceptPage(props: { concept: Concept }) {
   return useObserver(() => {
     // const conceptProgress = store.conceptsWithProgressById[concept.id]
     const exercisesWithProgress = store.exercisesWithProgress.filter(ewp => ewp.exercise.conceptId === concept.id)
-    console.log(exercisesWithProgress)
 
     return <AppLayout>
       <main className="ConceptPage">
@@ -40,12 +39,14 @@ export function ConceptPage(props: { concept: Concept }) {
             <h2>Exercises</h2>
             <table className="table">
               <thead>
-                <th>Question</th>
-                <th>Answer</th>
-                <th>Next Review</th>
+                <tr>
+                  <th>Question</th>
+                  <th>Answer</th>
+                  <th>Next Review</th>
+                </tr>
               </thead>
               <tbody>
-                {exercisesWithProgress.map(ewp => <tr>
+                {exercisesWithProgress.map(ewp => <tr key={ewp.exercise.id}>
                   <td><Markdown>{ewp.exercise.question}</Markdown></td>
                   <td><Markdown>{ewp.exercise.answer}</Markdown></td>
                   <td>{showReviewTime(ewp)}</td>

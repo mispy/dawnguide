@@ -17,7 +17,7 @@ export function DebugTools() {
   }
 
   return <section className="DebugTools">
-    <p><button className="btn" onClick={moveReviewsForward}>Debug: Move Reviews Forward</button></p>
-    <p><button className="btn" onClick={resetProgress}>Debug: Reset Progress</button></p>
+    <p><button className="btn btn-sun" onClick={moveReviewsForward}>Debug: Move Reviews Forward</button></p>
+    <p><button className="btn btn-sun" onClick={resetProgress}>Debug: Reset Progress</button></p>
   </section>
 }

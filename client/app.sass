@@ -6,13 +6,16 @@ body
   margin: 0
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
 
-.btn
+.btn-sun
   background: $base-color
   color: white
 
-.btn:hover
+.btn-sun:hover
   color: white
   background: darken($base-color, 10)
+
+.container
+  max-width: 850px
 
 .AppHeader
   position: sticky
@@ -62,7 +65,8 @@ body
     -webkit-text-fill-color: #fff
 
 .topbar
-  padding: 2em
+  padding-left: 2rem
+  padding-top: 2rem
 
   a
     color: #999
@@ -70,9 +74,10 @@ body
 .LessonPage
   height: 100%
 
+  padding-bottom: 4rem
+
   .lesson
     margin: auto
-    max-width: 600px
 
 .LessonsEndOverlay
   position: fixed
@@ -274,12 +279,13 @@ ul.navigation-shortcuts
     margin-top: 0.5rem
     display: flex
 
-  button
-    flex-grow: 1
-    cursor: pointer
+    button
+      flex-grow: 1
+      cursor: pointer
+      padding-left: 0.3rem
 
-  button:first-child
-    margin-right: 0.5rem
+    button:first-child
+      margin-right: 0.5rem
 
 .ConceptPage, .LessonPage
   h1

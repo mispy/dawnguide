@@ -16,7 +16,7 @@ interface ExerciseWithConcept {
 
 export function MultiReview(props: { reviews: ExerciseWithConcept[], onComplete: () => void }) {
   const { reviews, onComplete } = props
-  const state = useLocalStore(() => ({ reviews: _.clone(reviews).reverse() }))
+  const state = useLocalStore(() => ({ showConcept: false, reviews: _.clone(reviews).reverse() }))
   const { api } = useContext(AppContext)
 
   const onCardComplete = action((remembered: boolean) => {
