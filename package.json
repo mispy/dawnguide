@@ -1,7 +1,7 @@
 {
   "scripts": {
     "client": "parcel serve ./public/*.html -d tmp",
-    "build-client": "rm -rf dist/* && parcel build ./public/*.html -d dist",
+    "build-client": "rm -rf dist/* && parcel build ./public/*.html -d dist --public-url https://sunpeep.suns.workers.dev/",
     "build-server": "cd server && yarn build",
     "build": "yarn build-server && yarn build-client",
     "deploy": "wrangler publish"
