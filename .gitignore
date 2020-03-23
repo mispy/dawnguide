@@ -7,3 +7,4 @@ store.json
 .env
 .cache
 server/worker/*
+tmp
