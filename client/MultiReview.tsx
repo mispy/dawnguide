@@ -3,10 +3,11 @@ import { useLocalStore, useObserver } from "mobx-react-lite"
 import { action } from "mobx"
 
 import _ = require("lodash")
-import { Exercise, Concept } from "../shared/concepts"
+import { Exercise } from "../shared/types"
 import { AppContext } from "./AppContext"
 import { MemoryCard } from "./MemoryCard"
 import { useContext } from "react"
+import { Concept } from "../shared/sunpedia"
 
 interface ExerciseWithConcept {
   concept: Concept
@@ -15,21 +16,26 @@ interface ExerciseWithConcept {
 
 export function MultiReview(props: { reviews: ExerciseWithConcept[], onComplete: () => void }) {
   const { reviews, onComplete } = props
-  const state = useLocalStore(() => ({ reviewIndex: 0 }))
+  const state = useLocalStore(() => ({ reviews: _.shuffle(reviews) }))
   const { api } = useContext(AppContext)
 
   const onCardComplete = action((remembered: boolean) => {
-    api.submitProgress(reviews[state.reviewIndex].concept.id, remembered)
+    const review = state.reviews[state.reviews.length - 1]
+    api.submitProgress(review.concept.id, remembered)
 
-    if (state.reviewIndex >= props.reviews.length - 2) {
-      onComplete()
+    if (remembered) {
+      state.reviews.pop()
+      if (state.reviews.length === 0) {
+        onComplete()
+      }
     } else {
-      state.reviewIndex += 1
+      // Didn't remember, shuffle the cards
+      state.reviews = _.shuffle(state.reviews)
     }
   })
 
   return useObserver(() => <div className="MultiReview">
-    <MemoryCard review={reviews[state.reviewIndex]} onSubmit={onCardComplete} />
+    <MemoryCard review={state.reviews[state.reviews.length - 1]} onSubmit={onCardComplete} />
   </div>)
 }
 

@@ -1,55 +1,52 @@
+
 // @ts-ignore
 import Cite from 'citation-js'
+import { computed, observable } from 'mobx'
 
-import conceptFiles from './concepts/*.mdx'
-import { computed } from 'mobx'
+import conceptDefs from './concepts'
+import { ConceptDef, Reference, Exercise, MarkdownString } from './types'
 
-type ConceptFile = {
-  metadata: {
-    title: string
-    exercises: Exercise[]
-    bibliography: string
+function parseBibliography(bibliography: string): Reference[] {
+  return new Cite(bibliography).get()
+}
+
+export class Concept {
+  @observable def: ConceptDef
+  constructor(def: ConceptDef) {
+    this.def = def
   }
-  default: MDXElement
-}
 
-export type Exercise = {
-  question: string
-  answer: string
-}
+  @computed get id(): string {
+    return this.def.id
+  }
 
-type MDXElement = (props: any) => JSX.Element
+  @computed get title(): string {
+    return this.def.title
+  }
 
-export type Concept = {
-  id: string
-  title: string
-  exercises: Exercise[]
-  references: Reference[]
-  content: MDXElement
-}
+  @computed get introduction(): MarkdownString {
+    return this.def.introduction.trim()
+  }
 
-export type Reference = {
-  id: string
-  title: string
-  author: { given: string, family: string }[]
-  "container-title": string
-  volume: number
-  issue: number
-  page: string
-  publisher: string
-  URL: string
-  issued: { "date-parts": number[] }
+  @computed get furtherReading(): MarkdownString {
+    return this.def.furtherReading
+  }
+
+  @computed get exercises(): Exercise[] {
+    return this.def.exercises
+  }
+
+  @computed get references(): Reference[] {
+    return parseBibliography(this.def.bibliography)
+  }
 }
 
 export class Sunpedia {
-  concepts: Concept[]
+  concepts: Concept[] = []
 
   constructor() {
-    const concepts: Concept[] = []
-
-    for (const id in (conceptFiles as Record<string, ConceptFile>)) {
-      const file = conceptFiles[id]
-      const { metadata } = file
+    for (const def of conceptDefs) {
+      this.concepts.push(new Concept(def))
 
       // {
       //   "title": "Distributed practice in verbal recall tasks: A review and quantitative synthesis.",
@@ -99,18 +96,8 @@ export class Sunpedia {
       // console.log(cite.get())
       // console.log(cite.format('bibliography', { format: 'html', template: 'apa' }))
 
-      concepts.push({
-        id: id,
-        title: metadata.title,
-        exercises: metadata.exercises,
-        references: new Cite(metadata.bibliography).get(),
-        content: file.default
-      })
     }
-
-    this.concepts = concepts
   }
-}
 
 // declare const require: any
 // const _ = require("lodash")

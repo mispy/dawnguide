@@ -10,7 +10,7 @@ import { Link, Redirect } from "react-router-dom"
 import { AppLayout } from "./AppLayout"
 import { useContext } from "react"
 import { MultiReview } from "./MultiReview"
-import { Passage } from "./Passage"
+import { Passage } from "../shared/Passage"
 import { Concept } from '../shared/sunpedia'
 
 function readyToLearn(cwp: ConceptWithProgress) {
@@ -64,7 +64,6 @@ export function LessonPageLoaded(props: { concepts: Concept[] }) {
     if (state.showing === 'lesson') {
       return <div className="lesson">
         <div>
-          <p><strong>{state.concept.title}</strong></p>
           <Passage concept={state.concept} />
           {/* <Passage/> */}
           {/* <Markdown>{state.concept.introduction}</Markdown> */}

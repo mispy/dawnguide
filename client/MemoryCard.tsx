@@ -1,9 +1,9 @@
-import { useEffect, useRef } from "react"
 import { useObserver, useLocalStore } from "mobx-react-lite"
 import React = require("react")
-import { Concept, Exercise } from "../shared/concepts"
+import { Concept } from "../shared/sunpedia"
 import classnames from 'classnames'
 import { action } from "mobx"
+import { Exercise } from "../shared/types"
 
 interface ExerciseWithConcept {
   concept: Concept
@@ -17,8 +17,8 @@ export function MemoryCard(props: { review: ExerciseWithConcept, onSubmit: (reme
 
   const reveal = action(() => state.revealed = true)
 
-  const didntRemember = action(() => onSubmit(false))
-  const remembered = action(() => onSubmit(true))
+  const didntRemember = action(() => { onSubmit(false); state.revealed = false })
+  const remembered = action(() => { onSubmit(true); state.revealed = false })
 
   return useObserver(() => <div className="MemoryCard">
     <div className="card">
