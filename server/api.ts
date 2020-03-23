@@ -6,11 +6,13 @@ import { STRIPE_SECRET_KEY, BASE_URL } from "./settings"
 import http from "./http"
 import { UserProgressItem } from '../shared/types'
 import { User, getReviewTime } from "../shared/logic"
+import { Sunpedia } from "../shared/sunpedia"
 
 export async function processRequest(req: SessionRequest) {
   const r = new Router()
   r.get('/api/progress', getProgress)
   r.put('/api/progress', submitProgress)
+  r.post('/api/lesson', completeLesson)
   r.post('/api/checkout', startCheckout)
   r.post('/api/debug', debugHandler)
 
@@ -28,7 +30,25 @@ async function getProgress(req: SessionRequest): Promise<{ items: UserProgressIt
  * on to reviews
  */
 async function completeLesson(req: SessionRequest) {
-  const json = await expectRequestJson<{ exerciseId: string, remembered: boolean }>(req)
+  const { exerciseIds } = await expectRequestJson<{ exerciseIds: string }>(req)
+  const { userId } = req.session
+
+  const toSave = []
+  const now = Date.now()
+  for (const exerciseId of exerciseIds) {
+    const item = await db.progressItems.get(userId, exerciseId)
+    if (!item) {
+      toSave.push({
+        userId: userId,
+        exerciseId: exerciseId,
+        level: 1,
+        learnedAt: now,
+        reviewedAt: now
+      })
+    }
+  }
+
+  await db.progressItems.saveAll(userId, toSave)
 }
 
 /** 
@@ -134,7 +154,7 @@ async function debugHandler(req: SessionRequest) {
   const json = await expectRequestJson<{ action: string }>(req)
 
   if (json.action === 'resetProgress') {
-    await db.progressItems.setAll(userId, [])
+    await db.progressItems.resetAllProgressTo(userId, [])
   } else if (json.action === 'moveReviewsForward') {
     const items = await db.progressItems.allFor(userId)
 
@@ -144,7 +164,7 @@ async function debugHandler(req: SessionRequest) {
       if (nextReview > now)
         item.reviewedAt -= (nextReview - now)
     }
-    await db.progressItems.setAll(userId, items)
+    await db.progressItems.resetAllProgressTo(userId, items)
   } else {
     throw new Error(`Unknown debug action ${json.action}`)
   }

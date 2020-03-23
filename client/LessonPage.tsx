@@ -20,10 +20,9 @@ function LessonReviews(props: { reviews: ExerciseWithConcept[], onComplete: () =
   const state = useLocalStore(() => ({ reviews: _.clone(reviews).reverse() }))
   const { api } = useContext(AppContext)
 
-  const onCompleteAll = () => {
-    for (const review of props.reviews) {
-      api.submitProgress(review.exercise.id, true)
-    }
+  const onCompleteAll = async () => {
+    const exerciseIds = props.reviews.map(r => r.exercise.id)
+    await api.completeLesson(exerciseIds)
 
     onComplete()
   }
@@ -41,8 +40,9 @@ function LessonReviews(props: { reviews: ExerciseWithConcept[], onComplete: () =
   })
 
   return useObserver(() => {
+    const review = state.reviews[state.reviews.length - 1]
     return <div className="LessonReviews">
-      <MemoryCard review={state.reviews[state.reviews.length - 1]} onSubmit={onCardComplete} />
+      {review ? <MemoryCard review={review} onSubmit={onCardComplete} /> : undefined}
     </div>
   })
 }

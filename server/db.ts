@@ -158,7 +158,15 @@ export namespace progressItems {
     return await db.putJson(`user_progress:${progressItem.userId}`, { items: items })
   }
 
-  export async function setAll(userId: string, progressItems: UserProgressItem[]) {
+  export async function saveAll(userId: string, newItems: UserProgressItem[]) {
+    const items = await progressItems.allByExerciseId(userId)
+    for (const item of newItems) {
+      items[item.exerciseId] = item
+    }
+    return await db.putJson(`user_progress:${userId}`, { items: items })
+  }
+
+  export async function resetAllProgressTo(userId: string, progressItems: UserProgressItem[]) {
     return await db.putJson(`user_progress:${userId}`, { items: _.keyBy(progressItems, item => item.exerciseId) })
   }
 }

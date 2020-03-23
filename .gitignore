@@ -6,3 +6,4 @@ dist
 store.json
 .env
 .cache
+server/worker/*

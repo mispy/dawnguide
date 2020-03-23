@@ -132,7 +132,7 @@ function sessionCookie(sessionKey: string) {
 async function expectLogin(email: string, password: string): Promise<string> {
   const user = await db.users.getByEmail(email)
   if (!user) {
-    throw new Error("Invalid user or password")
+    throw new Error("Invalid email or password")
   }
 
   // Must be done synchronously or CF will think worker never exits
@@ -143,6 +143,6 @@ async function expectLogin(email: string, password: string): Promise<string> {
     const sessionKey = await db.sessions.create(user.id)
     return sessionKey
   } else {
-    throw new Error("Invalid user or password")
+    throw new Error("Invalid email or password")
   }
 }

@@ -48,6 +48,10 @@ export class SunpeepApi {
     await this.http.put('/api/progress', { exerciseId: exerciseId, remembered: remembered })
   }
 
+  async completeLesson(exerciseIds: string[]): Promise<void> {
+    await this.http.post('/api/lesson', { exerciseIds: exerciseIds })
+  }
+
   async startCheckout(planId: string): Promise<{ checkoutSessionId: string }> {
     const { data } = await this.http.post(`/api/checkout?planId=${planId}`)
     return expectStrings(data, 'checkoutSessionId')
