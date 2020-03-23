@@ -41,7 +41,6 @@ const db = { get, getJson, put, putJson, list, delete: deleteKey }
 
 export interface User {
   id: string
-  username: string
   email: string
   cryptedPassword: string
   createdAt: number
@@ -68,13 +67,6 @@ export namespace users {
     return user
   }
 
-  export async function getByUsername(username: string): Promise<User | null> {
-    const userId = await db.get(`user_id_by_username:${username}`)
-    if (!userId)
-      return null
-    return users.get(userId)
-  }
-
   export async function list(): Promise<User[]> {
     const { keys } = await db.list(`users:`)
 
@@ -87,8 +79,8 @@ export namespace users {
     return bcrypt.hashSync(plaintext, 10)
   }
 
-  export async function create(props: Pick<User, 'username' | 'email'> & { 'password': string }): Promise<User> {
-    // TODO don't allow duplicate email/username
+  export async function create(props: Pick<User, 'email'> & { 'password': string }): Promise<User> {
+    // TODO don't allow duplicate email
     const userId = uuidv4()
 
     // Must be done synchronously or CF will think worker never exits
@@ -96,7 +88,6 @@ export namespace users {
     const now = Date.now()
     const user = {
       id: userId,
-      username: props.username,
       email: props.email,
       cryptedPassword: crypted,
       createdAt: now,
@@ -105,7 +96,6 @@ export namespace users {
 
     await db.putJson(`users:${userId}`, user)
     await db.put(`user_id_by_email:${props.email}`, userId)
-    await db.put(`user_id_by_username:${props.username}`, userId)
     return user
   }
 

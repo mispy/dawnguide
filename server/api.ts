@@ -24,6 +24,14 @@ async function getProgress(req: SessionRequest): Promise<{ items: UserProgressIt
 }
 
 /** 
+ * Called when a user has completed the lesson for a concept and is moving
+ * on to reviews
+ */
+async function completeLesson(req: SessionRequest) {
+  const json = await expectRequestJson<{ exerciseId: string, remembered: boolean }>(req)
+}
+
+/** 
  * When a user successfully completes an exercise, we increase the
  * SRS level in their exercise progress.
  **/

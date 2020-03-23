@@ -13,9 +13,9 @@ export interface SessionRequest extends Request {
 
 export async function signup(req: Request) {
   const body = await expectRequestJson(req)
-  const { username, email, password } = expectStrings(body, 'username', 'email', 'password')
+  const { email, password } = expectStrings(body, 'email', 'password')
 
-  const user = await db.users.create({ username, email, password })
+  const user = await db.users.create({ email, password })
 
   // Log the user in to their first session
   const sessionKey = await db.sessions.create(user.id)
@@ -27,9 +27,9 @@ export async function signup(req: Request) {
 
 export async function login(req: Request) {
   const body = await expectRequestJson(req)
-  const { usernameOrEmail, password } = expectStrings(body, 'usernameOrEmail', 'password')
+  const { email, password } = expectStrings(body, 'email', 'password')
 
-  const sessionKey = await expectLogin(usernameOrEmail, password)
+  const sessionKey = await expectLogin(email, password)
 
   const res = redirect('/')
   res.headers.set('Set-Cookie', sessionCookie(sessionKey))
@@ -129,11 +129,8 @@ function sessionCookie(sessionKey: string) {
   })
 }
 
-async function expectLogin(usernameOrEmail: string, password: string): Promise<string> {
-  let user = await db.users.getByEmail(usernameOrEmail)
-  if (!user) {
-    user = await db.users.getByUsername(usernameOrEmail)
-  }
+async function expectLogin(email: string, password: string): Promise<string> {
+  const user = await db.users.getByEmail(email)
   if (!user) {
     throw new Error("Invalid user or password")
   }

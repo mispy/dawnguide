@@ -1,7 +1,9 @@
 {
   "scripts": {
     "client": "parcel ./public/*.html",
-    "build": "rm -rf dist/* && parcel build ../public/index.html -d ../dist"
+    "build-client": "rm -rf dist/* && parcel build ./public/*.html -d dist",
+    "build-server": "cd server && yarn build",
+    "build": "yarn build-server && yarn build-client"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
@@ -39,6 +41,7 @@
     "react-timeago": "^4.4.0"
   },
   "devDependencies": {
+    "@cloudflare/wrangler": "^1.8.2",
     "@typescript-eslint/eslint-plugin": "^2.11.0",
     "@typescript-eslint/parser": "^2.11.0",
     "babel-core": "^6.26.3",

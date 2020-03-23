@@ -1,33 +1,33 @@
 {
-    "main": "dist/worker.js",
-    "scripts": {
-        "dev-webpack": "webpack -w",
-        "dev-cloudworker": "nodemon --watch dist/worker.js --exec cloudworker --debug --kv-file STORE=store.json dist/worker.js",
-        "dev": "npm-run-all --parallel dev-webpack dev-cloudworker",
-        "build": "rm -rf dist/* && webpack -p && cp package.json dist/"
-    },
-    "dependencies": {
-        "@cloudflare/kv-asset-handler": "^0.0.7",
-        "@cloudflare/workers-types": "^1.0.6",
-        "@dollarshaveclub/cloudworker": "^0.1.2",
-        "@types/bcryptjs": "^2.4.2",
-        "@types/cookie": "^0.3.3",
-        "@types/lodash": "^4.14.149",
-        "@types/moment": "^2.13.0",
-        "@types/uuid": "^3.4.6",
-        "bcryptjs": "^2.4.3",
-        "cookie": "^0.4.0",
-        "dotenv-webpack": "^1.7.0",
-        "lodash": "^4.17.15",
-        "moment": "^2.24.0",
-        "npm-run-all": "^4.1.5",
-        "object-to-formdata": "^2.2.0",
-        "ts-loader": "^6.2.1",
-        "typescript": "^3.7.3",
-        "uuid": "^3.3.3"
-    },
-    "devDependencies": {
-        "webpack": "^4.41.2",
-        "webpack-cli": "^3.3.10"
-    }
+  "main": "dist/worker.js",
+  "scripts": {
+    "dev-webpack": "webpack -w",
+    "dev-cloudworker": "nodemon --watch dist/worker.js --exec cloudworker --debug --kv-file STORE=store.json dist/worker.js",
+    "dev": "npm-run-all --parallel dev-webpack dev-cloudworker",
+    "build": "rm -rf dist/* && webpack -p && cp package.json dist/"
+  },
+  "dependencies": {
+    "@cloudflare/kv-asset-handler": "^0.0.7",
+    "@cloudflare/workers-types": "^1.0.6",
+    "@dollarshaveclub/cloudworker": "^0.1.2",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cookie": "^0.3.3",
+    "@types/lodash": "^4.14.149",
+    "@types/moment": "^2.13.0",
+    "@types/uuid": "^3.4.6",
+    "bcryptjs": "^2.4.3",
+    "cookie": "^0.4.0",
+    "dotenv-webpack": "^1.7.0",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "npm-run-all": "^4.1.5",
+    "object-to-formdata": "^2.2.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.3",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  }
 }

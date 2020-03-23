@@ -7,5 +7,5 @@ kv-namespaces = [
 ]
 
 [site]
-bucket = "./client/dist"
+bucket = "./dist"
 entry-point = "./server"
