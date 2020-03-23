@@ -6,7 +6,7 @@ import { action } from "mobx"
 import { Exercise } from "../shared/types"
 import Markdown from 'markdown-to-jsx'
 
-interface ExerciseWithConcept {
+export interface ExerciseWithConcept {
   concept: Concept
   exercise: Exercise
 }

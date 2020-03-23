@@ -7,9 +7,41 @@ import _ = require("lodash")
 import { Link, Redirect } from "react-router-dom"
 import { AppLayout } from "./AppLayout"
 import { useContext } from "react"
-import { MultiReview } from "./MultiReview"
 import { Passage } from "../shared/Passage"
 import { Concept } from '../shared/sunpedia'
+import { MemoryCard, ExerciseWithConcept } from './MemoryCard'
+
+function LessonReviews(props: { reviews: ExerciseWithConcept[], onComplete: () => void }) {
+  const { reviews, onComplete } = props
+  const state = useLocalStore(() => ({ reviews: _.clone(reviews).reverse() }))
+  const { api } = useContext(AppContext)
+
+  const onCompleteAll = () => {
+    for (const review of props.reviews) {
+      api.submitProgress(review.exercise.id, true)
+    }
+
+    onComplete()
+  }
+
+  const onCardComplete = action((remembered: boolean) => {
+    if (remembered) {
+      state.reviews.pop()
+      if (state.reviews.length === 0) {
+        onCompleteAll()
+      }
+    } else {
+      // Didn't remember, shuffle the cards
+      state.reviews = _.shuffle(state.reviews)
+    }
+  })
+
+  return useObserver(() => {
+    return <div className="LessonReviews">
+      <MemoryCard review={state.reviews[state.reviews.length - 1]} onSubmit={onCardComplete} />
+    </div>
+  })
+}
 
 class LessonPageState {
   @observable showing: 'lesson' | 'reviews' | 'complete' = 'lesson'
@@ -51,7 +83,7 @@ class LessonPageState {
   }
 }
 
-export function LessonPageLoaded(props: { concepts: Concept[] }) {
+function LessonPageLoaded(props: { concepts: Concept[] }) {
   const state = useLocalStore(() => new LessonPageState(props.concepts))
 
   function content() {
@@ -66,7 +98,7 @@ export function LessonPageLoaded(props: { concepts: Concept[] }) {
         </div>
       </div>
     } else if (state.showing === 'reviews') {
-      return <MultiReview reviews={state.reviews} onComplete={state.completeReview} />
+      return <LessonReviews reviews={state.reviews} onComplete={state.completeReview} />
     } else {
       return <div className="d-flex justify-content-center">
         <div>
