@@ -17,7 +17,7 @@ async function handleEvent(event: FetchEvent) {
   const url = new URL(event.request.url)
 
   const r = new Router()
-  r.get('/(signup|login|reset-password|assets/.*)|.*\\.js|.*\\.css', () => serveStatic(event))
+  r.get('/(signup|login|reset-password|assets/.*)|.*\\.js|.*\\.css|.*\\.jpg|.*\\.ico', () => serveStatic(event))
   r.get('/', () => rootPage(event))
   r.get('/reset-password/.*', serveResetPasswordForm)
   r.post('/reset-password/.*', resetPasswordFinish)

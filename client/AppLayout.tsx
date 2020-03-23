@@ -22,6 +22,7 @@ export const AppLayout = (props: { children: any, noHeader?: boolean }) => {
       <Navbar>
         <Container>
           <Navbar.Brand href="/home">Sunpeep</Navbar.Brand>
+          <div className="environment">alpha</div>
           <Nav className="learnButtons">
             <ul className="navigation-shortcuts">
               <li className="navigation-shortcut navigation-shortcut--lessons">

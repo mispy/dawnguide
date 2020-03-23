@@ -4,12 +4,13 @@
 <head>
   <title>Sunpeep</title>
   <link rel="stylesheet" href="../client/landing.sass" />
+  <link rel="shortcut icon" href="./favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Sunpeep!" />
   <meta charset="utf-8" />
 </head>
 
-<body>
+<body class="LandingPage">
   <header>
     <nav class="navbar navbar-expand-lg">
       <div class="container">
@@ -19,13 +20,21 @@
             <a class="nav-link" href="/login">Sign In</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link btn btn-success" href="/signup">Join Us</a>
+            <a class="nav-link btn btn-landing" href="/signup">Join Us</a>
           </li>
         </ul>
       </div>
     </nav>
-    <p class="text-center" style="margin-top: 8rem;">Some fancy landing page stuff goes here 😮</p>
   </header>
+  <section class="tagline">
+    <div class="container d-flex align-items-center">
+      <main class="masthead">
+        <h1 className="mb-3">Mental health skills can be learned</h1>
+        <p>Flashcard practice of mindfulness, self-compassion and cognitive-behavioral therapy.</p>
+        <a href="/signup" class="btn btn-lg btn-landing">Get started</a>
+      </main>
+    </div>
+  </section>
 </body>
 
 </html>

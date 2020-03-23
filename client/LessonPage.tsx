@@ -14,7 +14,6 @@ import { Container } from "react-bootstrap"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
-
 function LessonReviews(props: { reviews: ExerciseWithConcept[], onComplete: () => void }) {
   const { reviews, onComplete } = props
   const state = useLocalStore(() => ({ reviews: _.clone(reviews).reverse() }))

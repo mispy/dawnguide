@@ -1,20 +1,91 @@
 @import 'node_modules/bootstrap/scss/bootstrap'
+$base-color: #f5aa44
 
 html, body
-    height: 100%
+  height: 100%
 
 .SignupPage
-    height: 100%
-    padding-top: 20vh
+  height: 100%
+  padding-top: 20vh
 
-    > form
-        width: 320px
-        margin: auto
+  > form
+    width: 320px
+    margin: auto
 
 .LoginPage, .ResetPasswordPage
-    height: 100%
-    padding-top: 20vh
+  height: 100%
+  padding-top: 20vh
 
-    > form
-        width: 320px
-        margin: auto
+  > form
+    width: 320px
+    margin: auto
+
+.LandingPage
+  header
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    color: #ffffff
+    z-index: 1000
+
+  a.navbar-brand
+    color: white
+
+  nav li a
+    color: rgba(255,255,255,0.75)
+    margin: 1rem
+    padding: 0.5rem 0
+
+  nav li:last-child a
+    background-color: #ffffff
+    margin-right: 0
+    padding: 0.5rem 1rem
+    color: #167475
+    border: 2px solid rgba(255,255,255,0.75)
+    border-radius: 5px
+
+  section.tagline
+    position: relative
+    height: auto
+    height: 100vh
+    // https://www.freevector.com/period-of-time-backgrounds-vector-28385#
+    background-image: url("../public/sunpeep-background.jpg")
+    background-size: cover
+    background-position: 50% 50%
+    color: white
+
+  .tagline:before
+    // Pseudo-background-opacity
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background-color: rgba(0,0,0,0.2)
+
+  section.tagline > .container
+    position: relative
+    height: 100%
+
+  .masthead h1
+    font-size: 3rem
+
+  .masthead p
+    font-size: 1.5rem
+
+  .masthead .btn
+    background-color: #ffffff
+    color: #167475
+    border-color: #ffffff
+    padding: .8rem 2rem
+    font-weight: 600
+    font-size: 1.25rem
+
+  .btn-sun-outline
+    border: 1px solid $base-color
+
+  .btn-sun-outline:hover
+    background: $base-color
+    color: white

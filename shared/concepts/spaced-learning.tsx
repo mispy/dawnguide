@@ -13,7 +13,7 @@ Sunpeep's form of spaced learning starts with reading a short passage about the 
 You don't need any software to take advantage of the spacing effect, but there are a number of apps (like Sunpeep) that aim to make it easier. A common free one for making your own flashcards is [Anki](https://apps.ankiweb.net/).
 `,
   furtherReading: `
-- [Augmenting Cognition](http://augmentingcognition.com/ltm.html) by Michael Nielsen
+- [Augmenting Long-term Memory](http://augmentingcognition.com/ltm.html) by Michael Nielsen
 `,
   exercises: [
     {

@@ -39,7 +39,7 @@ export function HomePage() {
               <td><Link to={`/concept/${item.exercise.conceptId}`}>{sunpedia.conceptById[item.exercise.conceptId].title}</Link></td>
               <td style={{ maxWidth: '300px' }}>{item.exercise.question}</td>
               <td>{item.progress ? item.progress.level : 0}</td>
-              <td>{showReviewTime(item)}</td>
+              <td>{store.reviews.some(r => r.exercise.id === item.exercise.id) ? "Available now" : showReviewTime(item)}</td>
             </tr>)}
           </tbody>
         </table>
