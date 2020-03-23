@@ -3,7 +3,7 @@ import axios, { AxiosInstance } from 'axios'
 
 import { API_BASE_URL } from './settings'
 import { expectStrings } from './utils'
-import { ConceptWithProgress, User } from '../shared/logic'
+import { User, ExerciseWithProgress } from '../shared/logic'
 import { UserProgressItem } from '../shared/types'
 import { Sunpedia } from '../shared/sunpedia'
 
@@ -25,25 +25,25 @@ export class SunpeepApi {
     return data.items
   }
 
-  async getConceptsWithProgress(): Promise<ConceptWithProgress[]> {
+  async getExercisesWithProgress(): Promise<ExerciseWithProgress[]> {
     const progressItems = await this.getProgressItems()
-    const progressByConceptId = _.keyBy(progressItems, item => item.conceptId)
+    const progressByExerciseId = _.keyBy(progressItems, item => item.exerciseId) as _.Dictionary<UserProgressItem | undefined>
 
-    const conceptsWithProgress: ConceptWithProgress[] = []
-    for (const concept of this.sunpedia.concepts) {
-      const item = progressByConceptId[concept.id]
+    const exercisesWithProgress: ExerciseWithProgress[] = []
+    for (const exercise of this.sunpedia.exercises) {
+      const item = progressByExerciseId[exercise.id]
 
-      conceptsWithProgress.push({
-        concept: concept,
+      exercisesWithProgress.push({
+        exercise: exercise,
         progress: item
       })
     }
 
-    return conceptsWithProgress
+    return exercisesWithProgress
   }
 
-  async submitProgress(conceptId: string, remembered: boolean): Promise<void> {
-    await this.http.put('/api/progress', { conceptId: conceptId, remembered: remembered })
+  async submitProgress(exerciseId: string, remembered: boolean): Promise<void> {
+    await this.http.put('/api/progress', { exerciseId: exerciseId, remembered: remembered })
   }
 
   async startCheckout(planId: string): Promise<{ checkoutSessionId: string }> {

@@ -4,6 +4,7 @@ import { Concept } from "../shared/sunpedia"
 import classnames from 'classnames'
 import { action } from "mobx"
 import { Exercise } from "../shared/types"
+import Markdown from 'markdown-to-jsx'
 
 interface ExerciseWithConcept {
   concept: Concept
@@ -22,8 +23,8 @@ export function MemoryCard(props: { review: ExerciseWithConcept, onSubmit: (reme
 
   return useObserver(() => <div className="MemoryCard">
     <div className="card">
-      <div className="prompt">{exercise.question}</div>
-      <div className={classnames('answer', state.revealed && 'revealed')} onClick={reveal}>{!state.revealed ? "Click to reveal answer" : exercise.answer}</div>
+      <div className="prompt"><Markdown>{exercise.question}</Markdown></div>
+      <div className={classnames('answer', state.revealed && 'revealed')} onClick={reveal}>{!state.revealed ? "Click to reveal answer" : <Markdown>{exercise.answer}</Markdown>}</div>
     </div>
     <div className="buttons">
       <button className="btn" disabled={!state.revealed} onClick={didntRemember}>Didn't remember</button>

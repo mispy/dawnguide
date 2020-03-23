@@ -4,10 +4,18 @@ import Cite from 'citation-js'
 import { computed, observable } from 'mobx'
 
 import conceptDefs from './concepts'
-import { ConceptDef, Reference, Exercise, MarkdownString } from './types'
+import { ConceptDef, Reference, MarkdownString } from './types'
+import _ = require('lodash')
 
 function parseBibliography(bibliography: string): Reference[] {
   return new Cite(bibliography).get()
+}
+
+export type Exercise = {
+  id: string
+  conceptId: string
+  question: string
+  answer: string
 }
 
 export class Concept {
@@ -33,7 +41,14 @@ export class Concept {
   }
 
   @computed get exercises(): Exercise[] {
-    return this.def.exercises
+    return this.def.exercises.map((e, i) => {
+      return {
+        id: `${this.id}:${i}`,
+        conceptId: this.id,
+        question: e.question,
+        answer: e.answer
+      }
+    })
   }
 
   @computed get references(): Reference[] {
@@ -42,7 +57,15 @@ export class Concept {
 }
 
 export class Sunpedia {
-  concepts: Concept[] = []
+  @observable.ref concepts: Concept[] = []
+
+  @computed get conceptById() {
+    return _.keyBy(this.concepts, c => c.id)
+  }
+
+  @computed get exercises() {
+    return _.flatten(this.concepts.map(c => c.exercises))
+  }
 
   constructor() {
     for (const def of conceptDefs) {
@@ -98,6 +121,7 @@ export class Sunpedia {
 
     }
   }
+}
 
 // declare const require: any
 // const _ = require("lodash")

@@ -1,21 +1,45 @@
 import React = require("react")
-import { observer } from "mobx-react-lite"
 import { observable, action, computed } from "mobx"
 
-import { concepts, Concept, Exercise } from "../shared/sunpedia"
-
-import { ReviewsUI } from "./ReviewsUI"
 import _ = require("lodash")
-import { useState, useContext, useEffect } from "react"
+import { useContext } from "react"
 import { AppContext } from "./AppContext"
-import { ConceptWithProgress, isReadyForReview } from "../shared/logic"
+import { useObserver, useLocalStore } from "mobx-react-lite"
+import { Link } from "react-router-dom"
+import { MultiReview } from "./MultiReview"
+import { AppLayout } from "./AppLayout"
 
-interface Review {
-  concept: Concept
-  exercise: Exercise
+class ReviewsState {
+  @observable complete: boolean = false
+
+  @action.bound completeReview() {
+    this.complete = true
+  }
 }
 
-export const ReviewPage = () => {
+export function ReviewPage() {
   const { store } = useContext(AppContext)
-  return <ReviewsUI reviews={store.reviews} />
+  const state = useLocalStore(() => new ReviewsState())
+
+  function content() {
+    if (store.loading)
+      return <div>Loading...</div>
+
+    if (!store.reviews.length)
+      return <div>Nothing to review!</div>
+
+    return <MultiReview reviews={store.reviews} onComplete={state.completeReview} />
+  }
+
+  return useObserver(() =>
+    <AppLayout noHeader>
+      <div className="LessonPage">
+        <div className="topbar">
+          <Link to="/home">Home</Link>
+        </div>
+
+        {content()}
+      </div>
+    </AppLayout>
+  )
 }

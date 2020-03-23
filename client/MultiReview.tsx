@@ -16,12 +16,12 @@ interface ExerciseWithConcept {
 
 export function MultiReview(props: { reviews: ExerciseWithConcept[], onComplete: () => void }) {
   const { reviews, onComplete } = props
-  const state = useLocalStore(() => ({ reviews: _.shuffle(reviews) }))
+  const state = useLocalStore(() => ({ reviews: _.clone(reviews).reverse() }))
   const { api } = useContext(AppContext)
 
   const onCardComplete = action((remembered: boolean) => {
     const review = state.reviews[state.reviews.length - 1]
-    api.submitProgress(review.concept.id, remembered)
+    api.submitProgress(review.exercise.id, remembered)
 
     if (remembered) {
       state.reviews.pop()
@@ -34,9 +34,11 @@ export function MultiReview(props: { reviews: ExerciseWithConcept[], onComplete:
     }
   })
 
-  return useObserver(() => <div className="MultiReview">
-    <MemoryCard review={state.reviews[state.reviews.length - 1]} onSubmit={onCardComplete} />
-  </div>)
+  return useObserver(() => {
+    return <div className="MultiReview">
+      <MemoryCard review={state.reviews[state.reviews.length - 1]} onSubmit={onCardComplete} />
+    </div>
+  })
 }
 
 

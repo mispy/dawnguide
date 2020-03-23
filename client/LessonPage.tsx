@@ -2,8 +2,6 @@ import React = require("react")
 import { useObserver, useLocalStore } from "mobx-react-lite"
 import { observable, action, computed } from "mobx"
 
-import { ConceptWithProgress } from "../shared/logic"
-
 import { AppContext } from "./AppContext"
 import _ = require("lodash")
 import { Link, Redirect } from "react-router-dom"
@@ -12,10 +10,6 @@ import { useContext } from "react"
 import { MultiReview } from "./MultiReview"
 import { Passage } from "../shared/Passage"
 import { Concept } from '../shared/sunpedia'
-
-function readyToLearn(cwp: ConceptWithProgress) {
-  return !cwp.progress || cwp.progress.level === 0
-}
 
 class LessonPageState {
   @observable showing: 'lesson' | 'reviews' | 'complete' = 'lesson'
@@ -101,18 +95,17 @@ export function LessonPage() {
   const { store } = useContext(AppContext)
 
   function content() {
-    const isLoading = !store.conceptsWithProgress.length
+    const isLoading = !store.exercisesWithProgress.length
 
     if (isLoading)
       return <div>Loading...</div>
 
-    const learnableConcepts = store.conceptsWithProgress.filter(c => readyToLearn(c))
-    if (!learnableConcepts.length) {
+    if (!store.lessonConcepts.length) {
       // Nothing ready to learn
       return <Redirect to="/home" />
     }
 
-    return <LessonPageLoaded concepts={learnableConcepts.map(c => c.concept)} />
+    return <LessonPageLoaded concepts={store.lessonConcepts} />
   }
 
   return useObserver(() => {

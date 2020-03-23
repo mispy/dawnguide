@@ -22,13 +22,14 @@ export function Passage(props: { concept: Concept }) {
   const referencesById = _.keyBy(concept.references, r => r.id)
 
   const [introduction, referenceIds] = transformRefs(concept.introduction)
+  const referencesInText = referenceIds.map(id => referencesById[id])
 
   return <div className="Passage">
     <h1>{concept.title}</h1>
     <Markdown>{introduction}</Markdown>
     <section id="references">
       <h2>References</h2>
-      <Bibliography references={concept.references} />
+      <Bibliography references={referencesInText} />
     </section>
     <section id="furtherReading">
       <h2>Further Reading</h2>

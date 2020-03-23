@@ -6,11 +6,13 @@ export type ConceptDef = {
   title: string
   introduction: MarkdownString
   furtherReading: MarkdownString
-  exercises: Exercise[]
+  exercises: { question: string, answer: string }[]
   bibliography: BibtexString
 }
 
 export type Exercise = {
+  id: string
+  conceptId: string
   question: string
   answer: string
 }
@@ -31,12 +33,12 @@ export type Reference = {
 export type UserProgressItem = {
   /** Database id of the user whose learning progress this is */
   userId: string
-  /** Unique id of the concept, which refers to a hardcoded string */
-  conceptId: string
+  /** Unique id of the exercise, which refers to a hardcoded string */
+  exerciseId: string
   /** SRS stage from 1 to 10 */
   level: number
 
-  /** When this lesson was initially learned */
+  /** When this exercise was initially learned */
   learnedAt: number
   /** When last reviewed or learned */
   reviewedAt: number

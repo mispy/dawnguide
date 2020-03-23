@@ -8,9 +8,9 @@ export interface User {
   updatedAt: number
 }
 
-export interface ConceptProgressItem {
-  /** Unique id of the concept, which refers to a hardcoded string */
-  conceptId: string
+export interface ExerciseProgressItem {
+  /** Unique id of the exercise, which refers to a hardcoded string */
+  exerciseId: string
   /** SRS stage from 1 to 10 */
   level: number
 
@@ -20,13 +20,13 @@ export interface ConceptProgressItem {
   reviewedAt: number
 }
 
-export interface UserConceptProgress {
-  concepts: { [conceptId: string]: ConceptProgressItem | undefined }
+export interface UserExerciseProgress {
+  exercises: { [exerciseId: string]: ExerciseProgressItem | undefined }
 }
 
-export interface ConceptWithProgress {
-  concept: Concept,
-  progress?: ConceptProgressItem
+export interface ExerciseWithProgress {
+  exercise: Exercise
+  progress?: ExerciseProgressItem
 }
 
 const seconds = (s: number) => s * 1000
@@ -54,11 +54,11 @@ export function getTimeFromLevel(level: number) {
   return timingLookup[level]
 }
 
-export function getReviewTime(progress: ConceptProgressItem) {
+export function getReviewTime(progress: ExerciseProgressItem) {
   return progress.reviewedAt + getTimeFromLevel(progress.level - 1)
 }
 
-export function isReadyForReview(progress: ConceptProgressItem) {
+export function isReadyForReview(progress: ExerciseProgressItem) {
   return progress.level > 0 && Date.now() > getReviewTime(progress)
 }
 
@@ -81,6 +81,7 @@ function distanceTolerance(s: string) {
 }
 
 import { levenshtein } from './levenshtein'
+import { Exercise } from "./types"
 
 export function matchesAnswerPermissively(attempt: string, correctAnswer: string): boolean {
   attempt = attempt.toLowerCase()
