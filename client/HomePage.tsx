@@ -21,11 +21,11 @@ export function HomePage() {
   const debug = true
 
   return useObserver(() => <AppLayout>
-    <Container style={{ marginTop: "2rem", textAlign: "left" }}>
+    <Container className="mt-4">
       <p>Sunpeep is a tool for learning useful concepts in psychology that can be applied to everyday life.</p>
       {store.exercisesWithProgress.length ? <>
-        <h3>Progress</h3>
-        <table className="table">
+        <h4>Learning progress</h4>
+        <table className="table mt-4">
           <thead>
             <tr>
               <th>Concept</th>

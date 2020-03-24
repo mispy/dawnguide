@@ -16,8 +16,8 @@ export function DebugTools() {
     await store.loadProgress()
   }
 
-  return <section className="DebugTools">
-    <p><button className="btn btn-sun" onClick={moveReviewsForward}>Debug: Move Reviews Forward</button></p>
-    <p><button className="btn btn-sun" onClick={resetProgress}>Debug: Reset Progress</button></p>
+  return <section className="DebugTools mt-4">
+    <p><button className="btn btn-sun-outline btn-sm" onClick={moveReviewsForward}>Debug: Move Reviews Forward</button></p>
+    <p><button className="btn btn-sun-outline btn-sm" onClick={resetProgress}>Debug: Reset Progress</button></p>
   </section>
 }
