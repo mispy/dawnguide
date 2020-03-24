@@ -1,5 +1,10 @@
 import { BASE_URL } from "./settings"
 import _ = require('lodash')
+import ReactDOMServer = require('react-dom/server')
+
+export function pageResponse(rootElement: Parameters<typeof ReactDOMServer.renderToStaticMarkup>[0]) {
+    return new Response(`<!doctype html>${ReactDOMServer.renderToStaticMarkup(rootElement)}`)
+}
 
 /** Make mutable redirect response to absolute url */
 export function redirect(dest: string, code: number = 302) {
@@ -24,8 +29,8 @@ export async function expectRequestJson<T = Json>(request: Request): Promise<T> 
         return body
     } else if (contentType.includes('form')) {
         const formData = await request.formData()
-        let body: Json = {}
-        for (let entry of (formData as any).entries()) {
+        const body: Json = {}
+        for (const entry of (formData as any).entries()) {
             body[entry[0]] = entry[1]
         }
         return body as any as T
