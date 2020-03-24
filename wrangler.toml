@@ -1,4 +1,3 @@
-name = "sunpeep"
 type = "javascript"
 account_id = "2ae5ddc12fe01a282dd014d39792077a"
 workers_dev = true
@@ -9,3 +8,9 @@ kv-namespaces = [
 [site]
 bucket = "./dist"
 entry-point = "./server"
+
+[env.test]
+name = "sunpeep-test"
+
+[env.live]
+name = "sunpeep"
