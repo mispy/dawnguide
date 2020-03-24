@@ -20,12 +20,12 @@ addEventListener('fetch', event => {
 async function handleEvent(event: FetchEvent) {
     const url = new URL(event.request.url)
 
-    const r = new Router()
+    const r = new Router<Request>()
     r.get('/(assets/.*)|.*\\.js|.*\\.css|.*\\.jpg|.*\\.ico', () => serveStatic(event))
     r.get('/login', loginPage)
     r.get('/signup', signupPage)
     r.get('/reset-password', resetPasswordPage)
-    r.get('/', () => rootPage(event))
+    r.get('/', rootPage)
     r.get('/reset-password/.*', serveResetPasswordForm)
     r.post('/reset-password/.*', resetPasswordFinish)
     r.post('/signup', signup)
@@ -37,7 +37,13 @@ async function handleEvent(event: FetchEvent) {
 
     const req = event.request
     try {
-        return await r.route(req)
+        const res = await r.route(req)
+        if (res instanceof Response)
+            return res
+        else if (typeof res === "string")
+            return new Response(res)
+        else
+            return new Response()
     } catch (e) {
         let message = e.stack
         if (!message) {
@@ -47,8 +53,8 @@ async function handleEvent(event: FetchEvent) {
     }
 }
 
-async function rootPage(event: FetchEvent) {
-    const session = await getSession(event.request)
+async function rootPage(req: Request) {
+    const session = await getSession(req)
 
     if (session) {
         // Root url redirects to app if logged in
@@ -68,7 +74,7 @@ async function behindLogin(event: FetchEvent) {
         return redirect('/login')
     }
 
-    const r = new Router()
+    const r = new Router<SessionRequest>()
     r.all('/api/.*', api.processRequest)
     r.get('.*', () => serveStatic(event))
 

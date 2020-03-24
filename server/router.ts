@@ -30,20 +30,24 @@ const Path = (regExp: string) => (req: Request) => {
     return match[0] === path
 }
 
+type Responselike = Response | string | void
+type RouteHandler<T> = (req: T) => Responselike | Promise<Responselike>
+
 /**
  * The Router handles determines which handler is matched given the
  * conditions present for each request.
  */
-class Router {
+class Router<T> {
+
     routes: {
-        conditions: Function | Function[],
-        handler: Function
+        conditions: Function | Function[]
+        handler: RouteHandler<T>
     }[]
     constructor() {
         this.routes = []
     }
 
-    handle(conditions: Function | Function[], handler: Function) {
+    handle(conditions: Function | Function[], handler: RouteHandler<T>) {
         this.routes.push({
             conditions,
             handler,
@@ -51,47 +55,47 @@ class Router {
         return this
     }
 
-    connect(url: string, handler: Function) {
+    connect(url: string, handler: RouteHandler<T>) {
         return this.handle([Connect, Path(url)], handler)
     }
 
-    delete(url: string, handler: Function) {
+    delete(url: string, handler: RouteHandler<T>) {
         return this.handle([Delete, Path(url)], handler)
     }
 
-    get(url: string, handler: Function) {
+    get(url: string, handler: RouteHandler<T>) {
         return this.handle([Get, Path(url)], handler)
     }
 
-    head(url: string, handler: Function) {
+    head(url: string, handler: RouteHandler<T>) {
         return this.handle([Head, Path(url)], handler)
     }
 
-    options(url: string, handler: Function) {
+    options(url: string, handler: RouteHandler<T>) {
         return this.handle([Options, Path(url)], handler)
     }
 
-    patch(url: string, handler: Function) {
+    patch(url: string, handler: RouteHandler<T>) {
         return this.handle([Patch, Path(url)], handler)
     }
 
-    post(url: string, handler: Function) {
+    post(url: string, handler: RouteHandler<T>) {
         return this.handle([Post, Path(url)], handler)
     }
 
-    put(url: string, handler: Function) {
+    put(url: string, handler: RouteHandler<T>) {
         return this.handle([Put, Path(url)], handler)
     }
 
-    trace(url: string, handler: Function) {
+    trace(url: string, handler: RouteHandler<T>) {
         return this.handle([Trace, Path(url)], handler)
     }
 
-    all(url: string, handler: Function) {
+    all(url: string, handler: RouteHandler<T>) {
         return this.handle([Path(url)], handler)
     }
 
-    route(req: Request | SessionRequest) {
+    route(req: T) {
         const route = this.resolve(req)
 
         if (route) {
@@ -111,7 +115,7 @@ class Router {
      * resolve returns the matching route for a request that returns
      * true for all conditions (if any).
      */
-    resolve(req: Request | SessionRequest) {
+    resolve(req: T) {
         return this.routes.find(r => {
             if (!r.conditions || (Array.isArray(r) && !r.conditions.length)) {
                 return true
