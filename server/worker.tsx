@@ -8,6 +8,8 @@ import { redirect, getQueryParams, JsonResponse } from './utils'
 import api = require('./api')
 import _ = require('lodash')
 import { signupPage } from './SignupPage'
+import { loginPage } from './LoginPage'
+import { landingPage } from './LandingPage'
 
 // Workers require that this be a sync callback
 addEventListener('fetch', event => {
@@ -18,7 +20,8 @@ async function handleEvent(event: FetchEvent) {
     const url = new URL(event.request.url)
 
     const r = new Router()
-    r.get('/(login|reset-password|assets/.*)|.*\\.js|.*\\.css|.*\\.jpg|.*\\.ico', () => serveStatic(event))
+    r.get('/(reset-password|assets/.*)|.*\\.js|.*\\.css|.*\\.jpg|.*\\.ico', () => serveStatic(event))
+    r.get('/login', loginPage)
     r.get('/signup', signupPage)
     r.get('/', () => rootPage(event))
     r.get('/reset-password/.*', serveResetPasswordForm)
@@ -49,7 +52,7 @@ async function rootPage(event: FetchEvent) {
         // Root url redirects to app if logged in
         return redirect('/home')
     } else {
-        return serveStatic(event)
+        return landingPage()
     }
 }
 

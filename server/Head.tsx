@@ -26,15 +26,15 @@ export const Head = (props: { canonicalUrl: string, pageTitle?: string, pageDesc
         <meta name="description" content={pageDesc} />
         <link rel="canonical" href={canonicalUrl} />
         <link rel="alternate" type="application/atom+xml" href="/atom.xml" />
-        <meta property="fb:app_id" content="1149943818390250" />
+        {/* <meta property="fb:app_id" content="1149943318300250" /> */}
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDesc} />
         <meta property="og:image" content={imageUrl} />
-        <meta property="og:site_name" content="Our World in Data" />
+        <meta property="og:site_name" content="Sunpeep" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@OurWorldInData" />
-        <meta name="twitter:creator" content="@OurWorldInData" />
+        {/* <meta name="twitter:site" content="@sunpeep" />
+        <meta name="twitter:creator" content="@sunpeep" /> */}
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={pageDesc} />
         <meta name="twitter:image" content={imageUrl} />
