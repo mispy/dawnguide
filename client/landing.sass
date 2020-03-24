@@ -1,6 +1,8 @@
 @import 'node_modules/bootstrap/scss/bootstrap'
 $base-color: #f5aa44
 
+$mobile: 550px
+
 html, body
   height: 100%
   font-family: 'Montserrat', sans-serif
@@ -31,11 +33,12 @@ html, body
     z-index: 1000
     // background: rgba(0, 0, 0, 0.3)
 
-  nav.navbar
-    // padding: 0
-
   a.navbar-brand
     color: white
+
+  .navbar-nav
+    flex-direction: row
+    align-items: center
 
   nav li a
     color: rgba(255,255,255,0.75)
@@ -99,3 +102,13 @@ html, body
   .btn-sun-outline:hover
     background: $base-color
     color: white
+
+  @media (max-width: $mobile)
+    nav ul li a
+      margin: 1rem 0.5rem 1rem
+
+    .masthead h1
+      font-size: 2rem
+
+    .masthead p
+      font-size: 1rem
