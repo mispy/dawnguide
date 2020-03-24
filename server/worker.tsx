@@ -42,6 +42,8 @@ async function handleEvent(event: FetchEvent) {
             return res
         else if (typeof res === "string")
             return new Response(res)
+        else if (typeof res === "object")
+            return new JsonResponse(res)
         else
             return new Response()
     } catch (e) {

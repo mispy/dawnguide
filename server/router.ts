@@ -1,6 +1,7 @@
 // CLOUDFLARE EXAMPLE CODE
 
 import { SessionRequest } from "./authentication"
+import { Json } from "./utils"
 
 /**
  * Helper functions that when passed a request will return a
@@ -30,7 +31,7 @@ const Path = (regExp: string) => (req: Request) => {
     return match[0] === path
 }
 
-type Responselike = Response | string | void
+type Responselike = Response | Json | string | void
 type RouteHandler<T> = (req: T) => Responselike | Promise<Responselike>
 
 /**
