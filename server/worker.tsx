@@ -1,4 +1,4 @@
-
+// @ts-ignore
 const { getAssetFromKV } = require('@cloudflare/kv-asset-handler')
 
 import Router from './router'

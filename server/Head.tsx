@@ -1,11 +1,22 @@
 import * as React from 'react'
+import parcelManifest = require('../client/tmp/parcel-manifest.json')
+
+function manifest(filename: string) {
+    for (const key in parcelManifest) {
+        if (key.split('/').slice(-1)[0] === filename) {
+            return (parcelManifest as any)[key]
+        }
+    }
+
+    throw new Error(`Couldn't find ${filename} in manifest: ${parcelManifest}`)
+}
 
 export const Head = (props: { canonicalUrl: string, pageTitle?: string, pageDesc?: string, imageUrl?: string, children?: any }) => {
     const { canonicalUrl } = props
     const pageTitle = props.pageTitle || `Sunpeep`
     const fullPageTitle = props.pageTitle ? `${props.pageTitle} - Sunpeep` : `Sunpeep`
     const pageDesc = props.pageDesc || "Flashcard practice of mindfulness, self-compassion and cognitive-behavioral therapy."
-    const imageUrl = props.imageUrl || `/social-media-image.jpg`
+    const imageUrl = props.imageUrl || manifest('social-media-image.jpg')
 
     // TODO canonicalUrl absolute if not http:// etc
 
@@ -27,9 +38,7 @@ export const Head = (props: { canonicalUrl: string, pageTitle?: string, pageDesc
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={pageDesc} />
         <meta name="twitter:image" content={imageUrl} />
-        <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i|Playfair+Display:400,700" rel="stylesheet" />
-        {/* <link rel="stylesheet" href={webpack('commons.css', 'site')}/>
-        <link rel="stylesheet" href={webpack('owid.css', 'site')}/> */}
+        <link rel="stylesheet" href={manifest('landing.sass')} />
         {props.children}
     </head>
 }

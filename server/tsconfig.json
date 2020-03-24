@@ -11,7 +11,13 @@
         "jsx": "react",
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,
-        "lib": ["esnext", "webworker"]
+        "lib": [
+            "esnext",
+            "webworker"
+        ],
+        "resolveJsonModule": true
     },
-    "exclude": ["node_modules"]
+    "exclude": [
+        "node_modules"
+    ]
 }

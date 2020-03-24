@@ -6,7 +6,7 @@ kv-namespaces = [
 ]
 
 [site]
-bucket = "./dist"
+bucket = "./client/dist"
 entry-point = "./server"
 
 [env.test]

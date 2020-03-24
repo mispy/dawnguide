@@ -1,28 +1,29 @@
 {
-  "compilerOptions": {
-    "strict": true,
-    "noImplicitReturns": true,
-    "allowJs": false,
-    "outDir": "./dist/",
-    "sourceMap": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "jsx": "react",
-    "target": "es5",
-    "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "dom",
-      "es6",
-      "esnext.asynciterable"
-    ],
-    "plugins": [
-      {
-        "name": "tslint-language-service"
-      }
+    "compilerOptions": {
+        "strict": true,
+        "noImplicitReturns": true,
+        "allowJs": false,
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "jsx": "react",
+        "target": "es5",
+        "experimentalDecorators": true,
+        "forceConsistentCasingInFileNames": true,
+        "lib": [
+            "dom",
+            "es6",
+            "esnext.asynciterable"
+        ],
+        "plugins": [
+            {
+                "name": "tslint-language-service"
+            }
+        ],
+        "resolveJsonModule": true
+    },
+    "exclude": [
+        "node_modules"
     ]
-  },
-  "exclude": [
-    "node_modules"
-  ]
 }
