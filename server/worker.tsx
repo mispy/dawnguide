@@ -10,6 +10,7 @@ import _ = require('lodash')
 import { signupPage } from './SignupPage'
 import { loginPage } from './LoginPage'
 import { landingPage } from './LandingPage'
+import { resetPasswordPage } from './ResetPasswordPage'
 
 // Workers require that this be a sync callback
 addEventListener('fetch', event => {
@@ -20,9 +21,10 @@ async function handleEvent(event: FetchEvent) {
     const url = new URL(event.request.url)
 
     const r = new Router()
-    r.get('/(reset-password|assets/.*)|.*\\.js|.*\\.css|.*\\.jpg|.*\\.ico', () => serveStatic(event))
+    r.get('/(assets/.*)|.*\\.js|.*\\.css|.*\\.jpg|.*\\.ico', () => serveStatic(event))
     r.get('/login', loginPage)
     r.get('/signup', signupPage)
+    r.get('/reset-password', resetPasswordPage)
     r.get('/', () => rootPage(event))
     r.get('/reset-password/.*', serveResetPasswordForm)
     r.post('/reset-password/.*', resetPasswordFinish)
