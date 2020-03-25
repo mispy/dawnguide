@@ -12,7 +12,7 @@ type Route<T> = {
 }
 
 function routeMatch<T extends Request>(req: T, route: Route<T>) {
-    if (req.method !== 'all' && req.method.toLowerCase() !== route.method)
+    if (route.method !== 'all' && req.method.toLowerCase() !== route.method)
         return null
 
     const url = new URL(req.url)
@@ -58,7 +58,7 @@ class Router<T extends Request> {
     }
 
     all(regex: string, handler: RouteHandler<T>) {
-        return this.handle('delete', regex, handler)
+        return this.handle('all', regex, handler)
     }
 
     route(req: T) {
