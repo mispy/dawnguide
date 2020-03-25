@@ -1,10 +1,20 @@
 import * as React from 'react'
-import parcelManifest = require('../client/tmp/parcel-manifest.json')
 
+import parcelManifestDev = require('../client/tmp/parcel-manifest.json')
+import parcelManifestProd = require('../client/dist/parcel-manifest.json')
+
+declare const process: any
 function manifest(filename: string) {
+    let parcelManifest
+    if (process.env.NODE_ENV === 'development') {
+        parcelManifest = parcelManifestDev
+    } else {
+        parcelManifest = parcelManifestProd
+    }
+
     for (const key in parcelManifest) {
         if (key.split('/').slice(-1)[0] === filename) {
-            return (parcelManifest as any)[key]
+            return (parcelManifest as any)[key].replace("https:/", "https://")
         }
     }
 

@@ -2,9 +2,9 @@ yarn-error.log
 build
 node_modules
 .awcache
-dist
 store.json
 .env
 .cache
-server/worker/*
+worker
 tmp
+dist

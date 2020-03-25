@@ -1,13 +1,15 @@
 {
+    "main": "server/dist/worker.js",
     "scripts": {
         "client": "rm -rf client/tmp && parcel serve public/* -d client/tmp",
         "server-parcel": "parcel watch server/worker.tsx -d server/tmp",
         "server-cloudworker": "nodemon --watch server/tmp/worker.js --exec cloudworker --debug --kv-file STORE=store.json server/tmp/worker.js",
         "server": "npm-run-all --parallel server-parcel server-cloudworker",
-        "build-client": "rm -rf client/dist/* && parcel build public/* -d client/dist --public-url https://sunpeep.suns.workers.dev/",
-        "build-server": "rm -rf server/dist/* && parcel build worker.tsx -d server/dist && cp package.json server/dist/",
-        "build": "yarn build-client && yarn build-server",
-        "deploy": "wrangler publish"
+        "build-client": "rm -rf client/dist/* && parcel build public/* -d client/dist",
+        "build-server": "rm -rf server/dist/* && parcel build server/worker.tsx -d server/dist",
+        "build": "npm-run-all build-client build-server",
+        "deploy-test": "wrangler publish --env test",
+        "deploy-live": "wrangler publish --env live"
     },
     "dependencies": {
         "@cloudflare/kv-asset-handler": "^0.0.7",
@@ -16,15 +18,11 @@
         "@fortawesome/fontawesome-svg-core": "^1.2.26",
         "@fortawesome/free-solid-svg-icons": "^5.12.0",
         "@fortawesome/react-fontawesome": "^0.1.8",
-        "@mdx-js/parcel-plugin-mdx": "^1.5.7",
-        "@mdx-js/react": "^1.5.7",
         "@types/bcryptjs": "^2.4.2",
         "@types/classnames": "^2.2.10",
         "@types/cookie": "^0.3.3",
         "@types/lodash": "^4.14.149",
         "@types/markdown-to-jsx": "^6.11.0",
-        "@types/mdx-js__react": "^1.5.1",
-        "@types/moment": "^2.13.0",
         "@types/react": "^16.9.16",
         "@types/react-bootstrap": "^0.32.20",
         "@types/react-dom": "^16.9.4",
@@ -38,7 +36,6 @@
         "citation-js": "^0.5.0-alpha.5",
         "classnames": "^2.2.6",
         "cookie": "^0.4.0",
-        "dotenv-webpack": "^1.7.0",
         "lodash": "^4.17.4",
         "markdown-to-jsx": "^6.11.0",
         "mobx": "^5.15.1",
@@ -56,7 +53,6 @@
         "react-router-dom": "^5.1.2",
         "react-stripe-elements": "^6.0.1",
         "react-timeago": "^4.4.0",
-        "ts-loader": "^6.2.1",
         "uuid": "^3.3.3"
     },
     "devDependencies": {
