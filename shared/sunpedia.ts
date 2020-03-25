@@ -1,6 +1,6 @@
 
 // @ts-ignore
-// import Cite from 'citation-js'
+import Cite from 'citation-js'
 import { computed, observable } from 'mobx'
 
 import conceptDefs from './concepts'
@@ -8,8 +8,7 @@ import { ConceptDef, Reference, MarkdownString } from './types'
 import _ = require('lodash')
 
 function parseBibliography(bibliography: string): Reference[] {
-    return [{}] as any
-    // return new Cite(bibliography).get()
+    return new Cite(bibliography).get()
 }
 
 export type Exercise = {
