@@ -16,21 +16,22 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 function LessonReviews(props: { reviews: ExerciseWithConcept[], onComplete: () => void }) {
     const { reviews, onComplete } = props
-    const state = useLocalStore(() => ({ reviews: _.clone(reviews).reverse() }))
+    const state = useLocalStore<{ reviews: ExerciseWithConcept[], completedIds: string[] }>(() => ({ reviews: _.clone(reviews).reverse(), completedIds: [] }))
     const { api } = useContext(AppContext)
 
-    const onCompleteAll = async () => {
-        const exerciseIds = props.reviews.map(r => r.exercise.id)
+    const onCompleteAll = async (exerciseIds: string[]) => {
         await api.completeLesson(exerciseIds)
-
         onComplete()
     }
 
     const onCardComplete = action((remembered: boolean) => {
         if (remembered) {
-            state.reviews.pop()
+            const review = state.reviews.pop()
+            if (!review) return
+
+            state.completedIds.push(review.exercise.id)
             if (state.reviews.length === 0) {
-                onCompleteAll()
+                onCompleteAll(state.completedIds)
             }
         } else {
             // Didn't remember, shuffle the cards
