@@ -29,7 +29,7 @@ export function Passage(props: { concept: Concept }) {
         <Markdown>{introduction}</Markdown>
         <section id="references">
             <h2>References</h2>
-            {/* <Bibliography references={referencesInText} /> */}
+            <Bibliography references={referencesInText} />
         </section>
         <section id="furtherReading">
             <h2>Further Reading</h2>
