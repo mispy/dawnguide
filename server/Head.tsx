@@ -25,7 +25,7 @@ export const Head = (props: { canonicalUrl: string, pageTitle?: string, pageDesc
         <title>{fullPageTitle}</title>
         <meta name="description" content={pageDesc} />
         <link rel="canonical" href={canonicalUrl} />
-        <link rel="alternate" type="application/atom+xml" href="/atom.xml" />
+        {/* <link rel="alternate" type="application/atom+xml" href="/atom.xml" /> */}
         {/* <meta property="fb:app_id" content="1149943318300250" /> */}
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:title" content={pageTitle} />

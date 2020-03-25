@@ -1,318 +1,341 @@
 @import "node_modules/bootstrap/scss/bootstrap"
 $base-color: #f5aa44
+$mobile: 550px
 
 body
-  color: #333
-  margin: 0
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+    font-size: 16px
+    color: #333
+    margin: 0
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+
+    @media (max-width: $mobile)
+        font-size: 14px
 
 .btn-sun
-  background: $base-color
-  color: white
+    background: $base-color
+    color: white
 
 .btn-sun:hover
-  color: white
-  background: darken($base-color, 10)
+    color: white
+    background: darken($base-color, 10)
 
 .btn-sun-outline
-  color: darken($base-color, 10)
-  border: 1px solid darken($base-color, 10)
+    color: darken($base-color, 10)
+    border: 1px solid darken($base-color, 10)
 
 .btn-sun-outline:hover
-  background: darken($base-color, 10)
-  color: white
+    background: darken($base-color, 10)
+    color: white
 
 .container
-  max-width: 850px
+    max-width: 850px
+    overflow-x: hidden
+
+// Less chonky tables
+table.table
+    td, th
+        padding: 0.4rem
 
 .AppHeader
-  position: sticky
-  top: 0
-  width: 100%
-  z-index: 1
-  background-color: #fafafa
-  border-bottom: 1px solid #d5d5d5
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05)
+    position: sticky
+    top: 0
+    width: 100%
+    z-index: 1
+    background-color: #fafafa
+    border-bottom: 1px solid #d5d5d5
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05)
 
-  .navbar-brand
-    display: inline
-    margin-right: 0.3rem
+    .navbar-brand
+        display: inline
+        margin-right: 0.3rem
 
-  .environment
-    color: green
-    font-size: 0.8rem
+    .navbar > .container
+        flex-wrap: wrap
+
+    .environment
+        color: green
+        font-size: 0.8rem
+
+    @media (max-width: $mobile)
+        position: relative
+
+        .ml-auto
+            margin-top: 0.3rem
+            margin-left: 0 !important
+            flex-wrap: wrap
+
+        .navbar-nav.other
+            margin-left: auto
 
 .AppLayout main
-  padding: 1rem
+    padding: 1rem
 
 #root
-  height: 100%
+    height: 100%
 
 .ReviewsUI
-  height: 100%
+    height: 100%
 
-  .reviewContainer
-    height: calc(100% - 8em)
-    display: grid
-    place-items: center
-    text-align: center
+    .reviewContainer
+        height: calc(100% - 8em)
+        display: grid
+        place-items: center
+        text-align: center
 
-  input
-    -webkit-appearance: none
-    border-radius: 0
-    display: block
-    width: 100%
-    height: 3em
-    font-size: 1.5em
-    line-height: 1em
-    text-align: center
-    border: none
-    box-sizing: border-box
-    box-shadow: 3px 3px 0 #e1e1e1
+    input
+        -webkit-appearance: none
+        border-radius: 0
+        display: block
+        width: 100%
+        height: 3em
+        font-size: 1.5em
+        line-height: 1em
+        text-align: center
+        border: none
+        box-sizing: border-box
+        box-shadow: 3px 3px 0 #e1e1e1
 
-  input.correct
+input.correct
     background-color: #88cc00 !important
     color: white
     -webkit-text-fill-color: #fff
 
-  input.incorrect
+input.incorrect
     background-color: #f03 !important
     color: white
     -webkit-text-fill-color: #fff
 
 .topbar
-  padding-left: 2rem
-  padding-top: 2rem
+    padding-left: 2rem
+    padding-top: 2rem
 
-  a
+a
     color: #999
 
 .LessonPage
-  height: 100%
+    height: 100%
 
-  padding-bottom: 4rem
+    padding-bottom: 4rem
 
-  .lesson
+.lesson
     margin: auto
 
 .LessonsEndOverlay
-  position: fixed
-  left: 0
-  top: 0
-  width: 100%
-  height: 100%
-  background-color: rgba(0, 0, 0, 0.8)
-  color: white
-  z-index: 100
-
-  display: grid
-  place-items: center
-
-  > div
-    width: 75%
-
-  h1
-    font-size: 2em
-    font-weight: 300
-    text-shadow: 2px 2px 0 #000
-    margin-bottom: 0.67em
-
-  .btn
+    position: fixed
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    background-color: rgba(0, 0, 0, 0.8)
     color: white
-    border: 2px solid white
-    padding: 0.75em
-    margin-right: 0.5em
+    z-index: 100
+
+    display: grid
+    place-items: center
+
+    > div
+        width: 75%
+
+    h1
+        font-size: 2em
+        font-weight: 300
+        text-shadow: 2px 2px 0 #000
+        margin-bottom: 0.67em
+
+    .btn
+        color: white
+        border: 2px solid white
+        padding: 0.75em
+        margin-right: 0.5em
 
 button:focus
-  outline: 0
+    outline: 0
 
 html,
 body
-  height: 100%
-  margin: 0
-  font-family: "Helvetica", "Arial", sans-serif
+    height: 100%
+    margin: 0
+    font-family: "Helvetica", "Arial", sans-serif
 
 html
-  font-size: 18px
+    font-size: 18px
 
 body
-  background: #eee
+    background: #eee
 
 a,
 a:hover
-  color: darken($base-color, 10)
-
-header .learnButtons
-  width: 100%
-  justify-content: flex-end
+    color: darken($base-color, 10)
 
 ul.navigation-shortcuts
-  display: flex
-  flex: 0 1 auto
-  list-style: none
-  padding: 0
-  margin: 0
-
-  li
-    flex: 0 1 auto
-    margin-left: 8px
-    width: auto
-    line-height: 20px
-    display: block
-
-  li > a
-    align-items: center
-    background: transparent
-    border-radius: 4px
-    border: 2px solid rgba(0, 0, 0, 0.1)
-    box-sizing: border-box
-    color: #333
     display: flex
-    flex-direction: row
-    flex-wrap: nowrap
-    font-size: 0.875rem
-    font-weight: 300
-    justify-content: flex-start
-    line-height: 28px
+    flex: 0 1 auto
+    list-style: none
+    padding: 0
     margin: 0
-    padding: 0 14px 0 0
-    text-decoration: none
-    text-shadow: 0 1px 0 #fff
-    transition: border-color 0.2s, background 0.2s
 
-  li > a span
-    background: #f5aa44
-    border-radius: 4px 0 0 4px
-    color: #fff
-    display: block
-    float: left
-    font-size: 0.75rem
-    font-weight: bold
-    line-height: 32px
-    margin: -2px 12px -2px -2px
-    min-width: 16px
-    padding: 0 8px
-    text-align: center
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3)
+    li
+        flex: 0 1 auto
+        width: auto
+        line-height: 20px
+        display: block
 
-  li > a span.inactive
-    background: #ccc
+    li:not(:first-child)
+        margin-left: 8px
+
+    li > a
+        align-items: center
+        background: transparent
+        border-radius: 4px
+        border: 2px solid rgba(0, 0, 0, 0.1)
+        box-sizing: border-box
+        color: #333
+        display: flex
+        flex-direction: row
+        flex-wrap: nowrap
+        font-size: 0.875rem
+        font-weight: 300
+        justify-content: flex-start
+        line-height: 28px
+        margin: 0
+        padding: 0 14px 0 0
+        text-decoration: none
+        text-shadow: 0 1px 0 #fff
+        transition: border-color 0.2s, background 0.2s
+
+    li > a span
+        background: #f5aa44
+        border-radius: 4px 0 0 4px
+        color: #fff
+        display: block
+        float: left
+        font-size: 0.75rem
+        font-weight: bold
+        line-height: 32px
+        margin: -2px 12px -2px -2px
+        min-width: 16px
+        padding: 0 8px
+        text-align: center
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3)
+
+    li > a span.inactive
+        background: #ccc
 
 .SubscriptionPage
-  .account-subscription-plan
-    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif
+    .account-subscription-plan
+        font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif
 
-  .account-subscription-plan
-    position: relative
-    width: 100%
-    margin-bottom: 15px
-    padding: 2rem 2rem 4rem
-    background-color: #ffffff
-    border-radius: 3px
-    border: 3px solid #999
-    box-sizing: border-box
+    .account-subscription-plan
+        position: relative
+        width: 100%
+        margin-bottom: 15px
+        padding: 2rem 2rem 4rem
+        background-color: #ffffff
+        border-radius: 3px
+        border: 3px solid #999
+        box-sizing: border-box
 
-  .account-subscription-plan ul
-    margin: 0
-    padding: 0
+    .account-subscription-plan ul
+        margin: 0
+        padding: 0
 
-  .account-subscription-plan ul li.account-subscription-plan-type
-    font-size: 1.5rem
-    line-height: 1em
+    .account-subscription-plan ul li.account-subscription-plan-type
+        font-size: 1.5rem
+        line-height: 1em
 
-  .account-subscription-plan ul li.account-subscription-plan-price .account-subscription-plan-price-num
-    font-size: 3rem
-    font-weight: bold
-    line-height: 1em
+    .account-subscription-plan ul li.account-subscription-plan-price .account-subscription-plan-price-num
+        font-size: 3rem
+        font-weight: bold
+        line-height: 1em
 
-  .account-subscription-plan ul li.account-subscription-plan-price .account-subscription-plan-price-denom-rate
-    display: inline-block
-    margin-top: 0.5rem
+    .account-subscription-plan ul li.account-subscription-plan-price .account-subscription-plan-price-denom-rate
+        display: inline-block
+        margin-top: 0.5rem
 
-  .account-subscription-plan ul li
-    display: block
-    margin: 0
-    text-align: center
+    .account-subscription-plan ul li
+        display: block
+        margin: 0
+        text-align: center
 
-  .account-subscription-plan ul li.account-subscription-plan-price
-    margin: 2rem 0
-    line-height: 1em
+    .account-subscription-plan ul li.account-subscription-plan-price
+        margin: 2rem 0
+        line-height: 1em
 
-  .account-subscription-plan ul li:nth-child(3)
-    padding-top: 0
+    .account-subscription-plan ul li:nth-child(3)
+        padding-top: 0
 
-  .account-subscription-plan ul li:nth-child(n + 4)
-    padding: 2rem 0
-    border-bottom: 1px solid #d5d5d5
+    .account-subscription-plan ul li:nth-child(n + 4)
+        padding: 2rem 0
+        border-bottom: 1px solid #d5d5d5
 
-  .account-subscription-plan ul li:last-child
-    border-bottom: none
+    .account-subscription-plan ul li:last-child
+        border-bottom: none
 
-  .account-subscription-plan .account-subscription-plan-select
-    position: absolute
-    width: 100%
-    bottom: 0
-    left: 0
-    text-align: center
+    .account-subscription-plan .account-subscription-plan-select
+        position: absolute
+        width: 100%
+        bottom: 0
+        left: 0
+        text-align: center
 
-  .account-subscription-plan .account-subscription-plan-select button[type="button"].btn
-    position: relative
-    display: block
-    width: 100%
-    padding: 1rem
-    background: #999 !important
-    border: none
-    border-radius: 0
-    color: #ffffff
-    font-weight: bold
+    .account-subscription-plan .account-subscription-plan-select button[type="button"].btn
+        position: relative
+        display: block
+        width: 100%
+        padding: 1rem
+        background: #999 !important
+        border: none
+        border-radius: 0
+        color: #ffffff
+        font-weight: bold
 
 .MemoryCard
-  margin: auto
-  max-width: 400px
-  text-align: left
+    margin: auto
+    max-width: 400px
+    text-align: left
 
-  .card
-    box-shadow: 0 7px 50px rgba(46,10,99,.05), 0 1px 1px 0.6px rgba(46,10,99,.1)
-    border-radius: 8px
+    .card
+        box-shadow: 0 7px 50px rgba(46,10,99,.05), 0 1px 1px 0.6px rgba(46,10,99,.1)
+        border-radius: 8px
 
-  .prompt
-    padding: 1rem
-    min-height: 200px
+    .prompt
+        padding: 1rem
+        min-height: 200px
 
-  .answer:not(.revealed)
-    cursor: pointer
-    color: rgba(0, 0, 0, 0.3)
-    display: flex
-    align-items: center
-    justify-content: center
+    .answer:not(.revealed)
+        cursor: pointer
+        color: rgba(0, 0, 0, 0.3)
+        display: flex
+        align-items: center
+        justify-content: center
 
-  .answer
-    padding: 1rem
-    height: 200px
-    background: rgba($base-color, 0.2)
+    .answer
+        padding: 1rem
+        height: 200px
+        background: rgba($base-color, 0.2)
 
-  .buttons
-    margin-top: 0.5rem
-    display: flex
+    .buttons
+        margin-top: 0.5rem
+        display: flex
 
-    button
-      flex-grow: 1
-      cursor: pointer
-      padding-left: 0.3rem
+        button
+            flex-grow: 1
+            cursor: pointer
+            padding-left: 0.3rem
 
-    button:first-child
-      margin-right: 0.5rem
+        button:first-child
+            margin-right: 0.5rem
 
 .ConceptPage, .LessonPage
-  h1
-    font-size: 2rem
-    margin-top: 1rem
+    h1
+        font-size: 2rem
+        margin-top: 1rem
 
-  h2
-    font-size: 1.5rem
-    margin-top: 3rem
+    h2
+        font-size: 1.5rem
+        margin-top: 3rem
 
-  table td
-    max-width: 300px
+    table td
+        max-width: 300px
 
 // .HomePage
