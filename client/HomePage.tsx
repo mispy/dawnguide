@@ -12,39 +12,40 @@ import { showReviewTime } from "./ConceptPage"
 import { DebugTools } from "./DebugTools"
 
 interface ConceptWithProgress {
-  concept: Concept
-  progress?: ExerciseProgressItem
+    concept: Concept
+    progress?: ExerciseProgressItem
 }
 export function HomePage() {
-  const { store, sunpedia } = useContext(AppContext)
+    const { store, sunpedia } = useContext(AppContext)
 
-  const debug = true
+    const debug = true
 
-  return useObserver(() => <AppLayout>
-    <Container className="mt-4">
-      <p>Sunpeep is a tool for learning useful concepts in psychology that can be applied to everyday life.</p>
-      {store.exercisesWithProgress.length ? <>
-        <h4>Learning progress</h4>
-        <table className="table mt-4">
-          <thead>
-            <tr>
-              <th>Concept</th>
-              <th>Exercise</th>
-              <th>Level</th>
-              <th>Next Review</th>
-            </tr>
-          </thead>
-          <tbody>
-            {store.exercisesWithProgress.map(item => <tr key={item.exercise.id}>
-              <td><Link to={`/concept/${item.exercise.conceptId}`}>{sunpedia.conceptById[item.exercise.conceptId].title}</Link></td>
-              <td style={{ maxWidth: '300px' }}>{item.exercise.question}</td>
-              <td>{item.progress ? item.progress.level : 0}</td>
-              <td>{store.reviews.some(r => r.exercise.id === item.exercise.id) ? "Available now" : showReviewTime(item)}</td>
-            </tr>)}
-          </tbody>
-        </table>
-      </> : undefined}
-      {debug ? <DebugTools /> : undefined}
-    </Container>
-  </AppLayout>)
+    return useObserver(() => <AppLayout>
+        <Container className="mt-4">
+            <p>Sunpeep (working name) is a tool for learning useful concepts in psychology that can be applied to everyday life.</p>
+            <p>There aren't many concepts to learn yet, but the lesson/review system should be functional. Thanks for testing! 💛</p>
+            {store.exercisesWithProgress.length ? <>
+                <h4>Learning progress</h4>
+                <table className="table mt-4">
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Exercise</th>
+                            <th>Level</th>
+                            <th>Next Review</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {store.exercisesWithProgress.map(item => <tr key={item.exercise.id}>
+                            <td><Link to={`/concept/${item.exercise.conceptId}`}>{sunpedia.conceptById[item.exercise.conceptId].title}</Link></td>
+                            <td style={{ maxWidth: '300px' }}>{item.exercise.question}</td>
+                            <td>{item.progress ? item.progress.level : 0}</td>
+                            <td>{store.reviews.some(r => r.exercise.id === item.exercise.id) ? "Available now" : showReviewTime(item)}</td>
+                        </tr>)}
+                    </tbody>
+                </table>
+            </> : undefined}
+            {debug ? <DebugTools /> : undefined}
+        </Container>
+    </AppLayout>)
 }
