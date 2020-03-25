@@ -28,7 +28,7 @@ Mindfulness is a skill you can use at any time too help cope with difficult thou
         },
         {
             question: "How do I practice mindfulness?",
-            answer: "Meditation exercises can help you train the skill so that it's easier to use in everyday life. Here's [some by Tara Brach](https://www.tarabrach.com/guided-meditations/) to get started."
+            answer: "[Meditation exercises](https://www.tarabrach.com/guided-meditations/) can help you train the skill so that it's easier to use in everyday life."
         }
     ],
     bibliography: `

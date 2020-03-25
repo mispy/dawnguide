@@ -31,6 +31,7 @@ export const Head = (props: { canonicalUrl: string, pageTitle?: string, pageDesc
     // TODO canonicalUrl absolute if not http:// etc
 
     return <head>
+        <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{fullPageTitle}</title>
         <meta name="description" content={pageDesc} />
