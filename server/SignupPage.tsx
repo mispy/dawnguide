@@ -15,7 +15,7 @@ export function SignupPage() {
                 <form action="/signup" method="post">
                     <div className="form-group">
                         <label>Email</label>
-                        <input name="email" type="email" className="form-control" placeholder="Email" required />
+                        <input name="email" type="email" className="form-control" placeholder="Email" required autoFocus />
                     </div>
                     <div className="form-group">
                         <label>Password</label>
