@@ -4,7 +4,7 @@
         "server-parcel": "parcel watch server/worker.tsx -d server/tmp",
         "server-cloudworker": "nodemon --watch server/tmp/worker.js --exec cloudworker --debug --kv-file STORE=store.json server/tmp/worker.js",
         "server": "npm-run-all --parallel server-parcel server-cloudworker",
-        "build-client": "rm -rf client/dist/* && parcel build ./public/*.html -d client/dist --public-url https://sunpeep.suns.workers.dev/",
+        "build-client": "rm -rf client/dist/* && parcel build public/* -d client/dist --public-url https://sunpeep.suns.workers.dev/",
         "build-server": "rm -rf server/dist/* && parcel build worker.tsx -d server/dist && cp package.json server/dist/",
         "build": "yarn build-client && yarn build-server",
         "deploy": "wrangler publish"

@@ -1,7 +1,7 @@
 import { Json } from "./utils"
 
 type Responselike = Response | Json | string | void
-type RouteHandler<T> = (req: T) => Responselike | Promise<Responselike>
+type RouteHandler<T> = (req: T, ...args: string[]) => Responselike | Promise<Responselike>
 
 type Method = 'get' | 'post' | 'patch' | 'put' | 'delete' | 'all'
 
@@ -11,7 +11,7 @@ type Route<T> = {
     handler: RouteHandler<T>
 }
 
-function match<T extends Request>(req: T, route: Route<T>) {
+function routeMatch<T extends Request>(req: T, route: Route<T>) {
     if (req.method !== 'all' && req.method.toLowerCase() !== route.method)
         return null
 
@@ -62,27 +62,26 @@ class Router<T extends Request> {
     }
 
     route(req: T) {
-        const route = this.resolve(req)
-
-        if (route) {
-            return route.handler(req)
+        let route, match = null
+        for (const r of this.routes) {
+            match = routeMatch(req, r)
+            if (match) {
+                route = r
+                break
+            }
         }
 
-        return new Response('resource not found', {
-            status: 404,
-            statusText: 'not found',
-            headers: {
-                'content-type': 'text/plain',
-            },
-        })
-    }
-
-    /**
-     * resolve returns the matching route for a request that returns
-     * true for all conditions (if any).
-     */
-    resolve(req: T) {
-        return this.routes.find(r => match(req, r))
+        if (route && match) {
+            return route.handler(req, ...match)
+        } else {
+            return new Response('resource not found', {
+                status: 404,
+                statusText: 'not found',
+                headers: {
+                    'content-type': 'text/plain',
+                },
+            })
+        }
     }
 }
 

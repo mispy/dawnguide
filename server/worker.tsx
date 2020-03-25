@@ -11,6 +11,7 @@ import { signupPage } from './SignupPage'
 import { loginPage } from './LoginPage'
 import { landingPage } from './LandingPage'
 import { resetPasswordPage } from './ResetPasswordPage'
+import { conceptPage } from './ConceptPage'
 
 // Workers require that this be a sync callback
 addEventListener('fetch', event => {
@@ -33,6 +34,7 @@ async function handleEvent(event: FetchEvent) {
     r.post('/reset-password', resetPasswordStart)
     // r.post('/webhook/checkout', fulfillCheckout) // From Stripe
     r.get('/logout', logout)
+    r.get('/concept/([^/]+)', conceptPage)
     r.all('.*', () => behindLogin(event))
 
     const req = event.request
@@ -92,11 +94,7 @@ async function serveStatic(event: FetchEvent) {
 
     // Transform path for pretty urls etc
     let pathname = url.pathname
-    if (pathname == '/') {
-        pathname = '/landing.html'
-    } else if (pathname == "/login" || pathname == "/signup" || pathname == "/reset-password") {
-        pathname = pathname + '.html'
-    } else if (!pathname.includes(".")) {
+    if (!pathname.includes(".")) {
         pathname = "/index.html"
     }
 

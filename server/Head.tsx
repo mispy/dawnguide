@@ -8,7 +8,7 @@ function manifest(filename: string) {
         }
     }
 
-    throw new Error(`Couldn't find ${filename} in manifest: ${parcelManifest}`)
+    throw new Error(`Couldn't find ${filename} in manifest: ${JSON.stringify(parcelManifest)}`)
 }
 
 export const Head = (props: { canonicalUrl: string, pageTitle?: string, pageDesc?: string, imageUrl?: string, children?: any }) => {
