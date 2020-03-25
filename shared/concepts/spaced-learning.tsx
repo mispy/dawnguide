@@ -18,7 +18,7 @@ You don't need any software to take advantage of the spacing effect, but there a
     exercises: [
         {
             question: "What is the learning method used by Sunpeep?",
-            answer: "Spaced learning, an evidence-based a way of committing ideas to memory by reviewing them in short intervals over a longer time period."
+            answer: "Spaced learning, an evidence-based way of committing ideas to memory by reviewing them in short intervals over a longer time period."
         },
         {
             question: "How can I apply spaced learning without software?",
