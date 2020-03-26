@@ -13,6 +13,7 @@ export function SignupPage() {
         <body>
             <main className="SignupPage">
                 <form action="/signup" method="post">
+                    <h4 className="mb-4">Create your account</h4>
                     <div className="form-group">
                         <label>Email</label>
                         <input name="email" type="email" className="form-control" placeholder="Email" required autoFocus />
