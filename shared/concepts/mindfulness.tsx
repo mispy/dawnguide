@@ -6,9 +6,9 @@ export default concept({
     introduction: `
 Mindfulness is the process of bringing your attention to experiences occurring in the present moment, without judgment. It's a strategy of "slowing down" the mind when it's going too fast, the mental equivalent of taking a deep breath.
 
-Though it originates in spiritual practice, mindfulness has since been adopted and expanded upon by psychological research. In a 2018 meta-analysis of randomized controlled trials, mindfulness-based interventions were found to be effective across a range of psychiatric disorders[@goldberg2018mindfulness], especially depression, chronic pain, and addiction. It's about as effective as other evidence-based therapies, such as cognitive-behavioral therapy or antidepressant medication. <small>(TODO: explore the literature on individual differences in therapy responsiveness-- who is better suited for mindfulness vs. CBT?)</small>
+Though it originates in spiritual practice, mindfulness has since been adopted and expanded upon by psychological research. In a 2018 meta-analysis of randomized controlled trials, mindfulness-based interventions were found to be effective across a range of disorders[@goldberg2018mindfulness], especially depression, chronic pain, and addiction. It's about as effective as other evidence-based therapies, such as cognitive-behavioral therapy or antidepressant medication. <small>(TODO: explore the literature on individual differences in therapy responsiveness-- who is better suited for mindfulness vs. CBT?)</small>
 
-Mindfulness is a skill you can use at any time too help cope with difficult thoughts or emotions. Intentional practice makes it easier: it's often trained using meditation exercises that involve focusing awareness on your breath and the physical sensations of different parts of your body.
+Mindfulness is a skill you can use at any time to help cope with difficult thoughts or emotions. Intentional practice makes it easier: it's often trained using meditation exercises that involve focusing awareness on your breath and the physical sensations of different parts of your body.
 
 <small>(TODO: SRS meditation exercises?)</small>
 `,
