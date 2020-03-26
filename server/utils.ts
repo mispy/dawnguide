@@ -15,7 +15,7 @@ export function redirect(dest: string, code: number = 302) {
     return new Response(res.body, res)
 }
 
-export type Json = { [key: string]: string | number | Json | null | undefined | boolean }
+export type Json = any
 
 /** Parse request body, throw error if it's not an object */
 export async function expectRequestJson<T = Json>(request: Request): Promise<T> {
@@ -40,7 +40,7 @@ export async function expectRequestJson<T = Json>(request: Request): Promise<T> 
 }
 
 /** Expect a given json object to resolve some keys to string values */
-export function expectStrings<U extends keyof Json>(json: Json, ...keys: U[]): Pick<{ [key: string]: string }, U> {
+export function expectStrings<U extends keyof Record<string, string | undefined>>(json: Record<string, string | undefined>, ...keys: U[]): Pick<Record<string, string | undefined>, U> {
     const obj: any = {}
     for (const key of keys) {
         const val = json[key]
