@@ -6,6 +6,7 @@ import { STRIPE_SECRET_KEY, BASE_URL } from "./settings"
 import http from "./http"
 import { User, UserProgressItem } from '../shared/types'
 import { getReviewTime } from "../shared/logic"
+import _ = require("lodash")
 
 export async function processRequest(req: SessionRequest) {
     const r = new Router<SessionRequest>()
@@ -14,7 +15,7 @@ export async function processRequest(req: SessionRequest) {
     r.post('/api/lesson', completeLesson)
     r.post('/api/checkout', startCheckout)
     r.post('/api/debug', debugHandler)
-    r.get('/api/admin/.*', admin.processRequest)
+    r.all('/api/admin/.*', admin.processRequest)
 
     return await r.route(req)
 }
@@ -178,11 +179,18 @@ export namespace admin {
 
         const r = new Router<SessionRequest>()
         r.get('/api/admin/users', getUsers)
+        r.delete('/api/admin/users/(.*)', deleteUser)
 
         return await r.route(req)
     }
 
     export async function getUsers(): Promise<User[]> {
-        return await db.users.list()
+        const users = await db.users.list()
+        return users.map(u => _.pick(u, 'id', 'email', 'createdAt', 'updatedAt'))
+    }
+
+    export async function deleteUser(req: SessionRequest, userId: string) {
+        await db.users.del(userId)
+        return { userId: userId, deleted: true }
     }
 }

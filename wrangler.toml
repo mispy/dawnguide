@@ -5,6 +5,12 @@ account_id = "2ae5ddc12fe01a282dd014d39792077a"
 bucket = "./client/dist"
 entry-point = "./"
 
+[env.dev]
+name = "sunpeep-dev"
+kv-namespaces = [ 
+  { binding = "STORE", id = "afe6ff081b784b52b3ea398137f10c93" } 
+]
+
 [env.test]
 workers_dev = true
 name = "sunpeep-test"

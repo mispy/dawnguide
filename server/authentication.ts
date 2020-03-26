@@ -117,7 +117,6 @@ export async function logout(req: Request) {
 }
 
 export async function getSession(req: Request) {
-    console.log(req)
     const cookies = cookie.parse(req.headers.get('cookie') || '')
     const sessionKey = cookies['sessionKey']
     return sessionKey ? await db.sessions.get(sessionKey) : null

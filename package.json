@@ -4,6 +4,7 @@
         "client": "rm -rf client/tmp && parcel serve public/* -d client/tmp",
         "server-parcel": "parcel watch server/worker.tsx -d server/tmp",
         "server-cloudworker": "nodemon --watch server/tmp/worker.js --exec cloudworker --debug --kv-file STORE=store.json server/tmp/worker.js",
+        "server-wrangler": "wrangler dev --env dev",
         "server": "npm-run-all --parallel server-parcel server-cloudworker",
         "build-client": "rm -rf client/dist/* && parcel build public/* -d client/dist",
         "build-server": "rm -rf server/dist/* && parcel build server/worker.tsx -d server/dist",
@@ -14,7 +15,6 @@
     "dependencies": {
         "@cloudflare/kv-asset-handler": "^0.0.7",
         "@cloudflare/workers-types": "^1.0.6",
-        "@dollarshaveclub/cloudworker": "^0.1.2",
         "@fortawesome/fontawesome-svg-core": "^1.2.26",
         "@fortawesome/free-solid-svg-icons": "^5.12.0",
         "@fortawesome/react-fontawesome": "^0.1.8",
@@ -57,6 +57,7 @@
     },
     "devDependencies": {
         "@cloudflare/wrangler": "^1.8.2",
+        "@dollarshaveclub/cloudworker": "github:foldspark/cloudworker",
         "@typescript-eslint/eslint-plugin": "^2.11.0",
         "@typescript-eslint/parser": "^2.11.0",
         "babel-core": "^6.26.3",

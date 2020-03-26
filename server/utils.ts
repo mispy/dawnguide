@@ -40,7 +40,7 @@ export async function expectRequestJson<T = Json>(request: Request): Promise<T> 
 }
 
 /** Expect a given json object to resolve some keys to string values */
-export function expectStrings<U extends keyof Record<string, string | undefined>>(json: Record<string, string | undefined>, ...keys: U[]): Pick<Record<string, string | undefined>, U> {
+export function expectStrings<U extends keyof Record<string, string | undefined>>(json: Record<string, string | undefined>, ...keys: U[]): Pick<Record<string, string>, U> {
     const obj: any = {}
     for (const key of keys) {
         const val = json[key]

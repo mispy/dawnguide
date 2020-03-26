@@ -1,11 +1,16 @@
 import { useContext, useState, useEffect } from "react"
 import { AppContext } from "./AppContext"
 import { useLocalStore, useObserver } from "mobx-react-lite"
+import _ = require("lodash")
 import React = require("react")
 import { AppLayout } from "./AppLayout"
 import { SunpeepApi } from "./SunpeepApi"
-import { observable, runInAction } from "mobx"
+import { observable, runInAction, action } from "mobx"
 import { User } from "../shared/types"
+
+// @ts-ignore
+import TimeAgo from "react-timeago"
+import { Container } from "react-bootstrap"
 
 class AdminPageState {
     @observable users: User[] = []
@@ -14,7 +19,16 @@ class AdminPageState {
 
     async loadUsers() {
         const users = await this.api.admin.getUsers()
-        runInAction(() => this.users = users)
+        runInAction(() => {
+            this.users = _.sortBy(users, u => -u.createdAt)
+        })
+    }
+
+    async deleteUser(id: string) {
+        await this.api.admin.deleteUser(id)
+        runInAction(() => {
+            this.users = this.users.filter(u => u.id !== id)
+        })
     }
 }
 
@@ -28,7 +42,29 @@ export function AdminPage() {
 
     return useObserver(() => <AppLayout>
         <main className="AdminPage">
-
+            <Container>
+                <h3>Users</h3>
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Signed Up</th>
+                            {/* <th>Last Login</th> */}
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {state.users.map(user => <tr key={user.id}>
+                            <td>{user.email}</td>
+                            <td><TimeAgo date={user.createdAt} /></td>
+                            {/* <td></td> */}
+                            <td>
+                                <button className="btn btn-sm btn-danger" onClick={() => state.deleteUser(user.id)}>Delete</button>
+                            </td>
+                        </tr>)}
+                    </tbody>
+                </table>
+            </Container>
         </main>
     </AppLayout>)
 }

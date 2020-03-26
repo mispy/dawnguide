@@ -65,6 +65,10 @@ export class AdminApi {
         const { data } = await this.http.get('/api/admin/users')
         return data
     }
+
+    async deleteUser(userId: string) {
+        await this.http.delete(`/api/admin/users/${userId}`)
+    }
 }
 
 export class DebugApi {

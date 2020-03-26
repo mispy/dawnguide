@@ -3,7 +3,7 @@
 declare const global: any
 declare const process: any
 
-export const IS_PRODUCTION: boolean = !!global.__STATIC_CONTENT
+export const IS_PRODUCTION: boolean = global.BASE_URL && !global.BASE_URL.includes("localhost")
 
 export const WEBPACK_DEV_SERVER: string = "http://localhost:1234"
 

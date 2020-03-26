@@ -18,6 +18,7 @@ function routeMatch<T extends Request>(req: T, route: Route<T>) {
     const url = new URL(req.url)
     const path = url.pathname
     const match = path.match(`^${route.regex}$`)
+    console.log(url.pathname, route.regex, match)
     return match ? match.slice(1) : null
 }
 
