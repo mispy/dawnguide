@@ -15,6 +15,11 @@ export async function signup(req: Request) {
     const body = await expectRequestJson(req)
     const { email, password } = expectStrings(body, 'email', 'password')
 
+    const existingUser = await db.users.getByEmail(email)
+    if (existingUser) {
+        throw new Error(`User with email ${email} already exists`)
+    }
+
     const user = await db.users.create({ email, password })
 
     // Log the user in to their first session
