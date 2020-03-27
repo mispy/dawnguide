@@ -17,14 +17,14 @@ export function AppHeader() {
                     <Nav className="learnButtons">
                         <ul className="navigation-shortcuts">
                             <li className="navigation-shortcut navigation-shortcut--lessons">
-                                <Link to="/lesson">
-                                    <span className={store.numLessons === 0 ? 'inactive' : undefined}>{store.numLessons}</span> Lessons
+                                <Link to="/lesson" className={store.numLessons === 0 ? 'inactive' : undefined}>
+                                    <span>{store.numLessons}</span> Lessons
                                 </Link>
                             </li>
                             <li className="navigation-shortcut navigation-shortcut--reviews">
-                                <Link to="/review">
-                                    <span className={store.numReviews === 0 ? 'inactive' : undefined}>{store.numReviews}</span> Reviews
-                            </Link>
+                                <Link to="/review" className={store.numReviews === 0 ? 'inactive' : undefined}>
+                                    <span>{store.numReviews}</span> Reviews
+                                </Link>
                             </li>
                         </ul>
                     </Nav>
