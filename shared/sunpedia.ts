@@ -1,6 +1,8 @@
 
 // @ts-ignore
 // import Cite from 'citation-js'
+import bibTexParse = require('bibtex-parser-js')
+
 import { computed, observable } from 'mobx'
 
 import conceptDefs from './concepts'
@@ -9,8 +11,39 @@ import _ = require('lodash')
 import { isReadyForReview } from './logic'
 
 function parseBibliography(bibliography: string): Reference[] {
-    return [{}] as any
-    // return new Cite(bibliography).get()
+    // citationKey: "CEPEDA2006DISTRIBUTED"
+    // entryType: "ARTICLE"
+    // entryTags:
+    //     TITLE: "Distributed practice in verbal recall tasks: A review and quantitative synthesis."
+    //     AUTHOR: "Cepeda, Nicholas J and Pashler, Harold and Vul, Edward and Wixted, John T and Rohrer, Doug"
+    //     JOURNAL: "Psychological bulletin"
+    //     VOLUME: "132"
+    //     NUMBER: "3"
+    //     PAGES: "354"
+    //     YEAR: "2006"
+    //     PUBLISHER: "American Psychological Association"
+    //     URL: "https://escholarship.org/content/qt3rr6q10c/qt3rr6q10c.pdf"
+
+    const json = bibTexParse.toJSON(bibliography)
+
+    return json.map((entry: any) => ({
+        id: entry.citationKey.toLowerCase(),
+        title: entry.entryTags.TITLE,
+        author: entry.entryTags.AUTHOR.split(" and ").map((s: string) => {
+            const a = s.split(", ")
+            return {
+                family: a[0],
+                given: a[1]
+            }
+        }),
+        journal: entry.entryTags.JOURNAL,
+        volume: entry.entryTags.VOLUME,
+        issue: entry.entryTags.NUMBER,
+        page: entry.entryTags.PAGES,
+        year: entry.entryTags.YEAR,
+        publisher: entry.entryTags.PUBLISHER,
+        url: entry.entryTags.URL
+    }))
 }
 
 export type Exercise = {

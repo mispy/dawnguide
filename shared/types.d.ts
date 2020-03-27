@@ -28,13 +28,13 @@ export type Reference = {
     id: string
     title: string
     author: { given: string, family: string }[]
-    "container-title": string
+    journal: string
+    year: string
     volume: number
     issue: number
     page: string
     publisher: string
-    URL: string
-    issued: { "date-parts": number[] }
+    url: string
 }
 
 export type UserProgressItem = {
