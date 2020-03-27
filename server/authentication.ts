@@ -27,12 +27,11 @@ export async function signup(req: EventRequest) {
     const res = redirect('/')
     res.headers.set('Set-Cookie', sessionCookie(sessionKey))
 
-    await sendMail({
+    req.event.waitUntil(sendMail({
         to: "misprime@gmail.com",
         subject: `New user ${email}`,
         text: `Yay, how exciting! :D`
-    })
-
+    }))
 
     return res
 }
