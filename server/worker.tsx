@@ -22,9 +22,9 @@ addEventListener('fetch', event => {
         headers: event.request.headers,
         method: event.request.method,
         url: url,
+        path: url.pathname,
         params: getQueryParams(url.search)
     } as EventRequest
-    console.log(req)
     event.respondWith(processRequest(req))
 })
 
@@ -64,7 +64,7 @@ async function processRequest(req: EventRequest) {
     }
 }
 
-async function rootPage(req: Request) {
+async function rootPage(req: EventRequest) {
     const session = await getSession(req)
 
     if (session) {
@@ -88,10 +88,7 @@ async function behindLogin(req: EventRequest) {
     r.all('/api/.*', api.processRequest)
     r.get('.*', serveStatic)
 
-    const sessionReq = req as SessionRequest
-    sessionReq.session = session
-    const url = new URL(sessionReq.url)
-    sessionReq.params = getQueryParams(url.search)
+    const sessionReq = Object.assign({}, req, { session: session }) as SessionRequest
     return await r.route(sessionReq)
 }
 

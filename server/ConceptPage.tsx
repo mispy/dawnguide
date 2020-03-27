@@ -5,7 +5,7 @@ import { pageResponse } from './utils'
 // TODO get citation.js or alternative working server-side
 // import { Passage } from '../shared/Passage'
 
-export function conceptPage(req: Request, conceptId: string) {
+export function conceptPage(req: any, conceptId: string) {
     // const sunpedia = new Sunpedia()
 
     // const concept = sunpedia.getConcept(conceptId)

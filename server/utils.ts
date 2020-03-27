@@ -18,17 +18,17 @@ export function redirect(dest: string, code: number = 302) {
 export type Json = any
 
 /** Parse request body, throw error if it's not an object */
-export async function expectRequestJson<T = Json>(request: Request): Promise<T> {
+export async function expectRequestJson<T = Json>(request: EventRequest): Promise<T> {
     const { headers } = request
     const contentType = headers.get('content-type')
     if (!contentType) {
         throw new Error("No content type")
     }
     if (contentType.includes('application/json')) {
-        const body = await request.json()
+        const body = await request.event.request.json()
         return body
     } else if (contentType.includes('form')) {
-        const formData = await request.formData()
+        const formData = await request.event.request.formData()
         const body: Json = {}
         for (const entry of (formData as any).entries()) {
             body[entry[0]] = entry[1]
@@ -76,11 +76,15 @@ export class JsonResponse extends Response {
     }
 }
 
-export type EventRequest = Request & {
+export type EventRequest = {
     event: FetchEvent
+    headers: Headers
+    method: Request['method']
     url: URL
+    path: string
     params: QueryParams
 }
+
 
 // Cloudflare's example code
 // export async function readRequestBody(request: Request) {

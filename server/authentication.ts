@@ -10,7 +10,7 @@ export interface SessionRequest extends EventRequest {
     session: db.Session
 }
 
-export async function signup(req: Request) {
+export async function signup(req: EventRequest) {
     const body = await expectRequestJson(req)
     const { email, password } = expectStrings(body, 'email', 'password')
 
@@ -27,18 +27,17 @@ export async function signup(req: Request) {
     const res = redirect('/')
     res.headers.set('Set-Cookie', sessionCookie(sessionKey))
 
-    // await sendMail({
-    //     to: user.email,
-    //     from: "Sunpeep <sunpeep@example.com>",
-    //     subject: "Reset your password",
-    //     text: `Reset password here: ${BASE_URL}/reset-password/${token}`
-    // })
+    await sendMail({
+        to: "misprime@gmail.com",
+        subject: `New user ${email}`,
+        text: `Yay, how exciting! :D`
+    })
 
 
     return res
 }
 
-export async function login(req: Request) {
+export async function login(req: EventRequest) {
     const body = await expectRequestJson(req)
     const { email, password } = expectStrings(body, 'email', 'password')
 
@@ -49,7 +48,7 @@ export async function login(req: Request) {
     return res
 }
 
-export async function resetPasswordStart(req: Request) {
+export async function resetPasswordStart(req: EventRequest) {
     const body = await expectRequestJson(req)
     const { email } = expectStrings(body, 'email')
     const user = await db.users.getByEmail(email)
@@ -65,8 +64,8 @@ export async function resetPasswordStart(req: Request) {
     }
 }
 
-export async function serveResetPasswordForm(req: Request) {
-    const token = _.last(req.url.split('/')) as string
+export async function serveResetPasswordForm(req: EventRequest) {
+    const token = _.last(req.url.pathname.split('/')) as string
     const email = await db.passwordResets.get(token)
 
     const html = `
@@ -101,7 +100,7 @@ export async function serveResetPasswordForm(req: Request) {
 }
 
 
-export async function resetPasswordFinish(req: Request) {
+export async function resetPasswordFinish(req: EventRequest) {
     const body = await expectRequestJson(req)
     const { newPassword, token } = expectStrings(body, 'newPassword', 'token')
 
@@ -121,7 +120,7 @@ export async function resetPasswordFinish(req: Request) {
     return res
 }
 
-export async function logout(req: Request) {
+export async function logout(req: EventRequest) {
     const session = await getSession(req)
     if (session) {
         await db.sessions.expire(session.key)
@@ -129,7 +128,7 @@ export async function logout(req: Request) {
     return redirect('/')
 }
 
-export async function getSession(req: Request) {
+export async function getSession(req: EventRequest) {
     const cookies = cookie.parse(req.headers.get('cookie') || '')
     const sessionKey = cookies['sessionKey']
     return sessionKey ? await db.sessions.get(sessionKey) : null

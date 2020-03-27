@@ -1,4 +1,4 @@
-import { Json } from "./utils"
+import { Json, EventRequest } from "./utils"
 
 type Responselike = Response | Json | string | void
 type RouteHandler<T> = (req: T, ...args: string[]) => Responselike | Promise<Responselike>
@@ -11,13 +11,11 @@ type Route<T> = {
     handler: RouteHandler<T>
 }
 
-function routeMatch<T extends Request>(req: T, route: Route<T>) {
+function routeMatch<T extends EventRequest>(req: T, route: Route<T>) {
     if (route.method !== 'all' && req.method.toLowerCase() !== route.method)
         return null
 
-    const url = new URL(req.url)
-    const path = url.pathname
-    const match = path.match(`^${route.regex}$`)
+    const match = req.path.match(`^${route.regex}$`)
     return match ? match.slice(1) : null
 }
 
@@ -26,7 +24,7 @@ function routeMatch<T extends Request>(req: T, route: Route<T>) {
  * The Router handles determines which handler is matched given the
  * conditions present for each request.
  */
-class Router<T extends Request> {
+class Router<T extends EventRequest> {
     routes: Route<T>[] = []
 
     private handle(method: Method, regex: string, handler: RouteHandler<T>) {
