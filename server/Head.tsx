@@ -49,7 +49,7 @@ export const Head = (props: { canonicalUrl: string, pageTitle?: string, pageDesc
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={pageDesc} />
         <meta name="twitter:image" content={imageUrl} />
-        <link rel="stylesheet" href={manifest('landing.sass')} />
+        <link rel="stylesheet" href={manifest('site.sass')} />
         {props.children}
     </head>
 }

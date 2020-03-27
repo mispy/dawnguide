@@ -125,3 +125,34 @@ section.tagline > .container
 
     .masthead p
         font-size: 1rem
+
+.SiteHeader
+    position: sticky
+    top: 0
+    width: 100%
+    z-index: 1
+    background-color: #fafafa
+    border-bottom: 1px solid #d5d5d5
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05)
+
+    .navbar-brand
+        display: inline
+        margin-right: 0.3rem
+
+    .navbar > .container
+        flex-wrap: wrap
+
+    .environment
+        color: green
+        font-size: 0.8rem
+
+    @media (max-width: $mobile)
+        position: relative
+
+        .ml-auto
+            margin-top: 0.3rem
+            margin-left: 0 !important
+            flex-wrap: wrap
+
+        .navbar-nav.other
+            margin-left: auto
