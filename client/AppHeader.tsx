@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 import { AppContext } from "./AppContext"
 
 export function AppHeader() {
-    const { store } = useContext(AppContext)
+    const { app } = useContext(AppContext)
     return <header className="AppHeader">
         <Navbar>
             <Container>
@@ -17,13 +17,13 @@ export function AppHeader() {
                     <Nav className="learnButtons">
                         <ul className="navigation-shortcuts">
                             <li className="navigation-shortcut navigation-shortcut--lessons">
-                                <Link to="/lesson" className={store.numLessons === 0 ? 'inactive' : undefined}>
-                                    <span>{store.numLessons}</span> Lessons
+                                <Link to="/lesson" className={app.numLessons === 0 ? 'inactive' : undefined}>
+                                    <span>{app.numLessons}</span> Lessons
                                 </Link>
                             </li>
                             <li className="navigation-shortcut navigation-shortcut--reviews">
-                                <Link to="/review" className={store.numReviews === 0 ? 'inactive' : undefined}>
-                                    <span>{store.numReviews}</span> Reviews
+                                <Link to="/review" className={app.numReviews === 0 ? 'inactive' : undefined}>
+                                    <span>{app.numReviews}</span> Reviews
                                 </Link>
                             </li>
                         </ul>

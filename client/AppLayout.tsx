@@ -8,14 +8,14 @@ import { ErrorModal } from './ErrorModal'
 export function AppLayout(props: { children: any, noHeader?: boolean }) {
     const noHeader = props.noHeader || false
 
-    const { store } = useContext(AppContext)
+    const { app } = useContext(AppContext)
 
     useEffect(() => {
-        store.loadProgress()
+        app.loadProgress()
     }, [])
 
     return useObserver(() => <div className="AppLayout">
-        {store.unexpectedError ? <ErrorModal error={store.unexpectedError} /> : undefined}
+        {app.unexpectedError ? <ErrorModal error={app.unexpectedError} /> : undefined}
         {!noHeader ? <AppHeader /> : undefined}
         {props.children}
     </div>)

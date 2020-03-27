@@ -11,26 +11,26 @@ import { AppStore } from './AppStore'
 import { useMemo } from 'react'
 
 function App() {
-  const context = useMemo(() => {
-    const store = new AppStore()
+    const context = useMemo(() => {
+        const app = new AppStore()
 
-    return {
-      store: store,
-      api: store.api,
-      sunpedia: store.sunpedia
-    }
-  }, [])
+        return {
+            app: app,
+            api: app.api,
+            sunpedia: app.sunpedia
+        }
+    }, [])
 
-  _.extend(window, context)
+    _.extend(window, context)
 
-  return <AppContext.Provider value={context}>
-    <AppRouter />
-  </AppContext.Provider>
+    return <AppContext.Provider value={context}>
+        <AppRouter />
+    </AppContext.Provider>
 }
 
 ReactDOM.render(<App />, document.getElementById("root"))
 
 declare const module: any
 if (module.hot) {
-  module.hot.accept()
+    module.hot.accept()
 }

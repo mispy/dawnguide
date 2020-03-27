@@ -130,20 +130,20 @@ function LessonPageLoaded(props: { concepts: Concept[] }) {
 }
 
 export function LessonPage() {
-    const { store } = useContext(AppContext)
+    const { app } = useContext(AppContext)
 
     function content() {
-        const isLoading = !store.exercisesWithProgress.length
+        const isLoading = !app.exercisesWithProgress.length
 
         if (isLoading)
             return <div>Loading...</div>
 
-        if (!store.lessonConcepts.length) {
+        if (!app.lessonConcepts.length) {
             // Nothing ready to learn
             return <Redirect to="/home" />
         }
 
-        return <LessonPageLoaded concepts={store.lessonConcepts} />
+        return <LessonPageLoaded concepts={app.lessonConcepts} />
     }
 
     return useObserver(() => {

@@ -18,14 +18,14 @@ class ReviewsState {
 }
 
 export function ReviewPage() {
-    const { store } = useContext(AppContext)
+    const { app } = useContext(AppContext)
     const state = useLocalStore(() => new ReviewsState())
 
     function content() {
-        if (store.loading)
+        if (app.loading)
             return <div>Loading...</div>
 
-        if (!store.reviews.length)
+        if (!app.reviews.length)
             return <div>Nothing to review!</div>
 
         if (state.complete)
@@ -40,7 +40,7 @@ export function ReviewPage() {
                 </div>
             </div>
 
-        return <MultiReview reviews={_.shuffle(store.reviews)} onComplete={state.completeReview} />
+        return <MultiReview reviews={_.shuffle(app.reviews)} onComplete={state.completeReview} />
     }
 
     return useObserver(() =>

@@ -9,9 +9,9 @@ import React = require('react')
 
 export function ErrorModal(props: { error: Error | AxiosError }) {
     const { error } = props
-    const { store } = useContext(AppContext)
+    const { app } = useContext(AppContext)
 
-    const dismiss = action(() => store.unexpectedError = undefined)
+    const dismiss = action(() => app.unexpectedError = undefined)
 
     const serverResponse = 'response' in error && error.response ? error.response : null
 
