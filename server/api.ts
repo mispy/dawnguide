@@ -181,6 +181,10 @@ async function changeEmail(req: SessionRequest) {
     if (user.email === newEmail && user.emailConfirmed)
         return // Nothing to do here!
 
+    const existingUser = await db.users.getByEmail(newEmail)
+    if (existingUser && existingUser.id !== user.id)
+        throw new Error(`Email ${newEmail} is already associated with an account`)
+
     const validPassword = bcrypt.compareSync(password, user.cryptedPassword)
     if (validPassword) {
         const token = await db.emailConfirmTokens.create(user.id, newEmail)

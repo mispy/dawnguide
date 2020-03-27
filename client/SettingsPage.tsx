@@ -4,10 +4,7 @@ import { useLocalStore, useObserver } from "mobx-react-lite"
 import _ = require("lodash")
 import React = require("react")
 import { AppLayout } from "./AppLayout"
-import { SunpeepApi } from "./SunpeepApi"
 import { observable, runInAction, action } from "mobx"
-import { bind } from "decko"
-
 import { Container } from "react-bootstrap"
 
 function ChangeEmailSection() {

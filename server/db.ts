@@ -127,7 +127,7 @@ export namespace users {
     /** Change and confirm email */
     export async function changeEmail(userId: string, newEmail: string) {
         const existingUser = await users.getByEmail(newEmail)
-        if (existingUser && existingUser.id !== userId && existingUser.emailConfirmed) {
+        if (existingUser && existingUser.id !== userId) {
             throw new Error(`Email address ${newEmail} is already associated with a user`)
         }
 

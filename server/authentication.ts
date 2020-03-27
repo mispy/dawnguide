@@ -1,7 +1,7 @@
 import bcrypt = require('bcryptjs')
 import cookie = require('cookie')
 import db = require('./db')
-import { redirect, expectRequestJson, expectStrings, QueryParams, EventRequest } from './utils'
+import { redirect, expectRequestJson, expectStrings, QueryParams, EventRequest, absurl } from './utils'
 import { sendMail } from './mail'
 import { BASE_URL } from './settings'
 import _ = require('lodash')
@@ -22,6 +22,15 @@ export async function signup(req: EventRequest) {
     }
 
     const user = await db.users.create({ email, password })
+
+    // Send confirmation email
+    const token = await db.emailConfirmTokens.create(user.id, email)
+    const confirmUrl = absurl(`/account/confirmation/${token}`)
+    await sendMail({
+        to: email,
+        subject: "Sunpeep email change confirmation",
+        text: `Welcome to Sunpeep! Please confirm your account by following this link: ${confirmUrl}`
+    })
 
     // Log the user in to their first session
     const sessionKey = await db.sessions.create(user.id)
