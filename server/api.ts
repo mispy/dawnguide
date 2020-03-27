@@ -7,6 +7,7 @@ import http from "./http"
 import { User, UserProgressItem } from '../shared/types'
 import { getReviewTime } from "../shared/logic"
 import _ = require("lodash")
+import { sendLearningReminders } from "./mail"
 
 export async function processRequest(req: SessionRequest) {
     const r = new Router<SessionRequest>()
@@ -179,6 +180,7 @@ export namespace admin {
 
         const r = new Router<SessionRequest>()
         r.get('/api/admin/users', getUsers)
+        r.get('/api/admin/reminders', sendLearningReminders)
         r.delete('/api/admin/users/(.*)', deleteUser)
 
         return await r.route(req)

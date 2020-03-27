@@ -85,6 +85,11 @@ export type EventRequest = {
     params: QueryParams
 }
 
+import urljoin = require('url-join')
+export function absurl(path: string): string {
+    return urljoin(BASE_URL, path)
+}
+
 
 // Cloudflare's example code
 // export async function readRequestBody(request: Request) {

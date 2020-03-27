@@ -3,6 +3,7 @@ import { SENDGRID_SECRET_KEY } from './settings'
 import * as db from './db'
 import { days } from './time'
 import { Sunpedia } from '../shared/sunpedia'
+import { absurl } from './utils'
 
 type EmailMessage = {
     to: string
@@ -31,23 +32,22 @@ export async function sendMail(msg: EmailMessage) {
 export async function sendLearningReminder(user: db.User) {
     const now = Date.now()
     const json = await db.getJson<{ sentAt: number }>(`learning_reminder:${user.id}`)
-    const sentAt = json?.sentAt || user.createdAt
+    const lastSent = json?.sentAt || user.createdAt
 
-    if (sentAt > now - days(7)) {
-        // Not time for reminder yet
-        return
-    }
+    // if (lastSent > now - days(7)) {
+    //     // Not time for reminder yet
+    //     return
+    // }
 
     const progressItems = await db.progressItems.allFor(user.id)
     const sunpedia = new Sunpedia()
-    sunpedia.getLessonsAndReviews(progressItems)
-
-
+    const { lessons, reviews } = sunpedia.getLessonsAndReviews(progressItems)
 
     await sendMail({
-        to: user.email,
+        // to: user.email,
+        to: "misprime@gmail.com",
         subject: "Your Lessons and Reviews Update",
-        text: `Hello, you have`
+        text: `Hello, you have ${lessons.length} lessons and ${reviews.length} reviews ready! Check them out here: ${absurl('/home')}`
     })
 
     await db.putJson(`learning_reminder:${user.id}`, { sentAt: now })
