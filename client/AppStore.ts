@@ -1,6 +1,6 @@
-import { observable, runInAction, computed } from "mobx"
-import { ExerciseWithProgress, isReadyForReview } from "../shared/logic"
-import { Concept, Exercise } from "../shared/sunpedia"
+import { observable, runInAction, computed, action } from "mobx"
+import { ExerciseWithProgress } from "../shared/logic"
+import { Concept } from "../shared/sunpedia"
 import _ = require("lodash")
 import { SunpeepApi } from "./SunpeepApi"
 import { Sunpedia } from "../shared/sunpedia"
@@ -9,11 +9,21 @@ import { UserProgressItem } from "../shared/types"
 export class AppStore {
     api: SunpeepApi
     sunpedia: Sunpedia
-    @observable progressItems: UserProgressItem[] = []
+    @observable.ref progressItems: UserProgressItem[] = []
+    @observable.ref unexpectedError?: Error
 
     constructor() {
         this.sunpedia = new Sunpedia()
         this.api = new SunpeepApi(this.sunpedia)
+
+        window.addEventListener("error", ev => {
+            this.handleUnexpectedError(ev.error)
+            ev.preventDefault()
+        })
+        window.addEventListener('unhandledrejection', ev => {
+            this.handleUnexpectedError(ev.reason)
+            ev.preventDefault()
+        })
     }
 
     @computed get loading(): boolean {
@@ -63,5 +73,13 @@ export class AppStore {
     async loadProgress() {
         const progressItems = await this.api.getProgressItems()
         runInAction(() => this.progressItems = progressItems)
+    }
+
+    /**
+     * Global error handling when all else fails. Our last stand against the darkness.
+    */
+    @action.bound handleUnexpectedError(err: Error) {
+        console.error(err)
+        this.unexpectedError = err
     }
 }
