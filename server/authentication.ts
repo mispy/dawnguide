@@ -1,14 +1,13 @@
 import bcrypt = require('bcryptjs')
 import cookie = require('cookie')
 import db = require('./db')
-import { redirect, expectRequestJson, expectStrings, QueryParams } from './utils'
+import { redirect, expectRequestJson, expectStrings, QueryParams, EventRequest } from './utils'
 import { sendMail } from './mail'
 import { BASE_URL } from './settings'
 import _ = require('lodash')
 
-export interface SessionRequest extends Request {
+export interface SessionRequest extends EventRequest {
     session: db.Session
-    params: QueryParams
 }
 
 export async function signup(req: Request) {
@@ -27,6 +26,15 @@ export async function signup(req: Request) {
 
     const res = redirect('/')
     res.headers.set('Set-Cookie', sessionCookie(sessionKey))
+
+    // await sendMail({
+    //     to: user.email,
+    //     from: "Sunpeep <sunpeep@example.com>",
+    //     subject: "Reset your password",
+    //     text: `Reset password here: ${BASE_URL}/reset-password/${token}`
+    // })
+
+
     return res
 }
 

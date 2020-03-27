@@ -76,6 +76,12 @@ export class JsonResponse extends Response {
     }
 }
 
+export type EventRequest = Request & {
+    event: FetchEvent
+    url: URL
+    params: QueryParams
+}
+
 // Cloudflare's example code
 // export async function readRequestBody(request: Request) {
 //     const { headers } = request

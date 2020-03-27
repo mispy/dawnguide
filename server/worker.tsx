@@ -4,7 +4,7 @@ const { getAssetFromKV } = require('@cloudflare/kv-asset-handler')
 import Router from './router'
 import { signup, login, SessionRequest, logout, getSession, resetPasswordStart, serveResetPasswordForm, resetPasswordFinish } from './authentication'
 import { IS_PRODUCTION, WEBPACK_DEV_SERVER } from './settings'
-import { redirect, getQueryParams, JsonResponse } from './utils'
+import { redirect, getQueryParams, JsonResponse, EventRequest } from './utils'
 import api = require('./api')
 import _ = require('lodash')
 import { signupPage } from './SignupPage'
@@ -15,14 +15,22 @@ import { conceptPage } from './ConceptPage'
 
 // Workers require that this be a sync callback
 addEventListener('fetch', event => {
-    event.respondWith(handleEvent(event))
+    // Annotate request with some useful info by default
+    const url = new URL(event.request.url)
+    const req = {
+        event: event,
+        headers: event.request.headers,
+        method: event.request.method,
+        url: url,
+        params: getQueryParams(url.search)
+    } as EventRequest
+    console.log(req)
+    event.respondWith(processRequest(req))
 })
 
-async function handleEvent(event: FetchEvent) {
-    const url = new URL(event.request.url)
-
-    const r = new Router<Request>()
-    r.get('/(assets/.*)|.*\\.js|.*\\.css|.*\\.jpg|.*\\.ico', () => serveStatic(event))
+async function processRequest(req: EventRequest) {
+    const r = new Router<EventRequest>()
+    r.get('/(assets/.*)|.*\\.js|.*\\.css|.*\\.jpg|.*\\.ico', serveStatic)
     r.get('/login', loginPage)
     r.get('/signup', signupPage)
     r.get('/reset-password', resetPasswordPage)
@@ -35,9 +43,8 @@ async function handleEvent(event: FetchEvent) {
     // r.post('/webhook/checkout', fulfillCheckout) // From Stripe
     r.get('/logout', logout)
     r.get('/concept/([^/]+)', conceptPage)
-    r.all('.*', () => behindLogin(event))
+    r.all('.*', behindLogin)
 
-    const req = event.request
     try {
         const res = await r.route(req)
         if (res instanceof Response)
@@ -68,10 +75,9 @@ async function rootPage(req: Request) {
     }
 }
 
-async function behindLogin(event: FetchEvent) {
+async function behindLogin(req: EventRequest) {
     // Routes in here require login
 
-    const req = event.request
     const session = await getSession(req)
 
     if (!session) {
@@ -80,7 +86,7 @@ async function behindLogin(event: FetchEvent) {
 
     const r = new Router<SessionRequest>()
     r.all('/api/.*', api.processRequest)
-    r.get('.*', () => serveStatic(event))
+    r.get('.*', serveStatic)
 
     const sessionReq = req as SessionRequest
     sessionReq.session = session
@@ -89,18 +95,16 @@ async function behindLogin(event: FetchEvent) {
     return await r.route(sessionReq)
 }
 
-async function serveStatic(event: FetchEvent) {
-    const url = new URL(event.request.url)
-
+async function serveStatic(req: EventRequest) {
     // Transform path for pretty urls etc
-    let pathname = url.pathname
+    let pathname = req.url.pathname
     if (!pathname.includes(".")) {
         pathname = "/index.html"
     }
 
     if (IS_PRODUCTION) {
         // Serve asset from Cloudflare KV storage
-        return await serveStaticLive(event, pathname)
+        return await serveStaticLive(req.event, pathname)
     } else {
         // Proxy through to webpack dev server to serve asset
         return await fetch(`${WEBPACK_DEV_SERVER}${pathname}`)
