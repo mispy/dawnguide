@@ -5,6 +5,7 @@ import { redirect, expectRequestJson, expectStrings, QueryParams, EventRequest }
 import { sendMail } from './mail'
 import { BASE_URL } from './settings'
 import _ = require('lodash')
+import { resetPasswordPage } from './ResetPasswordPage'
 
 export interface SessionRequest extends EventRequest {
     session: db.Session
@@ -61,47 +62,13 @@ export async function resetPasswordStart(req: EventRequest) {
             text: `Reset password here: ${BASE_URL}/reset-password/${token}`
         })
     }
+
+    return resetPasswordPage(req, email)
 }
 
-export async function serveResetPasswordForm(req: EventRequest) {
-    const token = _.last(req.url.pathname.split('/')) as string
-    const email = await db.passwordResets.get(token)
-
-    const html = `
-    <!doctype html>
-    <html lang="en">
-    
-    <head>
-        <title>Reset Password</title>
-        <link rel="stylesheet" href="./assets/landing.css" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Sunpeep!" />
-        <meta charset="utf-8" />
-    </head>
-    
-    <body>
-        <main class="ResetPasswordFormPage">
-            ${email ? '' : '<div class="alert alert-danger">Invalid or expired token</div>'}
-            <form action="/reset-password/${token}" method="post">
-                <div class="form-group">
-                    <label>New password</label>
-                    <input name="newPassword" class="form-control" placeholder="New password" required />
-                </div>
-                <input type="submit" class="btn btn-success" value="Reset password" />
-            </form>
-        </main>
-    </body>
-    
-    </html>
-    `.trim()
-
-    return new Response(html)
-}
-
-
-export async function resetPasswordFinish(req: EventRequest) {
+export async function resetPasswordFinish(req: EventRequest, token: string) {
     const body = await expectRequestJson(req)
-    const { newPassword, token } = expectStrings(body, 'newPassword', 'token')
+    const { newPassword } = expectStrings(body, 'newPassword')
 
     const email = await db.passwordResets.get(token)
     if (!email) {
@@ -111,6 +78,9 @@ export async function resetPasswordFinish(req: EventRequest) {
     const user = await db.users.expectByEmail(email)
     user.cryptedPassword = db.users.encryptPassword(newPassword)
     await db.users.save(user)
+
+    // Expire the token now that it's used
+    await db.passwordResets.destroy(token)
 
     // Password updated, now log the user in
     const sessionKey = await db.sessions.create(user.id)

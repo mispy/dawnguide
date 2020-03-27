@@ -2,7 +2,7 @@
 const { getAssetFromKV } = require('@cloudflare/kv-asset-handler')
 
 import Router from './router'
-import { signup, login, SessionRequest, logout, getSession, resetPasswordStart, serveResetPasswordForm, resetPasswordFinish } from './authentication'
+import { signup, login, SessionRequest, logout, getSession, resetPasswordStart, resetPasswordFinish } from './authentication'
 import { IS_PRODUCTION, WEBPACK_DEV_SERVER } from './settings'
 import { redirect, getQueryParams, JsonResponse, EventRequest } from './utils'
 import api = require('./api')
@@ -11,6 +11,7 @@ import { signupPage } from './SignupPage'
 import { loginPage } from './LoginPage'
 import { landingPage } from './LandingPage'
 import { resetPasswordPage } from './ResetPasswordPage'
+import { resetPasswordFinalizePage } from './ResetPasswordFinalizePage'
 import { conceptPage } from './ConceptPage'
 
 // Workers require that this be a sync callback
@@ -35,8 +36,8 @@ async function processRequest(req: EventRequest) {
     r.get('/signup', signupPage)
     r.get('/reset-password', resetPasswordPage)
     r.get('/', rootPage)
-    r.get('/reset-password/.*', serveResetPasswordForm)
-    r.post('/reset-password/.*', resetPasswordFinish)
+    r.get('/reset-password/(.*)', resetPasswordFinalizePage)
+    r.post('/reset-password/(.*)', resetPasswordFinish)
     r.post('/signup', signup)
     r.post('/login', login)
     r.post('/reset-password', resetPasswordStart)

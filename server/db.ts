@@ -219,4 +219,8 @@ export namespace passwordResets {
         const email = await CloudflareStore.get(`password_resets:${token}`)
         return email || undefined
     }
+
+    export async function destroy(token: string) {
+        await CloudflareStore.delete(`password_resets:${token}`)
+    }
 }
