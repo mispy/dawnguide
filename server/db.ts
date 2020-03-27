@@ -122,6 +122,23 @@ export namespace users {
             db.delete(`user_progress:${userId}`)
         ])
     }
+
+    export async function changeEmail(userId: string, newEmail: string) {
+        const existingId = await db.get(`user_id_by_email:${newEmail}`)
+        if (existingId) {
+            throw new Error(`Email address ${newEmail} is already associated with a user`)
+        }
+
+        const user = await users.expect(userId)
+
+        const oldEmail = user.email
+        user.email = newEmail
+        await Promise.all([
+            users.save(user),
+            db.delete(`user_id_by_email:${oldEmail}`),
+            db.put(`user_id_by_email:${newEmail}`, user.id)
+        ])
+    }
 }
 
 export interface Session {

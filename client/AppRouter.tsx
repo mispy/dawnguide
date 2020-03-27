@@ -14,6 +14,7 @@ import { SubscriptionPage } from "./SubscriptionPage"
 import { ConceptPage } from './ConceptPage'
 import { AppContext } from './AppContext'
 import { AdminPage } from './AdminPage'
+import { SettingsPage } from './SettingsPage'
 
 export function AppRouter() {
     const { sunpedia } = useContext(AppContext)
@@ -34,6 +35,9 @@ export function AppRouter() {
             </Route>
             <Route path="/admin">
                 <AdminPage />
+            </Route>
+            <Route path="/settings">
+                <SettingsPage />
             </Route>
             {sunpedia.concepts.map(concept =>
                 <Route key={concept.id} path={`/concept/${concept.id}`}>

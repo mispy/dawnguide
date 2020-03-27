@@ -8,12 +8,14 @@ import { User, UserProgressItem } from '../shared/types'
 import { getReviewTime } from "../shared/logic"
 import _ = require("lodash")
 import { sendLearningReminders } from "./mail"
+import bcrypt = require('bcryptjs')
 
 export async function processRequest(req: SessionRequest) {
     const r = new Router<SessionRequest>()
     r.get('/api/progress', getProgress)
     r.put('/api/progress', submitProgress)
     r.post('/api/lesson', completeLesson)
+    r.post('/api/changeEmail', changeEmail)
     r.post('/api/checkout', startCheckout)
     r.post('/api/debug', debugHandler)
     r.all('/api/admin/.*', admin.processRequest)
@@ -168,6 +170,18 @@ async function debugHandler(req: SessionRequest) {
         await db.progressItems.resetAllProgressTo(userId, items)
     } else {
         throw new Error(`Unknown debug action ${json.action}`)
+    }
+}
+
+async function changeEmail(req: SessionRequest) {
+    const { newEmail, password } = await expectRequestJson<{ newEmail: string, password: string }>(req)
+    const user = (await db.users.get(req.session.userId))!
+
+    const validPassword = bcrypt.compareSync(password, user.cryptedPassword)
+    if (validPassword) {
+        await db.users.changeEmail(user.id, newEmail)
+    } else {
+        return new Response("Unauthorized", { status: 401 })
     }
 }
 

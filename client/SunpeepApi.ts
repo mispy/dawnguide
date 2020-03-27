@@ -39,6 +39,10 @@ export class SunpeepApi {
         const { data } = await this.http.post(`/api/checkout?planId=${planId}`)
         return expectStrings(data, 'checkoutSessionId')
     }
+
+    async changeEmail(params: { newEmail: string, password: string }) {
+        await this.http.post('/api/changeEmail', params)
+    }
 }
 
 export class AdminApi {
