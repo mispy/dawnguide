@@ -16,6 +16,7 @@ export async function processRequest(req: SessionRequest) {
     r.put('/api/progress', submitProgress)
     r.post('/api/lesson', completeLesson)
     r.post('/api/changeEmail', changeEmail)
+    r.post('/api/changePassword', changePassword)
     r.post('/api/checkout', startCheckout)
     r.post('/api/debug', debugHandler)
     r.all('/api/admin/.*', admin.processRequest)
@@ -180,6 +181,19 @@ async function changeEmail(req: SessionRequest) {
     const validPassword = bcrypt.compareSync(password, user.cryptedPassword)
     if (validPassword) {
         await db.users.changeEmail(user.id, newEmail)
+    } else {
+        return new Response("Unauthorized", { status: 401 })
+    }
+}
+
+async function changePassword(req: SessionRequest) {
+    const { newPassword, currentPassword } = expectStrings(await expectRequestJson(req), 'newPassword', 'currentPassword')
+    const user = (await db.users.get(req.session.userId))!
+
+    const validPassword = bcrypt.compareSync(currentPassword, user.cryptedPassword)
+    if (validPassword) {
+        user.cryptedPassword = db.users.encryptPassword(newPassword)
+        await db.users.save(user)
     } else {
         return new Response("Unauthorized", { status: 401 })
     }

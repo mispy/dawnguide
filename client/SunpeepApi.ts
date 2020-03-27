@@ -43,6 +43,10 @@ export class SunpeepApi {
     async changeEmail(params: { newEmail: string, password: string }) {
         await this.http.post('/api/changeEmail', params)
     }
+
+    async changePassword(params: { newPassword: string, currentPassword: string }) {
+        await this.http.post('/api/changePassword', params)
+    }
 }
 
 export class AdminApi {
