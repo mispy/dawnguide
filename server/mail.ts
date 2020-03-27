@@ -1,5 +1,8 @@
 import http from './http'
 import { SENDGRID_SECRET_KEY } from './settings'
+import * as db from './db'
+import { days } from './time'
+import { Sunpedia } from '../shared/sunpedia'
 
 type EmailMessage = {
     to: string
@@ -8,7 +11,7 @@ type EmailMessage = {
     text: string
 }
 
-export async function sendMail(msg: EmailMessage): Promise<any> {
+export async function sendMail(msg: EmailMessage) {
     const body = {
         "personalizations": [
             { "to": [{ "email": msg.to }] }
@@ -23,4 +26,39 @@ export async function sendMail(msg: EmailMessage): Promise<any> {
             Authorization: `Bearer ${SENDGRID_SECRET_KEY}`
         }
     })
+}
+
+export async function sendLearningReminder(user: db.User) {
+    const now = Date.now()
+    const json = await db.getJson<{ sentAt: number }>(`learning_reminder:${user.id}`)
+    const sentAt = json?.sentAt || user.createdAt
+
+    if (sentAt > now - days(7)) {
+        // Not time for reminder yet
+        return
+    }
+
+    const progressItems = await db.progressItems.allFor(user.id)
+    const sunpedia = new Sunpedia()
+    sunpedia.getLessonsAndReviews(progressItems)
+
+
+
+    await sendMail({
+        to: user.email,
+        subject: "Your Lessons and Reviews Update",
+        text: `Hello, you have`
+    })
+
+    await db.putJson(`learning_reminder:${user.id}`, { sentAt: now })
+}
+
+export async function sendLearningReminders() {
+    const promises = []
+
+    for (const user of await db.users.all()) {
+        promises.push(sendLearningReminder(user))
+    }
+
+    await Promise.all(promises)
 }

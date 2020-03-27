@@ -185,7 +185,7 @@ export namespace admin {
     }
 
     export async function getUsers(): Promise<User[]> {
-        const users = await db.users.list()
+        const users = await db.users.all()
         return users.map(u => _.pick(u, 'id', 'email', 'createdAt', 'updatedAt'))
     }
 

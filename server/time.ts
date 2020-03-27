@@ -1,9 +1,9 @@
-const seconds = (s: number) => s * 1000
-const minutes = (m: number) => seconds(m * 60)
-const hours = (h: number) => minutes(h * 60)
-const days = (d: number) => hours(d * 24)
-const weeks = (w: number) => days(w * 7)
-const months = (mo: number) => days(mo * 30)
+export const seconds = (s: number) => s * 1000
+export const minutes = (m: number) => seconds(m * 60)
+export const hours = (h: number) => minutes(h * 60)
+export const days = (d: number) => hours(d * 24)
+export const weeks = (w: number) => days(w * 7)
+export const months = (mo: number) => days(mo * 30)
 
 const timingLookup = [
     0,          // 0, not used

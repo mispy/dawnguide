@@ -27,23 +27,6 @@ export class SunpeepApi {
         return data.items
     }
 
-    async getExercisesWithProgress(): Promise<ExerciseWithProgress[]> {
-        const progressItems = await this.getProgressItems()
-        const progressByExerciseId = _.keyBy(progressItems, item => item.exerciseId) as _.Dictionary<UserProgressItem | undefined>
-
-        const exercisesWithProgress: ExerciseWithProgress[] = []
-        for (const exercise of this.sunpedia.exercises) {
-            const item = progressByExerciseId[exercise.id]
-
-            exercisesWithProgress.push({
-                exercise: exercise,
-                progress: item
-            })
-        }
-
-        return exercisesWithProgress
-    }
-
     async submitProgress(exerciseId: string, remembered: boolean): Promise<void> {
         await this.http.put('/api/progress', { exerciseId: exerciseId, remembered: remembered })
     }

@@ -75,7 +75,7 @@ export namespace users {
         return user
     }
 
-    export async function list(): Promise<User[]> {
+    export async function all(): Promise<User[]> {
         const { keys } = await db.list(`users:`)
 
         const userReqs = keys.map(key => db.getJson(key.name))

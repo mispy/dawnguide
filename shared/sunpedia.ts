@@ -1,14 +1,16 @@
 
 // @ts-ignore
-import Cite from 'citation-js'
+// import Cite from 'citation-js'
 import { computed, observable } from 'mobx'
 
 import conceptDefs from './concepts'
-import { ConceptDef, Reference, MarkdownString } from './types'
+import { ConceptDef, Reference, MarkdownString, UserProgressItem } from './types'
 import _ = require('lodash')
+import { isReadyForReview } from './logic'
 
 function parseBibliography(bibliography: string): Reference[] {
-    return new Cite(bibliography).get()
+    return [{}] as any
+    // return new Cite(bibliography).get()
 }
 
 export type Exercise = {
@@ -67,8 +69,40 @@ export class Sunpedia {
         return _.flatten(this.concepts.map(c => c.exercises))
     }
 
+    @computed get exerciseById() {
+        return _.keyBy(this.exercises, e => e.id)
+    }
+
     getConcept(conceptId: string): Concept | undefined {
         return this.conceptById[conceptId]
+    }
+
+    getExercise(exerciseId: string): Exercise | undefined {
+        return this.exerciseById[exerciseId]
+    }
+
+    getLessonsAndReviews(progressItems: UserProgressItem[]) {
+        const progressByExerciseId = _.keyBy(progressItems, item => item.exerciseId) as _.Dictionary<UserProgressItem | undefined>
+
+        const lessons = this.concepts.filter(c => {
+            return c.exercises.some(e => !progressByExerciseId[e.id])
+        })
+
+        const reviews: { concept: Concept, exercise: Exercise }[] = []
+        for (const item of progressItems) {
+            if (isReadyForReview(item)) {
+                const exercise = this.getExercise(item.exerciseId)
+                const concept = exercise && this.getConcept(exercise.conceptId)
+                if (exercise && concept) {
+                    reviews.push({
+                        concept: concept,
+                        exercise: exercise
+                    })
+                }
+            }
+        }
+
+        return { lessons, reviews }
     }
 
     constructor() {
