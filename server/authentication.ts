@@ -6,6 +6,7 @@ import { sendMail } from './mail'
 import { BASE_URL } from './settings'
 import _ = require('lodash')
 import { resetPasswordPage } from './ResetPasswordPage'
+import { weeks } from './time'
 
 export interface SessionRequest extends EventRequest {
     session: db.Session
@@ -72,7 +73,7 @@ export async function resetPasswordFinish(req: EventRequest, token: string) {
 
     const email = await db.passwordResets.get(token)
     if (!email) {
-        throw new Error("Invalid or expired token")
+        throw new Error(`Invalid or expired token ${token}`)
     }
 
     const user = await db.users.expectByEmail(email)
@@ -85,6 +86,22 @@ export async function resetPasswordFinish(req: EventRequest, token: string) {
     // Password updated, now log the user in
     const sessionKey = await db.sessions.create(user.id)
     const res = redirect('/')
+    res.headers.set('Set-Cookie', sessionCookie(sessionKey))
+    return res
+}
+
+export async function emailConfirmFinish(req: EventRequest, token: string) {
+    const json = await db.emailConfirmTokens.get(token)
+    if (!json) {
+        throw new Error(`Invalid or expired token ${token}`)
+    }
+
+    const { userId, email } = json
+    await db.users.changeEmail(userId, email)
+
+    // Log the user in if they weren't already
+    const res = redirect('/')
+    const sessionKey = await db.sessions.create(userId)
     res.headers.set('Set-Cookie', sessionCookie(sessionKey))
     return res
 }
@@ -106,7 +123,7 @@ export async function getSession(req: EventRequest) {
 function sessionCookie(sessionKey: string) {
     return cookie.serialize('sessionKey', sessionKey, {
         httpOnly: true,
-        maxAge: 60 * 60 * 24 * 7 // 1 week
+        maxAge: weeks(1)
     })
 }
 

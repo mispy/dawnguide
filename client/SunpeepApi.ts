@@ -40,7 +40,7 @@ export class SunpeepApi {
         return expectStrings(data, 'checkoutSessionId')
     }
 
-    async changeEmail(params: { newEmail: string, password: string }) {
+    async startChangeEmail(params: { newEmail: string, password: string }) {
         await this.http.post('/api/changeEmail', params)
     }
 

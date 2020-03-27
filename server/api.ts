@@ -1,13 +1,13 @@
 import { SessionRequest } from "./authentication"
 import Router from "./router"
-import { expectRequestJson, expectStrings, JsonResponse } from "./utils"
+import { expectRequestJson, expectStrings, JsonResponse, absurl } from "./utils"
 import db = require('./db')
 import { STRIPE_SECRET_KEY, BASE_URL } from "./settings"
 import http from "./http"
 import { User, UserProgressItem } from '../shared/types'
 import { getReviewTime } from "../shared/logic"
 import _ = require("lodash")
-import { sendLearningReminders } from "./mail"
+import { sendLearningReminders, sendMail } from "./mail"
 import bcrypt = require('bcryptjs')
 
 export async function processRequest(req: SessionRequest) {
@@ -178,9 +178,18 @@ async function changeEmail(req: SessionRequest) {
     const { newEmail, password } = await expectRequestJson<{ newEmail: string, password: string }>(req)
     const user = (await db.users.get(req.session.userId))!
 
+    if (user.email === newEmail && user.emailConfirmed)
+        return // Nothing to do here!
+
     const validPassword = bcrypt.compareSync(password, user.cryptedPassword)
     if (validPassword) {
-        await db.users.changeEmail(user.id, newEmail)
+        const token = await db.emailConfirmTokens.create(user.id, newEmail)
+        const confirmUrl = absurl(`/account/confirmation/${token}`)
+        await sendMail({
+            to: newEmail,
+            subject: "Sunpeep email change confirmation",
+            text: `Hello! You've requested an email change to your account. In order to finalize the change, follow this link: ${confirmUrl}`
+        })
     } else {
         return new Response("Unauthorized", { status: 401 })
     }

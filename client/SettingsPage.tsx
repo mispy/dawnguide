@@ -14,12 +14,12 @@ function ChangeEmailSection() {
     const { api } = useContext(AppContext)
     const state = useLocalStore(() => ({ newEmail: "", newEmailPassword: "", loading: false }))
 
-    async function changeEmail(e: React.FormEvent) {
+    async function startChangeEmail(e: React.FormEvent) {
         e.preventDefault()
 
         runInAction(() => state.loading = true)
         try {
-            await api.changeEmail({ newEmail: state.newEmail, password: state.newEmailPassword })
+            await api.startChangeEmail({ newEmail: state.newEmail, password: state.newEmailPassword })
         } finally {
             runInAction(() => state.loading = false)
         }
@@ -28,10 +28,9 @@ function ChangeEmailSection() {
     return useObserver(() => <section>
         <h2 id="email">Email</h2>
         <p>
-            Associate a new email address to your Sunpeep account.
-            {/* We'll send a confirmation email to your new address. You are required to click the link in the email to finalize the change. */}
+            Associate a new email address to your Sunpeep account. We'll send a confirmation email to your new address. You are required to click the link in the email to finalize the change.
         </p>
-        <form onSubmit={changeEmail}>
+        <form onSubmit={startChangeEmail}>
             <div className="form-group">
                 <label>New email address</label>
                 <input name="email" type="email" className="form-control" placeholder="Email" required value={state.newEmail} onChange={action(e => state.newEmail = e.currentTarget.value)} />

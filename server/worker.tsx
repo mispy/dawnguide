@@ -2,7 +2,7 @@
 const { getAssetFromKV } = require('@cloudflare/kv-asset-handler')
 
 import Router from './router'
-import { signup, login, SessionRequest, logout, getSession, resetPasswordStart, resetPasswordFinish } from './authentication'
+import { signup, login, SessionRequest, logout, getSession, resetPasswordStart, resetPasswordFinish, emailConfirmFinish } from './authentication'
 import { IS_PRODUCTION, WEBPACK_DEV_SERVER } from './settings'
 import { redirect, getQueryParams, JsonResponse, EventRequest } from './utils'
 import api = require('./api')
@@ -41,6 +41,7 @@ async function processRequest(req: EventRequest) {
     r.post('/signup', signup)
     r.post('/login', login)
     r.post('/reset-password', resetPasswordStart)
+    r.get('/account/confirmation/(.*)', emailConfirmFinish)
     // r.post('/webhook/checkout', fulfillCheckout) // From Stripe
     r.get('/logout', logout)
     r.get('/concept/([^/]+)', conceptPage)

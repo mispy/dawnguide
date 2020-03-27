@@ -2,7 +2,7 @@ import uuidv4 = require('uuid/v4')
 import bcrypt = require('bcryptjs')
 import moment = require('moment')
 import { KVNamespace } from '@cloudflare/workers-types'
-import { getTimeFromLevel } from './time'
+import { getTimeFromLevel, weeks } from './time'
 
 import { UserProgressItem } from '../shared/types'
 import { isReadyForReview } from '../shared/logic'
@@ -19,12 +19,12 @@ export async function getJson<T>(key: string): Promise<T | null> {
     return await CloudflareStore.get(key, "json")
 }
 
-export async function put(key: string, value: string) {
-    return await CloudflareStore.put(key, value)
+export async function put(key: string, value: string, options?: { expirationTtl?: number }) {
+    return await CloudflareStore.put(key, value, options)
 }
 
-export async function putJson(key: string, value: Record<string, any>) {
-    await CloudflareStore.put(key, JSON.stringify(value))
+export async function putJson(key: string, value: Record<string, any>, options?: { expirationTtl?: number }) {
+    await CloudflareStore.put(key, JSON.stringify(value), options)
 }
 
 export async function list(prefix: string) {
@@ -45,6 +45,7 @@ export type User = {
     cryptedPassword: string
     createdAt: number
     updatedAt: number
+    emailConfirmed?: true
 }
 
 export namespace users {
@@ -123,9 +124,10 @@ export namespace users {
         ])
     }
 
+    /** Change and confirm email */
     export async function changeEmail(userId: string, newEmail: string) {
-        const existingId = await db.get(`user_id_by_email:${newEmail}`)
-        if (existingId) {
+        const existingUser = await users.getByEmail(newEmail)
+        if (existingUser && existingUser.id !== userId && existingUser.emailConfirmed) {
             throw new Error(`Email address ${newEmail} is already associated with a user`)
         }
 
@@ -133,6 +135,7 @@ export namespace users {
 
         const oldEmail = user.email
         user.email = newEmail
+        user.emailConfirmed = true
         await Promise.all([
             users.save(user),
             db.delete(`user_id_by_email:${oldEmail}`),
@@ -222,5 +225,22 @@ export namespace passwordResets {
 
     export async function destroy(token: string) {
         await CloudflareStore.delete(`password_resets:${token}`)
+    }
+}
+
+export namespace emailConfirmTokens {
+    export async function create(userId: string, email: string): Promise<string> {
+        const token = uuidv4()
+        await db.putJson(`email_confirm_tokens:${token}`, { userId: userId, email: email }, { expirationTtl: weeks(4) })
+        return token
+    }
+
+    export async function get(token: string): Promise<{ userId: string, email: string } | undefined> {
+        const json = await db.getJson<{ userId: string, email: string }>(`email_confirm_tokens:${token}`)
+        return json || undefined
+    }
+
+    export async function destroy(token: string) {
+        await CloudflareStore.delete(`email_confirm_tokens:${token}`)
     }
 }
