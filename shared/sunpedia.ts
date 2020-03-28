@@ -5,7 +5,7 @@ import bibTexParse = require('bibtex-parser-js')
 
 import { computed, observable } from 'mobx'
 
-import conceptDefs from './concepts'
+import conceptDefs from '../concepts'
 import { ConceptDef, Reference, MarkdownString, UserProgressItem } from './types'
 import _ = require('lodash')
 import { isReadyForReview } from './logic'

@@ -1,12 +1,29 @@
 import React = require("react")
 import { Head } from "./Head"
 import { pageResponse } from './utils'
+import { Sunpedia, Concept } from "../shared/sunpedia"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 
 export function landingPage() {
     return pageResponse(<LandingPage />)
 }
 
+function ConceptsDropdown() {
+    const sunpedia = new Sunpedia()
+
+    return <li className="nav-item ConceptsDropdown">
+        <button className="nav-link">Concepts <FontAwesomeIcon icon={faAngleDown} /></button>
+        <ul>
+            {sunpedia.concepts.map(concept => <li>
+                <a href={`/concepts/${concept.id}`}>{concept.title}</a>
+            </li>)}
+        </ul>
+    </li>
+}
+
 export function LandingPage() {
+
     return <html lang="en">
         <Head pageTitle="Sunpeep, an app for learning to be happy" canonicalUrl="/" />
 
@@ -17,6 +34,7 @@ export function LandingPage() {
                         <div className="container">
                             <a className="navbar-brand" href="#">Sunpeep</a>
                             <ul className="navbar-nav ml-auto">
+                                <ConceptsDropdown />
                                 <li className="nav-item">
                                     <a className="nav-link" href="/login">Sign In</a>
                                 </li>

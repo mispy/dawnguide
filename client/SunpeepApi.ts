@@ -1,5 +1,5 @@
 import _ = require('lodash')
-import axios, { AxiosInstance } from 'axios'
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 import { API_BASE_URL } from './settings'
 import { expectStrings } from './utils'
@@ -7,17 +7,48 @@ import { ExerciseWithProgress } from '../shared/logic'
 import { User, UserProgressItem } from '../shared/types'
 import { Sunpedia } from '../shared/sunpedia'
 
-export class SunpeepApi {
+/** Wraps axios http methods so we can do stuff on each call */
+class HTTPProvider {
     http: AxiosInstance
-    admin: AdminApi
-    debug: DebugApi
-
-    constructor(readonly sunpedia: Sunpedia) {
+    constructor() {
         this.http = axios.create({
             baseURL: API_BASE_URL,
             timeout: 10000
         })
+    }
 
+    async request(config: AxiosRequestConfig) {
+        return this.http.request(config)
+    }
+
+    async get(url: string, config?: AxiosRequestConfig | undefined): Promise<AxiosResponse> {
+        return this.request(_.extend({ method: 'get', url: url }, config))
+    }
+
+    async post(url: string, data?: any, config?: AxiosRequestConfig | undefined): Promise<AxiosResponse> {
+        return this.request(_.extend({ method: 'post', url: url, data: data }, config))
+    }
+
+    async patch(url: string, data?: any, config?: AxiosRequestConfig | undefined): Promise<AxiosResponse> {
+        return this.request(_.extend({ method: 'patch', url: url, data: data }, config))
+    }
+
+    async put(url: string, data?: any, config?: AxiosRequestConfig | undefined): Promise<AxiosResponse> {
+        return this.request(_.extend({ method: 'put', url: url, data: data }, config))
+    }
+
+    async delete(url: string, config?: AxiosRequestConfig | undefined): Promise<AxiosResponse> {
+        return this.request(_.extend({ method: 'delete', url: url }, config))
+    }
+}
+
+export class SunpeepApi {
+    http: HTTPProvider
+    admin: AdminApi
+    debug: DebugApi
+
+    constructor(readonly sunpedia: Sunpedia) {
+        this.http = new HTTPProvider()
         this.admin = new AdminApi(this.http)
         this.debug = new DebugApi(this.http)
     }
@@ -50,7 +81,7 @@ export class SunpeepApi {
 }
 
 export class AdminApi {
-    constructor(readonly http: AxiosInstance) { }
+    constructor(readonly http: HTTPProvider) { }
 
     async getUsers(): Promise<User[]> {
         const { data } = await this.http.get('/api/admin/users')
@@ -63,7 +94,7 @@ export class AdminApi {
 }
 
 export class DebugApi {
-    constructor(readonly http: AxiosInstance) { }
+    constructor(readonly http: HTTPProvider) { }
 
     async resetProgress() {
         await this.http.post('/api/debug', { action: 'resetProgress' })

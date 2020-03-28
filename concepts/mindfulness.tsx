@@ -1,4 +1,4 @@
-import { concept } from '../concept'
+import { concept } from '../shared/concept'
 
 export default concept({
     id: 'mindfulness',
