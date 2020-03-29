@@ -1,5 +1,5 @@
 @import "node_modules/bootstrap/scss/bootstrap"
-$base-color: #f5aa44
+$base-color: #dc8998
 $mobile: 550px
 
 body
@@ -11,19 +11,19 @@ body
     @media (max-width: $mobile)
         font-size: 14px
 
-.btn-sun
+.btn-dawn
     background: $base-color
     color: white
 
-.btn-sun:hover
+.btn-dawn:hover
     color: white
     background: darken($base-color, 10)
 
-.btn-sun-outline
+.btn-dawn-outline
     color: darken($base-color, 10)
     border: 1px solid darken($base-color, 10)
 
-.btn-sun-outline:hover
+.btn-dawn-outline:hover
     background: darken($base-color, 10)
     color: white
 
@@ -204,7 +204,7 @@ ul.navigation-shortcuts
         transition: border-color 0.2s, background 0.2s
 
     li > a span
-        background: #f5aa44
+        background: $base-color
         border-radius: 4px 0 0 4px
         color: #fff
         display: block

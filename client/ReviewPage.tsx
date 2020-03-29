@@ -35,7 +35,7 @@ export function ReviewPage() {
                         All reviews complete!
         </div>
                     <div>
-                        <Link className="btn btn-sun" to="/home">Home</Link>
+                        <Link className="btn btn-dawn" to="/home">Home</Link>
                     </div>
                 </div>
             </div>

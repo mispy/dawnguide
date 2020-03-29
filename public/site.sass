@@ -1,7 +1,8 @@
 @import 'node_modules/bootstrap/scss/bootstrap'
 @import 'node_modules/@fortawesome/fontawesome-svg-core/styles'
-$base-color: #f5aa44
-
+$base-color: #dc8998
+// $landing-color: #167475
+$landing-color: #dc8998
 $mobile: 550px
 
 html, body
@@ -12,18 +13,18 @@ html, body
 a, a:hover
     color: darken($base-color, 10)
 
-.btn-sun
+.btn-dawn
     background: $base-color
     color: white
 
-.btn-sun:hover
+.btn-dawn:hover
     color: white
     background: darken($base-color, 10)
 
-.btn-sun-outline
+.btn-dawn-outline
     border: 1px solid $base-color
 
-.btn-sun-outline:hover
+.btn-dawn-outline:hover
     background: $base-color
     color: white
 
@@ -60,6 +61,11 @@ a, a:hover
 
     li.nav-item > a
         color: #333
+
+    li.signup > a
+        margin-left: 0.5rem
+        color: white
+        @extend .btn-dawn
 
     @media (max-width: $mobile)
         position: relative
@@ -119,7 +125,7 @@ a, a:hover
         color: rgba(255,255,255,0.75)
 
     .ConceptsDropdown ul li > a
-        color: #167475
+        color: $landing-color
 
     li.nav-item > a
         color: rgba(255,255,255,0.75)
@@ -130,7 +136,7 @@ a, a:hover
         background-color: #ffffff
         margin-right: 0
         padding: 0.5rem 1rem !important
-        color: #167475
+        color: $landing-color
         border: 2px solid rgba(255,255,255,0.75)
         border-radius: 5px
 
@@ -175,7 +181,7 @@ a, a:hover
 
     .masthead .btn
         background-color: #ffffff
-        color: #167475
+        color: $landing-color
         border-color: #ffffff
         padding: .8rem 2rem
         font-weight: 600

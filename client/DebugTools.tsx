@@ -17,7 +17,7 @@ export function DebugTools() {
     }
 
     return <section className="DebugTools mt-4">
-        <p><button className="btn btn-sun-outline btn-sm" onClick={moveReviewsForward}>Debug: Move Reviews Forward</button></p>
-        <p><button className="btn btn-sun-outline btn-sm" onClick={resetProgress}>Debug: Reset Progress</button></p>
+        <p><button className="btn btn-dawn-outline btn-sm" onClick={moveReviewsForward}>Debug: Move Reviews Forward</button></p>
+        <p><button className="btn btn-dawn-outline btn-sm" onClick={resetProgress}>Debug: Reset Progress</button></p>
     </section>
 }

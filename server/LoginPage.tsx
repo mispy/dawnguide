@@ -21,7 +21,7 @@ export function LoginPage() {
                         <label>Password</label>
                         <input name="password" type="password" className="form-control" placeholder="Password" required />
                     </div>
-                    <input type="submit" className="btn btn-sun-outline" value="Sign in" />
+                    <input type="submit" className="btn btn-dawn-outline" value="Sign in" />
                     <hr />
                     <div><a href="/signup">Sign up</a></div>
                     <div><a href="/reset-password">Forgot password?</a></div>

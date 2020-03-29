@@ -28,7 +28,7 @@ export function SiteHeader() {
                     <li className="nav-item">
                         <a className="nav-link" href="/login">Login</a>
                     </li>
-                    <li className="nav-item">
+                    <li className="nav-item signup">
                         <a className="nav-link btn btn-landing" href="/signup">Sign up</a>
                     </li>
                 </ul>

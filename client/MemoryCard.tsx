@@ -36,8 +36,8 @@ export function MemoryCard(props: { review: ExerciseWithConcept, onSubmit: (reme
                     <div className={classnames('answer', state.revealed && 'revealed')} onClick={reveal}>{!state.revealed ? "Click to reveal answer" : <Markdown>{exercise.answer}</Markdown>}</div>
                 </div>
                 <div className="buttons">
-                    <button className="btn btn-sun" disabled={!state.revealed} onClick={didntRemember}><FontAwesomeIcon icon={faUndoAlt} /> Didn't remember</button>
-                    <button className="btn btn-sun" disabled={!state.revealed} onClick={remembered}><FontAwesomeIcon icon={faCheck} /> Remembered</button>
+                    <button className="btn btn-dawn" disabled={!state.revealed} onClick={didntRemember}><FontAwesomeIcon icon={faUndoAlt} /> Didn't remember</button>
+                    <button className="btn btn-dawn" disabled={!state.revealed} onClick={remembered}><FontAwesomeIcon icon={faCheck} /> Remembered</button>
                 </div>
             </div>
 

@@ -22,7 +22,7 @@ export function SignupPage() {
                         <label>Password</label>
                         <input name="password" type="password" className="form-control" placeholder="Password" required />
                     </div>
-                    <button type="submit" className="btn btn-sun-outline">✨ Sign up</button>
+                    <button type="submit" className="btn btn-dawn-outline">✨ Sign up</button>
                 </form>
             </main>
         </body>

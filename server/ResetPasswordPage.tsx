@@ -20,7 +20,7 @@ export function ResetPasswordPage(props: { emailSent?: string }) {
                         <label>Email address</label>
                         <input name="email" className="form-control" placeholder="Email address" required />
                     </div>
-                    <button type="submit" className="btn btn-sun">Reset password</button>
+                    <button type="submit" className="btn btn-dawn">Reset password</button>
                     <hr />
                     <div><a href="/login">Login</a></div>
                     <div><a href="/signup">Sign up</a></div>

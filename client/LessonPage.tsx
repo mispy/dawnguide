@@ -99,7 +99,7 @@ function LessonPageLoaded(props: { concepts: Concept[] }) {
                     {/* <Markdown>{state.concept.introduction}</Markdown> */}
                     {/* <MDXProvider components={{ ref: Reference }}><Content/></MDXProvider> */}
                     <div className="d-flex justify-content-end">
-                        <button className="btn btn-sun" onClick={state.startReview}>Continue to review <FontAwesomeIcon icon={faArrowRight} /></button>
+                        <button className="btn btn-dawn" onClick={state.startReview}>Continue to review <FontAwesomeIcon icon={faArrowRight} /></button>
                     </div>
                 </div>
             </Container>
@@ -112,8 +112,8 @@ function LessonPageLoaded(props: { concepts: Concept[] }) {
                         Lesson complete!
           </div>
                     <div>
-                        <Link className="btn btn-sun" to="/home">Home</Link>
-                        {state.conceptIndex < state.concepts.length - 1 && <button className="btn btn-sun ml-2" onClick={state.nextLesson}>Next Lesson</button>}
+                        <Link className="btn btn-dawn" to="/home">Home</Link>
+                        {state.conceptIndex < state.concepts.length - 1 && <button className="btn btn-dawn ml-2" onClick={state.nextLesson}>Next Lesson</button>}
                     </div>
                 </div>
             </div>
