@@ -11,7 +11,7 @@ function ConceptsDropdown() {
     return <li className="nav-item ConceptsDropdown">
         <button className="nav-link">Concepts <FontAwesomeIcon icon={faAngleDown} /></button>
         <ul>
-            {sunpedia.concepts.map(concept => <li>
+            {sunpedia.concepts.map(concept => <li key={concept.id}>
                 <a href={`/concept/${concept.id}`}>{concept.title}</a>
             </li>)}
         </ul>

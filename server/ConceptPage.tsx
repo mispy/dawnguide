@@ -6,6 +6,8 @@ import { Passage } from '../shared/Passage'
 import { SiteHeader } from "./SiteHeader"
 import { SiteFooter } from "./SiteFooter"
 import Markdown from "markdown-to-jsx"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
 
 export function conceptPage(req: any, conceptId: string) {
     const sunpedia = new Sunpedia()
@@ -46,7 +48,7 @@ export function ConceptPage(props: { concept: Concept }) {
                                 </tr>)}
                             </tbody>
                         </table>
-
+                        <a href="/login" className="btn btn-dawn-outline">Sign in to memorize <FontAwesomeIcon icon={faArrowRight} /></a>
                     </section>
                 </div>
                 <SiteFooter />
