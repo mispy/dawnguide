@@ -1,24 +1,38 @@
 import React = require("react")
 import { Navbar, Container, Nav } from "react-bootstrap"
+import { Sunpedia, Concept } from "../shared/sunpedia"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
+
+/** Dropdown part is implemented in pure css in site.sass */
+function ConceptsDropdown() {
+    const sunpedia = new Sunpedia()
+
+    return <li className="nav-item ConceptsDropdown">
+        <button className="nav-link">Concepts <FontAwesomeIcon icon={faAngleDown} /></button>
+        <ul>
+            {sunpedia.concepts.map(concept => <li>
+                <a href={`/concept/${concept.id}`}>{concept.title}</a>
+            </li>)}
+        </ul>
+    </li>
+}
 
 export function SiteHeader() {
     return <header className="SiteHeader">
-        <Navbar>
-            <Container>
-                <div>
-                    <Navbar.Brand href="/">Sunpeep</Navbar.Brand>
-                    <span className="environment">alpha</span>
-                </div>
-                <div className="ml-auto d-flex align-items-center">
-
-                    <Nav className="other">
-                        <Nav.Link href="/login">Login</Nav.Link>
-                        <Nav.Link href="/signup">Sign up</Nav.Link>
-                    </Nav>
-
-                </div>
-
-            </Container>
-        </Navbar>
+        <nav className="navbar navbar-expand-lg">
+            <div className="container">
+                <a className="navbar-brand" href="/">Sunpeep</a>
+                <ul className="navbar-nav ml-auto">
+                    <ConceptsDropdown />
+                    <li className="nav-item">
+                        <a className="nav-link" href="/login">Login</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link btn btn-landing" href="/signup">Sign up</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </header>
 }
