@@ -42,7 +42,7 @@ class HTTPProvider {
     }
 }
 
-export class SunpeepApi {
+export class DawnguideApi {
     http: HTTPProvider
     admin: AdminApi
     debug: DebugApi

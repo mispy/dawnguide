@@ -25,7 +25,7 @@ function ChangeEmailSection() {
     return useObserver(() => <section>
         <h2 id="email">Email</h2>
         <p>
-            Associate a new email address to your Sunpeep account. We'll send a confirmation email to your new address. You are required to click the link in the email to finalize the change.
+            Associate a new email address to your Dawnguide account. We'll send a confirmation email to your new address. You are required to click the link in the email to finalize the change.
         </p>
         <form onSubmit={startChangeEmail}>
             <div className="form-group">

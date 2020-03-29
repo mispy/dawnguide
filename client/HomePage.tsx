@@ -22,7 +22,7 @@ export function HomePage() {
 
     return useObserver(() => <AppLayout>
         <Container className="mt-4">
-            <p>Sunpeep (working name) is a tool for learning useful concepts in psychology that can be applied to everyday life.</p>
+            <p>Dawnguide (working name) is a tool for learning useful concepts in psychology that can be applied to everyday life.</p>
             <p>I haven't written many lessons yet, but the system should be functional. Thanks for testing! 💛</p>
             {app.exercisesWithProgress.length ? <>
                 <h4>Learning progress</h4>

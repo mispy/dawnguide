@@ -216,13 +216,13 @@ export class Sunpedia {
 //     id: "spaced-learning",
 //     title: "Spaced learning",
 //     introduction: `
-// Spaced learning is a way of committing ideas to memory by reviewing them in short intervals over a longer time period. Understanding spaced learning will help you understand how Sunpeep works, and it's also a general technique that you can use yourself to learn any kind of material.
+// Spaced learning is a way of committing ideas to memory by reviewing them in short intervals over a longer time period. Understanding spaced learning will help you understand how Dawnguide works, and it's also a general technique that you can use yourself to learn any kind of material.
 
 // Spaced learning leads to better recall than massed learning strategies, such as cramming for an exam. In psychology this is called the "spacing effect" and it's supported by a lot of research![@cepeda2006distributed]
 
-// Sunpeep's form of spaced learning starts with reading a short passage about the key ideas of a concept (such as this one). Afterwards, you'll be shown some question-answer review cards. Each time you remember the answer to a question, we'll wait longer before showing it to you again. This way you can memorize ideas for the long term.
+// Dawnguide's form of spaced learning starts with reading a short passage about the key ideas of a concept (such as this one). Afterwards, you'll be shown some question-answer review cards. Each time you remember the answer to a question, we'll wait longer before showing it to you again. This way you can memorize ideas for the long term.
 
-// You don't need any software to take advantage of the spacing effect, but there are a number of apps (like Sunpeep) that aim to make it easier. A common free one for making your own flashcards is [Anki](https://apps.ankiweb.net/).
+// You don't need any software to take advantage of the spacing effect, but there are a number of apps (like Dawnguide) that aim to make it easier. A common free one for making your own flashcards is [Anki](https://apps.ankiweb.net/).
 
 // Further Reading
 
@@ -234,7 +234,7 @@ export class Sunpedia {
 
 // Notes
 
-// Sunpeep includes a notes section about each concept, which includes information we thought was interesting but not so fundamental that we'd want to memorize it. Feel free to read or skip these as you go.
+// Dawnguide includes a notes section about each concept, which includes information we thought was interesting but not so fundamental that we'd want to memorize it. Feel free to read or skip these as you go.
 
 
 
@@ -252,7 +252,7 @@ export class Sunpedia {
 //     }`,
 //     exercises: [
 //       {
-//         question: "What is the evidence-based learning method used by Sunpeep?",
+//         question: "What is the evidence-based learning method used by Dawnguide?",
 //         answer: "Spaced practice"
 //       },
 //       // {

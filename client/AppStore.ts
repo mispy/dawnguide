@@ -2,19 +2,19 @@ import { observable, runInAction, computed, action } from "mobx"
 import { ExerciseWithProgress } from "../shared/logic"
 import { Concept } from "../shared/sunpedia"
 import _ = require("lodash")
-import { SunpeepApi } from "./SunpeepApi"
+import { DawnguideApi } from "./DawnguideApi"
 import { Sunpedia } from "../shared/sunpedia"
 import { UserProgressItem } from "../shared/types"
 
 export class AppStore {
-    api: SunpeepApi
+    api: DawnguideApi
     sunpedia: Sunpedia
     @observable.ref progressItems: UserProgressItem[] = []
     @observable.ref unexpectedError?: Error
 
     constructor() {
         this.sunpedia = new Sunpedia()
-        this.api = new SunpeepApi(this.sunpedia)
+        this.api = new DawnguideApi(this.sunpedia)
 
         window.addEventListener("error", ev => {
             this.handleUnexpectedError(ev.error)

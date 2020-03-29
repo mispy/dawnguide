@@ -4,7 +4,7 @@ import { useLocalStore, useObserver } from "mobx-react-lite"
 import _ = require("lodash")
 import React = require("react")
 import { AppLayout } from "./AppLayout"
-import { SunpeepApi } from "./SunpeepApi"
+import { DawnguideApi } from "./DawnguideApi"
 import { observable, runInAction, action } from "mobx"
 import { User } from "../shared/types"
 
@@ -15,7 +15,7 @@ import { Container } from "react-bootstrap"
 class AdminPageState {
     @observable users: User[] = []
 
-    constructor(readonly api: SunpeepApi) { }
+    constructor(readonly api: DawnguideApi) { }
 
     async loadUsers() {
         const users = await this.api.admin.getUsers()

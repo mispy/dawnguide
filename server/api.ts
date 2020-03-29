@@ -100,7 +100,7 @@ async function startCheckout(req: SessionRequest): Promise<{ checkoutSessionId: 
     const user = await db.users.get(req.session.userId)
     const { planId } = expectStrings(req.params, 'planId')
 
-    if (planId === 'sunpeep_monthly' || planId === 'sunpeep_annual') {
+    if (planId === 'dawnguide_monthly' || planId === 'dawnguide_annual') {
         const resp = await http.post("https://api.stripe.com/v1/checkout/sessions", {
             customer_email: user!.email,
             payment_method_types: ['card'],
@@ -123,13 +123,13 @@ async function startCheckout(req: SessionRequest): Promise<{ checkoutSessionId: 
         }
 
         return { checkoutSessionId: resp.id }
-    } else if (planId === 'sunpeep_lifetime') {
+    } else if (planId === 'dawnguide_lifetime') {
         const resp = await http.post("https://api.stripe.com/v1/checkout/sessions", {
             customer_email: user!.email,
             payment_method_types: ['card'],
             line_items: [{
-                name: 'Sunpeep Lifetime',
-                description: 'Lifetime subscription to sunpeep',
+                name: 'Dawnguide Lifetime',
+                description: 'Lifetime subscription to dawnguide',
                 amount: 29900,
                 currency: 'usd',
                 quantity: 1,
@@ -191,7 +191,7 @@ async function changeEmail(req: SessionRequest) {
         const confirmUrl = absurl(`/account/confirmation/${token}`)
         await sendMail({
             to: newEmail,
-            subject: "Sunpeep email change confirmation",
+            subject: "Dawnguide email change confirmation",
             text: `Hello! You've requested an email change to your account. In order to finalize the change, follow this link: ${confirmUrl}`
         })
     } else {

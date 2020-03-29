@@ -5,7 +5,7 @@ import * as _ from 'lodash'
 
 import './app.sass'
 import { AppRouter } from './AppRouter'
-import { SunpeepApi } from './SunpeepApi'
+import { DawnguideApi } from './DawnguideApi'
 import { AppContext } from './AppContext'
 import { AppStore } from './AppStore'
 import { useMemo } from 'react'

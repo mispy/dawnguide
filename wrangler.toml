@@ -6,23 +6,23 @@ bucket = "./client/dist"
 entry-point = "./"
 
 [env.dev]
-name = "sunpeep-dev"
+name = "dawnguide-dev"
 kv-namespaces = [ 
   { binding = "STORE", id = "afe6ff081b784b52b3ea398137f10c93" } 
 ]
 
 [env.test]
 workers_dev = true
-name = "sunpeep-test"
+name = "dawnguide-test"
 kv-namespaces = [ 
   { binding = "STORE", id = "a3e453436131418082bd8ae822479c8a" }
 ]
 
 [env.live]
 workers_dev = false
-zone_id = "280f8208078ccc85119536679bc85540"
-route = "https://sunpeep.dawnlight.tech/*"
-name = "sunpeep"
+zone_id = "4bdba9fdefc31627b48f4d841744ccd4"
+route = "https://dawnguide.com/*"
+name = "dawnguide"
 kv-namespaces = [ 
   { binding = "STORE", id = "d318bb77cf8c4d398b325e49b6e13f3b" } 
 ]

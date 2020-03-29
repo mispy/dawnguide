@@ -28,8 +28,8 @@ export async function signup(req: EventRequest) {
     const confirmUrl = absurl(`/account/confirmation/${token}`)
     await sendMail({
         to: email,
-        subject: "Sunpeep email change confirmation",
-        text: `Welcome to Sunpeep! Please confirm your account by following this link: ${confirmUrl}`
+        subject: "Dawnguide email change confirmation",
+        text: `Welcome to Dawnguide! Please confirm your account by following this link: ${confirmUrl}`
     })
 
     // Log the user in to their first session
@@ -67,7 +67,7 @@ export async function resetPasswordStart(req: EventRequest) {
         const token = await db.passwordResets.create(user.email)
         await sendMail({
             to: user.email,
-            from: "Sunpeep <sunpeep@example.com>",
+            from: "Dawnguide <dawnguide@example.com>",
             subject: "Reset your password",
             text: `Reset password here: ${BASE_URL}/reset-password/${token}`
         })

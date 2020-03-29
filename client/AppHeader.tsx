@@ -10,7 +10,7 @@ export function AppHeader() {
         <Navbar>
             <Container>
                 <div>
-                    <Navbar.Brand as={Link} to="/home">Sunpeep</Navbar.Brand>
+                    <Navbar.Brand as={Link} to="/home">Dawnguide</Navbar.Brand>
                     <span className="environment">alpha</span>
                 </div>
                 <div className="ml-auto d-flex align-items-center">

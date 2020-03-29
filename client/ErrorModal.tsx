@@ -30,11 +30,11 @@ export function ErrorModal(props: { error: Error | AxiosError }) {
                     ? <>
                         <h5>{serverResponse.data.message ? serverResponse.data.message : 'Server error'}</h5>
                         <pre>{serverResponse.status} {serverResponse.statusText} from {(error as AxiosError).config.url}</pre>
-                        <p>Sunpeep encountered an unexpected error. Please screenshot this message and report it to the development team.</p>
+                        <p>Dawnguide encountered an unexpected error. Please screenshot this message and report it to the development team.</p>
                         <iframe srcDoc={serverResponseHtml} />
                     </> : <>
                         <h5>{error.message}</h5>
-                        <p>Sunpeep encountered an unexpected error. Please screenshot this message and report it to the development team.</p>
+                        <p>Dawnguide encountered an unexpected error. Please screenshot this message and report it to the development team.</p>
                     </>
                 }
             </div>
