@@ -1,6 +1,6 @@
 import React = require("react")
 import { Head } from "./Head"
-import { pageResponse } from './utils'
+import { pageResponse, htmlToPlaintext } from './utils'
 import { Sunpedia, Concept } from "../shared/sunpedia"
 import { Passage } from '../shared/Passage'
 import { SiteHeader } from "./SiteHeader"
@@ -8,7 +8,7 @@ import { SiteFooter } from "./SiteFooter"
 import Markdown from "markdown-to-jsx"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
-import { getSession } from "./authentication"
+import { renderToStaticMarkup } from "react-dom/server"
 
 export async function publicConceptPage(req: any, conceptId: string) {
     const sunpedia = new Sunpedia()
@@ -25,8 +25,11 @@ export async function publicConceptPage(req: any, conceptId: string) {
 export function ConceptPage(props: { concept: Concept }) {
     const { concept } = props
 
+    const intro = renderToStaticMarkup(<Markdown>{concept.introduction.replace(/\[@[^\]]+\]/g, '')}</Markdown>)
+    const pageDesc = htmlToPlaintext(intro).split("\n\n")[0]
+
     return <html lang="en">
-        <Head pageTitle={concept.title} canonicalUrl={`/concepts/${concept.id}`} />
+        <Head pageTitle={concept.title} canonicalUrl={`/concepts/${concept.id}`} pageDesc={pageDesc} />
 
         <body>
             <SiteHeader />
