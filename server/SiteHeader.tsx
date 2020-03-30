@@ -24,7 +24,9 @@ export function SiteHeader() {
     return <header className="SiteHeader">
         <nav className="navbar navbar-expand-lg">
             <div className="container">
-                <a className="navbar-brand" href="/"><Logo /> Dawnguide</a>
+                <a className="navbar-brand" href="/">
+                    <Logo /> Dawnguide
+                </a>
                 <ul className="navbar-nav ml-auto">
                     <ConceptsDropdown />
                     <li className="nav-item">
