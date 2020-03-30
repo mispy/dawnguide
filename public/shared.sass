@@ -1,6 +1,43 @@
 $base-color: #dc8998
 $mobile: 550px
 
+html, body
+    height: 100%
+    margin: 0
+
+body
+    font-size: 16px
+    color: #333
+    margin: 0
+    font-family: 'Montserrat', sans-serif
+
+    @media (max-width: $mobile)
+        font-size: 14px
+
+a, a:hover
+    color: darken($base-color, 10)
+
+.btn-dawn
+    background: $base-color
+    color: white
+
+.btn-dawn:hover
+    color: white
+    background: darken($base-color, 10)
+
+.btn-dawn-outline
+    color: darken($base-color, 10)
+    border: 1px solid darken($base-color, 10)
+
+.btn-dawn-outline:hover
+    background: darken($base-color, 10)
+    color: white
+
+// Less chonky tables
+table.table
+    td, th
+        padding: 0.4rem
+
 .SiteFooter
     margin-top: 3rem
     background-image: url("../public/dawnguide-concept-footer.svg")
@@ -12,3 +49,20 @@ $mobile: 550px
 
     @media (max-width: $mobile)
         padding-top: 60%
+
+.ConceptPage
+    padding-top: 20px
+
+    h1
+        margin-bottom: 0.5em
+
+    section
+        margin-top: 2rem
+
+    h2
+        padding-bottom: 0.25em
+        margin-bottom: 0.5em
+        border-bottom: 1px solid #d5d5d5
+
+    table td
+        max-width: 300px

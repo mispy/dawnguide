@@ -5,29 +5,6 @@
 $landing-color: #167475
 // $landing-color: #dc8998
 
-html, body
-    height: 100%
-    font-family: 'Montserrat', sans-serif
-    font-size: 16px
-
-a, a:hover
-    color: darken($base-color, 10)
-
-.btn-dawn
-    background: $base-color
-    color: white
-
-.btn-dawn:hover
-    color: white
-    background: darken($base-color, 10)
-
-.btn-dawn-outline
-    border: 1px solid $base-color
-
-.btn-dawn-outline:hover
-    background: $base-color
-    color: white
-
 .SignupPage, .LoginPage, .ResetPasswordPage, .ResetPasswordFinalizePage
     height: 100%
     display: flex
@@ -67,13 +44,15 @@ a, a:hover
         color: white
         @extend .btn-dawn
 
+    .ml-auto
+        flex-direction: row
+        align-items: center
+
+    .nav-link
+        padding: 0.5rem
+
     @media (max-width: $mobile)
         position: relative
-
-        .ml-auto
-            margin-top: 0.3rem
-            margin-left: 0 !important
-            flex-wrap: wrap
 
         .navbar-nav.other
             margin-left: auto
@@ -202,17 +181,3 @@ a, a:hover
 
         .masthead p
             font-size: 1rem
-
-.ConceptPage
-    padding-top: 20px
-
-    h1
-        margin-bottom: 0.5em
-
-    section
-        margin-top: 2rem
-
-    h2
-        padding-bottom: 0.25em
-        margin-bottom: 0.5em
-        border-bottom: 1px solid #d5d5d5

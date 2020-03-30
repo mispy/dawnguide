@@ -1,40 +1,8 @@
 @import "node_modules/bootstrap/scss/bootstrap"
-$base-color: #dc8998
-$mobile: 550px
+@import "../public/shared"
 
-body
-    font-size: 16px
-    color: #333
-    margin: 0
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
-
-    @media (max-width: $mobile)
-        font-size: 14px
-
-.btn-dawn
-    background: $base-color
-    color: white
-
-.btn-dawn:hover
-    color: white
-    background: darken($base-color, 10)
-
-.btn-dawn-outline
-    color: darken($base-color, 10)
-    border: 1px solid darken($base-color, 10)
-
-.btn-dawn-outline:hover
-    background: darken($base-color, 10)
-    color: white
-
-.container
-    max-width: 850px
-    overflow-x: hidden
-
-// Less chonky tables
-table.table
-    td, th
-        padding: 0.4rem
+#root
+    height: 100%
 
 .AppHeader
     position: sticky
@@ -46,6 +14,7 @@ table.table
     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05)
 
     .navbar-brand
+        color: #333
         display: inline
         margin-right: 0.3rem
 
@@ -66,12 +35,6 @@ table.table
 
         .navbar-nav.other
             margin-left: auto
-
-.AppLayout main
-    padding: 1rem
-
-#root
-    height: 100%
 
 .ReviewsUI
     height: 100%
@@ -150,22 +113,6 @@ a
 
 button:focus
     outline: 0
-
-html,
-body
-    height: 100%
-    margin: 0
-    font-family: "Helvetica", "Arial", sans-serif
-
-html
-    font-size: 18px
-
-body
-    background: #eee
-
-a,
-a:hover
-    color: darken($base-color, 10)
 
 ul.navigation-shortcuts
     display: flex
@@ -329,23 +276,6 @@ ul.navigation-shortcuts
         button:first-child
             margin-right: 0.5rem
 
-.ConceptPage
-    margin-top: 20px
-
-    h1
-        margin-bottom: 0.5em
-
-    section
-        margin-top: 2rem
-
-    h2
-        padding-bottom: 0.25em
-        margin-bottom: 0.5em
-        border-bottom: 1px solid #d5d5d5
-
-    table td
-        max-width: 300px
-
 .LessonPage
     h1
         font-size: 2rem
@@ -354,6 +284,10 @@ ul.navigation-shortcuts
     h2
         font-size: 1.5rem
         margin-top: 3rem
+
+    .container
+        max-width: 850px
+        overflow-x: hidden
 
 // .HomePage
 
