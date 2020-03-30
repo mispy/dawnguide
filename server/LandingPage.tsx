@@ -9,7 +9,7 @@ export function landingPage() {
 
 export function LandingPage() {
     return <html lang="en">
-        <Head pageTitle="Dawnguide, an app for learning to be happy" canonicalUrl="/" />
+        <Head pageTitle="Dawnguide, an application for learning to be happy" canonicalUrl="/" />
         <body>
             <main className="LandingPage">
                 <SiteHeader />

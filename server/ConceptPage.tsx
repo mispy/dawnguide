@@ -8,8 +8,9 @@ import { SiteFooter } from "./SiteFooter"
 import Markdown from "markdown-to-jsx"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
+import { getSession } from "./authentication"
 
-export function conceptPage(req: any, conceptId: string) {
+export async function publicConceptPage(req: any, conceptId: string) {
     const sunpedia = new Sunpedia()
 
     const concept = sunpedia.getConcept(conceptId)

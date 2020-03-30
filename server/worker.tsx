@@ -12,7 +12,7 @@ import { loginPage } from './LoginPage'
 import { landingPage } from './LandingPage'
 import { resetPasswordPage } from './ResetPasswordPage'
 import { resetPasswordFinalizePage } from './ResetPasswordFinalizePage'
-import { conceptPage } from './ConceptPage'
+import { publicConceptPage } from './ConceptPage'
 
 // Workers require that this be a sync callback
 addEventListener('fetch', event => {
@@ -74,6 +74,16 @@ async function rootPage(req: EventRequest) {
         return redirect('/home')
     } else {
         return landingPage()
+    }
+}
+
+async function conceptPage(req: EventRequest, conceptId: string) {
+    const session = await getSession(req)
+
+    if (session) {
+        return behindLogin(req)
+    } else {
+        return publicConceptPage(req, conceptId)
     }
 }
 
