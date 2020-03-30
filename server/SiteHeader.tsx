@@ -3,6 +3,7 @@ import { Navbar, Container, Nav } from "react-bootstrap"
 import { Sunpedia, Concept } from "../shared/sunpedia"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
+import { Logo } from "./Logo"
 
 /** Dropdown part is implemented in pure css in site.sass */
 function ConceptsDropdown() {
@@ -23,7 +24,7 @@ export function SiteHeader() {
     return <header className="SiteHeader">
         <nav className="navbar navbar-expand-lg">
             <div className="container">
-                <a className="navbar-brand" href="/">Dawnguide</a>
+                <a className="navbar-brand" href="/"><Logo /> Dawnguide</a>
                 <ul className="navbar-nav ml-auto">
                     <ConceptsDropdown />
                     <li className="nav-item">

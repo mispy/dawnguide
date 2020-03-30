@@ -3,16 +3,16 @@ import { useContext } from "react"
 import { Navbar, Container, Nav } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { AppContext } from "./AppContext"
+import { Logo } from "../server/Logo"
 
 export function AppHeader() {
     const { app } = useContext(AppContext)
     return <header className="AppHeader">
         <Navbar>
             <Container>
-                <div>
-                    <Navbar.Brand as={Link} to="/home">Dawnguide</Navbar.Brand>
-                    <span className="environment">alpha</span>
-                </div>
+                <Navbar.Brand as={Link} to="/home">
+                    <Logo /> Dawnguide <span className="environment">alpha</span>
+                </Navbar.Brand>
                 <div className="ml-auto d-flex align-items-center">
                     <Nav className="learnButtons">
                         <ul className="navigation-shortcuts">
