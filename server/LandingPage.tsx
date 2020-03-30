@@ -24,5 +24,5 @@ export function LandingPage() {
                 </section>
             </main>
         </body>
-    </html>
+    </html >
 }

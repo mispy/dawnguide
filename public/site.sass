@@ -81,9 +81,12 @@ a, a:hover
 .SiteHeader .ConceptsDropdown
     position: relative
 
-    button
+    label
         background: none
         border: none
+        cursor: pointer
+        margin: 0
+        user-select: none
 
     ul
         width: 200px
@@ -97,12 +100,15 @@ a, a:hover
         box-shadow: 0px 6px 11px rgba(0,0,0,0.15)
         border-radius: 6px
 
-    &:focus-within ul
-        display: block
-
     li a
         display: block
         padding: 0.5rem 1rem
+
+    #conceptsDropdownToggle
+        display: none
+
+    #conceptsDropdownToggle:checked ~ ul
+        display: block
 
 .LandingPage .SiteHeader
     background: none
@@ -121,7 +127,7 @@ a, a:hover
         flex-direction: row
         align-items: center
 
-    .ConceptsDropdown button
+    .ConceptsDropdown label
         color: rgba(255,255,255,0.75)
 
     .ConceptsDropdown ul li > a

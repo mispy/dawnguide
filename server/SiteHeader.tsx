@@ -9,7 +9,8 @@ function ConceptsDropdown() {
     const sunpedia = new Sunpedia()
 
     return <li className="nav-item ConceptsDropdown">
-        <button className="nav-link">Concepts <FontAwesomeIcon icon={faAngleDown} /></button>
+        <input id="conceptsDropdownToggle" type="checkbox" />
+        <label className="nav-link" htmlFor="conceptsDropdownToggle">Concepts <FontAwesomeIcon icon={faAngleDown} /></label>
         <ul>
             {sunpedia.concepts.map(concept => <li key={concept.id}>
                 <a href={`/concept/${concept.id}`}>{concept.title}</a>

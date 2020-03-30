@@ -3,7 +3,8 @@ import _ = require('lodash')
 import ReactDOMServer = require('react-dom/server')
 
 export function pageResponse(rootElement: Parameters<typeof ReactDOMServer.renderToStaticMarkup>[0]) {
-    return new Response(`<!doctype html>${ReactDOMServer.renderToStaticMarkup(rootElement)}`, { headers: { "Content-Type": 'text/html' } })
+    const markup = ReactDOMServer.renderToStaticMarkup(rootElement)
+    return new Response(`<!doctype html>${markup}`, { headers: { "Content-Type": 'text/html' } })
 }
 
 /** Make mutable redirect response to absolute url */
