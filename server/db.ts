@@ -1,8 +1,7 @@
 import uuidv4 = require('uuid/v4')
 import bcrypt = require('bcryptjs')
-import moment = require('moment')
 import { KVNamespace } from '@cloudflare/workers-types'
-import { getTimeFromLevel, weeks, days } from './time'
+import { weeks, days } from './time'
 
 import { UserProgressItem } from '../shared/types'
 import { isReadyForReview } from '../shared/logic'
@@ -21,14 +20,14 @@ export async function getJson<T>(key: string): Promise<T | null> {
 
 export async function put(key: string, value: string, options?: { expirationTtl?: number }) {
     if (options?.expirationTtl) {
-        options = { expirationTtl: options.expirationTtl / 1000 }
+        options = { expirationTtl: Math.floor(options.expirationTtl / 1000) }
     }
     return await CloudflareStore.put(key, value, options)
 }
 
 export async function putJson(key: string, value: Record<string, any>, options?: { expirationTtl?: number }) {
     if (options?.expirationTtl) {
-        options = { expirationTtl: options.expirationTtl / 1000 }
+        options = { expirationTtl: Math.floor(options.expirationTtl / 1000) }
     }
     await CloudflareStore.put(key, JSON.stringify(value), options)
 }
