@@ -5,6 +5,8 @@ import _ = require("lodash")
 import { DawnguideApi } from "./DawnguideApi"
 import { Sunpedia } from "../shared/sunpedia"
 import { UserProgressItem } from "../shared/types"
+import * as Sentry from '@sentry/browser'
+import { SENTRY_DSN_URL } from "./settings"
 
 export class AppStore {
     api: DawnguideApi
@@ -16,6 +18,7 @@ export class AppStore {
         this.sunpedia = new Sunpedia()
         this.api = new DawnguideApi(this.sunpedia)
 
+        Sentry.init({ dsn: SENTRY_DSN_URL });
         window.addEventListener("error", ev => {
             this.handleUnexpectedError(ev.error)
             ev.preventDefault()
@@ -81,5 +84,26 @@ export class AppStore {
     @action.bound handleUnexpectedError(err: Error) {
         console.error(err)
         this.unexpectedError = err
+
+        if (SENTRY_DSN_URL) {
+            // Sentry.configureScope(scope => {
+            //     const { user } = this.state
+
+            //     if (user) {
+            //         const userDetails: Record<string, any> = {
+            //             name: user.name,
+            //             username: user.username,
+            //             id: user.id.toString(),
+            //             role: user.role
+            //         }
+
+            //         if (user.email) userDetails.email = user.email
+            //         if (user.clientGroup) userDetails.clientGroup = user.clientGroup
+            //         scope.setUser(userDetails)
+            //     }
+            // })
+
+            Sentry.captureException(err)
+        }
     }
 }
