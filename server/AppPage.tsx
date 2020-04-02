@@ -8,7 +8,7 @@ export function appPage() {
 
 export function AppPage() {
     return <html lang="en">
-        <Head canonicalUrl={null} />
+        <Head canonicalUrl={null} cssUrl="/app.css" />
         <body>
             <noscript>
                 You need to enable JavaScript to run this app.

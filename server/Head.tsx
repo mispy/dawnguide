@@ -2,12 +2,13 @@ import * as React from 'react'
 
 import { absurl } from './utils'
 
-export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, pageDesc?: string, imageUrl?: string, children?: any }) => {
+export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, pageDesc?: string, imageUrl?: string, children?: any, cssUrl?: string }) => {
     let { canonicalUrl } = props
     const pageTitle = props.pageTitle || `Dawnguide`
     const fullPageTitle = props.pageTitle ? `${props.pageTitle} - Dawnguide` : `Dawnguide`
     const pageDesc = props.pageDesc || "Flashcard practice of mindfulness, self-compassion and cognitive-behavioral therapy."
     const imageUrl = props.imageUrl || '/social-media-image.jpg'
+    const cssUrl = props.cssUrl || "/site.css"
 
     if (canonicalUrl && !canonicalUrl?.startsWith("http")) {
         canonicalUrl = absurl(canonicalUrl)
@@ -46,7 +47,7 @@ export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, p
                 <meta name="robots" content="noindex" />
             </>}
 
-        <link rel="stylesheet" href="/site.css" />
+        <link rel="stylesheet" href={cssUrl} />
         {props.children}
     </head>
 }
