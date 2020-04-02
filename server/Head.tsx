@@ -56,6 +56,12 @@ export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, p
             {/* For now! */}
             <meta name="robots" content="noindex" />
             <link rel="manifest" href="/manifest.webmanifest" />
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+            <meta name="apple-mobile-web-app-title" content="Dawnguide" />
+            <link rel="apple-touch-icon" href="/icon-152x152.png"></link>
+            <meta name="theme-color" content="#ef98a8" />
+
         </> : <>
                 <meta name="robots" content="noindex" />
             </>}
