@@ -1,13 +1,11 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import { observer } from 'mobx-react-lite'
 import * as _ from 'lodash'
 
-import './app.sass'
-import { AppRouter } from './AppRouter'
-import { DawnguideApi } from './DawnguideApi'
-import { AppContext } from './AppContext'
-import { AppStore } from './AppStore'
+import '../client/app.sass'
+import { AppRouter } from '../client/AppRouter'
+import { AppContext } from '../client/AppContext'
+import { AppStore } from '../client/AppStore'
 import { useMemo } from 'react'
 
 function App() {

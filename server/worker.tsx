@@ -13,6 +13,7 @@ import { landingPage } from './LandingPage'
 import { resetPasswordPage } from './ResetPasswordPage'
 import { resetPasswordFinalizePage } from './ResetPasswordFinalizePage'
 import { publicConceptPage } from './ConceptPage'
+import { appPage } from './AppPage'
 
 // Workers require that this be a sync callback
 addEventListener('fetch', event => {
@@ -98,7 +99,7 @@ async function behindLogin(req: EventRequest) {
 
     const r = new Router<SessionRequest>()
     r.all('/api/.*', api.processRequest)
-    r.get('.*', serveStatic)
+    r.get('.*', appPage)
 
     const sessionReq = Object.assign({}, req, { session: session }) as SessionRequest
     return await r.route(sessionReq)
