@@ -8,7 +8,7 @@
         "server": "npm-run-all --parallel server-parcel server-cloudworker",
         "build-client": "rm -rf client/dist/* && parcel build public/* -d client/dist",
         "build-server": "rm -rf server/dist/* && parcel build server/worker.tsx -d server/dist",
-        "build": "npm-run-all build-client build-server",
+        "build": "npm-run-all --parallel build-client build-server",
         "deploy-test": "wrangler publish --env test",
         "publish": "wrangler publish --env live"
     },
