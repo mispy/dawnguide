@@ -1,33 +1,13 @@
 import * as React from 'react'
 
-import parcelManifestDev = require('../client/tmp/parcel-manifest.json')
-import parcelManifestProd = require('../client/dist/parcel-manifest.json')
 import { absurl } from './utils'
-
-declare const process: any
-function manifest(filename: string) {
-    let parcelManifest
-    if (process.env.NODE_ENV === 'development') {
-        parcelManifest = parcelManifestDev
-    } else {
-        parcelManifest = parcelManifestProd
-    }
-
-    for (const key in parcelManifest) {
-        if (key.split('/').slice(-1)[0] === filename) {
-            return (parcelManifest as any)[key].replace("https:/", "https://")
-        }
-    }
-
-    throw new Error(`Couldn't find ${filename} in manifest: ${JSON.stringify(parcelManifest)}`)
-}
 
 export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, pageDesc?: string, imageUrl?: string, children?: any }) => {
     let { canonicalUrl } = props
     const pageTitle = props.pageTitle || `Dawnguide`
     const fullPageTitle = props.pageTitle ? `${props.pageTitle} - Dawnguide` : `Dawnguide`
     const pageDesc = props.pageDesc || "Flashcard practice of mindfulness, self-compassion and cognitive-behavioral therapy."
-    const imageUrl = props.imageUrl || manifest('social-media-image.jpg')
+    const imageUrl = props.imageUrl || '/social-media-image.jpg'
 
     if (canonicalUrl && !canonicalUrl?.startsWith("http")) {
         canonicalUrl = absurl(canonicalUrl)
@@ -66,7 +46,7 @@ export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, p
                 <meta name="robots" content="noindex" />
             </>}
 
-        <link rel="stylesheet" href={manifest('site.sass')} />
+        <link rel="stylesheet" href="/site.css" />
         {props.children}
     </head>
 }
