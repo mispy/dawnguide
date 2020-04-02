@@ -1,0 +1,22 @@
+{
+    "short_name": "Dawnguide",
+    "name": "Dawnguide: an application for learning to be happy",
+    "description": "Flashcard practice of mindfulness, self-compassion and cognitive-behavioral therapy.",
+    "icons": [
+        {
+            "src": "/icon-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/icon-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "/?source=pwa",
+    "background_color": "#ef98a8",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#ef98a8"
+}

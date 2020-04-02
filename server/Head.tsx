@@ -55,6 +55,7 @@ export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, p
             <meta name="twitter:image" content={imageUrl} />
             {/* For now! */}
             <meta name="robots" content="noindex" />
+            <link rel="manifest" href="/manifest.webmanifest" />
         </> : <>
                 <meta name="robots" content="noindex" />
             </>}
