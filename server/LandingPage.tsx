@@ -18,7 +18,7 @@ export function LandingPage() {
                         <main className="masthead">
                             <h1 className="mb-3">Mental health skills can be learned</h1>
                             <p>Flashcard practice of mindfulness, self-compassion and cognitive-behavioral therapy.</p>
-                            <a href="/signup" className="btn btn-lg btn-landing">Get started</a>
+                            <a href="/signup" className="btn btn-lg btn-dawn">Get started</a>
                         </main>
                     </div>
                 </section>
