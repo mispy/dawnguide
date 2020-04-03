@@ -14,6 +14,18 @@ export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, p
         canonicalUrl = absurl(canonicalUrl)
     }
 
+    const script = `if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+            // Registration was successful
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }, function(err) {
+            // registration failed :(
+            console.log('ServiceWorker registration failed: ', err);
+          });
+        });
+      }`
+
     return <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -49,5 +61,6 @@ export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, p
 
         <link rel="stylesheet" href={cssUrl} />
         {props.children}
+        <script dangerouslySetInnerHTML={{ __html: script }} />
     </head>
 }
