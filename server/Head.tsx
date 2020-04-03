@@ -35,7 +35,7 @@ export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, p
             <meta name="twitter:description" content={pageDesc} />
             <meta name="twitter:image" content={imageUrl} />
             {/* For now! */}
-            <meta name="robots" content="noindex" />
+            {/* <meta name="robots" content="noindex" /> */}
             <link rel="manifest" href="/manifest.webmanifest" />
             <meta name="apple-mobile-web-app-capable" content="yes" />
             <meta name="apple-mobile-web-app-status-bar-style" content="black" />
