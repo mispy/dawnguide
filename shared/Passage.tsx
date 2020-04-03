@@ -24,6 +24,7 @@ export function Passage(props: { concept: Concept }) {
     const [introduction, referenceIds] = transformRefs(concept.introduction)
     const referencesInText = referenceIds.map(id => referencesById[id])
 
+    // TODO target=_blank in further reading
     return <div className="Passage">
         <h1>{concept.title}</h1>
         <Markdown>{introduction}</Markdown>
