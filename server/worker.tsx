@@ -32,7 +32,7 @@ addEventListener('fetch', event => {
 
 async function processRequest(req: EventRequest) {
     const r = new Router<EventRequest>()
-    r.get('/(assets/.*)|.*\\.js|.*\\.css|.*\\.jpg|.*\\.png|.*\\.ico|.*\\.svg|.*\\.webmanifest|.*\\.json', serveStatic)
+    r.get('/(assets/.*)|.*\\.js|.*\\.css|.*\\.jpg|.*\\.png|.*\\.ico|.*\\.svg|.*\\.webmanifest|.*\\.json|.*\\.txt', serveStatic)
     r.get('/login', loginPage)
     r.get('/signup', signupPage)
     r.get('/reset-password', resetPasswordPage)

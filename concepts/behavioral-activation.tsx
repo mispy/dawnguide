@@ -13,7 +13,7 @@ Behavioral activation is a strategy for combating depression. It could be summar
 Behavioral activation is a key part of cognitive-behavioral therapy, and is also an effective treatment for depression in its own right.[@cuijpers2007behavioral] In the relationship between thoughts, feelings, and actions, it seeks to intercede at the level of actions.
 
 <br/>
-![](${baCycle})
+![The vicious cycle of depression vs. the positive cycle of activity](${baCycle})
 <br/><small>(TODO: Make our own, better version of this image)</small>
 
 Depression biases us to underestimate the joy in things, and avoiding engaging with the world tends to make depression worse. By making a conscious decision to account for this bias, and seek joyful activities anyway, we can start to circumvent the cycle of depression. Of course, this isn't something that's easy to do-- it often takes much effort! Hopefully, knowing that behavioral activation is a good strategy supported by research will help your willpower along.
