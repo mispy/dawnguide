@@ -7,6 +7,39 @@ import { AppLayout } from "./AppLayout"
 import { observable, runInAction, action } from "mobx"
 import { Container } from "react-bootstrap"
 
+function ChangeUsernameSection() {
+    const { api, user } = useContext(AppContext)
+    const state = useLocalStore(() => ({ newUsername: "", loading: false }))
+
+    async function changeUsername(e: React.FormEvent) {
+        e.preventDefault()
+
+        runInAction(() => state.loading = true)
+        try {
+            await api.changeUsername({ newUsername: state.newUsername })
+            runInAction(() => user.username = state.newUsername)
+        } finally {
+            runInAction(() => state.loading = false)
+        }
+    }
+
+    return useObserver(() => <section>
+        <h2 id="username">Username</h2>
+        <p>Your current username is <strong>{user.username}</strong></p>
+        <p>Change your username. Your username must be alphanumeric (underscores are okay) and between 3 and 20 characters.</p>
+        <form onSubmit={changeUsername}>
+            <div className="form-group">
+                <label htmlFor="newUsername">New username</label>
+                <input name="newUsername" id="newUsername" type="text" className="form-control" placeholder="Username" required value={state.newUsername} onChange={action(e => state.newUsername = e.currentTarget.value)} />
+            </div>
+            <button className="btn btn-outline-secondary" type="submit">
+                {state.loading ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : undefined}
+                Update username
+            </button>
+        </form>
+    </section>)
+}
+
 function ChangeEmailSection() {
     const { api, user } = useContext(AppContext)
     const state = useLocalStore(() => ({ newEmail: "", newEmailPassword: "", loading: false }))
@@ -24,10 +57,10 @@ function ChangeEmailSection() {
 
     return useObserver(() => <section>
         <h2 id="email">Email</h2>
+        <p>Your current email address is <strong>{user.email}</strong></p>
         <p>
             Associate a new email address to your Dawnguide account. We'll send a confirmation email to your new address. You are required to click the link in the email to finalize the change.
         </p>
-        <p>Your current email address is <strong>{user.email}</strong></p>
         <form onSubmit={startChangeEmail}>
             <div className="form-group">
                 <label>New email address</label>
@@ -95,6 +128,7 @@ export function SettingsPage() {
         <main className="SettingsPage">
             <Container>
                 <h1>Settings</h1>
+                <ChangeUsernameSection />
                 <ChangeEmailSection />
                 <ChangePasswordSection />
             </Container>

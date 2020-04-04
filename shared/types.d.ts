@@ -4,6 +4,7 @@ export type BibtexString = string
 export type User = {
     id: string
     email: string
+    username: string
     createdAt: number
     updatedAt: number
 }

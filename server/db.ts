@@ -47,6 +47,7 @@ const db = { get, getJson, put, putJson, list, delete: deleteKey }
 export type User = {
     id: string
     email: string
+    username: string
     createdAt: number
     updatedAt: number
     emailConfirmed?: true
@@ -97,6 +98,13 @@ export namespace users {
         return user
     }
 
+    export async function getByUsername(username: string): Promise<User | null> {
+        const userId = await db.get(`user_id_by_username:${username}`)
+        if (!userId)
+            return null
+        return users.get(userId)
+    }
+
     export async function all(): Promise<User[]> {
         const { keys } = await db.list(`users:`)
 
@@ -109,9 +117,13 @@ export namespace users {
         return bcrypt.hashSync(plaintext, 10)
     }
 
-    export async function create(props: Pick<User, 'email'> & { 'password': string }): Promise<User> {
+    export async function create(props: Pick<User, 'username' | 'email'> & { 'password': string }): Promise<User> {
         // TODO don't allow duplicate email
         const userId = uuidv4()
+
+        if (props.username.length < 3 || props.username.length > 20 || !props.username.match(/^([a-z]|[A-Z]|_)+$/)) {
+            throw new Error(`Username '${props.username}' is not a valid username. Your username must be alphanumeric (underscores are okay) and between 3 and 20 characters.`)
+        }
 
         // Must be done synchronously or CF will think worker never exits
         const crypted = users.encryptPassword(props.password)
@@ -119,6 +131,7 @@ export namespace users {
         const user = {
             id: userId,
             email: props.email,
+            username: props.username,
             cryptedPassword: crypted,
             createdAt: now,
             updatedAt: now
@@ -126,6 +139,7 @@ export namespace users {
 
         await db.putJson(`users:${userId}`, user)
         await db.put(`user_id_by_email:${props.email}`, userId)
+        await db.put(`user_id_by_username:${props.username}`, userId)
         return user
     }
 
@@ -141,6 +155,7 @@ export namespace users {
         await Promise.all([
             db.delete(`users:${userId}`),
             db.delete(`user_id_by_email:${user.email}`),
+            db.delete(`user_id_by_username:${user.username}`),
             db.delete(`user_progress:${userId}`)
         ])
     }
@@ -161,6 +176,26 @@ export namespace users {
             users.save(user),
             db.delete(`user_id_by_email:${oldEmail}`),
             db.put(`user_id_by_email:${newEmail}`, user.id)
+        ])
+    }
+
+    export async function changeUsername(userId: string, newUsername: string) {
+        if (newUsername.length < 3 || newUsername.length > 20 || !newUsername.match(/^([a-z]|[A-Z]|_)+$/)) {
+            throw new Error(`Username '${newUsername}' is not a valid username. Your username must be alphanumeric (underscores are okay) and between 3 and 20 characters.`)
+        }
+        const existingUser = await users.getByUsername(newUsername)
+        if (existingUser && existingUser.id !== userId) {
+            throw new Error(`Username ${newUsername} is already associated with a user`)
+        }
+
+        const user = await users.expect(userId)
+
+        const oldUsername = user.username
+        user.username = newUsername
+        await Promise.all([
+            users.save(user),
+            db.delete(`user_id_by_username:${oldUsername}`),
+            db.put(`user_id_by_username:${newUsername}`, user.id)
         ])
     }
 }

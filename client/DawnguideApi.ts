@@ -75,6 +75,10 @@ export class DawnguideApi {
         await this.http.post('/api/changeEmail', params)
     }
 
+    async changeUsername(params: { newUsername: string }) {
+        await this.http.post('/api/changeUsername', params)
+    }
+
     async changePassword(params: { newPassword: string, currentPassword: string }) {
         await this.http.post('/api/changePassword', params)
     }

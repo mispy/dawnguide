@@ -14,14 +14,20 @@ export interface SessionRequest extends EventRequest {
 
 export async function signup(req: EventRequest) {
     const body = await expectRequestJson(req)
-    const { email, password } = expectStrings(body, 'email', 'password')
+    const { username, email, password } = expectStrings(body, 'username', 'email', 'password')
 
-    const existingUser = await db.users.getByEmail(email)
+    let existingUser = await db.users.getByEmail(email)
     if (existingUser) {
         throw new Error(`User with email ${email} already exists`)
     }
 
-    const user = await db.users.create({ email, password })
+    existingUser = await db.users.getByUsername(username)
+    if (existingUser) {
+        throw new Error(`User with username ${username} already exists`)
+    }
+
+
+    const user = await db.users.create({ username, email, password })
 
     // Send confirmation email
     const token = await db.emailConfirmTokens.create(user.id, email)

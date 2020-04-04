@@ -16,6 +16,7 @@ export async function processRequest(req: SessionRequest) {
     r.put('/api/progress', submitProgress)
     r.post('/api/lesson', completeLesson)
     r.post('/api/changeEmail', changeEmail)
+    r.post('/api/changeUsername', changeUsername)
     r.post('/api/changePassword', changePassword)
     r.post('/api/checkout', startCheckout)
     r.post('/api/debug', debugHandler)
@@ -174,6 +175,11 @@ async function debugHandler(req: SessionRequest) {
     }
 }
 
+async function changeUsername(req: SessionRequest) {
+    const { newUsername } = expectStrings(await expectRequestJson(req), 'newUsername')
+    await db.users.changeUsername(req.session.userId, newUsername)
+}
+
 async function changeEmail(req: SessionRequest) {
     const { newEmail, password } = await expectRequestJson<{ newEmail: string, password: string }>(req)
     const user = (await db.users.getWithPassword(req.session.userId))!
@@ -229,7 +235,7 @@ export namespace admin {
 
     export async function getUsers(): Promise<User[]> {
         const users = await db.users.all()
-        return users.map(u => _.pick(u, 'id', 'email', 'createdAt', 'updatedAt'))
+        return users.map(u => _.pick(u, 'id', 'email', 'username', 'createdAt', 'updatedAt'))
     }
 
     export async function deleteUser(req: SessionRequest, userId: string) {
