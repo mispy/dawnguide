@@ -82,7 +82,7 @@ async function conceptPage(req: EventRequest, conceptId: string) {
     const session = await getSession(req)
 
     if (session) {
-        return behindLogin(req)
+        return appPage()
     } else {
         return publicConceptPage(req, conceptId)
     }
@@ -99,7 +99,12 @@ async function behindLogin(req: EventRequest) {
 
     const r = new Router<SessionRequest>()
     r.all('/api/.*', api.processRequest)
-    r.get('.*', appPage)
+    r.get('/', appPage)
+    r.get('/home', appPage)
+    r.get('/review', appPage)
+    r.get('/lesson', appPage)
+    r.get('/settings', appPage)
+    r.get('/admin', appPage)
 
     const sessionReq = Object.assign({}, req, { session: session }) as SessionRequest
     return await r.route(sessionReq)
@@ -107,17 +112,12 @@ async function behindLogin(req: EventRequest) {
 
 async function serveStatic(req: EventRequest) {
     // Transform path for pretty urls etc
-    let pathname = req.url.pathname
-    if (!pathname.includes(".")) {
-        pathname = "/index.html"
-    }
-
     if (IS_PRODUCTION) {
         // Serve asset from Cloudflare KV storage
-        return await serveStaticLive(req.event, pathname)
+        return await serveStaticLive(req.event, req.path)
     } else {
         // Proxy through to webpack dev server to serve asset
-        return await fetch(`${WEBPACK_DEV_SERVER}${pathname}`)
+        return await fetch(`${WEBPACK_DEV_SERVER}${req.path}`)
     }
 }
 
