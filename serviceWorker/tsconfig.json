@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "esnext",
         "strict": true,
         "noImplicitReturns": true,
         "allowJs": false,
@@ -12,7 +12,7 @@
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,
         "lib": [
-            "es6",
+            "esnext",
             "webworker"
         ],
         "resolveJsonModule": true
