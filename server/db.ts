@@ -82,6 +82,13 @@ export namespace users {
         return users.get(userId)
     }
 
+    export async function getByEmailWithPassword(email: string): Promise<UserWithPassword | null> {
+        const userId = await db.get(`user_id_by_email:${email}`)
+        if (!userId)
+            return null
+        return users.getWithPassword(userId)
+    }
+
     export async function expectByEmail(email: string): Promise<User> {
         const user = await users.getByEmail(email)
         if (!user) {

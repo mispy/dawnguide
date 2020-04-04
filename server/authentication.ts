@@ -137,7 +137,7 @@ function sessionCookie(sessionKey: string) {
 }
 
 async function expectLogin(email: string, password: string): Promise<string> {
-    const user = await db.users.getByEmail(email)
+    const user = await db.users.getByEmailWithPassword(email)
     if (!user) {
         throw new Error("Invalid email or password")
     }
