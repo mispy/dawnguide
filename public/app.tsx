@@ -7,15 +7,18 @@ import { AppRouter } from '../client/AppRouter'
 import { AppContext } from '../client/AppContext'
 import { AppStore } from '../client/AppStore'
 import { useMemo } from 'react'
+import { User } from '../shared/types'
 
-function App() {
+// These props come from AppPage on the server
+function App(props: { user: User }) {
     const context = useMemo(() => {
-        const app = new AppStore()
+        const app = new AppStore(props.user)
 
         return {
             app: app,
             api: app.api,
-            sunpedia: app.sunpedia
+            sunpedia: app.sunpedia,
+            user: app.user
         }
     }, [])
 
@@ -26,9 +29,12 @@ function App() {
     </AppContext.Provider>
 }
 
-ReactDOM.render(<App />, document.getElementById("root"))
-
 declare const module: any
 if (module.hot) {
     module.hot.accept()
+}
+
+declare const window: any
+window.initApp = (user: User) => {
+    ReactDOM.render(<App user={user} />, document.getElementById("root"))
 }

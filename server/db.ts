@@ -47,14 +47,23 @@ const db = { get, getJson, put, putJson, list, delete: deleteKey }
 export type User = {
     id: string
     email: string
-    cryptedPassword: string
     createdAt: number
     updatedAt: number
     emailConfirmed?: true
 }
 
+export type UserWithPassword = User & {
+    cryptedPassword: string
+}
+
 export namespace users {
+    /** We omit cryptedPassword by default to avoid accidentally exposing user passwords */
     export async function get(userId: string): Promise<User | null> {
+        const user = await db.getJson(`users:${userId}`)
+        return user ? _.omit(user as UserWithPassword, 'cryptedPassword') : null
+    }
+
+    export async function getWithPassword(userId: string): Promise<UserWithPassword | null> {
         return await db.getJson(`users:${userId}`)
     }
 

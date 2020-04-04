@@ -4,17 +4,19 @@ import { Concept } from "../shared/sunpedia"
 import _ = require("lodash")
 import { DawnguideApi } from "./DawnguideApi"
 import { Sunpedia } from "../shared/sunpedia"
-import { UserProgressItem } from "../shared/types"
+import { UserProgressItem, User } from "../shared/types"
 import * as Sentry from '@sentry/browser'
 import { SENTRY_DSN_URL } from "./settings"
 
 export class AppStore {
     api: DawnguideApi
     sunpedia: Sunpedia
+    @observable user: User
     @observable.ref progressItems: UserProgressItem[] = []
     @observable.ref unexpectedError?: Error
 
-    constructor() {
+    constructor(user: User) {
+        this.user = user
         this.sunpedia = new Sunpedia()
         this.api = new DawnguideApi(this.sunpedia)
 

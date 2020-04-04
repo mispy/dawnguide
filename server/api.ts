@@ -176,7 +176,7 @@ async function debugHandler(req: SessionRequest) {
 
 async function changeEmail(req: SessionRequest) {
     const { newEmail, password } = await expectRequestJson<{ newEmail: string, password: string }>(req)
-    const user = (await db.users.get(req.session.userId))!
+    const user = (await db.users.getWithPassword(req.session.userId))!
 
     if (user.email === newEmail && user.emailConfirmed)
         return // Nothing to do here!
@@ -201,7 +201,7 @@ async function changeEmail(req: SessionRequest) {
 
 async function changePassword(req: SessionRequest) {
     const { newPassword, currentPassword } = expectStrings(await expectRequestJson(req), 'newPassword', 'currentPassword')
-    const user = (await db.users.get(req.session.userId))!
+    const user = (await db.users.getWithPassword(req.session.userId))!
 
     const validPassword = bcrypt.compareSync(currentPassword, user.cryptedPassword)
     if (validPassword) {

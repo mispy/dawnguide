@@ -8,7 +8,7 @@ import { observable, runInAction, action } from "mobx"
 import { Container } from "react-bootstrap"
 
 function ChangeEmailSection() {
-    const { api } = useContext(AppContext)
+    const { api, user } = useContext(AppContext)
     const state = useLocalStore(() => ({ newEmail: "", newEmailPassword: "", loading: false }))
 
     async function startChangeEmail(e: React.FormEvent) {
@@ -27,6 +27,7 @@ function ChangeEmailSection() {
         <p>
             Associate a new email address to your Dawnguide account. We'll send a confirmation email to your new address. You are required to click the link in the email to finalize the change.
         </p>
+        <p>Your current email address is <strong>{user.email}</strong></p>
         <form onSubmit={startChangeEmail}>
             <div className="form-group">
                 <label>New email address</label>

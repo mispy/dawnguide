@@ -85,7 +85,7 @@ export async function resetPasswordFinish(req: EventRequest, token: string) {
         throw new Error(`Invalid or expired token ${token}`)
     }
 
-    const user = await db.users.expectByEmail(email)
+    const user = (await db.users.expectByEmail(email)) as db.UserWithPassword
     user.cryptedPassword = db.users.encryptPassword(newPassword)
     await db.users.save(user)
 
