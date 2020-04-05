@@ -17,7 +17,7 @@ export async function sendMail(msg: EmailMessage) {
         "personalizations": [
             { "to": [{ "email": msg.to }] }
         ],
-        "from": { "email": msg.from || "Dawnguide <dawnguide@example.com>" },
+        "from": { "email": msg.from || "Dawnguide <noreply@dawnguide.com>" },
         "subject": msg.subject,
         "content": [{ "type": "text/plain", "value": msg.text }]
     }

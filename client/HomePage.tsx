@@ -11,6 +11,8 @@ import { useContext } from "react"
 import { showReviewTime } from "./ConceptPage"
 import { DebugTools } from "./DebugTools"
 
+declare const process: any
+
 interface ConceptWithProgress {
     concept: Concept
     progress?: ExerciseProgressItem
@@ -18,7 +20,7 @@ interface ConceptWithProgress {
 export function HomePage() {
     const { app, sunpedia } = useContext(AppContext)
 
-    const debug = true
+    const debug = process.env.NODE_ENV === "development"
 
     return useObserver(() => <AppLayout>
         <Container className="mt-4">

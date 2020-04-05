@@ -73,7 +73,6 @@ export async function resetPasswordStart(req: EventRequest) {
         const token = await db.passwordResets.create(user.email)
         await sendMail({
             to: user.email,
-            from: "Dawnguide <dawnguide@example.com>",
             subject: "Reset your password",
             text: `Reset password here: ${BASE_URL}/reset-password/${token}`
         })
