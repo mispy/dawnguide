@@ -48,23 +48,14 @@ export type User = {
     id: string
     email: string
     username: string
+    cryptedPassword: string
     createdAt: number
     updatedAt: number
     emailConfirmed?: true
 }
 
-export type UserWithPassword = User & {
-    cryptedPassword: string
-}
-
 export namespace users {
-    /** We omit cryptedPassword by default to avoid accidentally exposing user passwords */
     export async function get(userId: string): Promise<User | null> {
-        const user = await db.getJson(`users:${userId}`)
-        return user ? _.omit(user as UserWithPassword, 'cryptedPassword') : null
-    }
-
-    export async function getWithPassword(userId: string): Promise<UserWithPassword | null> {
         return await db.getJson(`users:${userId}`)
     }
 
@@ -81,13 +72,6 @@ export namespace users {
         if (!userId)
             return null
         return users.get(userId)
-    }
-
-    export async function getByEmailWithPassword(email: string): Promise<UserWithPassword | null> {
-        const userId = await db.get(`user_id_by_email:${email}`)
-        if (!userId)
-            return null
-        return users.getWithPassword(userId)
     }
 
     export async function expectByEmail(email: string): Promise<User> {

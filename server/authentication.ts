@@ -91,7 +91,7 @@ export async function resetPasswordFinish(req: EventRequest, token: string) {
         throw new Error(`Invalid or expired token ${token}`)
     }
 
-    const user = (await db.users.expectByEmail(email)) as db.UserWithPassword
+    const user = await db.users.expectByEmail(email)
     user.cryptedPassword = db.users.encryptPassword(newPassword)
     await db.users.save(user)
 
@@ -143,7 +143,7 @@ function sessionCookie(sessionKey: string) {
 }
 
 async function expectLogin(email: string, password: string): Promise<string> {
-    const user = await db.users.getByEmailWithPassword(email)
+    const user = await db.users.getByEmail(email)
     if (!user) {
         throw new Error("Invalid email or password")
     }

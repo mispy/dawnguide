@@ -63,12 +63,12 @@ function ChangeEmailSection() {
         </p>
         <form onSubmit={startChangeEmail}>
             <div className="form-group">
-                <label>New email address</label>
-                <input name="email" type="email" className="form-control" placeholder="Email" required value={state.newEmail} onChange={action(e => state.newEmail = e.currentTarget.value)} />
+                <label htmlFor="newEmail">New email address</label>
+                <input name="newEmail" id="newEmail" type="email" className="form-control" placeholder="Email" required value={state.newEmail} onChange={action(e => state.newEmail = e.currentTarget.value)} />
             </div>
             <div className="form-group">
-                <label>Password</label>
-                <input name="password" type="password" className="form-control" placeholder="Password" required value={state.newEmailPassword} onChange={action(e => state.newEmailPassword = e.currentTarget.value)} />
+                <label htmlFor="emailChangePassword">Password</label>
+                <input name="password" id="emailChangePassword" type="password" className="form-control" placeholder="Password" required value={state.newEmailPassword} onChange={action(e => state.newEmailPassword = e.currentTarget.value)} />
             </div>
             <button className="btn btn-outline-secondary" type="submit" disabled={state.loading}>
                 {state.loading ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : undefined}
@@ -101,12 +101,12 @@ function ChangePasswordSection() {
         </p>
         <form onSubmit={changePassword}>
             <div className="form-group">
-                <label>New password</label>
-                <input name="newPassword" type="password" className="form-control" placeholder="Password" required value={state.newPassword} onChange={action(e => state.newPassword = e.currentTarget.value)} />
+                <label htmlFor="newPassword">New password</label>
+                <input name="newPassword" id="newPassword" type="password" className="form-control" placeholder="Password" required value={state.newPassword} onChange={action(e => state.newPassword = e.currentTarget.value)} />
             </div>
             <div className="form-group">
-                <label>Current password</label>
-                <input name="currentPassword" type="password" className="form-control" placeholder="Password" required value={state.currentPassword} onChange={action(e => state.currentPassword = e.currentTarget.value)} />
+                <label htmlFor="changePasswordCurrentPassword">Current password</label>
+                <input name="currentPassword" id="changePasswordCurrentPassword" type="password" className="form-control" placeholder="Password" required value={state.currentPassword} onChange={action(e => state.currentPassword = e.currentTarget.value)} />
             </div>
             <button className="btn btn-outline-secondary" type="submit" disabled={state.loading}>
                 {state.loading ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : undefined}

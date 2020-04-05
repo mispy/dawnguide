@@ -21,8 +21,8 @@ export function ResetPasswordFinalizePage(props: { token: string, email: string 
                     {!email && <div className="alert alert-danger">Invalid or expired token</div>}
                     <h4 className="mb-4">Reset password for {email}</h4>
                     <div className="form-group">
-                        <label>New password</label>
-                        <input name="newPassword" className="form-control" placeholder="New password" required autoFocus />
+                        <label htmlFor="newPassword">New password</label>
+                        <input name="newPassword" id="newPassword" type="password" className="form-control" placeholder="New password" required autoFocus />
                     </div>
                     <input type="submit" className="btn btn-success" value="Reset password" />
                 </form>
