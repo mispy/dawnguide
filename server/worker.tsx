@@ -82,7 +82,8 @@ async function conceptPage(req: EventRequest, conceptId: string) {
     const session = await getSession(req)
 
     if (session) {
-        return appPage()
+        const sessionReq = Object.assign({}, req, { session: session }) as SessionRequest
+        return appPage(sessionReq)
     } else {
         return publicConceptPage(req, conceptId)
     }
