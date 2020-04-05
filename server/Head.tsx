@@ -61,6 +61,6 @@ export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, p
 
         <link rel="stylesheet" href={cssUrl} />
         {props.children}
-        <script dangerouslySetInnerHTML={{ __html: script }} />
+        {/* <script dangerouslySetInnerHTML={{ __html: script }} /> */}
     </head>
 }

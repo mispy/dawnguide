@@ -15,6 +15,6 @@ export const STRIPE_SECRET_KEY: string = global.STRIPE_SECRET_KEY || process.env
 
 export const SENDGRID_SECRET_KEY: string = global.SENDGRID_SECRET_KEY || process.env.SENDGRID_SECRET_KEY || ""
 
+export const SENTRY_KEY = DEPLOY_ENV === 'live' ? '53f7b86d9a174f81a3fad700135ee4eb' : ''
 export const SENTRY_PROJECT_ID = '5189056'
 
-export const SENTRY_KEY = '53f7b86d9a174f81a3fad700135ee4eb'
