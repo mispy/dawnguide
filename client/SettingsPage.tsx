@@ -32,7 +32,7 @@ function ChangeUsernameSection() {
                 <label htmlFor="newUsername">New username</label>
                 <input name="newUsername" id="newUsername" type="text" className="form-control" placeholder="Username" required value={state.newUsername} onChange={action(e => state.newUsername = e.currentTarget.value)} />
             </div>
-            <button className="btn btn-outline-secondary" type="submit">
+            <button className="btn btn-outline-secondary" type="submit" disabled={state.loading}>
                 {state.loading ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : undefined}
                 Update username
             </button>
@@ -70,7 +70,7 @@ function ChangeEmailSection() {
                 <label>Password</label>
                 <input name="password" type="password" className="form-control" placeholder="Password" required value={state.newEmailPassword} onChange={action(e => state.newEmailPassword = e.currentTarget.value)} />
             </div>
-            <button className="btn btn-outline-secondary" type="submit">
+            <button className="btn btn-outline-secondary" type="submit" disabled={state.loading}>
                 {state.loading ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : undefined}
                 Update email address
             </button>
@@ -108,7 +108,7 @@ function ChangePasswordSection() {
                 <label>Current password</label>
                 <input name="currentPassword" type="password" className="form-control" placeholder="Password" required value={state.currentPassword} onChange={action(e => state.currentPassword = e.currentTarget.value)} />
             </div>
-            <button className="btn btn-outline-secondary" type="submit">
+            <button className="btn btn-outline-secondary" type="submit" disabled={state.loading}>
                 {state.loading ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : undefined}
                 Update password
             </button>
