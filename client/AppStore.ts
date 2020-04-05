@@ -88,24 +88,17 @@ export class AppStore {
         this.unexpectedError = err
 
         if (SENTRY_DSN_URL) {
-            // Sentry.configureScope(scope => {
-            //     const { user } = this.state
+            Sentry.withScope(scope => {
+                const { user } = this
 
-            //     if (user) {
-            //         const userDetails: Record<string, any> = {
-            //             name: user.name,
-            //             username: user.username,
-            //             id: user.id.toString(),
-            //             role: user.role
-            //         }
+                scope.setUser({
+                    id: user.id,
+                    username: user.username,
+                    email: user.email
+                })
 
-            //         if (user.email) userDetails.email = user.email
-            //         if (user.clientGroup) userDetails.clientGroup = user.clientGroup
-            //         scope.setUser(userDetails)
-            //     }
-            // })
-
-            Sentry.captureException(err)
+                Sentry.captureException(err)
+            })
         }
     }
 }
