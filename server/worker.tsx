@@ -3,7 +3,7 @@ const { getAssetFromKV } = require('@cloudflare/kv-asset-handler')
 
 import Router from './router'
 import { signup, login, SessionRequest, logout, getSession, resetPasswordStart, resetPasswordFinish, emailConfirmFinish } from './authentication'
-import { IS_PRODUCTION, WEBPACK_DEV_SERVER } from './settings'
+import { IS_PRODUCTION, WEBPACK_DEV_SERVER, SENTRY_KEY } from './settings'
 import { redirect, getQueryParams, JsonResponse, EventRequest } from './utils'
 import api = require('./api')
 import _ = require('lodash')
@@ -14,6 +14,7 @@ import { resetPasswordPage } from './ResetPasswordPage'
 import { resetPasswordFinalizePage } from './ResetPasswordFinalizePage'
 import { publicConceptPage } from './ConceptPage'
 import { appPage } from './AppPage'
+import { logToSentry } from './sentry'
 
 // Workers require that this be a sync callback
 addEventListener('fetch', event => {
@@ -59,6 +60,10 @@ async function processRequest(req: EventRequest) {
         else
             return new Response()
     } catch (e) {
+        if (SENTRY_KEY) {
+            await logToSentry(e, req.event.request)
+        }
+
         let message = e.stack
         if (!message) {
             message = e.message || e.toString()

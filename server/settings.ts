@@ -5,6 +5,8 @@ declare const process: any
 
 export const IS_PRODUCTION: boolean = global.BASE_URL && !global.BASE_URL.includes("localhost")
 
+export const DEPLOY_ENV = IS_PRODUCTION ? (global.BASE_URL.includes("dawnguide.com") ? "live" : "staging") : "dev"
+
 export const WEBPACK_DEV_SERVER: string = "http://localhost:1234"
 
 export const BASE_URL: string = global.BASE_URL || process.env.BASE_URL || (IS_PRODUCTION ? "https://dawnguide.com" : "http://localhost:3000")
@@ -12,3 +14,7 @@ export const BASE_URL: string = global.BASE_URL || process.env.BASE_URL || (IS_P
 export const STRIPE_SECRET_KEY: string = global.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY || ""
 
 export const SENDGRID_SECRET_KEY: string = global.SENDGRID_SECRET_KEY || process.env.SENDGRID_SECRET_KEY || ""
+
+export const SENTRY_PROJECT_ID = '5189056'
+
+export const SENTRY_KEY = '53f7b86d9a174f81a3fad700135ee4eb'
