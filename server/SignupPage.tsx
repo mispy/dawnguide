@@ -2,7 +2,7 @@ import React = require("react")
 import { Head } from "./Head"
 import { pageResponse } from './utils'
 
-export function signupPage(props: { error?: string, status?: number }) {
+export function signupPage(props: { error?: string, status?: number } = {}) {
     return pageResponse(<SignupPage error={props.error} />, { status: props.status || 200 })
 }
 

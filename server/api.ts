@@ -211,7 +211,7 @@ async function changePassword(req: SessionRequest) {
 
     const validPassword = bcrypt.compareSync(currentPassword, user.cryptedPassword)
     if (validPassword) {
-        user.cryptedPassword = db.users.encryptPassword(newPassword)
+        user.cryptedPassword = db.users.hashPassword(newPassword)
         await db.users.save(user)
     } else {
         return new Response("Unauthorized", { status: 401 })

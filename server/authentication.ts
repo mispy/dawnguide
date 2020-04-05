@@ -109,7 +109,7 @@ export async function resetPasswordFinish(req: EventRequest, token: string) {
     }
 
     const user = await db.users.expectByEmail(email)
-    user.cryptedPassword = db.users.encryptPassword(newPassword)
+    user.cryptedPassword = db.users.hashPassword(newPassword)
     await db.users.save(user)
 
     // Expire the token now that it's used

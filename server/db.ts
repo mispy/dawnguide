@@ -98,7 +98,7 @@ export namespace users {
         return Promise.all(userReqs) as Promise<User[]>
     }
 
-    export function encryptPassword(plaintext: string) {
+    export function hashPassword(plaintext: string) {
         return bcrypt.hashSync(plaintext, 10)
     }
 
@@ -111,13 +111,13 @@ export namespace users {
         }
 
         // Must be done synchronously or CF will think worker never exits
-        const crypted = users.encryptPassword(props.password)
+        const hashed = users.hashPassword(props.password)
         const now = Date.now()
         const user = {
             id: userId,
             email: props.email,
             username: props.username,
-            cryptedPassword: crypted,
+            cryptedPassword: hashed,
             createdAt: now,
             updatedAt: now
         }
