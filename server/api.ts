@@ -1,6 +1,6 @@
 import { SessionRequest } from "./authentication"
 import Router from "./router"
-import { expectRequestJson, expectStrings, JsonResponse, absurl } from "./utils"
+import { expectRequestJson, expectStrings, JsonResponse, absurl, ResponseError } from "./utils"
 import db = require('./db')
 import { STRIPE_SECRET_KEY, BASE_URL } from "./settings"
 import http from "./http"
@@ -189,7 +189,7 @@ async function changeEmail(req: SessionRequest) {
 
     const existingUser = await db.users.getByEmail(newEmail)
     if (existingUser && existingUser.id !== user.id)
-        throw new Error(`Email ${newEmail} is already associated with an account`)
+        throw new ResponseError(`Email ${newEmail} is already associated with an account`, 409)
 
     const validPassword = bcrypt.compareSync(password, user.cryptedPassword)
     if (validPassword) {
@@ -201,7 +201,7 @@ async function changeEmail(req: SessionRequest) {
             text: `Hello! You've requested an email change to your account. In order to finalize the change, follow this link: ${confirmUrl}`
         })
     } else {
-        return new Response("Unauthorized", { status: 401 })
+        throw new ResponseError("Unauthorized", 401)
     }
 }
 

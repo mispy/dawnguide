@@ -1,67 +1,85 @@
 import bcrypt = require('bcryptjs')
 import cookie = require('cookie')
 import db = require('./db')
-import { redirect, expectRequestJson, expectStrings, QueryParams, EventRequest, absurl } from './utils'
+import { redirect, expectRequestJson, expectStrings, QueryParams, EventRequest, absurl, pageResponse, ResponseError } from './utils'
 import { sendMail } from './mail'
 import { BASE_URL } from './settings'
 import _ = require('lodash')
 import { resetPasswordPage } from './ResetPasswordPage'
 import { weeks } from './time'
+import { loginPage } from './LoginPage'
+import { signupPage } from './SignupPage'
 
 export interface SessionRequest extends EventRequest {
     session: db.Session
 }
 
 export async function signup(req: EventRequest) {
-    const body = await expectRequestJson(req)
-    const { username, email, password } = expectStrings(body, 'username', 'email', 'password')
+    try {
+        const body = await expectRequestJson(req)
+        const { username, email, password } = expectStrings(body, 'username', 'email', 'password')
 
-    let existingUser = await db.users.getByEmail(email)
-    if (existingUser) {
-        throw new Error(`User with email ${email} already exists`)
+        let existingUser = await db.users.getByEmail(email)
+        if (existingUser) {
+            throw new ResponseError(`User with email ${email} already exists`, 409)
+        }
+
+        existingUser = await db.users.getByUsername(username)
+        if (existingUser) {
+            throw new ResponseError(`User with username ${username} already exists`, 409)
+        }
+
+
+        const user = await db.users.create({ username, email, password })
+
+        // Send confirmation email
+        const token = await db.emailConfirmTokens.create(user.id, email)
+        const confirmUrl = absurl(`/account/confirmation/${token}`)
+        await sendMail({
+            to: email,
+            subject: "Dawnguide email change confirmation",
+            text: `Welcome to Dawnguide! Please confirm your account by following this link: ${confirmUrl}`
+        })
+
+        // Log the user in to their first session
+        const sessionKey = await db.sessions.create(user.id)
+
+        const res = redirect('/')
+        res.headers.set('Set-Cookie', sessionCookie(sessionKey))
+
+        req.event.waitUntil(sendMail({
+            to: "misprime@gmail.com",
+            subject: `New user ${email}`,
+            text: `Yay, how exciting! :D`
+        }))
+
+        return res
+    } catch (err) {
+        if ('status' in err) {
+            return signupPage({ error: err.message, status: err.status })
+        } else {
+            throw err
+        }
     }
-
-    existingUser = await db.users.getByUsername(username)
-    if (existingUser) {
-        throw new Error(`User with username ${username} already exists`)
-    }
-
-
-    const user = await db.users.create({ username, email, password })
-
-    // Send confirmation email
-    const token = await db.emailConfirmTokens.create(user.id, email)
-    const confirmUrl = absurl(`/account/confirmation/${token}`)
-    await sendMail({
-        to: email,
-        subject: "Dawnguide email change confirmation",
-        text: `Welcome to Dawnguide! Please confirm your account by following this link: ${confirmUrl}`
-    })
-
-    // Log the user in to their first session
-    const sessionKey = await db.sessions.create(user.id)
-
-    const res = redirect('/')
-    res.headers.set('Set-Cookie', sessionCookie(sessionKey))
-
-    req.event.waitUntil(sendMail({
-        to: "misprime@gmail.com",
-        subject: `New user ${email}`,
-        text: `Yay, how exciting! :D`
-    }))
-
-    return res
 }
 
 export async function login(req: EventRequest) {
-    const body = await expectRequestJson(req)
-    const { email, password } = expectStrings(body, 'email', 'password')
+    try {
+        const body = await expectRequestJson(req)
+        const { email, password } = expectStrings(body, 'email', 'password')
 
-    const sessionKey = await expectLogin(email, password)
+        const sessionKey = await expectLogin(email, password)
 
-    const res = redirect('/')
-    res.headers.set('Set-Cookie', sessionCookie(sessionKey))
-    return res
+        const res = redirect('/')
+        res.headers.set('Set-Cookie', sessionCookie(sessionKey))
+        return res
+    } catch (err) {
+        if ('status' in err) {
+            return loginPage({ error: err.message, status: err.status })
+        } else {
+            throw err
+        }
+    }
 }
 
 export async function resetPasswordStart(req: EventRequest) {
@@ -87,7 +105,7 @@ export async function resetPasswordFinish(req: EventRequest, token: string) {
 
     const email = await db.passwordResets.get(token)
     if (!email) {
-        throw new Error(`Invalid or expired token ${token}`)
+        throw new ResponseError(`Invalid or expired token ${token}`, 403)
     }
 
     const user = await db.users.expectByEmail(email)
@@ -107,7 +125,7 @@ export async function resetPasswordFinish(req: EventRequest, token: string) {
 export async function emailConfirmFinish(req: EventRequest, token: string) {
     const json = await db.emailConfirmTokens.get(token)
     if (!json) {
-        throw new Error(`Invalid or expired token ${token}`)
+        throw new ResponseError(`Invalid or expired token ${token}`, 403)
     }
 
     const { userId, email } = json
@@ -144,7 +162,7 @@ function sessionCookie(sessionKey: string) {
 async function expectLogin(email: string, password: string): Promise<string> {
     const user = await db.users.getByEmail(email)
     if (!user) {
-        throw new Error("Invalid email or password")
+        throw new ResponseError(`Invalid email or password`, 401)
     }
 
     // Must be done synchronously or CF will think worker never exits
@@ -155,6 +173,6 @@ async function expectLogin(email: string, password: string): Promise<string> {
         const sessionKey = await db.sessions.create(user.id)
         return sessionKey
     } else {
-        throw new Error("Invalid email or password")
+        throw new ResponseError(`Invalid email or password`, 401)
     }
 }

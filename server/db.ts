@@ -6,6 +6,7 @@ import { weeks, days } from './time'
 import { UserProgressItem } from '../shared/types'
 import { isReadyForReview } from '../shared/logic'
 import _ = require('lodash')
+import { ResponseError } from './utils'
 
 declare const global: any
 const CloudflareStore: KVNamespace = global.STORE
@@ -106,7 +107,7 @@ export namespace users {
         const userId = uuidv4()
 
         if (props.username.length < 3 || props.username.length > 20 || !props.username.match(/^([a-z]|[A-Z]|_)+$/)) {
-            throw new Error(`Username '${props.username}' is not a valid username. Your username must be alphanumeric (underscores are okay) and between 3 and 20 characters.`)
+            throw new ResponseError(`Username '${props.username}' is not a valid username. Your username must be alphanumeric (underscores are okay) and between 3 and 20 characters.`, 422)
         }
 
         // Must be done synchronously or CF will think worker never exits
@@ -148,7 +149,7 @@ export namespace users {
     export async function changeEmail(userId: string, newEmail: string) {
         const existingUser = await users.getByEmail(newEmail)
         if (existingUser && existingUser.id !== userId) {
-            throw new Error(`Email address ${newEmail} is already associated with a user`)
+            throw new ResponseError(`Email address ${newEmail} is already associated with a user`, 409)
         }
 
         const user = await users.expect(userId)
@@ -165,11 +166,11 @@ export namespace users {
 
     export async function changeUsername(userId: string, newUsername: string) {
         if (newUsername.length < 3 || newUsername.length > 20 || !newUsername.match(/^([a-z]|[A-Z]|_)+$/)) {
-            throw new Error(`Username '${newUsername}' is not a valid username. Your username must be alphanumeric (underscores are okay) and between 3 and 20 characters.`)
+            throw new ResponseError(`Username '${newUsername}' is not a valid username. Your username must be alphanumeric (underscores are okay) and between 3 and 20 characters.`, 422)
         }
         const existingUser = await users.getByUsername(newUsername)
         if (existingUser && existingUser.id !== userId) {
-            throw new Error(`Username ${newUsername} is already associated with a user`)
+            throw new ResponseError(`Username ${newUsername} is already associated with a user`, 409)
         }
 
         const user = await users.expect(userId)

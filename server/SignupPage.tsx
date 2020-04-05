@@ -2,17 +2,20 @@ import React = require("react")
 import { Head } from "./Head"
 import { pageResponse } from './utils'
 
-export function signupPage() {
-    return pageResponse(<SignupPage />)
+export function signupPage(props: { error?: string, status?: number }) {
+    return pageResponse(<SignupPage error={props.error} />, { status: props.status || 200 })
 }
 
-export function SignupPage() {
+export function SignupPage(props: { error?: string }) {
     return <html lang="en">
         <Head pageTitle="Signup" canonicalUrl="/signup" />
 
         <body>
             <main className="SignupPage">
                 <form action="/signup" method="post">
+                    {props.error && <div className="alert alert-danger">
+                        {props.error}
+                    </div>}
                     <h4 className="mb-4">Create your account</h4>
                     <div className="form-group">
                         <label htmlFor="username">Username</label>

@@ -2,9 +2,11 @@ import { BASE_URL } from "./settings"
 import _ = require('lodash')
 import ReactDOMServer = require('react-dom/server')
 
-export function pageResponse(rootElement: Parameters<typeof ReactDOMServer.renderToStaticMarkup>[0]) {
+export function pageResponse(rootElement: Parameters<typeof ReactDOMServer.renderToStaticMarkup>[0], opts?: ResponseInit | undefined) {
     const markup = ReactDOMServer.renderToStaticMarkup(rootElement)
-    return new Response(`<!doctype html>${markup}`, { headers: { "Content-Type": 'text/html' } })
+    opts = opts ? _.cloneDeep(opts) : {}
+    opts.headers = _.extend({ "Content-Type": 'text/html' }, opts.headers || {})
+    return new Response(`<!doctype html>${markup}`, opts)
 }
 
 /** Make mutable redirect response to absolute url */
@@ -132,3 +134,15 @@ export function htmlToPlaintext(html: string): string {
 //         return objectURL
 //     }
 // }
+
+/** 
+ * Used for throwing error messages that are acceptable to return directly to the user
+ * i.e. handled errors, which should not trigger sentry reporting
+ */
+export class ResponseError extends Error {
+    status: number
+    constructor(message: string, status: number) {
+        super(message)
+        this.status = status
+    }
+}
