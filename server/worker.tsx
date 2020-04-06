@@ -57,7 +57,9 @@ async function processRequest(req: EventRequest) {
         else
             return new Response()
     } catch (e) {
-        if (SENTRY_KEY) {
+        const status = e.status || 500
+
+        if (SENTRY_KEY && status === 500) {
             await logToSentry(e, req)
         }
 
@@ -65,7 +67,7 @@ async function processRequest(req: EventRequest) {
         if (!message) {
             message = e.message || e.toString()
         }
-        return new Response(message, { status: 500 })
+        return new Response(message, { status: status })
     }
 }
 
