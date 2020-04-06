@@ -52,10 +52,10 @@ export class EventRequest {
         return this.url.pathname
     }
 
-    get json(): Json {
-        if (!this._json) {
-            throw new Error(`Failed to get json from ${this.headers.get('content-type')} content type request`)
-        }
+    get json(): Json | undefined {
+        // if (!this._json) {
+        //     throw new Error(`Failed to get json from ${this.headers.get('content-type')} content type request`)
+        // }
 
         return this._json
     }

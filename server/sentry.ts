@@ -1,6 +1,10 @@
 // Ported to typescript from https://github.com/bustle/cf-sentry/blob/master/sentry.js
 
 import { SENTRY_KEY, SENTRY_PROJECT_ID, DEPLOY_ENV } from "./settings"
+import { EventRequest } from "./requests"
+import _ = require("lodash")
+import { Json } from "./utils"
+import * as db from './db'
 
 // Get the key from the "DSN" at: https://sentry.io/settings/<org>/projects/<project>/keys/
 // The "DSN" will be in the form: https://<SENTRY_KEY>@sentry.io/<SENTRY_PROJECT_ID>
@@ -27,23 +31,8 @@ const CLIENT_NAME = 'bustle-cf-sentry'
 const CLIENT_VERSION = '1.0.0'
 const RETRIES = 5
 
-// The log() function takes an Error object and the current request
-//
-// Eg, from a worker:
-//
-// addEventListener('fetch', event => {
-//   event.respondWith(async () => {
-//     try {
-//       throw new Error('Oh no!')
-//     } catch (e) {
-//       await log(e, event.request)
-//     }
-//     return new Response('Logged!')
-//   })
-// })
-
-export async function logToSentry(err: Error, request: Request) {
-    const body = JSON.stringify(await toSentryEvent(err, request))
+export async function logToSentry(err: Error, req: EventRequest) {
+    const body = JSON.stringify(await toSentryEvent(err, req))
 
     for (let i = 0; i <= RETRIES; i++) {
         const res = await fetch(`https://sentry.io/api/${SENTRY_PROJECT_ID}/store/`, {
@@ -67,7 +56,7 @@ export async function logToSentry(err: Error, request: Request) {
     }
 }
 
-function toSentryEvent(err: any, request: Request) {
+async function toSentryEvent(err: any, req: EventRequest) {
     const errType = err.name || (err.contructor || {}).name
     const frames = parse(err)
     const extraKeys = Object.keys(err).filter(key => !['name', 'message', 'stack'].includes(key))
@@ -94,17 +83,36 @@ function toSentryEvent(err: any, request: Request) {
         environment: DEPLOY_ENV,
         server_name: SERVER_NAME,
         timestamp: new Date().toJSON(),
-        request:
-            request && request.url
-                ? {
-                    method: request.method,
-                    url: request.url,
-                    query_string: new URL(request.url).search,
-                    headers: request.headers,
-                    // data: request.body,
-                }
-                : undefined,
+        request: {
+            method: req.method,
+            url: req.url,
+            query_string: req.url.search,
+            headers: req.headers,
+            data: req.json ? sanitize(req.json) : undefined,
+        },
+        user: req.session ? await userInfo(req.session) : undefined
         // release: RELEASE,
+    }
+}
+
+function sanitize(json: Json) {
+    if ('password' in json) {
+        return Object.assign({}, json, { password: '********' })
+    } else {
+        return json
+    }
+}
+
+async function userInfo(session: db.Session) {
+    const user = await db.users.get(session.userId)
+    if (user) {
+        return {
+            id: user.id,
+            username: user.username,
+            email: user.email
+        }
+    } else {
+        return undefined
     }
 }
 

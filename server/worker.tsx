@@ -58,7 +58,7 @@ async function processRequest(req: EventRequest) {
             return new Response()
     } catch (e) {
         if (SENTRY_KEY) {
-            await logToSentry(e, req.event.request)
+            await logToSentry(e, req)
         }
 
         let message = e.stack
