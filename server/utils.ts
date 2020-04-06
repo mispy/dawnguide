@@ -20,39 +20,27 @@ export function redirect(dest: string, code: number = 302) {
 
 export type Json = any
 
-/** Parse request body, throw error if it's not an object */
-export async function expectRequestJson<T = Json>(request: EventRequest): Promise<T> {
-    const { headers } = request
-    const contentType = headers.get('content-type')
-    if (!contentType) {
-        throw new Error("No content type")
-    }
-    if (contentType.includes('application/json')) {
-        const body = await request.event.request.json()
-        return body
-    } else if (contentType.includes('form')) {
-        const formData = await request.event.request.formData()
-        const body: Json = {}
-        for (const entry of (formData as any).entries()) {
-            body[entry[0]] = entry[1]
-        }
-        return body as any as T
-    } else {
-        throw new Error(`Unexpected content type ${contentType}`)
-    }
-}
-
 /** Expect a given json object to resolve some keys to string values */
 export function expectStrings<U extends keyof Record<string, string | undefined>>(json: Record<string, string | undefined>, ...keys: U[]): Pick<Record<string, string>, U> {
     const obj: any = {}
     for (const key of keys) {
         const val = json[key]
         if (!_.isString(val)) {
-            throw new Error(`Expected string value for ${key}, instead saw: ${val}`)
+            throw new Error(`Expected string value for '${key}', instead saw: ${val}`)
         }
         obj[key] = val
     }
     return obj
+}
+
+/** Expect a given json object to have keys */
+export function expectKeys<U extends keyof Record<string, any>>(json: Record<string, any>, ...keys: U[]): Pick<Record<string, any>, U> {
+    for (const key of keys) {
+        if (!(key in json)) {
+            throw new Error(`Expected value for '${key}' in object: ${JSON.stringify(json)}`)
+        }
+    }
+    return json as any
 }
 
 export interface QueryParams { [key: string]: string | undefined }
@@ -77,15 +65,6 @@ export class JsonResponse extends Response {
         init = _.extend({ headers: { 'Content-Type': 'application/json' } }, init)
         super(JSON.stringify(obj), init)
     }
-}
-
-export type EventRequest = {
-    event: FetchEvent
-    headers: Headers
-    method: Request['method']
-    url: URL
-    path: string
-    params: QueryParams
 }
 
 import urljoin = require('url-join')
@@ -146,3 +125,17 @@ export class ResponseError extends Error {
         this.status = status
     }
 }
+
+import { Memoize } from 'typescript-memoize';
+import { Session } from "./db"
+export const memoize = Memoize
+
+
+// export type EventRequest = {
+//     event: FetchEvent
+//     headers: Headers
+//     method: Request['method']
+//     url: URL
+//     path: string
+//     params: QueryParams
+// }

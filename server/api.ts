@@ -1,6 +1,5 @@
-import { SessionRequest } from "./authentication"
 import Router from "./router"
-import { expectRequestJson, expectStrings, JsonResponse, absurl, ResponseError } from "./utils"
+import { expectStrings, JsonResponse, absurl, ResponseError, expectKeys } from "./utils"
 import db = require('./db')
 import { STRIPE_SECRET_KEY, BASE_URL } from "./settings"
 import http from "./http"
@@ -9,6 +8,7 @@ import { getReviewTime } from "../shared/logic"
 import _ = require("lodash")
 import { sendLearningReminders, sendMail } from "./mail"
 import bcrypt = require('bcryptjs')
+import { SessionRequest } from "./requests"
 
 export async function processRequest(req: SessionRequest) {
     const r = new Router<SessionRequest>()
@@ -35,7 +35,7 @@ async function getProgress(req: SessionRequest): Promise<{ items: UserProgressIt
  * on to reviews
  */
 async function completeLesson(req: SessionRequest) {
-    const { exerciseIds } = await expectRequestJson<{ exerciseIds: string }>(req)
+    const { exerciseIds } = expectKeys(req.json, 'exerciseIds')
     const { userId } = req.session
 
     const toSave = []
@@ -62,8 +62,7 @@ async function completeLesson(req: SessionRequest) {
  **/
 async function submitProgress(req: SessionRequest) {
     // TODO check level matches
-    const json = await expectRequestJson<{ exerciseId: string, remembered: boolean }>(req)
-    const { exerciseId, remembered } = json
+    const { exerciseId, remembered } = expectKeys(req.json, 'exerciseId', 'remembered')
 
     const { userId } = req.session
 
@@ -156,7 +155,7 @@ async function startCheckout(req: SessionRequest): Promise<{ checkoutSessionId: 
 
 async function debugHandler(req: SessionRequest) {
     const { userId } = req.session
-    const json = await expectRequestJson<{ action: string }>(req)
+    const json = expectStrings(req.json, 'action')
 
     if (json.action === 'resetProgress') {
         await db.progressItems.resetAllProgressTo(userId, [])
@@ -176,12 +175,12 @@ async function debugHandler(req: SessionRequest) {
 }
 
 async function changeUsername(req: SessionRequest) {
-    const { newUsername } = expectStrings(await expectRequestJson(req), 'newUsername')
+    const { newUsername } = expectStrings(req.json, 'newUsername')
     await db.users.changeUsername(req.session.userId, newUsername)
 }
 
 async function changeEmail(req: SessionRequest) {
-    const { newEmail, password } = await expectRequestJson<{ newEmail: string, password: string }>(req)
+    const { newEmail, password } = expectStrings(req.json, 'newEmail', 'password')
     const user = await db.users.expect(req.session.userId)
 
     if (user.email === newEmail && user.emailConfirmed)
@@ -206,7 +205,7 @@ async function changeEmail(req: SessionRequest) {
 }
 
 async function changePassword(req: SessionRequest) {
-    const { newPassword, currentPassword } = expectStrings(await expectRequestJson(req), 'newPassword', 'currentPassword')
+    const { newPassword, currentPassword } = expectStrings(req.json, 'newPassword', 'currentPassword')
     const user = await db.users.expect(req.session.userId)
 
     const validPassword = bcrypt.compareSync(currentPassword, user.cryptedPassword)

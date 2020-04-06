@@ -1,7 +1,7 @@
 import bcrypt = require('bcryptjs')
 import cookie = require('cookie')
 import db = require('./db')
-import { redirect, expectRequestJson, expectStrings, QueryParams, EventRequest, absurl, pageResponse, ResponseError } from './utils'
+import { redirect, expectStrings, QueryParams, absurl, pageResponse, ResponseError } from './utils'
 import { sendMail } from './mail'
 import { BASE_URL } from './settings'
 import _ = require('lodash')
@@ -9,15 +9,11 @@ import { resetPasswordPage } from './ResetPasswordPage'
 import { weeks } from './time'
 import { loginPage } from './LoginPage'
 import { signupPage } from './SignupPage'
-
-export interface SessionRequest extends EventRequest {
-    session: db.Session
-}
+import { EventRequest } from './requests'
 
 export async function signup(req: EventRequest) {
     try {
-        const body = await expectRequestJson(req)
-        const { username, email, password } = expectStrings(body, 'username', 'email', 'password')
+        const { username, email, password } = expectStrings(req.json, 'username', 'email', 'password')
 
         let existingUser = await db.users.getByEmail(email)
         if (existingUser) {
@@ -65,8 +61,7 @@ export async function signup(req: EventRequest) {
 
 export async function login(req: EventRequest) {
     try {
-        const body = await expectRequestJson(req)
-        const { email, password } = expectStrings(body, 'email', 'password')
+        const { email, password } = expectStrings(req.json, 'email', 'password')
 
         const sessionKey = await expectLogin(email, password)
 
@@ -83,8 +78,7 @@ export async function login(req: EventRequest) {
 }
 
 export async function resetPasswordStart(req: EventRequest) {
-    const body = await expectRequestJson(req)
-    const { email } = expectStrings(body, 'email')
+    const { email } = expectStrings(req.json, 'email')
     const user = await db.users.getByEmail(email)
 
     if (user) {
@@ -100,8 +94,7 @@ export async function resetPasswordStart(req: EventRequest) {
 }
 
 export async function resetPasswordFinish(req: EventRequest, token: string) {
-    const body = await expectRequestJson(req)
-    const { newPassword } = expectStrings(body, 'newPassword')
+    const { newPassword } = expectStrings(req.json, 'newPassword')
 
     const email = await db.passwordResets.get(token)
     if (!email) {
@@ -139,15 +132,14 @@ export async function emailConfirmFinish(req: EventRequest, token: string) {
 }
 
 export async function logout(req: EventRequest) {
-    const session = await getSession(req)
-    if (session) {
-        await db.sessions.expire(session.key)
+    if (req.session) {
+        await db.sessions.expire(req.session.key)
     }
     return redirect('/')
 }
 
-export async function getSession(req: EventRequest) {
-    const cookies = cookie.parse(req.headers.get('cookie') || '')
+export async function getSession(event: FetchEvent) {
+    const cookies = cookie.parse(event.request.headers.get('cookie') || '')
     const sessionKey = cookies['sessionKey']
     return sessionKey ? await db.sessions.get(sessionKey) : null
 }

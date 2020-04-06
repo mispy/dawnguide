@@ -2,9 +2,9 @@
 const { getAssetFromKV } = require('@cloudflare/kv-asset-handler')
 
 import Router from './router'
-import { signup, login, SessionRequest, logout, getSession, resetPasswordStart, resetPasswordFinish, emailConfirmFinish } from './authentication'
+import { signup, login, logout, getSession, resetPasswordStart, resetPasswordFinish, emailConfirmFinish } from './authentication'
 import { IS_PRODUCTION, WEBPACK_DEV_SERVER, SENTRY_KEY } from './settings'
-import { redirect, getQueryParams, JsonResponse, EventRequest } from './utils'
+import { redirect, getQueryParams, JsonResponse, memoize } from './utils'
 import api = require('./api')
 import _ = require('lodash')
 import { signupPage } from './SignupPage'
@@ -15,21 +15,18 @@ import { resetPasswordFinalizePage } from './ResetPasswordFinalizePage'
 import { publicConceptPage } from './ConceptPage'
 import { appPage } from './AppPage'
 import { logToSentry } from './sentry'
+import { EventRequest, SessionRequest } from './requests'
 
 // Workers require that this be a sync callback
 addEventListener('fetch', event => {
-    // Annotate request with some useful info by default
-    const url = new URL(event.request.url)
-    const req = {
-        event: event,
-        headers: event.request.headers,
-        method: event.request.method,
-        url: url,
-        path: url.pathname,
-        params: getQueryParams(url.search)
-    } as EventRequest
-    event.respondWith(processRequest(req))
+    event.respondWith(handleEvent(event))
 })
+
+async function handleEvent(event: FetchEvent) {
+    // Performing some conversion/annotation of the event here
+    const req = await EventRequest.from(event)
+    return processRequest(req)
+}
 
 async function processRequest(req: EventRequest) {
     const r = new Router<EventRequest>()
@@ -73,9 +70,7 @@ async function processRequest(req: EventRequest) {
 }
 
 async function rootPage(req: EventRequest) {
-    const session = await getSession(req)
-
-    if (session) {
+    if (req.session) {
         // Root url redirects to app if logged in
         return redirect('/home')
     } else {
@@ -84,11 +79,8 @@ async function rootPage(req: EventRequest) {
 }
 
 async function conceptPage(req: EventRequest, conceptId: string) {
-    const session = await getSession(req)
-
-    if (session) {
-        const sessionReq = Object.assign({}, req, { session: session }) as SessionRequest
-        return appPage(sessionReq)
+    if (req.session) {
+        return appPage(req as SessionRequest)
     } else {
         return publicConceptPage(req, conceptId)
     }
@@ -97,9 +89,7 @@ async function conceptPage(req: EventRequest, conceptId: string) {
 async function behindLogin(req: EventRequest) {
     // Routes in here require login
 
-    const session = await getSession(req)
-
-    if (!session) {
+    if (!req.session) {
         return redirect('/login')
     }
 
@@ -112,8 +102,7 @@ async function behindLogin(req: EventRequest) {
     r.get('/settings', appPage)
     r.get('/admin', appPage)
 
-    const sessionReq = Object.assign({}, req, { session: session }) as SessionRequest
-    return await r.route(sessionReq)
+    return await r.route(req as SessionRequest)
 }
 
 async function serveStatic(req: EventRequest) {
