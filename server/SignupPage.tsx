@@ -29,7 +29,7 @@ export function SignupPage(props: { error?: string }) {
                         <label htmlFor="password">Password</label>
                         <input name="password" id="password" type="password" className="form-control" placeholder="Password" required />
                     </div>
-                    <button type="submit" className="btn btn-dawn-outline">✨ Sign up</button>
+                    <button type="submit" className="btn btn-outline-dawn">✨ Sign up</button>
                 </form>
             </main>
         </body>

@@ -42,7 +42,7 @@ class HTTPProvider {
     }
 }
 
-export class DawnguideApi {
+export class ClientApi {
     http: HTTPProvider
     admin: AdminApi
     debug: DebugApi
@@ -94,6 +94,10 @@ export class AdminApi {
 
     async deleteUser(userId: string) {
         await this.http.delete(`/api/admin/users/${userId}`)
+    }
+
+    async testConceptEmail(conceptId: string) {
+        await this.http.post('/api/admin/testConceptEmail', { conceptId: conceptId })
     }
 }
 

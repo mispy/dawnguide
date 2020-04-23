@@ -9,6 +9,7 @@ import _ = require("lodash")
 import { sendLearningReminders, sendMail } from "./mail"
 import bcrypt = require('bcryptjs')
 import { SessionRequest } from "./requests"
+import { Sunpedia } from "../shared/sunpedia"
 
 export async function processRequest(req: SessionRequest) {
     const r = new Router<SessionRequest>()
@@ -228,6 +229,7 @@ export namespace admin {
         r.get('/api/admin/users', getUsers)
         r.get('/api/admin/reminders', sendLearningReminders)
         r.delete('/api/admin/users/(.*)', deleteUser)
+        r.post('/api/admin/testConceptEmail', testConceptEmail)
 
         return await r.route(req)
     }
@@ -240,5 +242,16 @@ export namespace admin {
     export async function deleteUser(req: SessionRequest, userId: string) {
         await db.users.del(userId)
         return { userId: userId, deleted: true }
+    }
+
+    export async function testConceptEmail(req: SessionRequest) {
+        const { conceptId } = expectStrings(req.json, 'conceptId')
+        const concept = new Sunpedia().expectConcept(conceptId)
+
+        await sendMail({
+            to: "foldspark@gmail.com",
+            subject: concept.title,
+            text: concept.introduction
+        })
     }
 }

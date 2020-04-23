@@ -2,14 +2,14 @@ import { observable, runInAction, computed, action } from "mobx"
 import { ExerciseWithProgress } from "../shared/logic"
 import { Concept } from "../shared/sunpedia"
 import _ = require("lodash")
-import { DawnguideApi } from "./DawnguideApi"
+import { ClientApi } from "./ClientApi"
 import { Sunpedia } from "../shared/sunpedia"
 import { UserProgressItem, User } from "../shared/types"
 import * as Sentry from '@sentry/browser'
 import { SENTRY_DSN_URL } from "./settings"
 
 export class AppStore {
-    api: DawnguideApi
+    api: ClientApi
     sunpedia: Sunpedia
     @observable user: User
     @observable.ref progressItems: UserProgressItem[] = []
@@ -18,7 +18,7 @@ export class AppStore {
     constructor(user: User) {
         this.user = user
         this.sunpedia = new Sunpedia()
-        this.api = new DawnguideApi(this.sunpedia)
+        this.api = new ClientApi(this.sunpedia)
 
         Sentry.init({ dsn: SENTRY_DSN_URL });
         window.addEventListener("error", ev => {

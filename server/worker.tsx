@@ -103,6 +103,7 @@ async function behindLogin(req: EventRequest) {
     r.get('/lesson', appPage)
     r.get('/settings', appPage)
     r.get('/admin', appPage)
+    r.get('/admin/emails', appPage)
 
     return await r.route(req as SessionRequest)
 }

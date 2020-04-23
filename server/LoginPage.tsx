@@ -24,7 +24,7 @@ export function LoginPage(props: { error?: string }) {
                         <label>Password</label>
                         <input name="password" type="password" className="form-control" placeholder="Password" required />
                     </div>
-                    <input type="submit" className="btn btn-dawn-outline" value="Sign in" />
+                    <input type="submit" className="btn btn-outline-dawn" value="Sign in" />
                     <hr />
                     <div><a href="/signup">Sign up</a></div>
                     <div><a href="/reset-password">Forgot password?</a></div>

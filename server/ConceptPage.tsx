@@ -52,7 +52,7 @@ export function ConceptPage(props: { concept: Concept }) {
                                 </tr>)}
                             </tbody>
                         </table>
-                        <a href="/login" className="btn btn-dawn-outline">Sign in to memorize <FontAwesomeIcon icon={faArrowRight} /></a>
+                        <a href="/login" className="btn btn-outline-dawn">Sign in to memorize <FontAwesomeIcon icon={faArrowRight} /></a>
                     </section>
                 </div>
                 <SiteFooter />

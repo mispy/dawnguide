@@ -110,6 +110,14 @@ export class Sunpedia {
         return this.conceptById[conceptId]
     }
 
+    expectConcept(conceptId: string): Concept {
+        const concept = this.getConcept(conceptId)
+        if (!concept) {
+            throw new Error(`No known concept with id '${conceptId}'`)
+        }
+        return concept
+    }
+
     getExercise(exerciseId: string): Exercise | undefined {
         return this.exerciseById[exerciseId]
     }

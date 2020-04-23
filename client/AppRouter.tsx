@@ -14,6 +14,7 @@ import { SubscriptionPage } from "./SubscriptionPage"
 import { ConceptPage } from './ConceptPage'
 import { AppContext } from './AppContext'
 import { AdminPage } from './AdminPage'
+import { AdminEmailsPage } from './AdminEmailsPage'
 import { SettingsPage } from './SettingsPage'
 
 export function AppRouter() {
@@ -32,6 +33,9 @@ export function AppRouter() {
             </Route>
             <Route path="/account/subscribe">
                 <SubscriptionPage />
+            </Route>
+            <Route path="/admin/emails">
+                <AdminEmailsPage />
             </Route>
             <Route path="/admin">
                 <AdminPage />
