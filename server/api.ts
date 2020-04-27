@@ -19,6 +19,7 @@ export async function processRequest(req: SessionRequest) {
     r.post('/api/changeEmail', changeEmail)
     r.post('/api/changeUsername', changeUsername)
     r.post('/api/changePassword', changePassword)
+    r.patch('/api/notificationSettings', updateNotificationSettings)
     r.post('/api/checkout', startCheckout)
     r.post('/api/debug', debugHandler)
     r.all('/api/admin/.*', admin.processRequest)
@@ -216,6 +217,20 @@ async function changePassword(req: SessionRequest) {
     } else {
         return new Response("Unauthorized", { status: 401 })
     }
+}
+
+async function updateNotificationSettings(req: SessionRequest) {
+    const user = await db.users.expect(req.session.userId)
+
+    if ('newConcepts' in req.json) {
+        user.emailNewConcepts = !!req.json.newConcepts
+    }
+
+    if ('weeklyReviews' in req.json) {
+        user.emailWeeklyReviews = !!req.json.weeklyReviews
+    }
+
+    await db.users.save(user)
 }
 
 export namespace admin {

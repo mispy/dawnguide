@@ -116,6 +116,39 @@ function ChangePasswordSection() {
     </section>)
 }
 
+function NotificationsSection() {
+    const { api } = useContext(AppContext)
+    const state = useLocalStore(() => ({ newPassword: "", currentPassword: "", loading: false }))
+
+    async function changePassword(e: React.FormEvent) {
+        e.preventDefault()
+
+        runInAction(() => state.loading = true)
+        try {
+            await api.changePassword({ newPassword: state.newPassword, currentPassword: state.currentPassword })
+        } finally {
+            runInAction(() => state.loading = false)
+        }
+    }
+
+    return useObserver(() => <section>
+        <h2 id="notifications">Notifications</h2>
+        <div className="form-check">
+            <input className="form-check-input" type="checkbox" value="" id="newContentEmails" />
+            <label className="form-check-label" htmlFor="newContentEmails">
+                New concept emails
+                <aside className="text-secondary">Get an email when we release a new concept to learn</aside>
+            </label>
+        </div><br />
+        <div className="form-check">
+            <input className="form-check-input" type="checkbox" value="" id="newContentEmails" />
+            <label className="form-check-label" htmlFor="newContentEmails">
+                Weekly review emails
+                <aside className="text-secondary">Get an email each week if you have reviews to complete</aside>
+            </label>
+        </div>
+    </section>)
+}
 
 export function SettingsPage() {
     const { api } = useContext(AppContext)
@@ -131,6 +164,7 @@ export function SettingsPage() {
                 <ChangeUsernameSection />
                 <ChangeEmailSection />
                 <ChangePasswordSection />
+                <NotificationsSection />
             </Container>
         </main>
     </AppLayout>)

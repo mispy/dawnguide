@@ -82,6 +82,10 @@ export class ClientApi {
     async changePassword(params: { newPassword: string, currentPassword: string }) {
         await this.http.post('/api/changePassword', params)
     }
+
+    async updateNotificationSettings(params: { newConcepts?: boolean, weeklyReviews?: boolean }) {
+        await this.http.patch('/api/notificationSettings', params)
+    }
 }
 
 export class AdminApi {

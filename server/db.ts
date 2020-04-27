@@ -53,6 +53,10 @@ export type User = {
     createdAt: number
     updatedAt: number
     emailConfirmed?: true
+
+    disableNotificationEmails?: true
+    emailAboutNewConcepts?: true
+    emailAboutWeeklyReviews?: true
 }
 
 export namespace users {
