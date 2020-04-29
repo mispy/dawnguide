@@ -11,7 +11,7 @@ export function AppHeader() {
         <Navbar>
             <Container>
                 <Navbar.Brand as={Link} to="/home">
-                    <Logo /> Dawnguide <span className="environment">alpha</span>
+                    <Logo /> Dawnguide <span className="environment">{window.location.origin.match(/localhost/) ? 'dev' : 'alpha'}</span>
                 </Navbar.Brand>
                 <div className="ml-auto d-flex align-items-center">
                     <Nav className="learnButtons">
