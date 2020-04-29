@@ -14,7 +14,7 @@
         "build-server": "rm -rf server/dist/* && parcel build server/worker.tsx -d server/dist",
         "build": "npm-run-all --parallel build-client build-server",
         "td": "wrangler publish --env test",
-        "publish": "wrangler publish --env live"
+        "deploy": "wrangler publish --env live"
     },
     "dependencies": {
         "@cloudflare/kv-asset-handler": "^0.0.7",
@@ -29,6 +29,7 @@
         "@types/html-entities": "^1.2.16",
         "@types/html-to-text": "^1.4.31",
         "@types/lodash": "^4.14.149",
+        "@types/mailgen": "^2.0.3",
         "@types/markdown-to-jsx": "^6.11.0",
         "@types/react": "^16.9.16",
         "@types/react-bootstrap": "^0.32.20",
@@ -48,6 +49,7 @@
         "html-entities": "^1.2.1",
         "html-to-text": "^5.1.1",
         "lodash": "^4.17.4",
+        "mailgen": "^2.0.10",
         "markdown-to-jsx": "^6.11.0",
         "mobx": "^5.15.1",
         "mobx-react-lite": "^1.5.2",

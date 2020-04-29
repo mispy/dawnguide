@@ -2,11 +2,17 @@ import { BASE_URL } from "./settings"
 import _ = require('lodash')
 import ReactDOMServer = require('react-dom/server')
 
-export function pageResponse(rootElement: Parameters<typeof ReactDOMServer.renderToStaticMarkup>[0], opts?: ResponseInit | undefined) {
+
+export function renderToHtml(rootElement: Parameters<typeof ReactDOMServer.renderToStaticMarkup>[0]) {
     const markup = ReactDOMServer.renderToStaticMarkup(rootElement)
+    return `<!doctype html>${markup}`
+}
+
+export function pageResponse(rootElement: Parameters<typeof ReactDOMServer.renderToStaticMarkup>[0], opts?: ResponseInit | undefined) {
+    const html = renderToHtml(rootElement)
     opts = opts ? _.cloneDeep(opts) : {}
     opts.headers = _.extend({ "Content-Type": 'text/html' }, opts.headers || {})
-    return new Response(`<!doctype html>${markup}`, opts)
+    return new Response(html, opts)
 }
 
 /** Make mutable redirect response to absolute url */

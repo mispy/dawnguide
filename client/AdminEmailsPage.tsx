@@ -32,7 +32,7 @@ class AdminPageState {
     }
 
     async emailAllUsers(conceptId: string) {
-        await this.api.admin.emailAllUsersNewConcept(conceptId)
+        // await this.api.admin.emailAllUsersNewConcept(conceptId)
         // await this.api.admin.deleteUser(id)
         // runInAction(() => {
         //     this.users = this.users.filter(u => u.id !== id)

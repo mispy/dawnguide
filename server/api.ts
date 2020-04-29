@@ -10,6 +10,7 @@ import { sendLearningReminders, sendMail } from "./mail"
 import bcrypt = require('bcryptjs')
 import { SessionRequest } from "./requests"
 import { Sunpedia } from "../shared/sunpedia"
+import { reviewsEmailHtml } from "./reviewsEmail"
 
 export async function processRequest(req: SessionRequest) {
     const r = new Router<SessionRequest>()
@@ -269,13 +270,22 @@ export namespace admin {
     }
 
     export async function testConceptEmail(req: SessionRequest) {
-        const { conceptId } = expectStrings(req.json, 'conceptId')
-        const concept = new Sunpedia().expectConcept(conceptId)
+        // const { conceptId } = expectStrings(req.json, 'conceptId')
+        // const concept = new Sunpedia().expectConcept(conceptId)
+
+        // await sendMail({
+        //     to: "foldspark@gmail.com",
+        //     subject: concept.title,
+        //     html: concept.introduction
+        // })
+
+        const user = await db.users.expect(req.session.userId)
 
         await sendMail({
             to: "foldspark@gmail.com",
-            subject: concept.title,
-            text: concept.introduction
+            subject: "Your Lessons and Reviews Update",
+            html: await reviewsEmailHtml(user)
         })
+
     }
 }

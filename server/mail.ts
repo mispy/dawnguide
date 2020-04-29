@@ -5,21 +5,35 @@ import { days } from './time'
 import { Sunpedia } from '../shared/sunpedia'
 import { absurl } from './utils'
 
-type EmailMessage = {
+type PlaintextEmailMessage = {
     to: string
     from?: string
     subject: string
     text: string
 }
 
+type HtmlEmailMessage = {
+    to: string
+    from?: string
+    subject: string
+    html: string
+}
+
+type EmailMessage = PlaintextEmailMessage | HtmlEmailMessage
+
 export async function sendMail(msg: EmailMessage) {
-    const body = {
+    const body: any = {
         "personalizations": [
             { "to": [{ "email": msg.to }] }
         ],
         "from": { "email": msg.from || "Dawnguide <noreply@dawnguide.com>" },
-        "subject": msg.subject,
-        "content": [{ "type": "text/plain", "value": msg.text }]
+        "subject": msg.subject
+    }
+
+    if ('html' in msg) {
+        body.content = [{ "type": "text/html", "value": msg.html }]
+    } else {
+        body.content = [{ "type": "text/plain", "value": msg.text }]
     }
 
     await http.postJson("https://api.sendgrid.com/v3/mail/send", body, {

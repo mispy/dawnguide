@@ -39,6 +39,6 @@ Self-compassion involves extending a sense of caring warmth to ourselves in time
         year={2010},
         publisher={Wiley Online Library}
         url={https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2914331/}
-      }}
+      }
 `
 })
