@@ -19,6 +19,7 @@ export async function processRequest(req: SessionRequest) {
     r.post('/api/changeEmail', changeEmail)
     r.post('/api/changeUsername', changeUsername)
     r.post('/api/changePassword', changePassword)
+    r.get('/api/notificationSettings', getNotificationSettings)
     r.patch('/api/notificationSettings', updateNotificationSettings)
     r.post('/api/checkout', startCheckout)
     r.post('/api/debug', debugHandler)
@@ -219,18 +220,26 @@ async function changePassword(req: SessionRequest) {
     }
 }
 
+async function getNotificationSettings(req: SessionRequest) {
+    return await db.notificationSettings.get(req.session.userId)
+}
+
 async function updateNotificationSettings(req: SessionRequest) {
-    const user = await db.users.expect(req.session.userId)
+    const settings = await db.notificationSettings.get(req.session.userId)
 
-    if ('newConcepts' in req.json) {
-        user.emailNewConcepts = !!req.json.newConcepts
+    if ('disableNotificationEmails' in req.json) {
+        settings.disableNotificationEmails = !!req.json.disableNotificationEmails
     }
 
-    if ('weeklyReviews' in req.json) {
-        user.emailWeeklyReviews = !!req.json.weeklyReviews
+    if ('emailAboutNewConcepts' in req.json) {
+        settings.emailAboutNewConcepts = !!req.json.emailAboutNewConcepts
     }
 
-    await db.users.save(user)
+    if ('emailAboutWeeklyReviews' in req.json) {
+        settings.emailAboutWeeklyReviews = !!req.json.emailAboutWeeklyReviews
+    }
+
+    await db.notificationSettings.set(req.session.userId, settings)
 }
 
 export namespace admin {

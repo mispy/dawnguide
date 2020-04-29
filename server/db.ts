@@ -3,7 +3,7 @@ import bcrypt = require('bcryptjs')
 import { KVNamespace } from '@cloudflare/workers-types'
 import { weeks, days } from './time'
 
-import { UserProgressItem } from '../shared/types'
+import { UserProgressItem, UserNotificationSettings } from '../shared/types'
 import { isReadyForReview } from '../shared/logic'
 import _ = require('lodash')
 import { ResponseError } from './utils'
@@ -33,8 +33,9 @@ export async function putJson(key: string, value: Record<string, any>, options?:
     await CloudflareStore.put(key, JSON.stringify(value), options)
 }
 
-export async function list(prefix: string) {
-    return await CloudflareStore.list({ prefix: prefix })
+export async function findKeys(prefix: string) {
+    const result = await CloudflareStore.list({ prefix: prefix })
+    return result.keys.map(k => k.name)
 }
 
 async function deleteKey(key: string) {
@@ -43,7 +44,7 @@ async function deleteKey(key: string) {
 
 export { deleteKey as delete }
 
-const db = { get, getJson, put, putJson, list, delete: deleteKey }
+const db = { get, getJson, put, putJson, findKeys, delete: deleteKey }
 
 export type User = {
     id: string
@@ -53,10 +54,6 @@ export type User = {
     createdAt: number
     updatedAt: number
     emailConfirmed?: true
-
-    disableNotificationEmails?: true
-    emailAboutNewConcepts?: true
-    emailAboutWeeklyReviews?: true
 }
 
 export namespace users {
@@ -94,10 +91,11 @@ export namespace users {
         return users.get(userId)
     }
 
-    export async function all(): Promise<User[]> {
-        const { keys } = await db.list(`users:`)
 
-        const userReqs = keys.map(key => db.getJson(key.name))
+    export async function all(): Promise<User[]> {
+        const keys = await db.findKeys(`users:`)
+
+        const userReqs = keys.map(key => db.getJson(key))
 
         return Promise.all(userReqs) as Promise<User[]>
     }
@@ -186,6 +184,21 @@ export namespace users {
             db.delete(`user_id_by_username:${oldUsername}`),
             db.put(`user_id_by_username:${newUsername}`, user.id)
         ])
+    }
+}
+
+export namespace notificationSettings {
+    export async function get(userId: string): Promise<UserNotificationSettings> {
+        const json = await db.getJson(`user_notification_settings:${userId}`)
+        return _.defaults(json, {
+            disableNotificationEmails: false,
+            emailAboutNewConcepts: true,
+            emailAboutWeeklyReviews: true
+        })
+    }
+
+    export async function set(userId: string, settings: UserNotificationSettings) {
+        await db.putJson(`user_notification_settings:${userId}`, settings)
     }
 }
 

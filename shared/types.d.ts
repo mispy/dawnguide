@@ -51,3 +51,18 @@ export type UserProgressItem = {
     /** When last reviewed or learned */
     reviewedAt: number
 }
+
+export type UserNotificationSettings = {
+    /** 
+     * If true, overrides all other notification settings to
+     * indicate that we should never send notification emails
+     * to this user (including new types in the future).
+     * */
+    disableNotificationEmails: boolean
+
+    /** Whether to email user about new concepts */
+    emailAboutNewConcepts: boolean
+
+    /** Whether to send user a weekly email about reviews to complete */
+    emailAboutWeeklyReviews: boolean
+}

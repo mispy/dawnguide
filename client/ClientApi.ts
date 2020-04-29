@@ -4,7 +4,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { API_BASE_URL } from './settings'
 import { expectStrings } from './utils'
 import { ExerciseWithProgress } from '../shared/logic'
-import { User, UserProgressItem } from '../shared/types'
+import { User, UserProgressItem, UserNotificationSettings } from '../shared/types'
 import { Sunpedia } from '../shared/sunpedia'
 
 /** Wraps axios http methods so we can do stuff on each call */
@@ -83,7 +83,12 @@ export class ClientApi {
         await this.http.post('/api/changePassword', params)
     }
 
-    async updateNotificationSettings(params: { newConcepts?: boolean, weeklyReviews?: boolean }) {
+    async getNotificationSettings(): Promise<UserNotificationSettings> {
+        const { data } = await this.http.get('/api/notificationSettings')
+        return data
+    }
+
+    async updateNotificationSettings(params: Partial<UserNotificationSettings>) {
         await this.http.patch('/api/notificationSettings', params)
     }
 }
