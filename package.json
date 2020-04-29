@@ -14,7 +14,8 @@
         "build-server": "rm -rf server/dist/* && parcel build server/worker.tsx -d server/dist",
         "build": "npm-run-all --parallel build-client build-server",
         "deploy-test": "wrangler publish --env test",
-        "publish": "wrangler publish --env live"
+        "publish": "wrangler publish --env live",
+        "cfrun": ""
     },
     "dependencies": {
         "@cloudflare/kv-asset-handler": "^0.0.7",
