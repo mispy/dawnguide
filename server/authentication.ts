@@ -102,8 +102,7 @@ export async function resetPasswordFinish(req: EventRequest, token: string) {
     }
 
     const user = await db.users.expectByEmail(email)
-    user.cryptedPassword = db.users.hashPassword(newPassword)
-    await db.users.save(user)
+    await db.users.update(user.id, { cryptedPassword: db.users.hashPassword(newPassword) })
 
     // Expire the token now that it's used
     await db.passwordResets.destroy(token)

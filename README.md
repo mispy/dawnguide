@@ -1,11 +1,3 @@
-# workers-example
+# dawnguide
 
-Proof of concept full-stack site w/ registration + auth on cloudflare workers
-
-To deploy:
-
-- `cp wrangler.toml.example wrangler.toml` and populate
-- `wrangler kv:namespace create "STORE"` to make kv store, add to wrangler.toml
-- `webpack -p` in client
-- `webpack -p` in server
-- `wrangler publish` from root
+Site is soft-launched, but not ready to share widely yet! Let me know if you find bugs or have ideas for psych concepts to write about :D

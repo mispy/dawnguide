@@ -133,6 +133,12 @@ export namespace users {
         return user
     }
 
+    export async function update(userId: string, changes: Partial<User>) {
+        const user = await users.expect(userId)
+        Object.assign(user, changes)
+        await db.putJson(`users:${userId}`, user)
+    }
+
     export async function save(user: User) {
         await db.putJson(`users:${user.id}`, user)
     }
@@ -159,12 +165,10 @@ export namespace users {
         }
 
         const user = await users.expect(userId)
-
         const oldEmail = user.email
-        user.email = newEmail
-        user.emailConfirmed = true
+
         await Promise.all([
-            users.save(user),
+            users.update(user.id, { email: newEmail, emailConfirmed: true }),
             db.delete(`user_id_by_email:${oldEmail}`),
             db.put(`user_id_by_email:${newEmail}`, user.id)
         ])
@@ -180,11 +184,10 @@ export namespace users {
         }
 
         const user = await users.expect(userId)
-
         const oldUsername = user.username
-        user.username = newUsername
+
         await Promise.all([
-            users.save(user),
+            users.update(user.id, { username: newUsername }),
             db.delete(`user_id_by_username:${oldUsername}`),
             db.put(`user_id_by_username:${newUsername}`, user.id)
         ])
