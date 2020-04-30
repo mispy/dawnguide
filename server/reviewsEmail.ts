@@ -81,7 +81,7 @@ export async function reviewsEmailHtml(user: User, numLessons: number, numReview
                                 <tr>
                                     <td style="border-top: 1px solid #eeeeee; padding-top: 20px; color:#606060; font-size: 11px;">
                                         <em>Copyright &copy; 2020 Dawnlight Technology, All rights reserved.</em><br>
-                                        <a href="${absurl('/settings#notifications')}>Unsubcribe or update email settings</a>
+                                        <a href="${absurl('/settings#notifications')}">Unsubscribe or update email settings</a>
                                     </td>
                                 </tr>
                             </tbody>

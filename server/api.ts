@@ -6,7 +6,7 @@ import http from "./http"
 import { User, UserProgressItem } from '../shared/types'
 import { getReviewTime } from "../shared/logic"
 import _ = require("lodash")
-import { sendLearningReminders, sendMail } from "./mail"
+import { sendMail } from "./mail"
 import bcrypt = require('bcryptjs')
 import { SessionRequest } from "./requests"
 import { Sunpedia } from "../shared/sunpedia"
@@ -253,7 +253,6 @@ export namespace admin {
 
         const r = new Router<SessionRequest>()
         r.get('/api/admin/users', getUsers)
-        r.get('/api/admin/reminders', sendLearningReminders)
         r.delete('/api/admin/users/(.*)', deleteUser)
         r.post('/api/admin/testConceptEmail', testConceptEmail)
 
@@ -282,11 +281,11 @@ export namespace admin {
 
         const user = await db.users.expect(req.session.userId)
 
-        // await sendMail({
-        //     to: "foldspark@gmail.com",
-        //     subject: "Your Lessons and Reviews Update",
-        //     html: await reviewsEmailHtml(user)
-        // })
+        await sendMail({
+            to: "misprime@gmail.com",
+            subject: "Your Lessons and Reviews Update",
+            html: await reviewsEmailHtml(user, 0, 9)
+        })
 
     }
 }
