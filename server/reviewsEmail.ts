@@ -21,6 +21,8 @@ export async function sendReviewsEmailIfNeeded(user: User) {
     if (lessons.length === 0 && reviews.length === 0)
         return // Nothing to prompt user about!
 
+    console.log(`SENDING WEEKLY REVIEWS EMAIL TO ${user.email}`)
+
     await sendMail({
         to: user.email,
         subject: "Your Lessons and Reviews Update",
@@ -39,7 +41,7 @@ export async function reviewsEmailHtml(user: User, numLessons: number, numReview
 `
     } else if (numLessons > 0) {
         linkSection = `
-        you are up to date on reviews
+        you are up to date on reviews<br>
         and <a href="${BASE_URL}/lesson">1 new lesson</a> is available
 `
     } else if (numReviews > 0) {
