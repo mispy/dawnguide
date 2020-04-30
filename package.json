@@ -1,14 +1,9 @@
 {
     "main": "server/dist/worker.js",
     "scripts": {
-        "client-main": "parcel watch public/* -d client/devdist",
-        "client-serviceWorker": "parcel watch serviceWorker/* -d client/devdist",
-        "client-devserver": "cd client/devdist && http-server -p 1234",
-        "client-plus-serviceWorker": "rm -rf client/devdist && mkdir client/devdist && npm-run-all --parallel client-main client-serviceWorker client-devserver",
         "client": "rm -rf client/devdist && parcel serve public/* -d client/devdist",
         "server-parcel": "parcel watch server/worker.tsx -d server/devdist",
         "server-cloudworker": "nodemon --watch server/devdist/worker.js --exec cloudworker --debug --kv-file STORE=store.json server/devdist/worker.js",
-        "server-wrangler": "wrangler dev --env dev",
         "server": "npm-run-all --parallel server-parcel server-cloudworker",
         "build-client": "rm -rf client/dist/* && parcel build public/* -d client/dist",
         "build-server": "rm -rf server/dist/* && parcel build server/worker.tsx -d server/dist",
