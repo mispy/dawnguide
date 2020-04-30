@@ -33,8 +33,8 @@ export async function signup(req: EventRequest) {
         const confirmUrl = absurl(`/account/confirmation/${token}`)
         await sendMail({
             to: email,
-            subject: "Dawnguide email change confirmation",
-            text: `Welcome to Dawnguide! Please confirm your account by following this link: ${confirmUrl}`
+            subject: "Dawnguide email confirmation",
+            html: `Welcome to Dawnguide! Please <a href="${confirmUrl}">click here to confirm your account</a>.`
         })
 
         // Log the user in to their first session
