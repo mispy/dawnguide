@@ -91,10 +91,13 @@ export namespace users {
         return users.get(userId)
     }
 
+    export async function allIds(): Promise<string[]> {
+        const keys = await db.findKeys(`users:`)
+        return keys.map(k => k.split('users:')[1])
+    }
 
     export async function all(): Promise<User[]> {
         const keys = await db.findKeys(`users:`)
-
         const userReqs = keys.map(key => db.getJson(key))
 
         return Promise.all(userReqs) as Promise<User[]>
@@ -143,7 +146,8 @@ export namespace users {
             db.delete(`users:${userId}`),
             db.delete(`user_id_by_email:${user.email}`),
             db.delete(`user_id_by_username:${user.username}`),
-            db.delete(`user_progress:${userId}`)
+            db.delete(`user_progress:${userId}`),
+            db.delete(`user_notification_settings:${userId}`)
         ])
     }
 
@@ -190,15 +194,27 @@ export namespace users {
 export namespace notificationSettings {
     export async function get(userId: string): Promise<UserNotificationSettings> {
         const json = await db.getJson(`user_notification_settings:${userId}`)
-        return _.defaults(json, {
+        const settings: UserNotificationSettings = _.defaults({}, json, {
             disableNotificationEmails: false,
             emailAboutNewConcepts: true,
-            emailAboutWeeklyReviews: true
+            emailAboutWeeklyReviews: true,
+            lastWeeklyReviewEmail: Date.now()
         })
+
+        if (!_.isEqual(json, settings)) {
+            await notificationSettings.set(userId, settings)
+        }
+        return settings
     }
 
     export async function set(userId: string, settings: UserNotificationSettings) {
         await db.putJson(`user_notification_settings:${userId}`, settings)
+    }
+
+    export async function update(userId: string, changes: Partial<UserNotificationSettings>) {
+        const settings = await notificationSettings.get(userId)
+        Object.assign(settings, changes)
+        await notificationSettings.set(userId, settings)
     }
 }
 

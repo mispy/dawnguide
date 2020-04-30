@@ -1,5 +1,6 @@
 import { User } from "../shared/types"
 import _ = require("lodash")
+import { BASE_URL } from './settings'
 
 export async function reviewsEmailHtml(user: User) {
     return `
@@ -16,15 +17,15 @@ export async function reviewsEmailHtml(user: User) {
             <tbody>
                 <tr>
                     <td style="text-align: center;">
-                        <img alt="Pretty dawn image" src="https://dawnguide.com/lessons-and-reviews-email.jpg" width="340" height="256"/>
+                        <img alt="Pretty dawn image" src="${BASE_URL}/lessons-and-reviews-email.jpg" width="340" height="256"/>
                     </td>
                 </tr>
                 <tr>
                     <td style="text-align: center; color: #333;">
                         <h1 style="font-size: 18px; font-weight: normal;">
                             Hi ${user.username}</span>,<br>
-                            you have <a href="https://dawnguide.com/review">3 reviews</a> to complete<br>
-                            and <a href="https://dawnguide.com/lesson">1 new lesson</a> available
+                            you have <a href="${BASE_URL}/review">3 reviews</a> to complete<br>
+                            and <a href="${BASE_URL}/lesson">1 new lesson</a> available
                         </h1>
                     </td>
                 </tr>
@@ -35,7 +36,7 @@ export async function reviewsEmailHtml(user: User) {
                                 <tr>
                                     <td style="border-top: 1px solid #eeeeee; padding-top: 20px; color:#606060; font-size: 11px;">
                                         <em>Copyright &copy; 2020 Dawnlight Technology, All rights reserved.</em><br>
-                                        <a href="https://dawnguide.com/settings#notifications">Unsubcribe or update email settings</a>
+                                        <a href="${BASE_URL}/settings#notifications">Unsubcribe or update email settings</a>
                                     </td>
                                 </tr>
                             </tbody>

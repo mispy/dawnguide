@@ -16,6 +16,7 @@ import { publicConceptPage } from './ConceptPage'
 import { appPage } from './AppPage'
 import { logToSentry } from './sentry'
 import { EventRequest, SessionRequest } from './requests'
+import { heartbeat } from './heartbeat'
 
 // Workers require that this be a sync callback
 addEventListener('fetch', event => {
@@ -40,6 +41,7 @@ async function processRequest(req: EventRequest) {
     r.post('/signup', signup)
     r.post('/login', login)
     r.post('/reset-password', resetPasswordStart)
+    r.get('/heartbeat', heartbeat)
     r.get('/account/confirmation/(.*)', emailConfirmFinish)
     // r.post('/webhook/checkout', fulfillCheckout) // From Stripe
     r.get('/logout', logout)
