@@ -8,9 +8,7 @@ const hash = process.env.CFSCRIPT_HASH
 async function main() {
     const data: any = []
     for (const user of await db.users.all()) {
-        if (user.email === "foldspark@gmail.com") {
-            await db.notificationSettings.update(user.id, { lastWeeklyReviewEmail: Date.now() - weeks(2) })
-        }
+        data.push([user])
     }
     return new JsonResponse({ success: hash, data: data })
 }
