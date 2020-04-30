@@ -1,14 +1,25 @@
 import db = require('../server/db')
 import { JsonResponse } from '../server/utils'
+import { weeks } from '../server/time'
+
+declare const process: any
+const hash = process.env.CFSCRIPT_HASH
 
 async function main() {
-    const users = []
+    const data: any = []
     for (const user of await db.users.all()) {
-        users.push(user)
+        if (user.email === "foldspark@gmail.com") {
+            await db.notificationSettings.update(user.id, { lastWeeklyReviewEmail: Date.now() - weeks(2) })
+        }
     }
-    return new JsonResponse(users)
+    return new JsonResponse({ success: hash, data: data })
 }
 
 addEventListener('fetch', event => {
-    event.respondWith(main())
+    const url = new URL(event.request.url)
+    if (url.pathname === `/${hash}`) {
+        event.respondWith(main())
+    } else {
+        event.respondWith(new Response(`Script hash did not match: ${url.pathname} !== /${hash}`))
+    }
 })

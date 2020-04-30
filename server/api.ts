@@ -11,6 +11,7 @@ import bcrypt = require('bcryptjs')
 import { SessionRequest } from "./requests"
 import { Sunpedia } from "../shared/sunpedia"
 import { reviewsEmailHtml } from "./reviewsEmail"
+import urljoin = require("url-join")
 
 export async function processRequest(req: SessionRequest) {
     const r = new Router<SessionRequest>()
@@ -113,8 +114,8 @@ async function startCheckout(req: SessionRequest): Promise<{ checkoutSessionId: 
                     plan: planId,
                 }],
             },
-            success_url: `${BASE_URL}/account/subscribe/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${BASE_URL}/account/subscribe`,
+            success_url: urljoin(BASE_URL, '/account/subscribe/success?session_id={CHECKOUT_SESSION_ID}'),
+            cancel_url: urljoin(BASE_URL, '/account/subscribe'),
         }, {
             headers: {
                 'Authorization': `Bearer ${STRIPE_SECRET_KEY}`
@@ -138,8 +139,8 @@ async function startCheckout(req: SessionRequest): Promise<{ checkoutSessionId: 
                 currency: 'usd',
                 quantity: 1,
             }],
-            success_url: `${BASE_URL}/account/subscribe/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${BASE_URL}/account/subscribe`,
+            success_url: absurl('/account/subscribe/success?session_id={CHECKOUT_SESSION_ID}'),
+            cancel_url: absurl('/account/subscribe'),
         }, {
             headers: {
                 'Authorization': `Bearer ${STRIPE_SECRET_KEY}`
@@ -281,11 +282,11 @@ export namespace admin {
 
         const user = await db.users.expect(req.session.userId)
 
-        await sendMail({
-            to: "foldspark@gmail.com",
-            subject: "Your Lessons and Reviews Update",
-            html: await reviewsEmailHtml(user)
-        })
+        // await sendMail({
+        //     to: "foldspark@gmail.com",
+        //     subject: "Your Lessons and Reviews Update",
+        //     html: await reviewsEmailHtml(user)
+        // })
 
     }
 }

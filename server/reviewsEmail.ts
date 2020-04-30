@@ -5,6 +5,7 @@ import db = require('./db')
 import { Sunpedia } from "../shared/sunpedia"
 import { sendMail } from "./mail"
 import { weeks } from "./time"
+import { absurl } from "./utils"
 
 export async function sendReviewsEmailIfNeeded(user: User) {
     const settings = await db.notificationSettings.get(user.id)
@@ -21,8 +22,6 @@ export async function sendReviewsEmailIfNeeded(user: User) {
     if (lessons.length === 0 && reviews.length === 0)
         return // Nothing to prompt user about!
 
-    console.log(`SENDING WEEKLY REVIEWS EMAIL TO ${user.email}`)
-
     await sendMail({
         to: user.email,
         subject: "Your Lessons and Reviews Update",
@@ -36,17 +35,17 @@ export async function reviewsEmailHtml(user: User, numLessons: number, numReview
     let linkSection = ''
     if (numLessons > 0 && numReviews > 0) {
         linkSection = `
-        you have <a href="${BASE_URL}/review">${numReviews} reviews</a> to complete<br>
-        and <a href="${BASE_URL}/lesson">1 new lesson</a> available
+        you have <a href="${absurl('/review')}">${numReviews} reviews</a> to complete<br>
+        and <a href="${absurl('/lesson')}">1 new lesson</a> available
 `
     } else if (numLessons > 0) {
         linkSection = `
         you are up to date on reviews<br>
-        and <a href="${BASE_URL}/lesson">1 new lesson</a> is available
+        and <a href="${absurl('/lesson')}">1 new lesson</a> is available
 `
     } else if (numReviews > 0) {
         linkSection = `
-        you have <a href="${BASE_URL}/review">${numReviews} reviews</a> to complete<br>
+        you have <a href="${absurl('/review')}">${numReviews} reviews</a> to complete<br>
 `
     }
 
@@ -64,7 +63,7 @@ export async function reviewsEmailHtml(user: User, numLessons: number, numReview
             <tbody>
                 <tr>
                     <td style="text-align: center;">
-                        <img alt="Pretty dawn image" src="${BASE_URL}/lessons-and-reviews-email.jpg" width="340" height="256"/>
+                        <img alt="Pretty dawn image" src="${absurl('/lessons-and-reviews-email.jpg')}" width="340" height="256"/>
                     </td>
                 </tr>
                 <tr>
@@ -82,7 +81,7 @@ export async function reviewsEmailHtml(user: User, numLessons: number, numReview
                                 <tr>
                                     <td style="border-top: 1px solid #eeeeee; padding-top: 20px; color:#606060; font-size: 11px;">
                                         <em>Copyright &copy; 2020 Dawnlight Technology, All rights reserved.</em><br>
-                                        <a href="${BASE_URL}/settings#notifications">Unsubcribe or update email settings</a>
+                                        <a href="${absurl('/settings#notifications')}>Unsubcribe or update email settings</a>
                                     </td>
                                 </tr>
                             </tbody>

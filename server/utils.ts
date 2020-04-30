@@ -18,7 +18,7 @@ export function pageResponse(rootElement: Parameters<typeof ReactDOMServer.rende
 /** Make mutable redirect response to absolute url */
 export function redirect(dest: string, code: number = 302) {
     if (!dest.startsWith("http"))
-        dest = BASE_URL + dest
+        dest = urljoin(BASE_URL, dest)
 
     const res = Response.redirect(dest, code)
     return new Response(res.body, res)
@@ -135,13 +135,3 @@ export class ResponseError extends Error {
 import { Memoize } from 'typescript-memoize';
 import { Session } from "./db"
 export const memoize = Memoize
-
-
-// export type EventRequest = {
-//     event: FetchEvent
-//     headers: Headers
-//     method: Request['method']
-//     url: URL
-//     path: string
-//     params: QueryParams
-// }
