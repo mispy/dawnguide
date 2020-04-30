@@ -65,4 +65,7 @@ export type UserNotificationSettings = {
 
     /** Whether to send user a weekly email about reviews to complete */
     emailAboutWeeklyReviews: boolean
+
+    /** When the last weekly review email was sent */
+    lastWeeklyReviewEmail: number
 }
