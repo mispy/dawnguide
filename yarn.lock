@@ -1195,6 +1195,11 @@ abbrev@1:
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
 
+accessible-nprogress@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/accessible-nprogress/-/accessible-nprogress-2.0.1.tgz#75489b375490a80ae26a8e0ed82561c3ccbe1471"
+  integrity sha512-CALduRmhb/fy/RLXYmn8+s8QjOsnlY6cWmsSoXUryZFpuBjYcfxI6Eqcc85bMfE+z6DwCLc+TM9WgyR6bTfV1Q==
+
 acorn-globals@^4.3.0:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/acorn-globals/-/acorn-globals-4.3.4.tgz#9fa1926addc11c97308c4e66d7add0d40c3272e7"

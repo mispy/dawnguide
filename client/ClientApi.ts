@@ -3,9 +3,10 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 import { API_BASE_URL, IS_PRODUCTION } from './settings'
 import { expectStrings, delay } from './utils'
-import { ExerciseWithProgress } from '../shared/logic'
 import { User, UserProgressItem, UserNotificationSettings } from '../shared/types'
 import { Sunpedia } from '../shared/sunpedia'
+// @ts-ignore
+const NProgress = require('accessible-nprogress')
 
 /** Wraps axios http methods so we can do stuff on each call */
 class HTTPProvider {
@@ -29,7 +30,9 @@ class HTTPProvider {
     }
 
     async request(config: AxiosRequestConfig) {
-        return this.http.request(config)
+        const req = this.http.request(config)
+        NProgress.promise(req)
+        return req
     }
 
     async get(url: string, config?: AxiosRequestConfig | undefined): Promise<AxiosResponse> {

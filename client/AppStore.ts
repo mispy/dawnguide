@@ -7,6 +7,8 @@ import { Sunpedia } from "../shared/sunpedia"
 import { UserProgressItem, User } from "../shared/types"
 import * as Sentry from '@sentry/browser'
 import { SENTRY_DSN_URL } from "./settings"
+// @ts-ignore
+const NProgress = require('accessible-nprogress')
 
 export class AppStore {
     api: ClientApi
@@ -21,6 +23,11 @@ export class AppStore {
         this.api = new ClientApi(this.sunpedia)
 
         Sentry.init({ dsn: SENTRY_DSN_URL });
+
+        NProgress.configure({
+            showSpinner: false
+        })
+
         window.addEventListener("error", ev => {
             this.handleUnexpectedError(ev.error)
             ev.preventDefault()
