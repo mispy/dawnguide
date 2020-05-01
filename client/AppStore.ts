@@ -12,7 +12,7 @@ export class AppStore {
     api: ClientApi
     sunpedia: Sunpedia
     @observable user: User
-    @observable.ref progressItems: UserProgressItem[] = []
+    @observable.ref progressItems: UserProgressItem[] | null = null
     @observable.ref unexpectedError?: Error
 
     constructor(user: User) {
@@ -31,12 +31,17 @@ export class AppStore {
         })
     }
 
+    async loadProgress() {
+        const progressItems = await this.api.getProgressItems()
+        runInAction(() => this.progressItems = progressItems)
+    }
+
     @computed get loading(): boolean {
-        return !this.exercisesWithProgress.length
+        return this.progressItems === null
     }
 
     @computed get lessonsAndReviews() {
-        return this.sunpedia.getLessonsAndReviews(this.progressItems)
+        return this.sunpedia.getLessonsAndReviews(this.progressItems || [])
     }
 
     @computed get exercisesWithProgress() {
@@ -73,11 +78,6 @@ export class AppStore {
 
     @computed get numReviews() {
         return this.reviews.length
-    }
-
-    async loadProgress() {
-        const progressItems = await this.api.getProgressItems()
-        runInAction(() => this.progressItems = progressItems)
     }
 
     /**

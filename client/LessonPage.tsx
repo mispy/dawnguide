@@ -133,9 +133,7 @@ export function LessonPage() {
     const { app } = useContext(AppContext)
 
     function content() {
-        const isLoading = !app.exercisesWithProgress.length
-
-        if (isLoading)
+        if (app.loading)
             return <div>Loading...</div>
 
         if (!app.lessonConcepts.length) {
