@@ -4,7 +4,7 @@ const { getAssetFromKV } = require('@cloudflare/kv-asset-handler')
 import Router from './router'
 import * as auth from './authController'
 import * as site from './siteController'
-import { IS_PRODUCTION, WEBPACK_DEV_SERVER, SENTRY_KEY } from './settings'
+import { IS_PRODUCTION, ASSET_DEV_SERVER, SENTRY_KEY } from './settings'
 import { redirect, JsonResponse } from './utils'
 import api = require('./api')
 import _ = require('lodash')
@@ -101,7 +101,7 @@ async function serveStatic(req: EventRequest) {
         return await serveStaticLive(req.event, req.path)
     } else {
         // Proxy through to webpack dev server to serve asset
-        return await fetch(`${WEBPACK_DEV_SERVER}${req.path}`)
+        return await fetch(`${ASSET_DEV_SERVER}${req.path}`)
     }
 }
 

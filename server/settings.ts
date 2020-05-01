@@ -7,7 +7,7 @@ export const IS_PRODUCTION: boolean = global.BASE_URL && !global.BASE_URL.includ
 
 export const DEPLOY_ENV = IS_PRODUCTION ? (global.BASE_URL.includes("dawnguide.com") ? "live" : "staging") : "dev"
 
-export const WEBPACK_DEV_SERVER: string = "http://localhost:1234"
+export const ASSET_DEV_SERVER: string = "http://localhost:1234"
 
 export const BASE_URL: string = global.BASE_URL || process.env.BASE_URL || (IS_PRODUCTION ? "https://dawnguide.com" : "http://localhost:3000")
 
