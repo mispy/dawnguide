@@ -1,8 +1,8 @@
 import _ = require('lodash')
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
-import { API_BASE_URL } from './settings'
-import { expectStrings } from './utils'
+import { API_BASE_URL, IS_PRODUCTION } from './settings'
+import { expectStrings, delay } from './utils'
 import { ExerciseWithProgress } from '../shared/logic'
 import { User, UserProgressItem, UserNotificationSettings } from '../shared/types'
 import { Sunpedia } from '../shared/sunpedia'
@@ -15,6 +15,17 @@ class HTTPProvider {
             baseURL: API_BASE_URL,
             timeout: 10000
         })
+
+        if (!IS_PRODUCTION) {
+            // In development, delay all requests by a small random amount to simulate live user experience.
+            // This helps with dev-prod parity so that we remember to do good loading behavior.
+            this.http.interceptors.response.use(async response => {
+                // Numbers are based on how long API requests take for me on GitHub, which uses
+                // a similar kind of loading indicator to us
+                await delay(_.random(200, 700))
+                return response
+            })
+        }
     }
 
     async request(config: AxiosRequestConfig) {
