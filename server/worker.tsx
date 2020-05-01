@@ -82,7 +82,7 @@ async function behindLogin(req: EventRequest) {
 
     const r = new Router<SessionRequest>()
     r.all('/api/.*', api.processRequest)
-    r.get('/', site.appPage)
+    r.get('/', () => redirect('/home'))
     r.get('/home', site.appPage)
     r.get('/review', site.appPage)
     r.get('/lesson', site.appPage)
