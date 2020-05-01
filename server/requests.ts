@@ -1,6 +1,7 @@
-import { getSession } from "./authentication"
-import { Json, getQueryParams, ResponseError } from "./utils"
+import { Json, getQueryParams } from "./utils"
+import db = require('./db')
 import { Session } from "./db"
+import cookie = require('cookie')
 
 /** Our annotation wrapper around incoming FetchEvents */
 export class EventRequest {
@@ -67,4 +68,10 @@ export class EventRequest {
 
 export type SessionRequest = EventRequest & {
     session: Session
+}
+
+export async function getSession(event: FetchEvent) {
+    const cookies = cookie.parse(event.request.headers.get('cookie') || '')
+    const sessionKey = cookies['sessionKey']
+    return sessionKey ? await db.sessions.get(sessionKey) : null
 }

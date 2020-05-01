@@ -2,17 +2,12 @@
 const { getAssetFromKV } = require('@cloudflare/kv-asset-handler')
 
 import Router from './router'
-import { signup, logout, resetPasswordStart, resetPasswordFinish, emailConfirmFinish, getLogin, postLogin } from './authentication'
+import * as auth from './authController'
+import * as site from './siteController'
 import { IS_PRODUCTION, WEBPACK_DEV_SERVER, SENTRY_KEY } from './settings'
 import { redirect, JsonResponse } from './utils'
 import api = require('./api')
 import _ = require('lodash')
-import { signupPage } from './SignupPage'
-import { landingPage } from './LandingPage'
-import { resetPasswordPage } from './ResetPasswordPage'
-import { resetPasswordFinalizePage } from './ResetPasswordFinalizePage'
-import { publicConceptPage } from './ConceptPage'
-import { appPage } from './AppPage'
 import { logToSentry } from './sentry'
 import { EventRequest, SessionRequest } from './requests'
 import { heartbeat } from './heartbeat'
@@ -31,20 +26,26 @@ async function handleEvent(event: FetchEvent) {
 async function processRequest(req: EventRequest) {
     const r = new Router<EventRequest>()
     r.get('/(assets/.*)|.*\\.js|.*\\.css|.*\\.jpg|.*\\.png|.*\\.ico|.*\\.svg|.*\\.webmanifest|.*\\.json|.*\\.txt', serveStatic)
-    r.get('/login', getLogin)
-    r.get('/signup', () => signupPage())
-    r.get('/reset-password', resetPasswordPage)
-    r.get('/', rootPage)
-    r.get('/reset-password/(.*)', resetPasswordFinalizePage)
-    r.post('/reset-password/(.*)', resetPasswordFinish)
-    r.post('/signup', signup)
-    r.post('/login', postLogin)
-    r.post('/reset-password', resetPasswordStart)
+    r.get('/login', auth.loginPage)
+    r.post('/login', auth.submitLogin)
+    r.get('/signup', auth.signupPage)
+    r.post('/signup', auth.submitSignup)
+    r.get('/reset-password', auth.resetPasswordPage)
+    r.post('/reset-password', auth.submitResetPassword)
+    r.get('/reset-password/:token', auth.resetPasswordConfirmPage)
+    r.post('/reset-password/:token', auth.submitResetPasswordConfirm)
+    r.get('/account/confirmation/:token', auth.emailConfirmSuccess)
+    r.get('/logout', auth.logout)
+
     r.get('/heartbeat', heartbeat)
-    r.get('/account/confirmation/(.*)', emailConfirmFinish)
     // r.post('/webhook/checkout', fulfillCheckout) // From Stripe
-    r.get('/logout', logout)
-    r.get('/concept/([^/]+)', conceptPage)
+
+    // These pages are server-rendered only if user isn't logged in
+    if (!req.session) {
+        r.get('/', site.landingPage)
+        r.get('/concept/:conceptId', site.conceptPage)
+    }
+
     r.all('.*', behindLogin)
 
     try {
@@ -72,23 +73,6 @@ async function processRequest(req: EventRequest) {
     }
 }
 
-async function rootPage(req: EventRequest) {
-    if (req.session) {
-        // Root url redirects to app if logged in
-        return redirect('/home')
-    } else {
-        return landingPage()
-    }
-}
-
-async function conceptPage(req: EventRequest, conceptId: string) {
-    if (req.session) {
-        return appPage(req as SessionRequest)
-    } else {
-        return publicConceptPage(req, conceptId)
-    }
-}
-
 async function behindLogin(req: EventRequest) {
     // Routes in here require login
 
@@ -98,13 +82,14 @@ async function behindLogin(req: EventRequest) {
 
     const r = new Router<SessionRequest>()
     r.all('/api/.*', api.processRequest)
-    r.get('/', appPage)
-    r.get('/home', appPage)
-    r.get('/review', appPage)
-    r.get('/lesson', appPage)
-    r.get('/settings', appPage)
-    r.get('/admin', appPage)
-    r.get('/admin/emails', appPage)
+    r.get('/', site.appPage)
+    r.get('/home', site.appPage)
+    r.get('/review', site.appPage)
+    r.get('/lesson', site.appPage)
+    r.get('/settings', site.appPage)
+    r.get('/admin', site.appPage)
+    r.get('/admin/emails', site.appPage)
+    r.get('/concept/:conceptId', site.appPage)
 
     return await r.route(req as SessionRequest)
 }

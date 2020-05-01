@@ -8,8 +8,9 @@ export function renderToHtml(rootElement: Parameters<typeof ReactDOMServer.rende
     return `<!doctype html>${markup}`
 }
 
-export function pageResponse(rootElement: Parameters<typeof ReactDOMServer.renderToStaticMarkup>[0], opts?: ResponseInit | undefined) {
-    const html = renderToHtml(rootElement)
+export function pageResponse<T, P>(rootElement: React.FunctionComponent<P>, props?: P, opts?: ResponseInit | undefined) {
+    const jsx = React.createElement(rootElement, props)
+    const html = renderToHtml(jsx)
     opts = opts ? _.cloneDeep(opts) : {}
     opts.headers = _.extend({ "Content-Type": 'text/html' }, opts.headers || {})
     return new Response(html, opts)
@@ -134,4 +135,5 @@ export class ResponseError extends Error {
 
 import { Memoize } from 'typescript-memoize';
 import { Session } from "./db"
+import React = require("react")
 export const memoize = Memoize

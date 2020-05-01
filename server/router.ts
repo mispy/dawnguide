@@ -1,4 +1,5 @@
-import { Json, EventRequest } from "./utils"
+import { Json } from "./utils"
+import { EventRequest } from "./requests"
 
 type Responselike = Response | Json | string | void
 type RouteHandler<T> = (req: T, ...args: string[]) => Responselike | Promise<Responselike>
@@ -29,9 +30,9 @@ class Router<T extends EventRequest> {
 
     private handle(method: Method, regex: string, handler: RouteHandler<T>) {
         this.routes.push({
-            method,
-            regex,
-            handler
+            method: method,
+            regex: regex.replace(/:([^/]+)/, '([^/]+)'),
+            handler: handler
         })
     }
 

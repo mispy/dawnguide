@@ -1,11 +1,6 @@
 import React = require("react")
 import { Head } from "./Head"
-import { pageResponse } from './utils'
 import { SiteHeader } from "./SiteHeader"
-
-export function landingPage() {
-    return pageResponse(<LandingPage />)
-}
 
 export function LandingPage() {
     return <html lang="en">

@@ -5,13 +5,18 @@ import { redirect, expectStrings, QueryParams, absurl, pageResponse, ResponseErr
 import { sendMail } from './mail'
 import { BASE_URL } from './settings'
 import _ = require('lodash')
-import { resetPasswordPage } from './ResetPasswordPage'
+import { ResetPasswordPage } from './ResetPasswordPage'
 import { weeks } from './time'
-import { loginPage } from './LoginPage'
-import { signupPage } from './SignupPage'
+import { LoginPage } from './LoginPage'
+import { SignupPage } from './SignupPage'
 import { EventRequest } from './requests'
+import { ResetPasswordFinalizePage } from './ResetPasswordFinalizePage'
 
-export async function signup(req: EventRequest) {
+export async function signupPage(req: EventRequest) {
+    return pageResponse(SignupPage)
+}
+
+export async function submitSignup(req: EventRequest) {
     try {
         const { username, email, password } = expectStrings(req.json, 'username', 'email', 'password')
 
@@ -52,19 +57,19 @@ export async function signup(req: EventRequest) {
         return res
     } catch (err) {
         if ('status' in err) {
-            return signupPage({ error: err.message, status: err.status })
+            return pageResponse(SignupPage, { error: err.message }, { status: err.status })
         } else {
             throw err
         }
     }
 }
 
-export async function getLogin(req: EventRequest) {
+export async function loginPage(req: EventRequest) {
     const { then } = req.params as { then: string | undefined }
-    return loginPage({ then: then })
+    return pageResponse(LoginPage, { then: then })
 }
 
-export async function postLogin(req: EventRequest) {
+export async function submitLogin(req: EventRequest) {
     try {
         const { email, password } = expectStrings(req.json, 'email', 'password')
 
@@ -75,14 +80,18 @@ export async function postLogin(req: EventRequest) {
         return res
     } catch (err) {
         if ('status' in err) {
-            return loginPage({ then: req.json.then, error: err.message, status: err.status })
+            return pageResponse(LoginPage, { then: req.json.then, error: err.message, status: err.status })
         } else {
             throw err
         }
     }
 }
 
-export async function resetPasswordStart(req: EventRequest) {
+export async function resetPasswordPage(req: EventRequest) {
+    return pageResponse(ResetPasswordPage)
+}
+
+export async function submitResetPassword(req: EventRequest) {
     const { email } = expectStrings(req.json, 'email')
     const user = await db.users.getByEmail(email)
 
@@ -95,10 +104,14 @@ export async function resetPasswordStart(req: EventRequest) {
         })
     }
 
-    return resetPasswordPage(req, email)
+    return pageResponse(ResetPasswordPage, { emailSent: email })
 }
 
-export async function resetPasswordFinish(req: EventRequest, token: string) {
+export async function resetPasswordConfirmPage(req: EventRequest) {
+    return pageResponse(ResetPasswordFinalizePage)
+}
+
+export async function submitResetPasswordConfirm(req: EventRequest, token: string) {
     const { newPassword } = expectStrings(req.json, 'newPassword')
 
     const email = await db.passwordResets.get(token)
@@ -119,7 +132,7 @@ export async function resetPasswordFinish(req: EventRequest, token: string) {
     return res
 }
 
-export async function emailConfirmFinish(req: EventRequest, token: string) {
+export async function emailConfirmSuccess(req: EventRequest, token: string) {
     const json = await db.emailConfirmTokens.get(token)
     if (!json) {
         throw new ResponseError(`Invalid or expired token ${token}`, 403)
@@ -140,12 +153,6 @@ export async function logout(req: EventRequest) {
         await db.sessions.expire(req.session.key)
     }
     return redirect('/')
-}
-
-export async function getSession(event: FetchEvent) {
-    const cookies = cookie.parse(event.request.headers.get('cookie') || '')
-    const sessionKey = cookies['sessionKey']
-    return sessionKey ? await db.sessions.get(sessionKey) : null
 }
 
 function sessionCookie(sessionKey: string) {

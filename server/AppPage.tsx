@@ -1,15 +1,7 @@
 import React = require("react")
 import { Head } from "./Head"
-import { pageResponse } from './utils'
-import { SessionRequest } from "./authentication"
-import * as db from './db'
 import { User } from "../shared/types"
 import _ = require("lodash")
-
-export async function appPage(req: SessionRequest) {
-    const user = _.omit(await db.users.expect(req.session.userId), 'cryptedPassword')
-    return pageResponse(<AppPage user={user} />)
-}
 
 export function AppPage(props: { user: User }) {
     const script = `window.initApp(${JSON.stringify(props.user)})`

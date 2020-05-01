@@ -9,7 +9,6 @@ import _ = require("lodash")
 import { sendMail } from "./mail"
 import bcrypt = require('bcryptjs')
 import { SessionRequest } from "./requests"
-import { Sunpedia } from "../shared/sunpedia"
 import { reviewsEmailHtml } from "./reviewsEmail"
 import urljoin = require("url-join")
 
