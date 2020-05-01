@@ -59,18 +59,23 @@ export async function signup(req: EventRequest) {
     }
 }
 
-export async function login(req: EventRequest) {
+export async function getLogin(req: EventRequest) {
+    const { then } = req.params as { then: string | undefined }
+    return loginPage({ then: then })
+}
+
+export async function postLogin(req: EventRequest) {
     try {
         const { email, password } = expectStrings(req.json, 'email', 'password')
 
         const sessionKey = await expectLogin(email, password)
 
-        const res = redirect('/')
+        const res = redirect(req.json.then ? decodeURIComponent(req.json.then) : "/")
         res.headers.set('Set-Cookie', sessionCookie(sessionKey))
         return res
     } catch (err) {
         if ('status' in err) {
-            return loginPage({ error: err.message, status: err.status })
+            return loginPage({ then: req.json.then, error: err.message, status: err.status })
         } else {
             throw err
         }

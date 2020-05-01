@@ -2,13 +2,12 @@
 const { getAssetFromKV } = require('@cloudflare/kv-asset-handler')
 
 import Router from './router'
-import { signup, login, logout, getSession, resetPasswordStart, resetPasswordFinish, emailConfirmFinish } from './authentication'
+import { signup, logout, resetPasswordStart, resetPasswordFinish, emailConfirmFinish, getLogin, postLogin } from './authentication'
 import { IS_PRODUCTION, WEBPACK_DEV_SERVER, SENTRY_KEY } from './settings'
-import { redirect, getQueryParams, JsonResponse, memoize } from './utils'
+import { redirect, JsonResponse } from './utils'
 import api = require('./api')
 import _ = require('lodash')
 import { signupPage } from './SignupPage'
-import { loginPage } from './LoginPage'
 import { landingPage } from './LandingPage'
 import { resetPasswordPage } from './ResetPasswordPage'
 import { resetPasswordFinalizePage } from './ResetPasswordFinalizePage'
@@ -32,14 +31,14 @@ async function handleEvent(event: FetchEvent) {
 async function processRequest(req: EventRequest) {
     const r = new Router<EventRequest>()
     r.get('/(assets/.*)|.*\\.js|.*\\.css|.*\\.jpg|.*\\.png|.*\\.ico|.*\\.svg|.*\\.webmanifest|.*\\.json|.*\\.txt', serveStatic)
-    r.get('/login', () => loginPage())
+    r.get('/login', getLogin)
     r.get('/signup', () => signupPage())
     r.get('/reset-password', resetPasswordPage)
     r.get('/', rootPage)
     r.get('/reset-password/(.*)', resetPasswordFinalizePage)
     r.post('/reset-password/(.*)', resetPasswordFinish)
     r.post('/signup', signup)
-    r.post('/login', login)
+    r.post('/login', postLogin)
     r.post('/reset-password', resetPasswordStart)
     r.get('/heartbeat', heartbeat)
     r.get('/account/confirmation/(.*)', emailConfirmFinish)
@@ -94,7 +93,7 @@ async function behindLogin(req: EventRequest) {
     // Routes in here require login
 
     if (!req.session) {
-        return redirect('/login')
+        return redirect(`/login?then=${encodeURIComponent(req.url.pathname)}`)
     }
 
     const r = new Router<SessionRequest>()

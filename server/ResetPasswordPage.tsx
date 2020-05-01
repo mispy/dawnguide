@@ -1,6 +1,7 @@
 import React = require("react")
 import { Head } from "./Head"
-import { pageResponse, EventRequest } from './utils'
+import { pageResponse } from './utils'
+import { EventRequest } from "./requests"
 
 export function resetPasswordPage(req: EventRequest, emailSent?: string) {
     return pageResponse(<ResetPasswordPage emailSent={emailSent} />)
@@ -27,6 +28,5 @@ export function ResetPasswordPage(props: { emailSent?: string }) {
                 </form>
             </main>
         </body>
-
     </html>
 }
