@@ -4,13 +4,13 @@ const { getAssetFromKV } = require('@cloudflare/kv-asset-handler')
 import Router from './router'
 import * as auth from './authController'
 import * as site from './siteController'
+import * as system from './systemController'
 import { IS_PRODUCTION, ASSET_DEV_SERVER, SENTRY_KEY } from './settings'
 import { redirect, JsonResponse } from './utils'
 import api = require('./api')
 import _ = require('lodash')
 import { logToSentry } from './sentry'
 import { EventRequest, SessionRequest } from './requests'
-import { heartbeat } from './heartbeat'
 
 // Workers require that this be a sync callback
 addEventListener('fetch', event => {
@@ -36,8 +36,9 @@ async function processRequest(req: EventRequest) {
     r.post('/reset-password/:token', auth.submitResetPasswordConfirm)
     r.get('/account/confirmation/:token', auth.emailConfirmSuccess)
     r.get('/logout', auth.logout)
+    r.get('/export/:secret', system.databaseExport)
 
-    r.get('/heartbeat', heartbeat)
+    r.get('/heartbeat', system.heartbeat)
     // r.post('/webhook/checkout', fulfillCheckout) // From Stripe
 
     // These pages are server-rendered only if user isn't logged in

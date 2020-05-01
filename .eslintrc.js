@@ -33,6 +33,7 @@ module.exports = {
         "@typescript-eslint/no-non-null-assertion": 0,
         "no-inner-declarations": 0,
         "no-empty": 0,
+        "no-constant-condition": 0,
 
         // Used for libs without type decs
         "@typescript-eslint/no-var-requires": 0

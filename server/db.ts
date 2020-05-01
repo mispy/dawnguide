@@ -9,37 +9,37 @@ import _ = require('lodash')
 import { ResponseError } from './utils'
 
 declare const global: any
-const CloudflareStore: KVNamespace = global.STORE
+export const cfstore: KVNamespace = global.STORE
 
 export async function get(key: string): Promise<string | null> {
-    return await CloudflareStore.get(key, "text")
+    return await cfstore.get(key, "text")
 }
 
 export async function getJson<T>(key: string): Promise<T | null> {
-    return await CloudflareStore.get(key, "json")
+    return await cfstore.get(key, "json")
 }
 
 export async function put(key: string, value: string, options?: { expirationTtl?: number }) {
     if (options?.expirationTtl) {
         options = { expirationTtl: Math.floor(options.expirationTtl / 1000) }
     }
-    return await CloudflareStore.put(key, value, options)
+    return await cfstore.put(key, value, options)
 }
 
 export async function putJson(key: string, value: Record<string, any>, options?: { expirationTtl?: number }) {
     if (options?.expirationTtl) {
         options = { expirationTtl: Math.floor(options.expirationTtl / 1000) }
     }
-    await CloudflareStore.put(key, JSON.stringify(value), options)
+    await cfstore.put(key, JSON.stringify(value), options)
 }
 
 export async function findKeys(prefix: string) {
-    const result = await CloudflareStore.list({ prefix: prefix })
+    const result = await cfstore.list({ prefix: prefix })
     return result.keys.map(k => k.name)
 }
 
 async function deleteKey(key: string) {
-    await CloudflareStore.delete(key)
+    await cfstore.delete(key)
 }
 
 export { deleteKey as delete }
@@ -291,17 +291,17 @@ export namespace progressItems {
 export namespace passwordResets {
     export async function create(email: string): Promise<string> {
         const token = uuidv4()
-        await CloudflareStore.put(`password_resets:${token}`, email, { expirationTtl: days(1) }) // Expires after a day
+        await cfstore.put(`password_resets:${token}`, email, { expirationTtl: days(1) }) // Expires after a day
         return token
     }
 
     export async function get(token: string): Promise<string | undefined> {
-        const email = await CloudflareStore.get(`password_resets:${token}`)
+        const email = await cfstore.get(`password_resets:${token}`)
         return email || undefined
     }
 
     export async function destroy(token: string) {
-        await CloudflareStore.delete(`password_resets:${token}`)
+        await cfstore.delete(`password_resets:${token}`)
     }
 }
 
@@ -318,6 +318,6 @@ export namespace emailConfirmTokens {
     }
 
     export async function destroy(token: string) {
-        await CloudflareStore.delete(`email_confirm_tokens:${token}`)
+        await cfstore.delete(`email_confirm_tokens:${token}`)
     }
 }

@@ -5,6 +5,8 @@ declare const process: any
 
 export const IS_PRODUCTION: boolean = global.BASE_URL && !global.BASE_URL.includes("localhost")
 
+export const ADMIN_SECRET: string = global.ADMIN_SECRET || process.env.ADMIN_SECRET || ""
+
 export const DEPLOY_ENV = IS_PRODUCTION ? (global.BASE_URL.includes("dawnguide.com") ? "live" : "staging") : "dev"
 
 export const ASSET_DEV_SERVER: string = "http://localhost:1234"
