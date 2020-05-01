@@ -44,11 +44,15 @@ export class AppStore {
     }
 
     @computed get loading(): boolean {
+        // return true
         return this.progressItems === null
     }
 
     @computed get lessonsAndReviews() {
-        return this.sunpedia.getLessonsAndReviews(this.progressItems || [])
+        if (this.progressItems === null)
+            return { lessons: [], reviews: [] }
+
+        return this.sunpedia.getLessonsAndReviews(this.progressItems)
     }
 
     @computed get exercisesWithProgress() {

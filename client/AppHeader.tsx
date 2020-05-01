@@ -4,6 +4,7 @@ import { Navbar, Container, Nav } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { AppContext } from "./AppContext"
 import { Logo } from "../server/Logo"
+import { LittleSpinner } from "./littleComponents"
 
 export function AppHeader() {
     const { app } = useContext(AppContext)
@@ -18,12 +19,12 @@ export function AppHeader() {
                         <ul className="navigation-shortcuts">
                             <li className="navigation-shortcut navigation-shortcut--lessons">
                                 <Link to="/lesson" className={app.numLessons === 0 ? 'inactive' : undefined}>
-                                    <span>{app.numLessons}</span> Lessons
+                                    <span>{app.loading ? <LittleSpinner /> : app.numLessons}</span> Lessons
                                 </Link>
                             </li>
                             <li className="navigation-shortcut navigation-shortcut--reviews">
                                 <Link to="/review" className={app.numReviews === 0 ? 'inactive' : undefined}>
-                                    <span>{app.numReviews}</span> Reviews
+                                    <span>{app.loading ? <LittleSpinner /> : app.numReviews}</span> Reviews
                                 </Link>
                             </li>
                         </ul>

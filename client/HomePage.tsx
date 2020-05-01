@@ -23,7 +23,7 @@ export function HomePage() {
     const debug = process.env.NODE_ENV === "development"
 
     return useObserver(() => <AppLayout>
-        <Container className="mt-4">
+        {!app.loading && <Container className="mt-4">
             <p>Dawnguide is a tool for learning useful concepts in psychology that can be applied to everyday life.</p>
             <p>I haven't written many lessons yet, but the system should be functional. Thanks for testing! 💛</p>
             {app.exercisesWithProgress.length ? <>
@@ -48,6 +48,6 @@ export function HomePage() {
                 </table>
             </> : undefined}
             {debug ? <DebugTools /> : undefined}
-        </Container>
+        </Container>}
     </AppLayout>)
 }
