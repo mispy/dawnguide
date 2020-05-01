@@ -23,7 +23,7 @@ class HTTPProvider {
             this.http.interceptors.response.use(async response => {
                 // Numbers are based on how long API requests take for me on GitHub, which uses
                 // a similar kind of loading indicator to us
-                await delay(_.random(200, 700))
+                await delay(_.random(100, 300))
                 return response
             })
         }
@@ -31,7 +31,15 @@ class HTTPProvider {
 
     async request(config: AxiosRequestConfig) {
         const req = this.http.request(config)
-        NProgress.promise(req)
+
+        let complete = false
+        req.then(() => complete = true)
+        delay(500).then(() => {
+            if (!complete) {
+                NProgress.promise(req)
+            }
+        })
+
         return req
     }
 
