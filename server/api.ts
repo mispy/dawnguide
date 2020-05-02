@@ -1,8 +1,6 @@
 import Router from "./router"
-import { expectStrings, JsonResponse, absurl, ResponseError, expectKeys } from "./utils"
+import { expectStrings, absurl, ResponseError, expectKeys } from "./utils"
 import db = require('./db')
-import { STRIPE_SECRET_KEY, BASE_URL } from "./settings"
-import http from "./http"
 import { User, UserProgressItem } from '../shared/types'
 import { getReviewTime } from "../shared/logic"
 import _ = require("lodash")
@@ -10,7 +8,7 @@ import { sendMail } from "./mail"
 import bcrypt = require('bcryptjs')
 import { SessionRequest } from "./requests"
 import { reviewsEmailHtml } from "./reviewsEmail"
-import urljoin = require("url-join")
+import * as payments from './paymentsController'
 
 export async function processRequest(req: SessionRequest) {
     const r = new Router<SessionRequest>()
@@ -22,7 +20,7 @@ export async function processRequest(req: SessionRequest) {
     r.post('/api/changePassword', changePassword)
     r.get('/api/notificationSettings', getNotificationSettings)
     r.patch('/api/notificationSettings', updateNotificationSettings)
-    r.post('/api/checkout', startCheckout)
+    r.post('/api/checkout', payments.startCheckout)
     r.post('/api/debug', debugHandler)
     r.all('/api/admin/.*', admin.processRequest)
 
@@ -96,67 +94,6 @@ async function submitProgress(req: SessionRequest) {
     await db.progressItems.save(progressItem)
 }
 
-/** 
- * Create a Stripe Checkout Session when a user
- * wants to buy a subscription
- */
-async function startCheckout(req: SessionRequest): Promise<{ checkoutSessionId: string }> {
-    const user = await db.users.get(req.session.userId)
-    const { planId } = expectStrings(req.params, 'planId')
-
-    if (planId === 'dawnguide_monthly' || planId === 'dawnguide_annual') {
-        const resp = await http.post("https://api.stripe.com/v1/checkout/sessions", {
-            customer_email: user!.email,
-            payment_method_types: ['card'],
-            subscription_data: {
-                items: [{
-                    plan: planId,
-                }],
-            },
-            success_url: urljoin(BASE_URL, '/account/subscribe/success?session_id={CHECKOUT_SESSION_ID}'),
-            cancel_url: urljoin(BASE_URL, '/account/subscribe'),
-        }, {
-            headers: {
-                'Authorization': `Bearer ${STRIPE_SECRET_KEY}`
-            }
-        })
-
-        if (!resp.id) {
-            console.error(resp)
-            throw new Error("Unable to communicate with Stripe")
-        }
-
-        return { checkoutSessionId: resp.id }
-    } else if (planId === 'dawnguide_lifetime') {
-        const resp = await http.post("https://api.stripe.com/v1/checkout/sessions", {
-            customer_email: user!.email,
-            payment_method_types: ['card'],
-            line_items: [{
-                name: 'Dawnguide Lifetime',
-                description: 'Lifetime subscription to dawnguide',
-                amount: 29900,
-                currency: 'usd',
-                quantity: 1,
-            }],
-            success_url: absurl('/account/subscribe/success?session_id={CHECKOUT_SESSION_ID}'),
-            cancel_url: absurl('/account/subscribe'),
-        }, {
-            headers: {
-                'Authorization': `Bearer ${STRIPE_SECRET_KEY}`
-            }
-        })
-
-        if (!resp.id) {
-            console.error(resp)
-            throw new Error("Unable to communicate with Stripe")
-        }
-
-        return { checkoutSessionId: resp.id }
-    } else {
-        throw new Error(`Unexpected planId ${planId}`)
-    }
-}
-
 async function debugHandler(req: SessionRequest) {
     const { userId } = req.session
     const json = expectStrings(req.json, 'action')
@@ -215,6 +152,7 @@ async function changePassword(req: SessionRequest) {
     const validPassword = bcrypt.compareSync(currentPassword, user.cryptedPassword)
     if (validPassword) {
         await db.users.update(user.id, { cryptedPassword: db.users.hashPassword(newPassword) })
+        return { success: true }
     } else {
         return new Response("Unauthorized", { status: 401 })
     }

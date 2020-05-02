@@ -43,6 +43,9 @@ export function AppRouter() {
             <Route path="/settings">
                 <SettingsPage />
             </Route>
+            <Route path="/subscription">
+                <SubscriptionPage />
+            </Route>
             {sunpedia.concepts.map(concept =>
                 <Route key={concept.id} path={`/concept/${concept.id}`}>
                     <ConceptPage concept={concept} />

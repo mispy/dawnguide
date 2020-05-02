@@ -1,3 +1,4 @@
+
 declare const process: any
 
 export const IS_PRODUCTION = !window.location.origin.includes('localhost')

@@ -1,8 +1,6 @@
 import db = require('./db')
-import { Sunpedia } from '../shared/sunpedia'
 import { sendReviewsEmailIfNeeded } from './reviewsEmail'
-import { weeks } from './time'
-import { SessionRequest, EventRequest } from './requests'
+import { EventRequest } from './requests'
 import { ResponseError } from './utils'
 import { ADMIN_SECRET } from './settings'
 

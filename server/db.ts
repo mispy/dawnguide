@@ -54,6 +54,7 @@ export type User = {
     createdAt: number
     updatedAt: number
     emailConfirmed?: true
+    planId?: string
 }
 
 export namespace users {

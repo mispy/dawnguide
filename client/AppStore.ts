@@ -43,6 +43,10 @@ export class AppStore {
         runInAction(() => this.progressItems = progressItems)
     }
 
+    applyLoadingIndicator<T>(promise: Promise<T>) {
+        NProgress.promise(promise)
+    }
+
     @computed get loading(): boolean {
         // return true
         return this.progressItems === null

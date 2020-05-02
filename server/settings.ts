@@ -19,4 +19,3 @@ export const SENDGRID_SECRET_KEY: string = global.SENDGRID_SECRET_KEY || process
 
 export const SENTRY_KEY = DEPLOY_ENV !== 'dev' ? '53f7b86d9a174f81a3fad700135ee4eb' : ''
 export const SENTRY_PROJECT_ID = '5189056'
-

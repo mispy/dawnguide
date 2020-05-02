@@ -7,6 +7,7 @@ export type User = {
     username: string
     createdAt: number
     updatedAt: number
+    planId?: string
 }
 
 export type ConceptDef = {
