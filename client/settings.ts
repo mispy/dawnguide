@@ -3,7 +3,7 @@ declare const process: any
 
 export const IS_PRODUCTION = !window.location.origin.includes('localhost')
 
-export const STRIPE_PUBLIC_KEY = "pk_test_mfLIw9GyX5nCZBKawbFMJV6P"
+export const STRIPE_PUBLIC_KEY = IS_PRODUCTION ? "pk_live_JLjSUr5RxAdaPzv4d7uBMOlw" : "pk_test_mfLIw9GyX5nCZBKawbFMJV6P"
 
 export const API_BASE_URL = `${window.location.origin}`
 
