@@ -108,7 +108,6 @@ export const SubscriptionPage = () => {
         // Solves eventual consistency problem with reloading immediately after subscribing
         const urlParams = new URLSearchParams(window.location.search)
         const urlPlanId = urlParams.get('planId')
-        console.log(urlPlanId)
         const activePlanId = urlPlanId || app.user.subscription?.planId
 
         return <SettingsLayout active="subscription">

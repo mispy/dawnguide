@@ -9,3 +9,4 @@ worker
 tmp
 dist
 devdist
+cfscripts/playground.ts
