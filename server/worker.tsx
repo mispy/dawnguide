@@ -6,7 +6,7 @@ import * as auth from './authController'
 import * as site from './siteController'
 import * as system from './systemController'
 import * as payments from './paymentsController'
-import { IS_PRODUCTION, ASSET_DEV_SERVER, SENTRY_KEY } from './settings'
+import { IS_PRODUCTION, ASSET_DEV_SERVER, SENTRY_KEY, STRIPE_WEBHOOK_SECRET } from './settings'
 import { redirect, JsonResponse } from './utils'
 import api = require('./api')
 import _ = require('lodash')
@@ -38,7 +38,7 @@ async function processRequest(req: EventRequest) {
     r.get('/account/confirmation/:token', auth.emailConfirmSuccess)
     r.get('/logout', auth.logout)
     r.get('/export/:secret', system.databaseExport)
-    r.post('/stripe/webhook', payments.stripeWebhook)
+    r.post(`/stripe/webhook/${STRIPE_WEBHOOK_SECRET}`, payments.stripeWebhook)
 
     r.get('/heartbeat', system.heartbeat)
     // r.post('/webhook/checkout', fulfillCheckout) // From Stripe

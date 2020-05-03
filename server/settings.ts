@@ -14,6 +14,7 @@ export const ASSET_DEV_SERVER: string = "http://localhost:1234"
 export const BASE_URL: string = global.BASE_URL || process.env.BASE_URL || (IS_PRODUCTION ? "https://dawnguide.com" : "http://localhost:3000")
 
 export const STRIPE_SECRET_KEY: string = global.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY || ""
+export const STRIPE_WEBHOOK_SECRET: string = global.STRIPE_WEBHOOK_SECRET || process.env.STRIPE_WEBHOOK_SECRET || ""
 
 export const SENDGRID_SECRET_KEY: string = global.SENDGRID_SECRET_KEY || process.env.SENDGRID_SECRET_KEY || ""
 
