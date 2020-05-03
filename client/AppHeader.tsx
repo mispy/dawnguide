@@ -5,10 +5,11 @@ import { Link } from "react-router-dom"
 import { AppContext } from "./AppContext"
 import { Logo } from "../server/Logo"
 import { LittleSpinner } from "./littleComponents"
+import { useObserver } from "mobx-react-lite"
 
 export function AppHeader() {
     const { app } = useContext(AppContext)
-    return <header className="AppHeader">
+    return useObserver(() => <header className="AppHeader">
         <Navbar>
             <Container>
                 <Navbar.Brand as={Link} to="/home">
@@ -38,5 +39,5 @@ export function AppHeader() {
 
             </Container>
         </Navbar>
-    </header>
+    </header>)
 }
