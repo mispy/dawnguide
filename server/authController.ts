@@ -36,23 +36,24 @@ export async function submitSignup(req: EventRequest) {
         // Send confirmation email
         const token = await db.emailConfirmTokens.create(user.id, email)
         const confirmUrl = absurl(`/account/confirmation/${token}`)
-        await sendMail({
-            to: email,
-            subject: "Dawnguide email confirmation",
-            html: `Welcome to Dawnguide! Please <a href="${confirmUrl}">click here to confirm your account</a>.`
-        })
+        await Promise.all([
+            sendMail({
+                to: email,
+                subject: "Confirm your email address",
+                html: `Welcome to Dawnguide! Please <a href="${confirmUrl}">click here to confirm your account</a>.`
+            }),
+            sendMail({
+                to: "misprime@gmail.com",
+                subject: `New user ${email}`,
+                text: `Yay, how exciting! :D`
+            })
+        ])
 
         // Log the user in to their first session
         const sessionKey = await db.sessions.create(user.id)
 
         const res = redirect('/')
         res.headers.set('Set-Cookie', sessionCookie(sessionKey))
-
-        req.event.waitUntil(sendMail({
-            to: "misprime@gmail.com",
-            subject: `New user ${email}`,
-            text: `Yay, how exciting! :D`
-        }))
 
         return res
     } catch (err) {

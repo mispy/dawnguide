@@ -138,7 +138,7 @@ async function changeEmail(req: SessionRequest) {
         const confirmUrl = absurl(`/account/confirmation/${token}`)
         await sendMail({
             to: newEmail,
-            subject: "Dawnguide email change confirmation",
+            subject: "Confirm your email address",
             text: `Hello! You've requested an email change to your account. In order to finalize the change, follow this link: ${confirmUrl}`
         })
     } else {
