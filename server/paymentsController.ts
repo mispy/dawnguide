@@ -8,6 +8,7 @@ import { User } from '../shared/types'
 
 export async function subscribeToPlan(req: SessionRequest): Promise<{ checkoutSessionId: string } | { user: User }> {
     const user = await db.users.expect(req.session.userId)
+
     const { planId } = expectStrings(req.params, 'planId')
 
     if (user.subscription) {
@@ -51,7 +52,7 @@ export async function subscribeToPlan(req: SessionRequest): Promise<{ checkoutSe
                         plan: planId,
                     }],
                 },
-                success_url: absurl('/subscription'),
+                success_url: absurl(`/subscription?planId=${planId}`),
                 cancel_url: absurl('/subscription'),
             })
 

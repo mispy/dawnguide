@@ -104,7 +104,12 @@ export const SubscriptionPage = () => {
     const state = useLocalStore(() => new SubscriptionPageState(app))
 
     return useObserver(() => {
-        const activePlanId = app.user.subscription?.planId
+        // Allow Stripe redirect to override currently known plan id
+        // Solves eventual consistency problem with reloading immediately after subscribing
+        const urlParams = new URLSearchParams(window.location.search)
+        const urlPlanId = urlParams.get('planId')
+        console.log(urlPlanId)
+        const activePlanId = urlPlanId || app.user.subscription?.planId
 
         return <SettingsLayout active="subscription">
             <div className="SubscriptionPage">
