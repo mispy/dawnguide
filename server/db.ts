@@ -54,7 +54,13 @@ export type User = {
     createdAt: number
     updatedAt: number
     emailConfirmed?: true
-    planId?: string
+    subscription?: {
+        // Stripe details
+        planId: string
+        subscriptionId: string
+        customerId: string
+        subscribedAt: number
+    }
 }
 
 export namespace users {
@@ -134,10 +140,11 @@ export namespace users {
         return user
     }
 
-    export async function update(userId: string, changes: Partial<User>) {
+    export async function update(userId: string, changes: Partial<User>): Promise<User> {
         const user = await users.expect(userId)
         Object.assign(user, changes)
         await db.putJson(`users:${userId}`, user)
+        return user
     }
 
     export async function save(user: User) {

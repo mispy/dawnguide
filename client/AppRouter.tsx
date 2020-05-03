@@ -3,7 +3,8 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
+    Link,
+    Redirect
 } from "react-router-dom"
 import { useContext } from 'react'
 
@@ -15,7 +16,8 @@ import { ConceptPage } from './ConceptPage'
 import { AppContext } from './AppContext'
 import { AdminPage } from './AdminPage'
 import { AdminEmailsPage } from './AdminEmailsPage'
-import { SettingsPage } from './SettingsPage'
+import { AccountPage } from './AccountPage'
+import { NotificationsPage } from './NotificationsPage'
 
 export function AppRouter() {
     const { sunpedia } = useContext(AppContext)
@@ -31,9 +33,6 @@ export function AppRouter() {
             <Route path="/review">
                 <ReviewPage />
             </Route>
-            <Route path="/account/subscribe">
-                <SubscriptionPage />
-            </Route>
             <Route path="/admin/emails">
                 <AdminEmailsPage />
             </Route>
@@ -41,7 +40,13 @@ export function AppRouter() {
                 <AdminPage />
             </Route>
             <Route path="/settings">
-                <SettingsPage />
+                <Redirect to="/account" />
+            </Route>
+            <Route path="/account">
+                <AccountPage />
+            </Route>
+            <Route path="/notifications">
+                <NotificationsPage />
             </Route>
             <Route path="/subscription">
                 <SubscriptionPage />

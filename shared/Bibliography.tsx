@@ -5,7 +5,7 @@ import { Reference } from "./types"
 export function BibliographyReference(props: { reference: Reference }) {
     const ref = props.reference
 
-    // Cepeda, N. J., Pashler, H., Vul, E., Wixted, J. T., & Rohrer, D. (2006). Distributed practice in verbal recall tasks: A review and quantitative synthesis. Psychological Bulletin, 132(3), 354.
+    // e.g. Cepeda, N. J., Pashler, H., Vul, E., Wixted, J. T., & Rohrer, D. (2006). Distributed practice in verbal recall tasks: A review and quantitative synthesis. Psychological Bulletin, 132(3), 354.
 
     const authorParts = ref.author.map(a => {
         const initials = a.given.split(/ /g).map(n => n[0] + '.').join(" ")

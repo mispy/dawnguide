@@ -1,4 +1,4 @@
-import { observable, runInAction, computed, action } from "mobx"
+import { observable, runInAction, computed, action, toJS } from "mobx"
 import { ExerciseWithProgress } from "../shared/logic"
 import { Concept } from "../shared/sunpedia"
 import _ = require("lodash")
@@ -21,6 +21,9 @@ export class AppStore {
         this.user = user
         this.sunpedia = new Sunpedia()
         this.api = new ClientApi(this.sunpedia)
+
+        const w = window as any
+        w.user = toJS(user)
 
         Sentry.init({ dsn: SENTRY_DSN_URL });
 

@@ -88,10 +88,16 @@ export class ClientApi {
         await this.http.post('/api/lesson', { exerciseIds: exerciseIds })
     }
 
-    async startCheckout(planId: string): Promise<{ checkoutSessionId: string }> {
-        const { data } = await this.http.post(`/api/checkout?planId=${planId}`)
-        return expectStrings(data, 'checkoutSessionId')
+    async subscribe(planId: string): Promise<{ checkoutSessionId: string } | { user: User }> {
+        const { data } = await this.http.post(`/api/subscribe?planId=${planId}`)
+        return data
     }
+
+    async cancelSubscription(): Promise<{ user: User }> {
+        const { data } = await this.http.post(`/api/cancelSubscription`)
+        return data
+    }
+
 
     async startChangeEmail(params: { newEmail: string, password: string }) {
         await this.http.post('/api/changeEmail', params)

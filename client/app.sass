@@ -5,8 +5,22 @@
     cursor: pointer
     user-select: none
 
+.nav-pills .nav-link
+    color: #333
+
+.nav-pills .nav-link.active
+    background-color: #999
+
 #root
     height: 100%
+
+.AppLayout
+    display: flex
+    flex-direction: column
+    min-height: 100%
+
+.AppLayout > main
+    flex-grow: 1
 
 .AppHeader
     position: sticky
@@ -178,6 +192,10 @@ ul.navigation-shortcuts
         background: #ccc
 
 .SubscriptionPage
+    max-width: 900px
+    margin: auto
+    text-align: center
+
     .account-subscription-plan
         font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif
 
@@ -192,7 +210,7 @@ ul.navigation-shortcuts
         box-sizing: border-box
 
     .account-subscription-plan[data-active="true"]
-        border-color: #dd0093 !important
+        border-color: $base-color !important
 
     .account-subscription-plan ul
         margin: 0
@@ -249,7 +267,11 @@ ul.navigation-shortcuts
         font-weight: bold
 
     .account-subscription-plan[data-active="true"] .account-subscription-plan-select button[type=button].btn
-        background: #dd0093 !important
+        background: $base-color !important
+        cursor: not-allowed
+
+    .btn.cancelSubscription
+        color: #999
 
 .MemoryCard
     margin: auto
@@ -303,10 +325,11 @@ ul.navigation-shortcuts
 
 // .HomePage
 
-.SettingsPage
+.SettingsLayout
     padding-top: 2rem
     padding-bottom: 2rem
     background: #eee
+    min-height: 100%
 
     section
         background: white

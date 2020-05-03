@@ -22,8 +22,6 @@ function App(props: { user: User }) {
         }
     }, [])
 
-    _.extend(window, context)
-
     return <AppContext.Provider value={context}>
         <AppRouter />
     </AppContext.Provider>

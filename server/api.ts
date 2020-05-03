@@ -20,7 +20,8 @@ export async function processRequest(req: SessionRequest) {
     r.post('/api/changePassword', changePassword)
     r.get('/api/notificationSettings', getNotificationSettings)
     r.patch('/api/notificationSettings', updateNotificationSettings)
-    r.post('/api/checkout', payments.startCheckout)
+    r.post('/api/subscribe', payments.subscribeToPlan)
+    r.post('/api/cancelSubscription', payments.cancelSubscription)
     r.post('/api/debug', debugHandler)
     r.all('/api/admin/.*', admin.processRequest)
 

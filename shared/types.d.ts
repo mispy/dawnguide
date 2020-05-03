@@ -7,7 +7,14 @@ export type User = {
     username: string
     createdAt: number
     updatedAt: number
-    planId?: string
+    emailConfirmed?: true
+    subscription?: {
+        // Stripe details
+        planId: string
+        subscriptionId: string
+        customerId: string
+        subscribedAt: number
+    }
 }
 
 export type ConceptDef = {
