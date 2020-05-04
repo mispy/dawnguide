@@ -19,6 +19,8 @@ namespace http {
 
         if (response.status !== 200) {
             console.error(response)
+            const results = await gatherResponse(response)
+            console.error(results)
             throw new RequestError(`Received ${response.status} from ${init.method} request to ${url}`)
         }
 
@@ -51,16 +53,13 @@ namespace http {
     }
 
     export async function postJson(url: string, body: any, options: HttpOptions = {}) {
-        const init = {
+        return http.request(url, {
             body: JSON.stringify(body),
             method: 'POST',
             headers: _.extend({
                 'content-type': 'application/json;charset=UTF-8',
             }, options.headers || {})
-        }
-        const response = await fetch(url, init)
-        const results = await gatherResponse(response)
-        return results
+        })
     }
 
     async function gatherResponse(response: Response) {

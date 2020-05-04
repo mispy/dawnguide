@@ -18,6 +18,7 @@ import { AdminPage } from './AdminPage'
 import { AdminEmailsPage } from './AdminEmailsPage'
 import { AccountPage } from './AccountPage'
 import { NotificationsPage } from './NotificationsPage'
+import { ContactPage } from './ContactPage'
 
 export function AppRouter() {
     const { sunpedia } = useContext(AppContext)
@@ -50,6 +51,9 @@ export function AppRouter() {
             </Route>
             <Route path="/subscription">
                 <SubscriptionPage />
+            </Route>
+            <Route path="/contact">
+                <ContactPage />
             </Route>
             {sunpedia.concepts.map(concept =>
                 <Route key={concept.id} path={`/concept/${concept.id}`}>

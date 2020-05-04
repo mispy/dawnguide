@@ -93,6 +93,7 @@ async function behindLogin(req: EventRequest) {
     r.get('/account', site.appPage)
     r.get('/notifications', site.appPage)
     r.get('/subscription', site.appPage)
+    r.get('/contact', site.appPage)
     r.get('/admin', site.appPage)
     r.get('/admin/emails', site.appPage)
     r.get('/concept/:conceptId', site.appPage)

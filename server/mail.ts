@@ -1,5 +1,5 @@
 import http from './http'
-import { SENDGRID_SECRET_KEY } from './settings'
+import { SENDGRID_SECRET_KEY, MAILGUN_SECRET } from './settings'
 
 type PlaintextEmailMessage = {
     to: string
@@ -19,22 +19,20 @@ type EmailMessage = PlaintextEmailMessage | HtmlEmailMessage
 
 export async function sendMail(msg: EmailMessage) {
     const body: any = {
-        "personalizations": [
-            { "to": [{ "email": msg.to }] }
-        ],
-        "from": { "email": msg.from || "Dawnguide <noreply@dawnguide.com>" },
+        "to": msg.to,
+        "from": msg.from || "Dawnguide <noreply@dawnguide.com>",
         "subject": msg.subject
     }
 
     if ('html' in msg) {
-        body.content = [{ "type": "text/html", "value": msg.html }]
+        body.html = msg.html
     } else {
-        body.content = [{ "type": "text/plain", "value": msg.text }]
+        body.text = msg.text
     }
 
-    await http.postJson("https://api.sendgrid.com/v3/mail/send", body, {
+    await http.post("https://api.mailgun.net/v3/dawnguide.com/messages", body, {
         headers: {
-            Authorization: `Bearer ${SENDGRID_SECRET_KEY}`
+            Authorization: `Basic ${btoa(`api:${MAILGUN_SECRET}`)}`
         }
     })
 }
