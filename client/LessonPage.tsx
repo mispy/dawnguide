@@ -145,7 +145,7 @@ export function LessonPage() {
     }
 
     return useObserver(() => {
-        return <AppLayout noHeader>
+        return <AppLayout noHeader noFooter>
             {content()}
         </AppLayout>
     })

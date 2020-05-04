@@ -4,9 +4,11 @@ import { AppContext } from './AppContext'
 import { useObserver } from 'mobx-react-lite'
 import { AppHeader } from './AppHeader'
 import { ErrorModal } from './ErrorModal'
+import { SiteFooter } from '../server/SiteFooter'
 
-export function AppLayout(props: { children: any, noHeader?: boolean }) {
+export function AppLayout(props: { children: any, noHeader?: boolean, noFooter?: boolean }) {
     const noHeader = props.noHeader || false
+    const noFooter = props.noFooter || false
 
     const { app } = useContext(AppContext)
 
@@ -18,5 +20,6 @@ export function AppLayout(props: { children: any, noHeader?: boolean }) {
         {app.unexpectedError ? <ErrorModal error={app.unexpectedError} /> : undefined}
         {!noHeader ? <AppHeader /> : undefined}
         {props.children}
+        {!noFooter ? <SiteFooter /> : undefined}
     </div>)
 }

@@ -3,10 +3,11 @@ import React = require("react")
 import { Container } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import classNames = require("classnames")
+import { SiteFooter } from "../server/SiteFooter"
 
 
 export function SettingsLayout(props: { active?: 'account' | 'notifications' | 'subscription', children?: any }) {
-    return <AppLayout>
+    return <AppLayout noFooter>
         <main className="SettingsLayout">
             <Container>
                 <h1>Settings</h1>
@@ -24,6 +25,7 @@ export function SettingsLayout(props: { active?: 'account' | 'notifications' | '
 
                 {props.children}
             </Container>
+            <SiteFooter />
         </main>
     </AppLayout>
 }

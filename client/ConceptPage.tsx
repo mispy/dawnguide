@@ -63,7 +63,6 @@ export function ConceptPage(props: { concept: Concept }) {
           </div>} */}
                 </Container>
             </main>
-            <SiteFooter />
         </AppLayout>
     })
 }
