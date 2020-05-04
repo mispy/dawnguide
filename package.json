@@ -67,11 +67,14 @@
     "devDependencies": {
         "@cloudflare/wrangler": "^1.8.2",
         "@dollarshaveclub/cloudworker": "github:foldspark/cloudworker",
+        "@types/jest": "^25.2.1",
         "@typescript-eslint/eslint-plugin": "^2.11.0",
         "@typescript-eslint/parser": "^2.11.0",
         "babel-core": "^6.26.3",
         "babel-preset-env": "^1.7.0",
         "eslint": "^6.7.2",
+        "jest": "^25.5.4",
+        "ts-jest": "^25.4.0",
         "typescript": "^3.8.3"
     }
 }
