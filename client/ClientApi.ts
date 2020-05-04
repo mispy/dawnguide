@@ -98,7 +98,6 @@ export class ClientApi {
         return data
     }
 
-
     async startChangeEmail(params: { newEmail: string, password: string }) {
         await this.http.post('/api/changeEmail', params)
     }
@@ -118,6 +117,10 @@ export class ClientApi {
 
     async updateNotificationSettings(params: Partial<UserNotificationSettings>) {
         await this.http.patch('/api/notificationSettings', params)
+    }
+
+    async contact(params: { subject: string, body: string }) {
+        await this.http.post('/api/contact', params)
     }
 }
 

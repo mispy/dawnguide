@@ -9,6 +9,7 @@ import bcrypt = require('bcryptjs')
 import { SessionRequest } from "./requests"
 import { reviewsEmailHtml } from "./reviewsEmail"
 import * as payments from './paymentsController'
+import { CONTACT_FORM_EMAIL } from "./settings"
 
 export async function processRequest(req: SessionRequest) {
     const r = new Router<SessionRequest>()
@@ -22,6 +23,7 @@ export async function processRequest(req: SessionRequest) {
     r.patch('/api/notificationSettings', updateNotificationSettings)
     r.post('/api/subscribe', payments.subscribeToPlan)
     r.post('/api/cancelSubscription', payments.cancelSubscription)
+    r.post('/api/contact', sendContactMessage)
     r.post('/api/debug', debugHandler)
     r.all('/api/admin/.*', admin.processRequest)
 
@@ -179,6 +181,16 @@ async function updateNotificationSettings(req: SessionRequest) {
     }
 
     await db.notificationSettings.set(req.session.userId, settings)
+}
+
+async function sendContactMessage(req: SessionRequest) {
+    const user = await db.users.expect(req.session.userId)
+    const { subject, body } = expectStrings(req.json, 'subject', 'body')
+    return await sendMail({
+        to: CONTACT_FORM_EMAIL,
+        subject: `Contact from ${user.username}: ${subject}`,
+        text: body + `\n\nDawnguide user email: ${user.email}`
+    })
 }
 
 export namespace admin {

@@ -22,3 +22,5 @@ export const SENTRY_KEY = DEPLOY_ENV !== 'dev' ? '53f7b86d9a174f81a3fad700135ee4
 export const SENTRY_PROJECT_ID = '5189056'
 
 export const MAILGUN_SECRET: string = global.MAILGUN_SECRET || process.env.MAILGUN_SECRET || ""
+
+export const CONTACT_FORM_EMAIL: string = "foldspark@gmail.com"
