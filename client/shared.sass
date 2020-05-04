@@ -46,14 +46,14 @@ table.table
     height: 32px
     margin-right: 0.3rem
 
-.SiteFooter
+.SiteFooter, .AppFooter
     margin-top: 3rem
     background-image: url("../public/dawnguide-concept-footer.svg")
     background-repeat: no-repeat
     background-size: 100% auto
     width: 100%
     height: 0
-    padding-top: 30%
+    padding-top: 35%
 
     @media (max-width: $mobile)
         padding-top: 60%
@@ -73,7 +73,16 @@ table.table
             background-color: rgba(85,85,85,0.9)
             color: white
             text-shadow: 0 1px 0 rgba(0,0,0,0.2)
+
+            a
+                display: block
+                color: #fff
+                padding: 10px 15px
+                text-decoration: none
+
+        li:last-child
             padding: 10px 15px
+            background: transparentize($base-color, 0.3)
 
 .ConceptPage
     padding-top: 2rem

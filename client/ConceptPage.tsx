@@ -10,7 +10,6 @@ import { Container } from 'react-bootstrap'
 import { AppContext } from './AppContext'
 import { getReviewTime, ExerciseWithProgress } from '../shared/logic'
 import { Passage } from '../shared/Passage'
-import { SiteFooter } from '../server/SiteFooter'
 
 export function showReviewTime(ewp: ExerciseWithProgress) {
     if (!ewp.progress)

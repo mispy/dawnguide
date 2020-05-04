@@ -11,7 +11,9 @@ export function ContactPage() {
     const { api } = useContext(AppContext)
     const state = useLocalStore(() => ({ subject: "", body: "", loading: false }))
 
-    async function sendMessage() {
+    async function sendMessage(ev: React.FormEvent) {
+        ev.preventDefault()
+
         state.loading = true
         try {
             await api.contact({
@@ -33,7 +35,7 @@ export function ContactPage() {
                 <form onSubmit={sendMessage}>
                     <div className="form-group">
                         <label htmlFor="subject">Subject</label>
-                        <input name="subject" id="subject" type="text" className="form-control" placeholder="Subject" required value={state.subject} onChange={action(e => state.subject = e.currentTarget.value)} />
+                        <input name="subject" id="subject" type="text" className="form-control" placeholder="Subject" required value={state.subject} onChange={action(e => state.subject = e.currentTarget.value)} autoFocus />
                     </div>
                     <div className="form-group">
                         <label htmlFor="body">Message</label>
