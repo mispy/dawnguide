@@ -18,8 +18,10 @@ export function AppLayout(props: { children: any, noHeader?: boolean, noFooter?:
 
     return useObserver(() => <div className="AppLayout">
         {app.unexpectedError ? <ErrorModal error={app.unexpectedError} /> : undefined}
-        {!noHeader ? <AppHeader /> : undefined}
-        {props.children}
+        <div className="fullScreen">
+            {!noHeader ? <AppHeader /> : undefined}
+            {props.children}
+        </div>
         {!noFooter ? <AppFooter /> : undefined}
     </div>)
 }

@@ -88,6 +88,11 @@ export class ClientApi {
         await this.http.post('/api/lesson', { exerciseIds: exerciseIds })
     }
 
+    async getCurrentUser(): Promise<User> {
+        const { data } = await this.http.get('/api/users/me')
+        return data
+    }
+
     async subscribe(planId: string): Promise<{ checkoutSessionId: string } | { user: User }> {
         const { data } = await this.http.post(`/api/subscribe?planId=${planId}`)
         return data

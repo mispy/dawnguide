@@ -4,9 +4,16 @@ import { Container } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import classNames = require("classnames")
 import { AppFooter } from "./AppFooter"
-
+import { useEffect, useContext, useRef } from "react"
+import { AppContext } from "./AppContext"
 
 export function SettingsLayout(props: { active?: 'account' | 'notifications' | 'subscription', children?: any }) {
+    const { app } = useContext(AppContext)
+    useEffect(() => {
+        // Refresh user on settings layout change
+        app.reloadUser()
+    })
+
     return <AppLayout noFooter>
         <main className="SettingsLayout">
             <Container>

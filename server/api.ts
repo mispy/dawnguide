@@ -16,6 +16,7 @@ export async function processRequest(req: SessionRequest) {
     r.get('/api/progress', getProgress)
     r.put('/api/progress', submitProgress)
     r.post('/api/lesson', completeLesson)
+    r.get('/api/users/me', getCurrentUser)
     r.post('/api/changeEmail', changeEmail)
     r.post('/api/changeUsername', changeUsername)
     r.post('/api/changePassword', changePassword)
@@ -60,6 +61,13 @@ async function completeLesson(req: SessionRequest) {
 
     await db.progressItems.saveAll(userId, toSave)
 }
+
+/** Retrieve the currently logged in user info */
+async function getCurrentUser(req: SessionRequest) {
+    const user = await db.users.expect(req.session.userId)
+    return _.omit(user, 'cryptedPassword')
+}
+
 
 /** 
  * When a user successfully completes an exercise, we increase the

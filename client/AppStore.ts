@@ -46,6 +46,11 @@ export class AppStore {
         runInAction(() => this.progressItems = progressItems)
     }
 
+    async reloadUser() {
+        const user = await this.api.getCurrentUser()
+        runInAction(() => this.user = user)
+    }
+
     applyLoadingIndicator<T>(promise: Promise<T>) {
         NProgress.promise(promise)
     }
