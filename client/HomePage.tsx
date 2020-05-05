@@ -2,25 +2,16 @@ import React = require("react")
 import { useObserver } from "mobx-react-lite"
 import { AppLayout } from "./AppLayout"
 import { AppContext } from "./AppContext"
-import { Concept } from "../shared/sunpedia"
-import { ExerciseProgressItem } from "../shared/logic"
 import _ = require("lodash")
 import { Container } from "react-bootstrap"
 import { Link } from "react-router-dom"
-import { useContext, useEffect, useRef } from "react"
+import { useContext } from "react"
 import { showReviewTime } from "./ConceptPage"
 import { DebugTools } from "./DebugTools"
+import { IS_PRODUCTION } from "../server/settings"
 
-declare const process: any
-
-interface ConceptWithProgress {
-    concept: Concept
-    progress?: ExerciseProgressItem
-}
 export function HomePage() {
     const { app, sunpedia } = useContext(AppContext)
-
-    const debug = process.env.NODE_ENV === "development"
 
     return useObserver(() => <AppLayout>
         <main className="HomePage">
@@ -48,7 +39,7 @@ export function HomePage() {
                         </tbody>
                     </table>
                 </> : undefined}
-                {debug ? <DebugTools /> : undefined}
+                {!IS_PRODUCTION ? <DebugTools /> : undefined}
             </Container>}
         </main>
     </AppLayout>)
