@@ -1,13 +1,5 @@
 import React = require("react")
 import { Head } from "./Head"
-import { pageResponse, EventRequest } from './utils'
-import * as db from './db'
-
-export async function resetPasswordFinalizePage(req: EventRequest, token: string) {
-    const email = await db.passwordResets.get(token)
-
-    return pageResponse(<ResetPasswordFinalizePage token={token} email={email} />)
-}
 
 export function ResetPasswordFinalizePage(props: { token: string, email: string | undefined }) {
     const { token, email } = props

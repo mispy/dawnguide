@@ -108,8 +108,9 @@ export async function submitResetPassword(req: EventRequest) {
     return pageResponse(ResetPasswordPage, { emailSent: email })
 }
 
-export async function resetPasswordConfirmPage(req: EventRequest) {
-    return pageResponse(ResetPasswordFinalizePage)
+export async function resetPasswordConfirmPage(req: EventRequest, token: string) {
+    const email = await db.passwordResets.get(token)
+    return pageResponse(ResetPasswordFinalizePage, { token: token, email: email })
 }
 
 export async function submitResetPasswordConfirm(req: EventRequest, token: string) {

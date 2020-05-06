@@ -15,9 +15,7 @@
             "esnext",
             "webworker"
         ],
-        "resolveJsonModule": true
-    },
-    "exclude": [
-        "node_modules"
-    ]
+        "resolveJsonModule": true,
+        "skipLibCheck": true
+    }
 }
