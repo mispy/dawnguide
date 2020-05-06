@@ -9,7 +9,8 @@
         "build-server": "rm -rf server/dist/* && parcel build server/worker.tsx -d server/dist",
         "build": "npm-run-all --parallel build-client build-server",
         "td": "wrangler publish --env test",
-        "deploy": "wrangler publish --env live"
+        "deploy": "wrangler publish --env live",
+        "test": "jest"
     },
     "dependencies": {
         "@cloudflare/kv-asset-handler": "^0.0.7",
