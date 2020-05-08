@@ -12,7 +12,7 @@ export function SettingsLayout(props: { active?: 'account' | 'notifications' | '
     useEffect(() => {
         // Refresh user on settings layout change
         app.reloadUser()
-    })
+    }, [props.active])
 
     return <AppLayout noFooter>
         <main className="SettingsLayout">
