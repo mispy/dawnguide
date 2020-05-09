@@ -1,5 +1,5 @@
 import { useObserver, useLocalStore } from "mobx-react-lite"
-import React = require("react")
+import * as React from 'react'
 import { Concept } from "../shared/sunpedia"
 import classnames from 'classnames'
 import { action } from "mobx"

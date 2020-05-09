@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import React = require("react")
+import * as React from 'react'
 
 import { AppContext } from "./AppContext"
 

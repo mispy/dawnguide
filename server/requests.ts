@@ -1,5 +1,5 @@
 import { Json, getQueryParams } from "./utils"
-import db = require('./db')
+import * as db from './db'
 import { Session } from "./db"
 import cookie = require('cookie')
 

@@ -1,4 +1,4 @@
-import React = require("react")
+import * as React from 'react'
 import { useContext } from "react"
 import { Navbar, Container, Nav } from "react-bootstrap"
 import { Link } from "react-router-dom"

@@ -1,4 +1,4 @@
-import _ = require('lodash')
+import * as _ from 'lodash'
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 import { API_BASE_URL, IS_PRODUCTION } from './settings'

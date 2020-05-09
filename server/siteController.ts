@@ -3,9 +3,9 @@ import { LandingPage } from "./LandingPage"
 import { EventRequest, SessionRequest } from "./requests"
 import { Sunpedia } from "../shared/sunpedia"
 import { ConceptPage } from "./ConceptPage"
-import _ = require("lodash")
+import * as _ from 'lodash'
 import { AppPage } from "./AppPage"
-import db = require('./db')
+import * as db from './db'
 
 export async function landingPage() {
     return pageResponse(LandingPage)

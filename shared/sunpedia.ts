@@ -1,13 +1,13 @@
 
 // @ts-ignore
 // import Cite from 'citation-js'
-import bibTexParse = require('bibtex-parser-js')
+import * as bibTexParse from 'bibtex-parser-js'
 
 import { computed, observable } from 'mobx'
 
 import conceptDefs from '../concepts'
 import { ConceptDef, Reference, MarkdownString, UserProgressItem } from './types'
-import _ = require('lodash')
+import * as _ from 'lodash'
 import { isReadyForReview } from './logic'
 
 function parseBibliography(bibliography: string): Reference[] {

@@ -1,8 +1,8 @@
-import React = require("react")
+import * as React from 'react'
 import { useLocalStore, useObserver } from "mobx-react-lite"
 import { action } from "mobx"
 
-import _ = require("lodash")
+import * as _ from 'lodash'
 import { Exercise } from "../shared/types"
 import { AppContext } from "./AppContext"
 import { MemoryCard } from "./MemoryCard"
@@ -10,35 +10,35 @@ import { useContext } from "react"
 import { Concept } from "../shared/sunpedia"
 
 interface ExerciseWithConcept {
-  concept: Concept
-  exercise: Exercise
+    concept: Concept
+    exercise: Exercise
 }
 
 export function MultiReview(props: { reviews: ExerciseWithConcept[], onComplete: () => void }) {
-  const { reviews, onComplete } = props
-  const state = useLocalStore(() => ({ showConcept: false, reviews: _.clone(reviews).reverse() }))
-  const { api } = useContext(AppContext)
+    const { reviews, onComplete } = props
+    const state = useLocalStore(() => ({ showConcept: false, reviews: _.clone(reviews).reverse() }))
+    const { api } = useContext(AppContext)
 
-  const onCardComplete = action((remembered: boolean) => {
-    const review = state.reviews[state.reviews.length - 1]
-    api.submitProgress(review.exercise.id, remembered)
+    const onCardComplete = action((remembered: boolean) => {
+        const review = state.reviews[state.reviews.length - 1]
+        api.submitProgress(review.exercise.id, remembered)
 
-    if (remembered) {
-      state.reviews.pop()
-      if (state.reviews.length === 0) {
-        onComplete()
-      }
-    } else {
-      // Didn't remember, shuffle the cards
-      state.reviews = _.shuffle(state.reviews)
-    }
-  })
+        if (remembered) {
+            state.reviews.pop()
+            if (state.reviews.length === 0) {
+                onComplete()
+            }
+        } else {
+            // Didn't remember, shuffle the cards
+            state.reviews = _.shuffle(state.reviews)
+        }
+    })
 
-  return useObserver(() => {
-    return <div className="MultiReview">
-      <MemoryCard review={state.reviews[state.reviews.length - 1]} onSubmit={onCardComplete} />
-    </div>
-  })
+    return useObserver(() => {
+        return <div className="MultiReview">
+            <MemoryCard review={state.reviews[state.reviews.length - 1]} onSubmit={onCardComplete} />
+        </div>
+    })
 }
 
 

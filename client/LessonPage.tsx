@@ -1,9 +1,9 @@
-import React = require("react")
+import * as React from 'react'
 import { useObserver, useLocalStore } from "mobx-react-lite"
 import { observable, action, computed } from "mobx"
 
 import { AppContext } from "./AppContext"
-import _ = require("lodash")
+import * as _ from 'lodash'
 import { Link, Redirect } from "react-router-dom"
 import { AppLayout } from "./AppLayout"
 import { useContext } from "react"

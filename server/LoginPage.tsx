@@ -1,4 +1,4 @@
-import React = require("react")
+import * as React from 'react'
 import { Head } from "./Head"
 
 export function LoginPage(props: { then?: string, error?: string }) {

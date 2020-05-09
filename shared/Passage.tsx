@@ -1,5 +1,5 @@
-import React = require("react")
-import _ = require("lodash")
+import * as React from 'react'
+import * as _ from 'lodash'
 import Markdown from 'markdown-to-jsx'
 
 import { Concept } from "./sunpedia"

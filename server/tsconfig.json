@@ -3,7 +3,7 @@
         "target": "esnext",
         "strict": true,
         "noImplicitReturns": true,
-        "allowJs": false,
+        "allowJs": true,
         "outDir": "./dist/",
         "sourceMap": true,
         "module": "commonjs",
@@ -16,6 +16,7 @@
             "webworker"
         ],
         "resolveJsonModule": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "esModuleInterop": true
     }
 }

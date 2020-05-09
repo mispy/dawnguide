@@ -2,7 +2,7 @@
     "compilerOptions": {
         "strict": true,
         "noImplicitReturns": true,
-        "allowJs": false,
+        "allowJs": true,
         "outDir": "./dist/",
         "sourceMap": true,
         "module": "commonjs",
@@ -22,7 +22,8 @@
             }
         ],
         "resolveJsonModule": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "esModuleInterop": true
     },
     "exclude": [
         "cfscripts",

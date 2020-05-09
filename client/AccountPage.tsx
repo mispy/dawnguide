@@ -1,8 +1,8 @@
 import { useContext } from "react"
 import { AppContext } from "./AppContext"
 import { useLocalStore, useObserver } from "mobx-react-lite"
-import _ = require("lodash")
-import React = require("react")
+import * as _ from 'lodash'
+import * as React from 'react'
 import { runInAction, action } from "mobx"
 import { SettingsLayout } from "./SettingsLayout"
 

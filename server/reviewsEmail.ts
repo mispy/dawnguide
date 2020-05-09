@@ -1,6 +1,6 @@
 import { User } from "../shared/types"
-import _ = require("lodash")
-import db = require('./db')
+import * as _ from 'lodash'
+import * as db from './db'
 import { Sunpedia } from "../shared/sunpedia"
 import { sendMail } from "./mail"
 import { weeks } from "./time"

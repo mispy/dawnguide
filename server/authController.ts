@@ -1,10 +1,10 @@
 import bcrypt = require('bcryptjs')
 import cookie = require('cookie')
-import db = require('./db')
+import * as db from './db'
 import { redirect, expectStrings, QueryParams, absurl, pageResponse, ResponseError } from './utils'
 import { sendMail } from './mail'
 import { BASE_URL } from './settings'
-import _ = require('lodash')
+import * as _ from 'lodash'
 import { ResetPasswordPage } from './ResetPasswordPage'
 import { weeks } from './time'
 import { LoginPage } from './LoginPage'

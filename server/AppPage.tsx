@@ -1,7 +1,7 @@
-import React = require("react")
+import * as React from 'react'
 import { Head } from "./Head"
 import { User } from "../shared/types"
-import _ = require("lodash")
+import * as _ from 'lodash'
 
 export function AppPage(props: { user: User }) {
     const script = `window.initApp(${JSON.stringify(props.user)})`

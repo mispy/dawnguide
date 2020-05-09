@@ -1,4 +1,4 @@
-import React = require("react")
+import * as React from 'react'
 
 export function Logo() {
     return <svg className="Logo" viewBox="0 0 281 281" version="1.1" style={{ fillRule: "evenodd", clipRule: "evenodd", strokeLinejoin: "round", strokeMiterlimit: 2 }}>

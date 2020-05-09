@@ -1,4 +1,4 @@
-import React = require("react")
+import * as React from 'react'
 import { Head } from "./Head"
 import { htmlToPlaintext } from './utils'
 import { Concept } from "../shared/sunpedia"

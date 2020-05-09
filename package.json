@@ -53,7 +53,7 @@
         "moment": "^2.17.1",
         "node-sass": "^4.9.0",
         "npm-run-all": "^4.1.5",
-        "object-to-formdata": "^2.2.0",
+        "object-to-formdata": "^3.0.9",
         "parcel-bundler": "^1.12.4",
         "react": "^16.13.1",
         "react-bootstrap": "^1.0.0-beta.16",
@@ -64,19 +64,26 @@
         "react-timeago": "^4.4.0",
         "typescript-memoize": "^1.0.0-alpha.3",
         "url-join": "^4.0.1",
-        "uuid": "^3.3.3"
+        "uuid": "^8.0.0"
     },
     "devDependencies": {
+        "@babel/core": "^7.9.6",
+        "@babel/plugin-proposal-class-properties": "^7.8.3",
+        "@babel/plugin-proposal-decorators": "^7.8.3",
+        "@babel/plugin-transform-modules-commonjs": "^7.9.6",
+        "@babel/plugin-transform-runtime": "^7.9.6",
+        "@babel/preset-env": "^7.9.6",
+        "@babel/preset-typescript": "^7.9.0",
         "@cloudflare/wrangler": "^1.8.2",
         "@dollarshaveclub/cloudworker": "github:foldspark/cloudworker",
         "@types/jest": "^25.2.1",
         "@typescript-eslint/eslint-plugin": "^2.11.0",
         "@typescript-eslint/parser": "^2.11.0",
-        "babel-core": "^6.26.3",
-        "babel-preset-env": "^1.7.0",
+        "babel-jest": "^26.0.1",
         "eslint": "^6.7.2",
-        "jest": "^25.5.4",
-        "ts-jest": "^25.4.0",
+        "isomorphic-fetch": "^2.2.1",
+        "jest": "^26.0.1",
+        "regenerator-runtime": "^0.13.5",
         "typescript": "^3.8.3"
     }
 }

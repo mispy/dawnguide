@@ -1,5 +1,5 @@
-import _ = require("lodash")
-import React = require("react")
+import * as _ from 'lodash'
+import * as React from 'react'
 import { AppLayout } from "./AppLayout"
 import { Container } from "react-bootstrap"
 import { useLocalStore, useObserver } from "mobx-react-lite"

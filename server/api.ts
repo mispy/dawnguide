@@ -1,9 +1,9 @@
 import Router from "./router"
 import { expectStrings, absurl, ResponseError, expectKeys } from "./utils"
-import db = require('./db')
+import * as db from './db'
 import { User, UserProgressItem } from '../shared/types'
 import { getReviewTime } from "../shared/logic"
-import _ = require("lodash")
+import * as _ from 'lodash'
 import { sendMail } from "./mail"
 import bcrypt = require('bcryptjs')
 import { SessionRequest } from "./requests"

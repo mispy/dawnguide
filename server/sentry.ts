@@ -2,7 +2,7 @@
 
 import { SENTRY_KEY, SENTRY_PROJECT_ID, DEPLOY_ENV } from "./settings"
 import { EventRequest } from "./requests"
-import _ = require("lodash")
+import * as _ from 'lodash'
 import { Json } from "./utils"
 import * as db from './db'
 

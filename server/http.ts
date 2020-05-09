@@ -1,7 +1,5 @@
-import _ = require("lodash")
-
-// @ts-ignore
-const objectToFormData = require('object-to-formdata').default
+import * as _ from 'lodash'
+import { objectToFormData } from 'object-to-formdata'
 
 export class RequestError extends Error {
     constructor(message: string) {

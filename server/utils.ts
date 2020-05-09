@@ -1,6 +1,6 @@
 import { BASE_URL } from "./settings"
-import _ = require('lodash')
-import ReactDOMServer = require('react-dom/server')
+import * as _ from 'lodash'
+import * as ReactDOMServer from 'react-dom/server'
 
 
 export function renderToHtml(rootElement: Parameters<typeof ReactDOMServer.renderToStaticMarkup>[0]) {
@@ -74,7 +74,7 @@ export class JsonResponse extends Response {
     }
 }
 
-import urljoin = require('url-join')
+import urljoin from 'url-join'
 export function absurl(path: string): string {
     return urljoin(BASE_URL, path)
 }
@@ -133,7 +133,7 @@ export class ResponseError extends Error {
     }
 }
 
-import { Memoize } from 'typescript-memoize';
+import { Memoize } from 'typescript-memoize'
 import { Session } from "./db"
-import React = require("react")
+import * as React from 'react'
 export const memoize = Memoize

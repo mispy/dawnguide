@@ -1,7 +1,7 @@
 import { observable, runInAction, computed, action, toJS } from "mobx"
 import { ExerciseWithProgress } from "../shared/logic"
 import { Concept } from "../shared/sunpedia"
-import _ = require("lodash")
+import * as _ from 'lodash'
 import { ClientApi } from "./ClientApi"
 import { Sunpedia } from "../shared/sunpedia"
 import { UserProgressItem, User } from "../shared/types"

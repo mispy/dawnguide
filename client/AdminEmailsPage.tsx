@@ -1,8 +1,8 @@
 import { useContext, useState, useEffect } from "react"
 import { AppContext } from "./AppContext"
 import { useLocalStore, useObserver } from "mobx-react-lite"
-import _ = require("lodash")
-import React = require("react")
+import * as _ from 'lodash'
+import * as React from 'react'
 import { AppLayout } from "./AppLayout"
 import { ClientApi } from "./ClientApi"
 import { observable, runInAction, action } from "mobx"

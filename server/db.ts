@@ -1,11 +1,11 @@
-import uuidv4 = require('uuid/v4')
-import bcrypt = require('bcryptjs')
+import { v4 as uuidv4 } from 'uuid'
+import * as bcrypt from 'bcryptjs'
 import { KVNamespace } from '@cloudflare/workers-types'
 import { weeks, days } from './time'
 
 import { UserProgressItem, UserNotificationSettings } from '../shared/types'
 import { isReadyForReview } from '../shared/logic'
-import _ = require('lodash')
+import * as _ from 'lodash'
 import { ResponseError } from './utils'
 
 declare const global: any

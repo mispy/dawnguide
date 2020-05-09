@@ -1,5 +1,5 @@
 import { AppLayout } from "./AppLayout"
-import React = require("react")
+import * as React from 'react'
 import { Container } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import classNames = require("classnames")

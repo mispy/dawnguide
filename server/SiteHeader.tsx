@@ -1,4 +1,4 @@
-import React = require("react")
+import * as React from 'react'
 import { Navbar, Container, Nav } from "react-bootstrap"
 import { Sunpedia, Concept } from "../shared/sunpedia"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

@@ -1,7 +1,7 @@
-import React = require("react")
+import * as React from 'react'
 import { observable, action, computed } from "mobx"
 
-import _ = require("lodash")
+import * as _ from 'lodash'
 import { useContext } from "react"
 import { AppContext } from "./AppContext"
 import { useObserver, useLocalStore } from "mobx-react-lite"

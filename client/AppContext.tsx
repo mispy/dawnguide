@@ -1,5 +1,5 @@
 import { ClientApi } from "./ClientApi"
-import React = require("react")
+import * as React from 'react'
 import { AppStore } from "./AppStore"
 import { Sunpedia } from "../shared/sunpedia"
 import { User } from "../shared/types"

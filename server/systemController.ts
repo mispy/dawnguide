@@ -1,4 +1,4 @@
-import db = require('./db')
+import * as db from './db'
 import { sendReviewsEmailIfNeeded } from './reviewsEmail'
 import { EventRequest } from './requests'
 import { ResponseError } from './utils'
@@ -18,11 +18,6 @@ export async function heartbeat() {
 
     await Promise.all(promises)
     return "💛"
-}
-
-
-function isAdmin(user: db.User) {
-    return user.email === "foldspark@gmail.com" && user.emailConfirmed
 }
 
 /** 

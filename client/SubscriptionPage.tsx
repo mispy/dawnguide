@@ -1,4 +1,4 @@
-import React = require("react")
+import * as React from 'react'
 import { Row, Col, Badge } from "react-bootstrap"
 import { STRIPE_PUBLIC_KEY } from "./settings"
 import { AppContext } from "./AppContext"

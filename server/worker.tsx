@@ -9,7 +9,7 @@ import * as payments from './paymentsController'
 import { IS_PRODUCTION, ASSET_DEV_SERVER, SENTRY_KEY, STRIPE_WEBHOOK_SECRET } from './settings'
 import { redirect, JsonResponse } from './utils'
 import api = require('./api')
-import _ = require('lodash')
+import * as _ from 'lodash'
 import { logToSentry } from './sentry'
 import { EventRequest, SessionRequest } from './requests'
 
