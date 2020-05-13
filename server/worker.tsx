@@ -12,6 +12,7 @@ import api = require('./api')
 import * as _ from 'lodash'
 import { logToSentry } from './sentry'
 import { EventRequest, SessionRequest } from './requests'
+import conceptDefs from '../concepts'
 
 // Workers require that this be a sync callback
 addEventListener('fetch', event => {
@@ -46,7 +47,9 @@ async function processRequest(req: EventRequest) {
     // These pages are server-rendered only if user isn't logged in
     if (!req.session) {
         r.get('/', site.landingPage)
-        r.get('/concept/:conceptId', site.conceptPage)
+        for (const concept of conceptDefs) {
+            r.get(`/${concept.id}`, (req) => site.conceptPage(req, concept.id))
+        }
     }
 
     r.all('.*', behindLogin)
@@ -96,7 +99,10 @@ async function behindLogin(req: EventRequest) {
     r.get('/contact', site.appPage)
     r.get('/admin', site.appPage)
     r.get('/admin/emails', site.appPage)
-    r.get('/concept/:conceptId', site.appPage)
+
+    for (const concept of conceptDefs) {
+        r.get(`/${concept.id}`, site.appPage)
+    }
 
     return await r.route(req as SessionRequest)
 }
