@@ -31,5 +31,5 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - run: yarn
-      - run: yarn tsc
+      - run: yarn typecheck
       - run: yarn test
