@@ -31,7 +31,7 @@ export function ContactPage() {
                 <h1>Contact</h1>
                 <p>Use the form below to send any questions, comments, bug reports, or happy thoughts.</p>
                 <p>If you are contacting about a bug, please mention as much information as you can so we can better assist you. Examples of helpful information are the following: steps on how to reproduce the issue, a link to the problematic page, or a link to a screenshot.</p>
-                <p>Alternatively, you can contact Jake at <a href="mailto:jake@dawnguide.com">jake@dawnguide.com</a> or via Twitter <a target="_blank" href="https://twitter.com/jakesyndal">@jakesyndal</a>.</p>
+                <p>Alternatively, you can contact Jake at <a href="mailto:jake@dawnguide.com">jake@dawnguide.com</a> or via Twitter <a target="_blank" href="https://twitter.com/jakeleoht">@jakeleoht</a>.</p>
                 <form onSubmit={sendMessage}>
                     <div className="form-group">
                         <label htmlFor="subject">Subject</label>
