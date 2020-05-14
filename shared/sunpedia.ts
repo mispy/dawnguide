@@ -67,11 +67,15 @@ export class Concept {
         return this.def.title
     }
 
+    @computed get draft(): boolean {
+        return !!this.def.draft
+    }
+
     @computed get introduction(): MarkdownString {
         return this.def.introduction.trim()
     }
 
-    @computed get furtherReading(): MarkdownString {
+    @computed get furtherReading(): MarkdownString | undefined {
         return this.def.furtherReading
     }
 
@@ -92,7 +96,11 @@ export class Concept {
 }
 
 export class Sunpedia {
-    @observable.ref concepts: Concept[] = []
+    @observable.ref conceptsWithDrafts: Concept[] = []
+
+    @computed get concepts() {
+        return this.conceptsWithDrafts.filter(c => !c.draft)
+    }
 
     @computed get conceptById() {
         return _.keyBy(this.concepts, c => c.id)
@@ -148,7 +156,7 @@ export class Sunpedia {
 
     constructor() {
         for (const def of conceptDefs) {
-            this.concepts.push(new Concept(def))
+            this.conceptsWithDrafts.push(new Concept(def))
 
             // {
             //   "title": "Distributed practice in verbal recall tasks: A review and quantitative synthesis.",

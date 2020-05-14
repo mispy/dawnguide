@@ -17,7 +17,9 @@ export function ConceptPage(props: { concept: Concept }) {
     const pageDesc = htmlToPlaintext(intro).split("\n\n")[0]
 
     return <html lang="en">
-        <Head pageTitle={concept.title} canonicalUrl={`/concepts/${concept.id}`} pageDesc={pageDesc} />
+        <Head pageTitle={concept.title} canonicalUrl={`/concepts/${concept.id}`} pageDesc={pageDesc}>
+            {concept.draft ? <meta name="robots" content="noindex" /> : null}
+        </Head>
 
         <body>
             <SiteHeader />
@@ -26,21 +28,7 @@ export function ConceptPage(props: { concept: Concept }) {
                     <Passage concept={concept} />
                     <section className="exercises">
                         <h2>Exercises</h2>
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th>Question</th>
-                                    <th>Answer</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {concept.exercises.map(e => <tr key={e.id}>
-                                    <td><Markdown>{e.question}</Markdown></td>
-                                    <td><Markdown>{e.answer}</Markdown></td>
-                                </tr>)}
-                            </tbody>
-                        </table>
-                        <a href="/login" className="btn btn-outline-dawn">Sign in to memorize <FontAwesomeIcon icon={faArrowRight} /></a>
+                        <a href="/login" className="btn btn-outline-dawn">Sign in to review {concept.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></a>
                     </section>
                 </div>
                 <SiteFooter />

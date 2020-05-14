@@ -55,7 +55,7 @@ export function AppRouter() {
             <Route path="/contact">
                 <ContactPage />
             </Route>
-            {sunpedia.concepts.map(concept =>
+            {sunpedia.conceptsWithDrafts.map(concept =>
                 <Route key={concept.id} path={`/${concept.id}`}>
                     <ConceptPage concept={concept} />
                 </Route>

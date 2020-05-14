@@ -20,8 +20,9 @@ export type User = {
 export type ConceptDef = {
     id: string
     title: string
+    draft?: true
     introduction: MarkdownString
-    furtherReading: MarkdownString
+    furtherReading?: MarkdownString
     exercises: { question: string, answer: string }[]
     bibliography: BibtexString
 }

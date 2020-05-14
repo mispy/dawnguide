@@ -1,20 +1,18 @@
 import { concept } from '../shared/concept'
 
 export default concept({
-    id: 'self-compassion',
-    title: "Be kind to yourself",
+    id: 'automaticity',
+    title: "Automaticity",
     draft: true,
     introduction: `
-Self-compassion involves extending a sense of caring warmth to ourselves in times of suffering or perceived inadequacy. It is a strategy often defined by the question "How would we respond to a close friend in the same situation?"
+*Automaticity* refers to our ability to do things without conscious thought.
+
+Automaticity is a great strength of the human brain, allowing us to accomplish tasks where our conscious mind would be overwhelmed by the complexity and effort if we had to process everything manually. Think of the number of individual muscle movements involved in riding a bicycle, or the steps of analysis in reading a sentence.
 
 
-
-
-
-[@allen2010self]
-
-
-
+`,
+    furtherReading: `
+[What is self-compassion?](https://self-compassion.org/the-three-elements-of-self-compassion-2/) by Kristin Neff
 `,
     exercises: [
         {
@@ -41,6 +39,6 @@ Self-compassion involves extending a sense of caring warmth to ourselves in time
         year={2010},
         publisher={Wiley Online Library},
         url={https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2914331/}
-      }
+    }
 `
 })

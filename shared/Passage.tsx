@@ -26,15 +26,17 @@ export function Passage(props: { concept: Concept }) {
 
     // TODO target=_blank in further reading
     return <div className="Passage">
-        <h1>{concept.title}</h1>
+        <h1>
+            {concept.title} {concept.draft && <span className="text-danger">// Draft</span>}
+        </h1>
         <Markdown>{introduction}</Markdown>
         <section id="references">
             <h2>References</h2>
             <Bibliography references={referencesInText} />
         </section>
-        <section id="furtherReading">
+        {concept.furtherReading ? <section id="furtherReading">
             <h2>Further Reading</h2>
             <Markdown>{concept.furtherReading}</Markdown>
-        </section>
+        </section> : undefined}
     </div>
 }
