@@ -67,6 +67,10 @@ export class Concept {
         return this.def.title
     }
 
+    @computed get author(): string {
+        return this.def.author || "Jake Leoht"
+    }
+
     @computed get draft(): boolean {
         return !!this.def.draft
     }

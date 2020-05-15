@@ -2,10 +2,16 @@ import { concept } from '../shared/concept'
 
 export default concept({
     id: 'self-compassion',
-    title: "Be kind to yourself",
+    title: 'Self-compassion',
+    subtitle: "Be kind to yourself",
+    shortdef: "Caring for ourselves as we care for friends",
+    author: "Jake Leoht",
     draft: true,
     introduction: `
-Self-compassion involves extending a sense of caring warmth to ourselves in times of suffering or perceived inadequacy. It is a strategy often defined by the question "How would we respond to a close friend in the same situation?"
+What does it mean to be kind to ourselves? Many ideas in psychology help us answer this question, but there's one that aims for the heart of the matter: **self-compassion**.
+
+Self-compassion involves using the same sense of caring warmth that we have for others. Think of someone important to you, a friend or loved one. Imagine they are suffering in some way. Do you find your heart moved by their plight, and wish for them to be safe and happy? Do you feel yourself wanting to act to protect them? That feeling of compassion is often considered one of the wonderful traits of humanity, and intentionally invoking it can help us to deal with negative emotions.
+
 
 
 

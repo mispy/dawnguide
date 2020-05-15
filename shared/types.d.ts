@@ -20,6 +20,9 @@ export type User = {
 export type ConceptDef = {
     id: string
     title: string
+    subtitle: string
+    shortdef?: string
+    author?: string
     draft?: true
     introduction: MarkdownString
     furtherReading?: MarkdownString
