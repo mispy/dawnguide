@@ -77,12 +77,15 @@ class LessonPageState {
 }
 
 function InitialReviewPageLoaded(props: { concept: Concept }) {
+    const { app } = useContext(AppContext)
     const state = useLocalStore(() => new LessonPageState(props.concept))
 
     function content() {
         if (state.showing === 'reviews') {
             return <LessonReviews reviews={state.reviews} onComplete={state.completeReview} />
         } else {
+            const nextLesson = app.lessonConcepts.find(c => c !== props.concept)
+
             return <div className="d-flex justify-content-center">
                 <div>
                     <div className="text-center mb-2">
@@ -90,7 +93,7 @@ function InitialReviewPageLoaded(props: { concept: Concept }) {
           </div>
                     <div>
                         <Link className="btn btn-dawn" to="/home">Home</Link>
-                        {/* {state.conceptIndex < state.concepts.length - 1 && <button className="btn btn-dawn ml-2" onClick={state.nextLesson}>Next Lesson</button>} */}
+                        {nextLesson && <Link to={`/${nextLesson.id}`} className="btn btn-dawn ml-2">Next Lesson</Link>}
                     </div>
                 </div>
             </div>

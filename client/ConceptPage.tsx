@@ -12,6 +12,7 @@ import { getReviewTime, ExerciseWithProgress } from '../shared/logic'
 import { Passage } from '../shared/Passage'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom'
 
 export function showReviewTime(ewp: ExerciseWithProgress) {
     if (!ewp.progress)
@@ -59,7 +60,7 @@ export function ConceptPage(props: { concept: Concept }) {
 
                     </section> : <section>
                             <div className="text-right">
-                                <a href={`/review/${concept.id}`} className="btn btn-dawn">Continue to review <FontAwesomeIcon icon={faArrowRight} /></a>
+                                <Link to={`/review/${concept.id}`} className="btn btn-dawn">Continue to review <FontAwesomeIcon icon={faArrowRight} /></Link>
                             </div>
                         </section>}
 

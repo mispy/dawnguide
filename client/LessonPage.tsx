@@ -14,120 +14,6 @@ import { Container } from "react-bootstrap"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
-function LessonReviews(props: { reviews: ExerciseWithConcept[], onComplete: () => void }) {
-    const { reviews, onComplete } = props
-    const state = useLocalStore<{ reviews: ExerciseWithConcept[], completedIds: string[] }>(() => ({ reviews: _.clone(reviews).reverse(), completedIds: [] }))
-    const { api } = useContext(AppContext)
-
-    const onCompleteAll = async (exerciseIds: string[]) => {
-        await api.completeLesson(exerciseIds)
-        onComplete()
-    }
-
-    const onCardComplete = action((remembered: boolean) => {
-        if (remembered) {
-            const review = state.reviews.pop()
-            if (!review) return
-
-            state.completedIds.push(review.exercise.id)
-            if (state.reviews.length === 0) {
-                onCompleteAll(state.completedIds)
-            }
-        } else {
-            // Didn't remember, shuffle the cards
-            state.reviews = _.shuffle(state.reviews)
-        }
-    })
-
-    return useObserver(() => {
-        const review = state.reviews[state.reviews.length - 1]
-        return <div className="LessonReviews">
-            {review ? <MemoryCard review={review} onSubmit={onCardComplete} /> : undefined}
-        </div>
-    })
-}
-
-class LessonPageState {
-    @observable showing: 'lesson' | 'reviews' | 'complete' = 'lesson'
-    @observable conceptIndex: number = 0
-    @observable exerciseIndex: number = 0
-
-    constructor(readonly concepts: Concept[]) {
-    }
-
-    @computed get concept() {
-        return this.concepts[this.conceptIndex]
-    }
-
-    @computed get exercise() {
-        return this.concept.exercises[this.exerciseIndex]
-    }
-
-    @computed get reviews() {
-        return this.concept.exercises.map(e => {
-            return {
-                concept: this.concept,
-                exercise: e
-            }
-        })
-    }
-
-    @action.bound startReview() {
-        this.showing = 'reviews'
-    }
-
-    @action.bound completeReview() {
-        this.showing = 'complete'
-    }
-
-    @action.bound nextLesson() {
-        this.conceptIndex += 1
-        this.exerciseIndex = 0
-        this.showing = 'lesson'
-    }
-}
-
-function LessonPageLoaded(props: { concepts: Concept[] }) {
-    const state = useLocalStore(() => new LessonPageState(props.concepts))
-
-    function content() {
-        if (state.showing === 'lesson') {
-            return <Container className="lesson">
-                <div>
-                    <Passage concept={state.concept} />
-                    {/* <Passage/> */}
-                    {/* <Markdown>{state.concept.introduction}</Markdown> */}
-                    {/* <MDXProvider components={{ ref: Reference }}><Content/></MDXProvider> */}
-                    <div className="d-flex justify-content-end">
-                        <button className="btn btn-dawn" onClick={state.startReview}>Continue to review <FontAwesomeIcon icon={faArrowRight} /></button>
-                    </div>
-                </div>
-            </Container>
-        } else if (state.showing === 'reviews') {
-            return <LessonReviews reviews={state.reviews} onComplete={state.completeReview} />
-        } else {
-            return <div className="d-flex justify-content-center">
-                <div>
-                    <div className="text-center mb-2">
-                        Lesson complete!
-          </div>
-                    <div>
-                        <Link className="btn btn-dawn" to="/home">Home</Link>
-                        {state.conceptIndex < state.concepts.length - 1 && <button className="btn btn-dawn ml-2" onClick={state.nextLesson}>Next Lesson</button>}
-                    </div>
-                </div>
-            </div>
-        }
-    }
-
-    return useObserver(() => <div className="LessonPage">
-        <div className="topbar">
-            <Link to="/home">Home</Link>
-        </div>
-
-        {content()}
-    </div >)
-}
 
 export function LessonPage() {
     const { app } = useContext(AppContext)
@@ -139,9 +25,9 @@ export function LessonPage() {
         if (!app.lessonConcepts.length) {
             // Nothing ready to learn
             return <Redirect to="/home" />
+        } else {
+            return <Redirect to={`/${app.lessonConcepts[0].id}`} />
         }
-
-        return <LessonPageLoaded concepts={app.lessonConcepts} />
     }
 
     return useObserver(() => {
