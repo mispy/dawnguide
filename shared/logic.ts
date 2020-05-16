@@ -47,7 +47,7 @@ export function getTimeFromLevel(level: number) {
 }
 
 export function getReviewTime(progress: ExerciseProgressItem) {
-    return progress.reviewedAt + getTimeFromLevel(progress.level - 1)
+    return progress.reviewedAt + getTimeFromLevel(progress.level)
 }
 
 export function isReadyForReview(progress: ExerciseProgressItem) {
