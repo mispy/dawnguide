@@ -16,7 +16,7 @@ export function BibliographyReference(props: { reference: Reference }) {
     const authorStr = authorParts.length === 1 ? authorParts[0] : [authorParts.slice(0, -1).join(", "), authorParts.slice(-1)].join(" & ")
 
     return <li id={ref.id}>
-        {authorStr} ({ref.year}). <a href={ref.url} target="_blank" rel="noopener">{ref.title}</a> <em>{ref.journal}</em>, <em>{ref.volume}</em>({ref.issue}), {ref.page}.
+        {authorStr} ({ref.year}). <a href={ref.url} target="_blank" rel="noopener">{ref.title}</a> <em>{ref.journal}</em>, <em>{ref.volume}</em>({ref.issue}), {ref.page.replace("--", "—")}.
   </li>
 }
 

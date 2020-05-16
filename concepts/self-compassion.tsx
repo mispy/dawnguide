@@ -37,7 +37,7 @@ A sense of _common humanity_ is key to self-compassion. You are not alone in you
         journal={Social and personality psychology compass},
         volume={4},
         number={2},
-        pages={107-118},
+        pages={107--118},
         year={2010},
         publisher={Wiley Online Library},
         url={https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2914331/}
