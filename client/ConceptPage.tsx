@@ -10,6 +10,8 @@ import { Container } from 'react-bootstrap'
 import { AppContext } from './AppContext'
 import { getReviewTime, ExerciseWithProgress } from '../shared/logic'
 import { Passage } from '../shared/Passage'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 export function showReviewTime(ewp: ExerciseWithProgress) {
     if (!ewp.progress)
@@ -36,7 +38,7 @@ export function ConceptPage(props: { concept: Concept }) {
             <main className="ConceptPage">
                 <Container>
                     <Passage concept={concept} />
-                    <section className="exercises">
+                    {app.userStartedLearning(concept.id) ? <section className="exercises">
                         <h2>Exercises</h2>
                         <table className="table">
                             <thead>
@@ -55,11 +57,12 @@ export function ConceptPage(props: { concept: Concept }) {
                             </tbody>
                         </table>
 
-                    </section>
-                    {/* {conceptProgress && conceptProgress.progress && <div className="nextReview">
-            <h3>Next Review</h3>
-            <TimeAgo date={getReviewTime(conceptProgress.progress)} />
-          </div>} */}
+                    </section> : <section>
+                            <div className="text-right">
+                                <a href={`/review/${concept.id}`} className="btn btn-dawn">Continue to review <FontAwesomeIcon icon={faArrowRight} /></a>
+                            </div>
+                        </section>}
+
                 </Container>
             </main>
         </AppLayout>

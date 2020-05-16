@@ -103,9 +103,13 @@ export class AppStore {
         return this.reviews.length
     }
 
+    userStartedLearning(conceptId: string) {
+        return _.some(this.exercisesWithProgress, e => e.exercise.conceptId === conceptId && e.progress)
+    }
+
     /**
      * Global error handling when all else fails. Our last stand against the darkness.
-    */
+     */
     @action.bound handleUnexpectedError(err: Error) {
         console.error(err)
         this.unexpectedError = err

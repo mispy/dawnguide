@@ -11,6 +11,7 @@ import { useContext } from 'react'
 import { HomePage } from "./HomePage"
 import { LessonPage } from "./LessonPage"
 import { ReviewPage } from "./ReviewPage"
+import { InitialReviewPage } from "./InitialReviewPage"
 import { SubscriptionPage } from "./SubscriptionPage"
 import { ConceptPage } from './ConceptPage'
 import { AppContext } from './AppContext'
@@ -31,6 +32,11 @@ export function AppRouter() {
             <Route path="/lesson">
                 <LessonPage />
             </Route>
+            {sunpedia.conceptsWithDrafts.map(concept =>
+                <Route key={concept.id} path={`/review/${concept.id}`}>
+                    <InitialReviewPage concept={concept} />
+                </Route>
+            )}
             <Route path="/review">
                 <ReviewPage />
             </Route>

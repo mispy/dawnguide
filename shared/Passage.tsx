@@ -27,7 +27,7 @@ export function Passage(props: { concept: Concept }) {
     // TODO target=_blank in further reading
     return <div className="Passage">
         <h1>
-            {concept.title} {concept.draft && <span className="text-danger">// Draft</span>}
+            {concept.title} {concept.draft && <span className="draft-marker">// Draft</span>}
         </h1>
         <div className="authorship">
             by {concept.author}

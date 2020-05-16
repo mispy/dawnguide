@@ -91,6 +91,7 @@ async function behindLogin(req: EventRequest) {
     r.get('/', () => redirect('/home'))
     r.get('/home', site.appPage)
     r.get('/review', site.appPage)
+    r.get('/review/:conceptId', site.appPage)
     r.get('/lesson', site.appPage)
     r.get('/settings', site.appPage)
     r.get('/account', site.appPage)
