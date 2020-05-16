@@ -18,16 +18,16 @@ A sense of _common humanity_ is key to self-compassion. You are not alone in you
 `,
     exercises: [
         {
-            question: "How does self-compassion differ from self-esteem?",
-            answer: "Self-esteem is based on an evaluation of worth. Compassion on the basis of common humanity is independent of any evaluation."
+            question: "How do people high in self-compassion tend to respond to failure?",
+            answer: "They take greater responsibility for their failures and are more able to adapt as a result."
         },
         {
             question: "Why is common humanity a key element of self-compassion?",
             answer: "All people are worthy of compassion in their suffering. You are also people."
         },
         {
-            question: "How do people high in self-compassion tend to respond to failure?",
-            answer: "They take greater responsibility for their failures and are more able to adapt as a result."
+            question: "How does self-compassion differ from self-esteem?",
+            answer: "Self-esteem is based on an evaluation of worth. Compassion on the basis of common humanity is independent of any evaluation."
         }
     ],
     bibliography: `

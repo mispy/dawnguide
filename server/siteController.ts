@@ -19,7 +19,7 @@ export async function appPage(req: SessionRequest) {
 export async function conceptPage(req: EventRequest, conceptId: string) {
     const sunpedia = new Sunpedia()
 
-    const concept = sunpedia.getConcept(conceptId)
+    const concept = sunpedia.conceptsWithDrafts.find(c => c.id === conceptId)
 
     if (!concept) {
         return new Response(`Unknown concept ${conceptId}`, { status: 404 })
