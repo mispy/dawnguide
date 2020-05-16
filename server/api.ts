@@ -94,8 +94,8 @@ async function submitProgress(req: SessionRequest) {
             reviewedAt: now
         }
     } else {
-        progressItem.reviewedAt = now
         if (remembered) {
+            progressItem.reviewedAt = now
             progressItem.level = Math.min(progressItem.level + 1, 9)
         } else {
             progressItem.level = Math.max(progressItem.level - 1, 1)

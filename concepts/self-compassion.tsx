@@ -3,7 +3,6 @@ import { concept } from '../shared/concept'
 export default concept({
     id: 'self-compassion',
     title: 'Self-compassion',
-    subtitle: "Be kind to yourself",
     shortdef: "Caring for ourselves as we care for friends",
     author: "Jake Leoht",
     draft: true,
