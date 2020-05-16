@@ -5,6 +5,7 @@ import Markdown from 'markdown-to-jsx'
 import { Concept } from "./sunpedia"
 import { Bibliography } from "./Bibliography"
 import { MarkdownString } from "./types"
+import classNames from 'classnames'
 
 function transformRefs(markdown: MarkdownString): [MarkdownString, string[]] {
     const referenceIds: string[] = []
@@ -25,18 +26,21 @@ export function Passage(props: { concept: Concept }) {
     const referencesInText = referenceIds.map(id => referencesById[id])
 
     // TODO target=_blank in further reading
-    return <div className="Passage">
+    return <div className={classNames("Passage", concept.subtitle && 'hasSubtitle')}>
         <h1>
             {concept.title} {concept.draft && <span className="draft-marker">// Draft</span>}
         </h1>
-        <div className="authorship">
-            by {concept.author}
-        </div>
+        {concept.subtitle && <div className="subtitle">
+            {concept.subtitle}
+        </div>}
         <Markdown>{introduction}</Markdown>
-        <section id="references">
+        <div className="authorship">
+            Written by {concept.author}
+        </div>
+        {referencesInText.length ? <section id="references">
             <h2>References</h2>
             <Bibliography references={referencesInText} />
-        </section>
+        </section> : undefined}
         {concept.furtherReading ? <section id="furtherReading">
             <h2>Further Reading</h2>
             <Markdown>{concept.furtherReading}</Markdown>
