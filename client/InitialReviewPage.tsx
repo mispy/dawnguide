@@ -7,12 +7,8 @@ import * as _ from 'lodash'
 import { Link, Redirect } from "react-router-dom"
 import { AppLayout } from "./AppLayout"
 import { useContext } from "react"
-import { Passage } from "../shared/Passage"
 import { Concept } from '../shared/sunpedia'
 import { MemoryCard, ExerciseWithConcept } from './MemoryCard'
-import { Container } from "react-bootstrap"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 function LessonReviews(props: { reviews: ExerciseWithConcept[], onComplete: () => void }) {
     const { api } = useContext(AppContext)
@@ -34,8 +30,9 @@ function LessonReviews(props: { reviews: ExerciseWithConcept[], onComplete: () =
                 onCompleteAll(state.completedIds)
             }
         } else {
-            // Didn't remember, shuffle the cards
-            state.reviews = _.shuffle(state.reviews)
+            // Didn't remember, push this card to the back
+            const review = state.reviews.pop()!
+            state.reviews.unshift(review)
         }
     })
 

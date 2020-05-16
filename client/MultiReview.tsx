@@ -29,8 +29,9 @@ export function MultiReview(props: { reviews: ExerciseWithConcept[], onComplete:
                 onComplete()
             }
         } else {
-            // Didn't remember, shuffle the cards
-            state.reviews = _.shuffle(state.reviews)
+            // Didn't remember, push this card to the back
+            const review = state.reviews.pop()!
+            state.reviews.unshift(review)
         }
     })
 
