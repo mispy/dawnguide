@@ -1,5 +1,5 @@
 import { pageResponse } from "./utils"
-import { LandingPage } from "./LandingPage"
+import { FrontPage } from "./FrontPage"
 import { EventRequest, SessionRequest } from "./requests"
 import { Sunpedia } from "../shared/sunpedia"
 import { ConceptPage } from "./ConceptPage"
@@ -7,8 +7,8 @@ import * as _ from 'lodash'
 import { AppPage } from "./AppPage"
 import * as db from './db'
 
-export async function landingPage() {
-    return pageResponse(LandingPage)
+export async function frontPage() {
+    return pageResponse(FrontPage)
 }
 
 export async function appPage(req: SessionRequest) {

@@ -46,7 +46,7 @@ async function processRequest(req: EventRequest) {
 
     // These pages are server-rendered only if user isn't logged in
     if (!req.session) {
-        r.get('/', site.landingPage)
+        r.get('/', site.frontPage)
         for (const concept of conceptDefs) {
             r.get(`/${concept.id}`, (req) => site.conceptPage(req, concept.id))
         }

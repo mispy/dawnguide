@@ -5,14 +5,14 @@ import { Sunpedia } from '../shared/sunpedia'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
-export function LandingPage() {
+export function FrontPage() {
     const sunpedia = new Sunpedia()
     const { concepts } = sunpedia
 
     return <html lang="en">
         <Head pageTitle="Dawnguide, an application for learning to be happy" canonicalUrl="/" />
         <body>
-            <main className="LandingPage">
+            <main className="FrontPage">
                 <SiteHeader />
                 <section className="tagline">
                     <div className="container d-flex align-items-center">
