@@ -88,6 +88,7 @@ async function behindLogin(req: EventRequest) {
 
     const r = new Router<SessionRequest>()
     r.all('/api/.*', api.processRequest)
+    r.get('/', site.appPage)
     r.get('/home', site.appPage)
     r.get('/review/:conceptId', site.appPage)
     r.get('/review', site.appPage)
@@ -99,7 +100,6 @@ async function behindLogin(req: EventRequest) {
     r.get('/contact', site.appPage)
     r.get('/admin', site.appPage)
     r.get('/admin/emails', site.appPage)
-    r.get('/', () => redirect('/home'))
 
     for (const concept of conceptDefs) {
         r.get(`/${concept.id}`, site.appPage)

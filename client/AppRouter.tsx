@@ -66,6 +66,9 @@ export function AppRouter() {
                     <ConceptPage concept={concept} />
                 </Route>
             )}
+            <Route path="/">
+                <Redirect to="/home" />
+            </Route>
             {/* TODO 404 */}
         </Switch>
     </Router>
