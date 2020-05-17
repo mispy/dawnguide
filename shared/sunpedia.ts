@@ -71,6 +71,10 @@ export class Concept {
         return this.def.subtitle
     }
 
+    @computed get keyFinding(): string | undefined {
+        return this.def.keyFinding
+    }
+
     @computed get author(): string {
         return this.def.author || "Jake Leoht"
     }

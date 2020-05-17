@@ -183,3 +183,62 @@ $landing-color: #167475
 
         .masthead p
             font-size: 1rem
+
+.LandingPage section.concepts
+    .conceptsGrid
+        display: grid
+        grid-template-columns: repeat(3,1fr)
+        grid-template-rows: repeat(5,auto)
+        grid-gap: .5rem
+
+    .concept
+        position: relative
+        padding: 1.5rem
+        transition: box-shadow .3s ease
+        // color: #f5aa44
+
+    .concept:hover
+        box-shadow: 0 2px 3px #af8d8d33, 0 4px 10px rgba(0,0,0,.15)
+        text-decoration: none
+
+    .concept:after
+        position: absolute
+        content: ""
+        left: 0
+        right: 0
+        bottom: 0
+        top: 0
+        border: 1px solid
+        opacity: 0
+        transition: opacity .3s ease
+
+    .concept:hover:after
+        opacity: 1
+
+    .concept > div
+        display: flex
+        flex-direction: column
+        justify-content: space-between
+        height: 100%
+        line-height: 1.2
+        min-height: 150px
+
+    .concept > div:after
+        content: ""
+        background-color: currentColor
+        position: absolute
+        left: 0
+        right: 0
+        bottom: 0
+        top: 0
+        opacity: .05
+
+    .concept .keyFinding
+        font-size: 1.4rem
+        margin-bottom: 1rem
+
+    .concept h5
+        margin: 0
+        font-size: 1rem
+        text-align: right
+        font-weight: bold

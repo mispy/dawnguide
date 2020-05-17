@@ -22,6 +22,7 @@ export type ConceptDef = {
     title: string
     subtitle?: string
     author?: string
+    keyFinding?: string
     draft?: true
     introduction: MarkdownString
     furtherReading?: MarkdownString

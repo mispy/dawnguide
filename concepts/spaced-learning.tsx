@@ -3,6 +3,7 @@ import { concept } from '../shared/concept'
 export default concept({
     id: 'spaced-learning',
     title: "Spaced learning",
+    keyFinding: "Learning is more effective when study sessions are spaced out",
     introduction: `
 Spaced learning is a way of committing ideas to memory by reviewing them in short intervals over a longer time period. Understanding spaced learning will help you understand how Dawnguide works, and it's also a general technique that you can use yourself to learn any kind of material.
 

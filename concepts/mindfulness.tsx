@@ -3,6 +3,7 @@ import { concept } from '../shared/concept'
 export default concept({
     id: 'mindfulness',
     title: "Mindfulness",
+    keyFinding: "Non-judgmental focus on immediate experiences helps us cope with negative emotions",
     introduction: `
 Mindfulness is the process of bringing your attention to experiences occurring in the present moment, without judgment. It's a strategy of "slowing down" the mind when it's going too fast, the mental equivalent of taking a deep breath.
 
