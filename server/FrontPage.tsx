@@ -18,9 +18,18 @@ export function FrontPage() {
                     <div className="container d-flex align-items-center">
                         <main className="masthead">
                             <h1 className="mb-3">Learn the science of human happiness</h1>
-                            <p>Flashcard practice of mindfulness, self-compassion and cognitive-behavioral therapy.</p>
-                            <a href="/signup" className="btn btn-lg btn-dawn">Get started</a>
                         </main>
+                    </div>
+                </section>
+                <section className="intro">
+                    <div className="container">
+                        <hr />
+                        <p>A project by <a href="https://twitter.com/jakeleoht">Jake Leoht</a></p>
+                        <p>Hello! This site is still pretty new!</p>
+                        <p>Dawnguide is a collection of research about people, condensed into summaries of what is most useful to know for maintaining good mental health. It's also a spaced learning system for memorizing those results long-term.</p>
+                        <p>I'm working on this because I feel there really needs to be an accessible evidence-based resource for this stuff. However, I'm not a clinical psychologist, so please use your own judgment in determining whether what I've written is true for you 💛</p>
+                        <p>Dawnguide is open access and <a href="https://github.com/leohtj/dawnguide.com">open source</a>. The content will always be free, but the spaced learning part may later become subscription-based so that the project has an independent means of supporting itself. Thanks for reading!</p>
+                        <hr />
                     </div>
                 </section>
                 <section className="concepts">
