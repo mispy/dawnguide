@@ -27,7 +27,7 @@ export function FrontPage() {
                         <p>A project by <a href="https://twitter.com/jakeleoht">Jake Leoht</a></p>
                         <p>Hello! This site is still pretty new!</p>
                         <p>Dawnguide is a collection of research about people, condensed into summaries of what is most useful to know for maintaining good mental health. It's also a spaced learning system for memorizing those results long-term.</p>
-                        <p>I'm working on this because I feel there really needs to be an accessible evidence-based resource for this stuff. However, I'm not a clinical psychologist, so please use your own judgment in determining whether what I've written is true for you 💛</p>
+                        <p>I'm working on this because I feel there really needs to be an easily accessible evidence-based resource for this stuff. However, I'm not a clinical psychologist, so please use your own judgment in determining whether what I've written is true for you 💛</p>
                         <p>Dawnguide is open access and <a href="https://github.com/leohtj/dawnguide.com">open source</a>. The content will always be free, but the spaced learning part may later become subscription-based so that the project has an independent means of supporting itself. Thanks for reading!</p>
                         <hr />
                     </div>
