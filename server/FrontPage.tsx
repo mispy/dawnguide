@@ -10,7 +10,7 @@ export function FrontPage() {
     const { concepts } = sunpedia
 
     return <html lang="en">
-        <Head pageTitle="Dawnguide, an application for learning to be happy" canonicalUrl="/" />
+        <Head pageTitle="Dawnguide, an application for learning to be happy" canonicalUrl="/" imageUrl="/social-media-large.jpg" />
         <body>
             <main className="FrontPage">
                 <SiteHeader />

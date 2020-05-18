@@ -49,13 +49,13 @@ export function Passage(props: { concept: Concept }) {
         <div className="authorship">
             Written by {concept.author}
         </div>
-        {referencesInText.length ? <section id="references">
-            <h2>References</h2>
-            <Bibliography references={referencesInText} />
-        </section> : undefined}
         {concept.furtherReading ? <section id="furtherReading">
             <h2>Further Reading</h2>
             <Markdown options={markdownOptions}>{concept.furtherReading}</Markdown>
+        </section> : undefined}
+        {referencesInText.length ? <section id="references">
+            <h2>References</h2>
+            <Bibliography references={referencesInText} />
         </section> : undefined}
     </div>
 }

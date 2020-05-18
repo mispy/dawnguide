@@ -14,7 +14,7 @@ export function ConceptPage(props: { concept: Concept }) {
     const { concept } = props
 
     const intro = renderToStaticMarkup(<Markdown>{concept.introduction.replace(/\[@[^\]]+\]/g, '')}</Markdown>)
-    const pageDesc = htmlToPlaintext(intro).split("\n\n")[0]
+    const pageDesc = concept.keyFinding || htmlToPlaintext(intro).split("\n\n")[0]
 
     return <html lang="en">
         <Head pageTitle={concept.title} canonicalUrl={`/concepts/${concept.id}`} pageDesc={pageDesc}>

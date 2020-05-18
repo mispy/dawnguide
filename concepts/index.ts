@@ -4,4 +4,4 @@ import behavioralActivation from './behavioral-activation'
 import selfCompassion from './self-compassion'
 import automaticity from './automaticity'
 
-export default [spacedLearning, mindfulness, behavioralActivation, selfCompassion, automaticity]
+export default [spacedLearning, selfCompassion, mindfulness, behavioralActivation, automaticity]

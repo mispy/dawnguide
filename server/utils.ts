@@ -76,7 +76,11 @@ export class JsonResponse extends Response {
 
 import urljoin from 'url-join'
 export function absurl(path: string): string {
-    return urljoin(BASE_URL, path)
+    if (path.startsWith("http://") || path.startsWith("https://")) {
+        return path
+    } else {
+        return urljoin(BASE_URL, path)
+    }
 }
 
 import { fromString } from 'html-to-text'

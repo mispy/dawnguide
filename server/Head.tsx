@@ -3,16 +3,12 @@ import * as React from 'react'
 import { absurl } from './utils'
 
 export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, pageDesc?: string, imageUrl?: string, children?: any, cssUrl?: string }) => {
-    let { canonicalUrl } = props
     const pageTitle = props.pageTitle || `Dawnguide`
     const fullPageTitle = props.pageTitle ? `${props.pageTitle} - Dawnguide` : `Dawnguide`
     const pageDesc = props.pageDesc || "Flashcard practice of mindfulness, self-compassion and cognitive-behavioral therapy."
-    const imageUrl = props.imageUrl || '/social-media-image.jpg'
+    const imageUrl = absurl(props.imageUrl || '/social-media-small.png')
     const cssUrl = props.cssUrl || "/site.css"
-
-    if (canonicalUrl && !canonicalUrl?.startsWith("http")) {
-        canonicalUrl = absurl(canonicalUrl)
-    }
+    const canonicalUrl = props.canonicalUrl ? absurl(props.canonicalUrl) : null
 
     const script = `if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
@@ -40,12 +36,12 @@ export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, p
             <meta property="og:description" content={pageDesc} />
             <meta property="og:image" content={imageUrl} />
             <meta property="og:site_name" content="Dawnguide" />
-            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:card" content={props.imageUrl ? "summary_large_image" : "summary"} />
             {/* <meta name="twitter:site" content="@DawnguideApp" />
             <meta name="twitter:creator" content="@DawnguideApp" /> */}
             <meta name="twitter:title" content={pageTitle} />
             <meta name="twitter:description" content={pageDesc} />
-            <meta name="twitter:image" content={imageUrl} />
+            <meta name="twitter:image:src" content={imageUrl} />
             {/* For now! */}
             {/* <meta name="robots" content="noindex" /> */}
             <link rel="manifest" href="/manifest.webmanifest" />
