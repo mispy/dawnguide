@@ -3,7 +3,7 @@
         "target": "esnext",
         "strict": true,
         "noImplicitReturns": true,
-        "allowJs": true,
+        "allowJs": false,
         "outDir": "./dist/",
         "sourceMap": true,
         "module": "commonjs",

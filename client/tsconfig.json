@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "target": "esnext",
         "strict": true,
         "noImplicitReturns": true,
         "allowJs": false,
@@ -9,12 +8,21 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "jsx": "react",
+        "target": "es5",
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,
         "lib": [
-            "esnext",
-            "webworker"
+            "dom",
+            "es6",
+            "esnext.asynciterable"
         ],
-        "resolveJsonModule": true
+        "plugins": [
+            {
+                "name": "tslint-language-service"
+            }
+        ],
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true
     }
 }

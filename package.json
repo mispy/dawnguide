@@ -10,7 +10,7 @@
         "build": "npm-run-all --parallel build-client build-server",
         "td": "wrangler publish --env test",
         "deploy": "wrangler publish --env live",
-        "typecheck": "cd server && tsc && cd ../ && tsc",
+        "typecheck": "cd server && tsc && cd ../client && tsc",
         "test": "jest"
     },
     "dependencies": {
