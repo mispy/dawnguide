@@ -4,7 +4,7 @@ export default concept({
     id: 'self-compassion',
     title: 'Self-compassion',
     keyFinding: "Caring for yourself the way you care for friends makes you more resilient",
-    // subtitle: "Caring for yourself the way you care for friends",
+    // subtitle: "Caring for yourself the way you care for friends",s
     author: "Jake Leoht",
     introduction: `
 **Self-compassion** involves directing the same sense of caring warmth that you have for others towards yourself. Think of someone important to you, a friend or loved one, and imagine they are suffering in some way. Do you feel your heart moved by their plight, and wish for them to be safe and happy? That feeling of compassion is a beautiful strength of humanity, and intentionally invoking it can help us to deal with negative emotions.[@allen2010self]
@@ -13,7 +13,7 @@ Self-compassion is an ancient idea long discussed in Eastern philosophy-- its in
 
 Research has shown that self-compassion is a robust resilience factor when faced with feelings of personal inadequacy.[@barnard2011self][@macbeth2012exploring] Rather than criticizing yourself harshly when you fail, self-compassion means showing kindness and understanding in that moment of pain. People who are high in self-compassion take greater responsibility for their failures and make needed changes while maintaining a loving, caring, and patient approach toward themselves.[@leary2007self]
 
-For improving ourselves, we also want to know causation: can people change their thinking to be more self-compassionate, and does that show similar outcomes? From a number of intervention studies, the answer to both seems to be yes[@smeets2014meeting][@shapira2010benefits][@gilbert2006compassionate][@neff2007self]. "Results showed that CMT (compassionate mind training) resulted in a significant decrease in depression, feelings of inferiority, submissive behavior, shame, and self-attacking tendencies."[@allen2010self] Meta-analysis is supportive but identifies the need for larger-scale RCTs.[@kirby2017meta]
+For improving ourselves, we also want to know causation: can people change their thinking to be more self-compassionate, and does that show similar outcomes? From a number of intervention studies, the answer to both seems to be yes[@smeets2014meeting][@shapira2010benefits][@gilbert2006compassionate][@neff2007self]. "CMT (compassionate mind training) resulted in a significant decrease in depression, feelings of inferiority, submissive behavior, shame, and self-attacking tendencies."[@allen2010self] Meta-analysis is supportive but identifies the need for larger-scale RCTs.[@kirby2017meta]
 
 A sense of _common humanity_ is key to self-compassion. You are not alone in your experience of suffering, as all of us are mortal, vulnerable, and imperfect. Anyone can elicit compassion, and there is no shame in needing it. This mindset sidesteps the thoughts of comparison and deservingness those of us with low self-esteem often have. Since all people are worthy of compassion, you are worthy of your own compassion simply by virtue of being a person.
 
