@@ -6,7 +6,7 @@ import { AppContext } from "./AppContext"
 import * as _ from 'lodash'
 import { Link, Redirect } from "react-router-dom"
 import { AppLayout } from "./AppLayout"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { Concept } from '../shared/sunpedia'
 import { MemoryCard, ExerciseWithConcept } from './MemoryCard'
 
@@ -19,6 +19,16 @@ function LessonReviews(props: { reviews: ExerciseWithConcept[], onComplete: () =
         await api.completeLesson(exerciseIds)
         onComplete()
     }
+
+    useEffect(() => {
+        const beforeUnload = () => {
+            if (state.reviews.length !== 0 && state.reviews.length !== props.reviews.length) return "Really leave without finishing reviews?"
+            else return null
+        }
+
+        window.onbeforeunload = beforeUnload
+        return () => { window.onbeforeunload = null }
+    }, [])
 
     const onCardComplete = action((remembered: boolean) => {
         if (remembered) {
