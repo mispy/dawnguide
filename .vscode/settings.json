@@ -23,6 +23,18 @@
         {
             "directory": "server",
             "changeProcessCWD": true
+        },
+        {
+            "directory": "concepts",
+            "changeProcessCWD": true
+        },
+        {
+            "directory": "shared",
+            "changeProcessCWD": true
+        },
+        {
+            "directory": "cfscripts",
+            "changeProcessCWD": true
         }
     ]
 }
