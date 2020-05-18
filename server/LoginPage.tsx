@@ -22,7 +22,7 @@ export function LoginPage(props: { then?: string, error?: string }) {
                     <input type="hidden" name="then" value={props.then} />
                     <input type="submit" className="btn btn-outline-dawn" value="Sign in" />
                     <hr />
-                    <div><a href="/signup">Sign up</a></div>
+                    <div><a href={props.then ? `/signup?then=${props.then}` : `/signup`}>Sign up</a></div>
                     <div><a href="/reset-password">Forgot password?</a></div>
                 </form>
             </main>

@@ -13,7 +13,8 @@ import { EventRequest } from './requests'
 import { ResetPasswordFinalizePage } from './ResetPasswordFinalizePage'
 
 export async function signupPage(req: EventRequest) {
-    return pageResponse(SignupPage)
+    const { then } = req.params as { then: string | undefined }
+    return pageResponse(SignupPage, { then: then })
 }
 
 export async function submitSignup(req: EventRequest) {
@@ -52,13 +53,13 @@ export async function submitSignup(req: EventRequest) {
         // Log the user in to their first session
         const sessionKey = await db.sessions.create(user.id)
 
-        const res = redirect('/')
+        const res = redirect(req.json.then ? decodeURIComponent(req.json.then) : "/home")
         res.headers.set('Set-Cookie', sessionCookie(sessionKey))
 
         return res
     } catch (err) {
         if ('status' in err) {
-            return pageResponse(SignupPage, { error: err.message }, { status: err.status })
+            return pageResponse(SignupPage, { then: req.json.then, error: err.message }, { status: err.status })
         } else {
             throw err
         }
@@ -76,7 +77,7 @@ export async function submitLogin(req: EventRequest) {
 
         const sessionKey = await expectLogin(email, password)
 
-        const res = redirect(req.json.then ? decodeURIComponent(req.json.then) : "/")
+        const res = redirect(req.json.then ? decodeURIComponent(req.json.then) : "/home")
         res.headers.set('Set-Cookie', sessionCookie(sessionKey))
         return res
     } catch (err) {

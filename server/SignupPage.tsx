@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Head } from "./Head"
 import { pageResponse } from './utils'
 
-export function SignupPage(props: { error?: string }) {
+export function SignupPage(props: { then?: string, error?: string }) {
     return <html lang="en">
         <Head pageTitle="Signup" canonicalUrl="/signup" />
 
@@ -25,6 +25,7 @@ export function SignupPage(props: { error?: string }) {
                         <label htmlFor="password">Password</label>
                         <input name="password" id="password" type="password" className="form-control" placeholder="Password" required />
                     </div>
+                    <input type="hidden" name="then" value={props.then} />
                     <button type="submit" className="btn btn-outline-dawn">✨ Sign up</button>
                 </form>
             </main>
