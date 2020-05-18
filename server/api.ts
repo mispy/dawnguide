@@ -10,6 +10,8 @@ import { SessionRequest } from "./requests"
 import { reviewsEmailHtml } from "./reviewsEmail"
 import * as payments from './paymentsController'
 import { CONTACT_FORM_EMAIL } from "./settings"
+import { Sunpedia } from "../shared/sunpedia"
+import { conceptEmailHtml } from "./conceptEmail"
 
 export async function processRequest(req: SessionRequest) {
     const r = new Router<SessionRequest>()
@@ -227,22 +229,22 @@ export namespace admin {
     }
 
     export async function testConceptEmail(req: SessionRequest) {
-        // const { conceptId } = expectStrings(req.json, 'conceptId')
-        // const concept = new Sunpedia().expectConcept(conceptId)
-
-        // await sendMail({
-        //     to: "foldspark@gmail.com",
-        //     subject: concept.title,
-        //     html: concept.introduction
-        // })
-
-        const user = await db.users.expect(req.session.userId)
+        const { conceptId } = expectStrings(req.json, 'conceptId')
+        const concept = new Sunpedia().expectConcept(conceptId)
 
         await sendMail({
             to: "misprime@gmail.com",
-            subject: "Your Lessons and Reviews Update",
-            html: await reviewsEmailHtml(user, 0, 9)
+            subject: concept.title,
+            html: conceptEmailHtml(concept)
         })
+
+        // const user = await db.users.expect(req.session.userId)
+
+        // await sendMail({
+        //     to: "misprime@gmail.com",
+        //     subject: "Your Lessons and Reviews Update",
+        //     html: await reviewsEmailHtml(user, 0, 9)
+        // })
 
     }
 }

@@ -37,7 +37,6 @@ export function Passage(props: { concept: Concept }) {
 
     }
 
-    // TODO target=_blank in further reading
     return <div className={classNames("Passage", concept.subtitle && 'hasSubtitle')}>
         <h1>
             {concept.title} {concept.draft && <span className="draft-marker">// Draft</span>}
