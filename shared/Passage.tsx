@@ -18,12 +18,24 @@ function transformRefs(markdown: MarkdownString): [MarkdownString, string[]] {
     return [content, referenceIds]
 }
 
+function ExternalLink(props: any) {
+    const newProps = _.extend({ target: "_blank" }, props)
+    return <a {...newProps}/>
+}
+
 export function Passage(props: { concept: Concept }) {
     const { concept } = props
     const referencesById = _.keyBy(concept.references, r => r.id)
 
     const [introduction, referenceIds] = transformRefs(concept.introduction)
     const referencesInText = referenceIds.map(id => referencesById[id])
+
+    const markdownOptions = {
+        overrides: {
+            a: ExternalLink,
+        },
+
+    }
 
     // TODO target=_blank in further reading
     return <div className={classNames("Passage", concept.subtitle && 'hasSubtitle')}>
@@ -43,7 +55,7 @@ export function Passage(props: { concept: Concept }) {
         </section> : undefined}
         {concept.furtherReading ? <section id="furtherReading">
             <h2>Further Reading</h2>
-            <Markdown>{concept.furtherReading}</Markdown>
+            <Markdown options={markdownOptions}>{concept.furtherReading}</Markdown>
         </section> : undefined}
     </div>
 }
