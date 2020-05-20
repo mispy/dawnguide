@@ -51,7 +51,7 @@ export function getReviewTime(progress: ExerciseProgressItem) {
 }
 
 export function isReadyForReview(progress: ExerciseProgressItem) {
-    return progress.level > 0 && Date.now() > getReviewTime(progress)
+    return progress.level === 0 || Date.now() > getReviewTime(progress)
 }
 
 /** Tolerate more egregious typos in longer answers */

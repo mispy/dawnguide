@@ -146,15 +146,18 @@ export class Sunpedia {
         const progressByExerciseId = _.keyBy(progressItems, item => item.exerciseId) as _.Dictionary<UserProgressItem | undefined>
 
         const lessons = this.concepts.filter(c => {
-            return c.exercises.some(e => !progressByExerciseId[e.id])
+            return c.exercises.every(e => !progressByExerciseId[e.id])
+        })
+
+        const reviewConcepts = this.concepts.filter(c => {
+            return c.exercises.some(e => progressByExerciseId[e.id])
         })
 
         const reviews: { concept: Concept, exercise: Exercise }[] = []
-        for (const item of progressItems) {
-            if (isReadyForReview(item)) {
-                const exercise = this.getExercise(item.exerciseId)
-                const concept = exercise && this.getConcept(exercise.conceptId)
-                if (exercise && concept) {
+        for (const concept of reviewConcepts) {
+            for (const exercise of concept.exercises) {
+                const item = progressByExerciseId[exercise.id]
+                if (!item || isReadyForReview(item)) {
                     reviews.push({
                         concept: concept,
                         exercise: exercise

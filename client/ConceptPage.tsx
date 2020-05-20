@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom'
 
 export function showReviewTime(ewp: ExerciseWithProgress) {
     if (!ewp.progress)
-        return "Not yet learned"
+        return "Available now"
 
     const time = getReviewTime(ewp.progress)
 
