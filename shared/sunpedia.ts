@@ -71,6 +71,10 @@ export class Concept {
         return this.def.subtitle
     }
 
+    @computed get tagLine(): string | undefined {
+        return this.def.tagLine
+    }
+
     @computed get keyFinding(): string | undefined {
         return this.def.keyFinding
     }

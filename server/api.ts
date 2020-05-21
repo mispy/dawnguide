@@ -234,7 +234,7 @@ export namespace admin {
 
         await sendMail({
             to: "misprime@gmail.com",
-            subject: concept.title,
+            subject: concept.title + ": " + concept.tagLine,
             html: conceptEmailHtml(concept)
         })
 

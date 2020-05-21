@@ -20,6 +20,7 @@ export type User = {
 export type ConceptDef = {
     id: string
     title: string
+    tagLine?: string
     subtitle?: string
     author?: string
     keyFinding?: string

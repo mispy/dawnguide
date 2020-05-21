@@ -3,6 +3,7 @@ import { concept } from '../shared/concept'
 export default concept({
     id: 'self-compassion',
     title: 'Self-compassion',
+    tagLine: 'Caring for yourself the way you care for friends',
     keyFinding: "Caring for yourself the way you care for friends makes you more emotionally resilient",
     // subtitle: "Caring for yourself the way you care for friends",s
     author: "Jake Leoht",
