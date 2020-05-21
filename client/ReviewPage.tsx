@@ -44,7 +44,7 @@ export function ReviewPage() {
     }
 
     return useObserver(() =>
-        <AppLayout noHeader noFooter>
+        <AppLayout title="Reviews" noHeader noFooter>
             <div className="LessonPage">
                 <div className="topbar">
                     <Link to="/home">Home</Link>

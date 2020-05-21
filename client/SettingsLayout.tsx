@@ -14,7 +14,7 @@ export function SettingsLayout(props: { active?: 'account' | 'notifications' | '
         app.reloadUser()
     }, [props.active])
 
-    return <AppLayout noFooter>
+    return <AppLayout title="Settings" noFooter>
         <main className="SettingsLayout">
             <Container>
                 <h1>Settings</h1>

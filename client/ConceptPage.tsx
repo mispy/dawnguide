@@ -35,7 +35,7 @@ export function ConceptPage(props: { concept: Concept }) {
         // const conceptProgress = store.conceptsWithProgressById[concept.id]
         const exercisesWithProgress = app.exercisesWithProgress.filter(ewp => ewp.exercise.conceptId === concept.id)
 
-        return <AppLayout>
+        return <AppLayout title={props.concept.title}>
             <main className="ConceptPage">
                 <Container>
                     <Passage concept={concept} />
