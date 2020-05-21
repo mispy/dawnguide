@@ -25,18 +25,10 @@ class AdminPageState {
 
     async testConceptEmail(conceptId: string) {
         await this.api.admin.testConceptEmail(conceptId)
-        // await this.api.admin.deleteUser(id)
-        // runInAction(() => {
-        //     this.users = this.users.filter(u => u.id !== id)
-        // })
     }
 
-    async emailAllUsers(conceptId: string) {
-        // await this.api.admin.emailAllUsersNewConcept(conceptId)
-        // await this.api.admin.deleteUser(id)
-        // runInAction(() => {
-        //     this.users = this.users.filter(u => u.id !== id)
-        // })
+    async emailEveryone(conceptId: string) {
+        await this.api.admin.emailEveryone(conceptId)
     }
 }
 
@@ -66,7 +58,7 @@ export function AdminEmailsPage() {
                             {/* <td></td> */}
                             <td>
                                 <button className="btn btn-sm btn-outline-dawn mr-2" onClick={() => state.testConceptEmail(concept.id)}>Send Test Email</button>
-                                <button className="btn btn-sm btn-dawn" onClick={() => state.emailAllUsers(concept.id)}>Email Everyone</button>
+                                <button className="btn btn-sm btn-dawn" onClick={() => state.emailEveryone(concept.id)}>Email Everyone</button>
                             </td>
                         </tr>)}
                     </tbody>

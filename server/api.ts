@@ -214,6 +214,7 @@ export namespace admin {
         r.get('/api/admin/users', getUsers)
         r.delete('/api/admin/users/(.*)', deleteUser)
         r.post('/api/admin/testConceptEmail', testConceptEmail)
+        r.post('/api/admin/emailEveryone', emailEveryone)
 
         return await r.route(req)
     }
@@ -246,5 +247,25 @@ export namespace admin {
         //     html: await reviewsEmailHtml(user, 0, 9)
         // })
 
+    }
+
+    export async function emailEveryone(req: SessionRequest) {
+        const { conceptId } = expectStrings(req.json, 'conceptId')
+        const concept = new Sunpedia().expectConcept(conceptId)
+
+        const promises = []
+        for (const user of await db.users.all()) {
+            const settings = await db.notificationSettings.get(user.id)
+            if (settings.emailAboutNewConcepts && !settings.disableNotificationEmails) {
+                console.log(user.email, concept.title)
+                promises.push(sendMail({
+                    to: user.email,
+                    subject: concept.title + ": " + concept.tagLine,
+                    html: conceptEmailHtml(concept)
+                }))
+            }
+        }
+
+        await Promise.all(promises)
     }
 }
