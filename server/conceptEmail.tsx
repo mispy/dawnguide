@@ -18,6 +18,11 @@ export function conceptEmailHtml(concept: Concept) {
         text-decoration: none;
     }
 
+    img {
+        display: block;
+        margin: auto;
+    }
+
     h1 {
         margin-bottom: 1rem;
     }
