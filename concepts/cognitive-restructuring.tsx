@@ -2,7 +2,6 @@ import { concept } from '../shared/concept'
 import cognitiveTriangle from './img/cognitive-triangle.jpg'
 
 export default concept({
-    draft: true,
     id: 'cognitive-restructuring',
     title: 'Cognitive restructuring',
     tagLine: "Influence your emotions by challenging negative thoughts",
