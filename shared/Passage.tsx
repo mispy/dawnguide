@@ -6,6 +6,8 @@ import { Concept } from "./sunpedia"
 import { Bibliography } from "./Bibliography"
 import { MarkdownString } from "./types"
 import classNames from 'classnames'
+import { Link } from 'react-router-dom'
+import { IS_SERVER } from './settings'
 
 function transformRefs(markdown: MarkdownString): [MarkdownString, string[]] {
     const referenceIds: string[] = []
@@ -18,9 +20,14 @@ function transformRefs(markdown: MarkdownString): [MarkdownString, string[]] {
     return [content, referenceIds]
 }
 
-function ExternalLink(props: any) {
-    const newProps = _.extend({ target: "_blank" }, props)
-    return <a {...newProps}/>
+function SmartLink(props: { href: string }) {
+    if (props.href.startsWith("http://") || props.href.startsWith("https://")) {
+        return <a target="_blank" {...props}/>    
+    } else if (IS_SERVER) {
+        return <a {...props}/>    
+    } else {
+        return <Link to={props.href} {...props}/>
+    }
 }
 
 export function Passage(props: { concept: Concept }) {
@@ -30,11 +37,12 @@ export function Passage(props: { concept: Concept }) {
     const [introduction, referenceIds] = transformRefs(concept.introduction)
     const referencesInText = referenceIds.map(id => referencesById[id])
 
+    console.log(introduction)
+
     const markdownOptions = {
         overrides: {
-            a: ExternalLink,
-        },
-
+            a: SmartLink,
+        }
     }
 
     return <div className={classNames("Passage", concept.subtitle && 'hasSubtitle')}>
@@ -44,7 +52,7 @@ export function Passage(props: { concept: Concept }) {
         {concept.subtitle && <div className="subtitle">
             {concept.subtitle}
         </div>}
-        <Markdown>{introduction}</Markdown>
+        <Markdown options={markdownOptions}>{introduction}</Markdown>
         <div className="authorship">
             Written by {concept.author}
         </div>

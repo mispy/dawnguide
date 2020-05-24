@@ -32,7 +32,7 @@ An example of this process:
 
 It takes practice to do effective restructuring, and it can often help at the start to ask someone else to identify distortions you might have missed. If you are being [self-compassionate](/self-compassion), cognitive restructuring is a natural part of that: finding the silver lining and playing down overly negative thoughts is a great way of helping yourself cope with difficult situations.
 
-Evidence-wise, cognitive restructuring is a component of cognitive-behavioral therapy, which is a strongly supported treatment for a variety of problems[@hofmann2012efficacy]. Since there seems to be less research on the technique as a standalone therapy, it's likely best used together with behavioral methods like [behavioral activation](/behavioral-activation).
+Evidence-wise, cognitive restructuring is a component of cognitive-behavioral therapy, which is a strongly supported treatment for a variety of problems[@hofmann2012efficacy]. Since there seems to be less research on the technique as a standalone therapy, it's likely best used together with behavioral methods like <a href="/behavioral-activation">behavioral activation</a>.
 
 `,
     furtherReading: `
