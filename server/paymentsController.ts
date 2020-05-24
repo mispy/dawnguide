@@ -1,10 +1,11 @@
 import * as db from './db'
 import { EventRequest, SessionRequest } from './requests'
-import { expectStrings, absurl } from './utils'
+import { expectStrings } from './utils'
 import { MONTHLY_PLAN_ID, ANNUAL_PLAN_ID } from '../shared/settings'
 
 import stripe = require('./stripe')
 import { User } from '../shared/types'
+import { absurl } from '../shared/utils'
 
 export async function subscribeToPlan(req: SessionRequest): Promise<{ checkoutSessionId: string } | { user: User }> {
     const user = await db.users.expect(req.session.userId)

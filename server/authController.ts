@@ -1,9 +1,8 @@
 import bcrypt = require('bcryptjs')
 import cookie = require('cookie')
 import * as db from './db'
-import { redirect, expectStrings, QueryParams, absurl, pageResponse, ResponseError } from './utils'
+import { redirect, expectStrings, QueryParams, pageResponse, ResponseError } from './utils'
 import { sendMail } from './mail'
-import { BASE_URL } from './settings'
 import * as _ from 'lodash'
 import { ResetPasswordPage } from './ResetPasswordPage'
 import { weeks } from './time'
@@ -11,6 +10,8 @@ import { LoginPage } from './LoginPage'
 import { SignupPage } from './SignupPage'
 import { EventRequest } from './requests'
 import { ResetPasswordFinalizePage } from './ResetPasswordFinalizePage'
+import { absurl } from '../shared/utils'
+import { BASE_URL } from '../shared/settings'
 
 export async function signupPage(req: EventRequest) {
     const { then } = req.params as { then: string | undefined }

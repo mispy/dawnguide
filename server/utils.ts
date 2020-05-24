@@ -1,7 +1,8 @@
-import { BASE_URL } from "./settings"
 import * as _ from 'lodash'
 import * as ReactDOMServer from 'react-dom/server'
-
+import { Memoize } from 'typescript-memoize'
+import * as React from 'react'
+import { absurl, isAbsoluteUrl } from '../shared/utils'
 
 export function renderToHtml(rootElement: Parameters<typeof ReactDOMServer.renderToStaticMarkup>[0]) {
     const markup = ReactDOMServer.renderToStaticMarkup(rootElement)
@@ -18,8 +19,8 @@ export function pageResponse<T, P>(rootElement: React.FunctionComponent<P>, prop
 
 /** Make mutable redirect response to absolute url */
 export function redirect(dest: string, code: number = 302) {
-    if (!dest.startsWith("http"))
-        dest = urljoin(BASE_URL, dest)
+    if (!isAbsoluteUrl(dest))
+        dest = absurl(dest)
 
     const res = Response.redirect(dest, code)
     return new Response(res.body, res)
@@ -71,15 +72,6 @@ export class JsonResponse extends Response {
     constructor(obj: Json, init: ResponseInit = {}) {
         init = _.extend({ headers: { 'Content-Type': 'application/json' } }, init)
         super(JSON.stringify(obj), init)
-    }
-}
-
-import urljoin from 'url-join'
-export function absurl(path: string): string {
-    if (path.startsWith("http://") || path.startsWith("https://")) {
-        return path
-    } else {
-        return urljoin(BASE_URL, path)
     }
 }
 
@@ -137,7 +129,4 @@ export class ResponseError extends Error {
     }
 }
 
-import { Memoize } from 'typescript-memoize'
-import { Session } from "./db"
-import * as React from 'react'
 export const memoize = Memoize

@@ -7,8 +7,8 @@ import { renderToStaticMarkup } from "react-dom/server"
 import { MarkdownString } from '../shared/types'
 import _ from 'lodash'
 import { Bibliography } from '../shared/Bibliography'
-import { absurl } from './utils'
 import { emailHtmlTemplate } from './emailUtils'
+import { isExternalUrl, absurl } from '../shared/utils'
 
 export function conceptEmailHtml(concept: Concept) {
     const body = renderToStaticMarkup(<ConceptEmailBody concept={concept} />)
@@ -64,20 +64,44 @@ export function conceptEmailHtml(concept: Concept) {
 `)
 }
 
+function AbsLink(props: { href: string }) {
+    if (isExternalUrl(props.href)) {
+        return <a target="_blank" {...props} />
+    } else {
+        return <a href={absurl(props.href)} {..._.omit(props, 'href')} />
+    }
+}
+
+function AbsImg(props: { src: string }) {
+    if (isExternalUrl(props.src)) {
+        return <img {...props} />
+    } else {
+        return <img src={absurl(props.src)} {..._.omit(props, 'src')} />
+    }
+}
+
+
 export function ConceptEmailBody(props: { concept: Concept }) {
     const { concept } = props
     const referencesById = _.keyBy(concept.references, r => r.id)
     const [introduction, referenceIds] = transformRefs(concept.introduction, concept.id)
     const referencesInText = referenceIds.map(id => referencesById[id])
 
+    const markdownOptions = {
+        overrides: {
+            a: AbsLink,
+            img: AbsImg
+        }
+    }
+
     return <body>
         <h1>
             {concept.title}
         </h1>
-        <Markdown>{introduction}</Markdown>
+        <Markdown options={markdownOptions}>{introduction}</Markdown>
         {concept.furtherReading ? <section id="furtherReading">
             <h2>Further Reading</h2>
-            <Markdown>{concept.furtherReading}</Markdown>
+            <Markdown options={markdownOptions}>{concept.furtherReading}</Markdown>
         </section> : undefined}
         {referencesInText.length ? <section id="references">
             <h2>References</h2>

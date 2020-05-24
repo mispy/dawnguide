@@ -4,7 +4,7 @@ import * as db from './db'
 import { Sunpedia } from "../shared/sunpedia"
 import { sendMail } from "./mail"
 import { weeks } from "./time"
-import { absurl } from "./utils"
+import { absurl } from "../shared/utils"
 
 export async function sendReviewsEmailIfNeeded(user: User) {
     const settings = await db.notificationSettings.get(user.id)

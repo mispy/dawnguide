@@ -8,6 +8,7 @@ import { MarkdownString } from "./types"
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
 import { IS_SERVER } from './settings'
+import { isExternalUrl } from './utils'
 
 function transformRefs(markdown: MarkdownString): [MarkdownString, string[]] {
     const referenceIds: string[] = []
@@ -21,12 +22,12 @@ function transformRefs(markdown: MarkdownString): [MarkdownString, string[]] {
 }
 
 function SmartLink(props: { href: string }) {
-    if (props.href.startsWith("http://") || props.href.startsWith("https://")) {
+    if (isExternalUrl(props.href)) {
         return <a target="_blank" {...props}/>    
     } else if (IS_SERVER) {
-        return <a {...props}/>    
+        return <a href={props.href} {..._.omit(props, 'href')}/>
     } else {
-        return <Link to={props.href} {...props}/>
+        return <Link to={props.href} {..._.omit(props, 'href')}/>
     }
 }
 
@@ -36,8 +37,6 @@ export function Passage(props: { concept: Concept }) {
 
     const [introduction, referenceIds] = transformRefs(concept.introduction)
     const referencesInText = referenceIds.map(id => referencesById[id])
-
-    console.log(introduction)
 
     const markdownOptions = {
         overrides: {

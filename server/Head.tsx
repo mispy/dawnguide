@@ -1,6 +1,5 @@
 import * as React from 'react'
-
-import { absurl } from './utils'
+import { absurl } from '../shared/utils'
 
 export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, pageDesc?: string, imageUrl?: string, children?: any, cssUrl?: string }) => {
     const pageTitle = props.pageTitle || `Dawnguide`

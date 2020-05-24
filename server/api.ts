@@ -1,5 +1,5 @@
 import Router from "./router"
-import { expectStrings, absurl, ResponseError, expectKeys } from "./utils"
+import { expectStrings, ResponseError, expectKeys } from "./utils"
 import * as db from './db'
 import { User, UserProgressItem } from '../shared/types'
 import { getReviewTime } from "../shared/logic"
@@ -12,6 +12,7 @@ import * as payments from './paymentsController'
 import { CONTACT_FORM_EMAIL } from "./settings"
 import { Sunpedia } from "../shared/sunpedia"
 import { conceptEmailHtml } from "./conceptEmail"
+import { absurl } from "../shared/utils"
 
 export async function processRequest(req: SessionRequest) {
     const r = new Router<SessionRequest>()

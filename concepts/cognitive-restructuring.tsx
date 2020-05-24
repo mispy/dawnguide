@@ -1,4 +1,5 @@
 import { concept } from '../shared/concept'
+// @ts-ignore
 import cognitiveTriangle from './img/cognitive-triangle.jpg'
 
 export default concept({
