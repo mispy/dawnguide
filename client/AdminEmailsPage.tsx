@@ -28,7 +28,9 @@ class AdminPageState {
     }
 
     async emailEveryone(conceptId: string) {
-        await this.api.admin.emailEveryone(conceptId)
+        if (window.confirm(`Really email everyone about ${conceptId}?`)) {
+            await this.api.admin.emailEveryone(conceptId)
+        }
     }
 }
 
