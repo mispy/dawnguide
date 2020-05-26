@@ -4,7 +4,7 @@ import { absurl } from '../shared/utils'
 export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, pageDesc?: string, imageUrl?: string, children?: any, cssUrl?: string }) => {
     const pageTitle = props.pageTitle || `Dawnguide`
     const fullPageTitle = props.pageTitle ? `${props.pageTitle} - Dawnguide` : `Dawnguide`
-    const pageDesc = props.pageDesc || "Flashcard practice of mindfulness, self-compassion and cognitive-behavioral therapy."
+    const pageDesc = props.pageDesc
     const imageUrl = absurl(props.imageUrl || '/social-media-small.png')
     const cssUrl = props.cssUrl || "/site.css"
     const canonicalUrl = props.canonicalUrl ? absurl(props.canonicalUrl) : null
@@ -26,20 +26,20 @@ export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, p
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{fullPageTitle}</title>
         {canonicalUrl ? <>
-            <meta name="description" content={pageDesc} />
+            {pageDesc ? <meta name="description" content={pageDesc} /> : undefined}
             <link rel="canonical" href={canonicalUrl} />
             {/* <link rel="alternate" type="application/atom+xml" href="/atom.xml" /> */}
             {/* <meta property="fb:app_id" content="1149943318300250" /> */}
             <meta property="og:url" content={canonicalUrl} />
             <meta property="og:title" content={pageTitle} />
-            <meta property="og:description" content={pageDesc} />
+            {pageDesc ? <meta property="og:description" content={pageDesc} /> : undefined}
             <meta property="og:image" content={imageUrl} />
             <meta property="og:site_name" content="Dawnguide" />
             <meta name="twitter:card" content={props.imageUrl ? "summary_large_image" : "summary"} />
             {/* <meta name="twitter:site" content="@DawnguideApp" />
             <meta name="twitter:creator" content="@DawnguideApp" /> */}
             <meta name="twitter:title" content={pageTitle} />
-            <meta name="twitter:description" content={pageDesc} />
+            {pageDesc ? <meta name="twitter:description" content={pageDesc} /> : undefined}
             <meta name="twitter:image:src" content={imageUrl} />
             {/* For now! */}
             {/* <meta name="robots" content="noindex" /> */}
