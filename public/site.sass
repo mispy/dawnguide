@@ -89,13 +89,9 @@ $landing-color: #167475
         display: block
 
 .FrontPage .SiteHeader
+    position: relative
     background: none
     border: none
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    z-index: 1000
     box-shadow: none
 
     .Logo
@@ -109,39 +105,40 @@ $landing-color: #167475
         align-items: center
 
     .ConceptsDropdown label
-        color: rgba(255,255,255,0.75)
+        color: white
 
     .ConceptsDropdown ul li > a
         color: $landing-color
 
     li.nav-item > a
-        color: rgba(255,255,255,0.75)
+        color: white
         margin: 1rem
         padding: 0.5rem 0
 
     li.nav-item:last-child > a
-        background-color: #ffffff
+        background: none
         margin-right: 0
         padding: 0.5rem 1rem !important
-        color: $landing-color
-        border: 2px solid rgba(255,255,255,0.75)
+        color: white
+        border: 2px solid white
         border-radius: 5px
 
 .FrontPage
     height: 100%
     position: relative
 
-    section.tagline
+    .intro
         position: relative
-        height: auto
-        height: 400px
         // https://www.freevector.com/period-of-time-backgrounds-vector-28385#
         background-image: url("../public/dawnguide-background.jpg")
         background-size: cover
         background-position: 50% 50%
         color: white
 
-    .tagline:before
+    .jumbotron
+        background: none
+
+    .jumbotron:before
         // Pseudo-background-opacity
         content: ''
         position: absolute
@@ -151,28 +148,29 @@ $landing-color: #167475
         height: 100%
         background-color: rgba(0,0,0,0.35)
 
-    section.tagline > .container
+    .jumbotron > .container
+        max-width: 1024px
         position: relative
         height: 100%
 
     .masthead h1
-        margin-top: 100px
-        font-size: 4rem
+        margin-top: 50px
+        font-size: 3.3rem
         margin-bottom: 2rem
-        max-width: 700px
 
     .masthead p
         font-size: 1.5rem
         margin-bottom: 2rem
-        max-width: 700px
 
-    .masthead .btn
-        background-color: #ffffff
-        color: $landing-color
-        border-color: #ffffff
-        padding: .8rem 2rem
-        font-weight: 600
-        font-size: 1.25rem
+    .jumbotron form
+        background: #fafbfc
+        color: #333
+        border-radius: 3px
+        padding: 24px
+
+    .jumbotron form .btn-dawn
+        width: 100%
+        padding: 20px 32px
 
     @media (max-width: $mobile)
         nav ul li a
@@ -184,7 +182,7 @@ $landing-color: #167475
         .masthead p
             font-size: 1rem
 
-.FrontPage section.intro
+.FrontPage section.desc
     margin-top: 2rem
     text-align: center
 

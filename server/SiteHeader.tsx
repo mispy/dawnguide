@@ -30,7 +30,7 @@ export function SiteHeader() {
                 <ul className="navbar-nav ml-auto">
                     <ConceptsDropdown />
                     <li className="nav-item">
-                        <a className="nav-link" href="/login">Login</a>
+                        <a className="nav-link" href="/login">Sign in</a>
                     </li>
                     <li className="nav-item signup">
                         <a className="nav-link btn btn-landing" href="/signup">Sign up</a>

@@ -15,15 +15,32 @@ export function FrontPage() {
         <Head pageTitle="Dawnguide: Learn the science of human happiness" pageDesc={pageDesc} canonicalUrl="/" imageUrl="/social-media-large.jpg" />
         <body>
             <main className="FrontPage">
-                <SiteHeader />
-                <section className="tagline">
-                    <div className="container d-flex align-items-center">
-                        <main className="masthead">
-                            <h1 className="mb-3">Learn the science of human happiness</h1>
-                        </main>
+                <section className="intro">
+                    <SiteHeader />
+                    <div className="jumbotron">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col masthead">
+                                    <h1 className="mb-3">Learn the science of human happiness</h1>
+                                </div>
+                                <div className="col">
+                                    <form action="/signup" method="post">
+                                        <div className="form-group">
+                                            <label htmlFor="email">Email</label>
+                                            <input name="email" id="email" type="email" className="form-control" placeholder="Email" required />
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="password">Password</label>
+                                            <input name="password" id="password" type="password" className="form-control" placeholder="Password" required />
+                                        </div>
+                                        <button type="submit" className="btn btn-dawn">✨ Sign up for Dawnguide</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </section>
-                <section className="intro">
+                <section className="desc">
                     <div className="container">
                         <hr />
                         <p>A project by <a href="https://twitter.com/jakeleoht">Jake Leoht</a></p>
