@@ -20,20 +20,16 @@ export async function signupPage(req: EventRequest) {
 
 export async function submitSignup(req: EventRequest) {
     try {
-        const { username, email, password } = expectStrings(req.json, 'username', 'email', 'password')
+        const { email, password } = expectStrings(req.json, 'email', 'password')
 
-        let existingUser = await db.users.getByEmail(email)
+        const existingUser = await db.users.getByEmail(email)
         if (existingUser) {
             throw new ResponseError(`User with email ${email} already exists`, 409)
         }
 
-        existingUser = await db.users.getByUsername(username)
-        if (existingUser) {
-            throw new ResponseError(`User with username ${username} already exists`, 409)
-        }
-
-
-        const user = await db.users.create({ username, email, password })
+        // Default name is inferred from email
+        const name = email.split('@')[0]
+        const user = await db.users.create({ username: name, email, password })
 
         // Send confirmation email
         const token = await db.emailConfirmTokens.create(user.id, email)

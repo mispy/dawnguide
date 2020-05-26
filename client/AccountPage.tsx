@@ -23,17 +23,17 @@ function ChangeUsernameSection() {
     }
 
     return useObserver(() => <section>
-        <h2 id="username">Username</h2>
-        <p>Your current username is <strong>{user.username}</strong></p>
-        <p>Change your username. Your username must be alphanumeric (underscores are okay) and between 3 and 20 characters.</p>
+        <h2 id="name">Name</h2>
+        <p>Your current name is <strong>{user.username}</strong></p>
+        <p>This name is currently just used for addressing you in emails and such. You can update it here.</p>
         <form onSubmit={changeUsername}>
             <div className="form-group">
-                <label htmlFor="newUsername">New username</label>
-                <input name="newUsername" id="newUsername" type="text" className="form-control" placeholder="Username" required value={state.newUsername} onChange={action(e => state.newUsername = e.currentTarget.value)} />
+                <label htmlFor="newUsername">New name</label>
+                <input name="newUsername" id="newUsername" type="text" className="form-control" required value={state.newUsername} onChange={action(e => state.newUsername = e.currentTarget.value)} />
             </div>
             <button className="btn btn-outline-secondary" type="submit" disabled={state.loading}>
                 {state.loading ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : undefined}
-                Update username
+                Update name
             </button>
         </form>
     </section>)
@@ -58,7 +58,7 @@ function ChangeEmailSection() {
         <h2 id="email">Email</h2>
         <p>Your current email address is <strong>{user.email}</strong></p>
         <p>
-            Associate a new email address to your Dawnguide account. We'll send a confirmation email to your new address. You are required to click the link in the email to finalize the change.
+            Associate a new email address to your Dawnguide account. We'll send a confirmation email to your new address. You need to click the link in the email to finalize the change.
         </p>
         <form onSubmit={startChangeEmail}>
             <div className="form-group">
@@ -96,7 +96,6 @@ function ChangePasswordSection() {
         <h2 id="password">Password</h2>
         <p>
             A group of angry possums trying to break into your account? Update your password here to keep them away!
-            {/* We'll send a confirmation email to your new address. You are required to click the link in the email to finalize the change. */}
         </p>
         <form onSubmit={changePassword}>
             <div className="form-group">

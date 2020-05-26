@@ -118,8 +118,8 @@ export namespace users {
         // TODO don't allow duplicate email
         const userId = uuidv4()
 
-        if (props.username.length < 3 || props.username.length > 20 || !props.username.match(/^([a-z]|[A-Z]|_)+$/)) {
-            throw new ResponseError(`Username '${props.username}' is not a valid username. Your username must be alphanumeric (underscores are okay) and between 3 and 20 characters.`, 422)
+        if (props.username.length < 1 || props.username.length > 50) {
+            throw new ResponseError(`'${props.username}' is not a valid display name. Your name must be between 1 and 50 characters.`, 422)
         }
 
         // Must be done synchronously or CF will think worker never exits
@@ -136,7 +136,6 @@ export namespace users {
 
         await db.putJson(`users:${userId}`, user)
         await db.put(`user_id_by_email:${props.email}`, userId)
-        await db.put(`user_id_by_username:${props.username}`, userId)
         return user
     }
 
@@ -159,7 +158,6 @@ export namespace users {
         await Promise.all([
             db.delete(`users:${userId}`),
             db.delete(`user_id_by_email:${user.email}`),
-            db.delete(`user_id_by_username:${user.username}`),
             db.delete(`user_progress:${userId}`),
             db.delete(`user_notification_settings:${userId}`)
         ])
@@ -183,21 +181,13 @@ export namespace users {
     }
 
     export async function changeUsername(userId: string, newUsername: string) {
-        if (newUsername.length < 3 || newUsername.length > 20 || !newUsername.match(/^([a-z]|[A-Z]|_)+$/)) {
-            throw new ResponseError(`Username '${newUsername}' is not a valid username. Your username must be alphanumeric (underscores are okay) and between 3 and 20 characters.`, 422)
-        }
-        const existingUser = await users.getByUsername(newUsername)
-        if (existingUser && existingUser.id !== userId) {
-            throw new ResponseError(`Username ${newUsername} is already associated with a user`, 409)
+        if (newUsername.length < 1 || newUsername.length > 50) {
+            throw new ResponseError(`'${newUsername}' is not a valid display name. Your name must be between 1 and 50 characters.`, 422)
         }
 
         const user = await users.expect(userId)
-        const oldUsername = user.username
-
         await Promise.all([
             users.update(user.id, { username: newUsername }),
-            db.delete(`user_id_by_username:${oldUsername}`),
-            db.put(`user_id_by_username:${newUsername}`, user.id)
         ])
     }
 }

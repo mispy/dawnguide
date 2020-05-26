@@ -14,10 +14,6 @@ export function SignupPage(props: { then?: string, error?: string }) {
                     </div>}
                     <h4 className="mb-4">Create your account</h4>
                     <div className="form-group">
-                        <label htmlFor="username">Username</label>
-                        <input name="username" id="username" type="text" className="form-control" placeholder="Username" required autoFocus />
-                    </div>
-                    <div className="form-group">
                         <label htmlFor="email">Email</label>
                         <input name="email" id="email" type="email" className="form-control" placeholder="Email" required />
                     </div>
