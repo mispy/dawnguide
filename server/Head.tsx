@@ -3,7 +3,7 @@ import { absurl } from '../shared/utils'
 
 export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, pageDesc?: string, imageUrl?: string, children?: any, cssUrl?: string }) => {
     const pageTitle = props.pageTitle || `Dawnguide`
-    const fullPageTitle = props.pageTitle ? `${props.pageTitle} - Dawnguide` : `Dawnguide`
+    const fullPageTitle = pageTitle.includes("Dawnguide") ? pageTitle : `${pageTitle} - Dawnguide`
     const pageDesc = props.pageDesc
     const imageUrl = absurl(props.imageUrl || '/social-media-small.png')
     const cssUrl = props.cssUrl || "/site.css"
