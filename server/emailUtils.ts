@@ -1,7 +1,5 @@
 import juice from 'juice'
 import { absurl } from '../shared/utils'
-import { APP_SECRET } from './settings'
-import * as bcrypt from 'bcryptjs'
 
 export function inlineCss(htmlWithStyles: string) {
     return juice(htmlWithStyles)
