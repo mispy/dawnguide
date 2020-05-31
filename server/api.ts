@@ -7,11 +7,10 @@ import * as _ from 'lodash'
 import { sendMail } from "./mail"
 import bcrypt = require('bcryptjs')
 import { SessionRequest } from "./requests"
-import { reviewsEmailHtml } from "./reviewsEmail"
 import * as payments from './paymentsController'
 import { CONTACT_FORM_EMAIL } from "./settings"
 import { Sunpedia } from "../shared/sunpedia"
-import { conceptEmailHtml } from "./conceptEmail"
+import { conceptEmailHtml, sendConceptEmail } from "./conceptEmail"
 import { absurl } from "../shared/utils"
 
 export async function processRequest(req: SessionRequest) {
@@ -234,20 +233,8 @@ export namespace admin {
         const { conceptId } = expectStrings(req.json, 'conceptId')
         const concept = new Sunpedia().expectConcept(conceptId)
 
-        await sendMail({
-            to: "misprime@gmail.com",
-            subject: concept.title + ": " + concept.tagLine,
-            html: conceptEmailHtml(concept)
-        })
-
-        // const user = await db.users.expect(req.session.userId)
-
-        // await sendMail({
-        //     to: "misprime@gmail.com",
-        //     subject: "Your Lessons and Reviews Update",
-        //     html: await reviewsEmailHtml(user, 0, 9)
-        // })
-
+        const user = await db.users.expect(req.session.userId)
+        await sendConceptEmail(user, concept)
     }
 
     export async function emailEveryone(req: SessionRequest) {
@@ -259,11 +246,7 @@ export namespace admin {
             const settings = await db.notificationSettings.get(user.id)
             if (settings.emailAboutNewConcepts && !settings.disableNotificationEmails) {
                 console.log(user.email, concept.title)
-                promises.push(sendMail({
-                    to: user.email,
-                    subject: concept.title + ": " + concept.tagLine,
-                    html: conceptEmailHtml(concept)
-                }))
+                promises.push(sendConceptEmail(user, concept))
             }
         }
 

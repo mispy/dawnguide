@@ -155,7 +155,18 @@ export async function logout(req: EventRequest) {
     return redirect('/')
 }
 
-function sessionCookie(sessionKey: string) {
+export async function tryTokenLogin(token: string): Promise<string | false> {
+    const json = await db.emailConfirmTokens.get(token)
+    if (!json) {
+        return false
+    }
+
+    const { userId, email } = json
+    const sessionKey = await db.sessions.create(userId)
+    return sessionKey
+}
+
+export function sessionCookie(sessionKey: string) {
     return cookie.serialize('sessionKey', sessionKey, {
         httpOnly: true,
         maxAge: weeks(1)

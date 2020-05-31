@@ -83,7 +83,18 @@ async function behindLogin(req: EventRequest) {
     // Routes in here require login
 
     if (!req.session) {
-        return redirect(`/login?then=${encodeURIComponent(req.url.pathname)}`)
+        if (req.params.emailToken) {
+            const sessionKey = await auth.tryTokenLogin(req.params.emailToken)
+            if (sessionKey) {
+                const res = redirect(req.url.pathname)
+                res.headers.set('Set-Cookie', auth.sessionCookie(sessionKey))
+                return res
+            } else {
+                return redirect(`/login?then=${encodeURIComponent(req.url.pathname)}`)
+            }
+        } else {
+            return redirect(`/login?then=${encodeURIComponent(req.url.pathname)}`)
+        }
     }
 
     const r = new Router<SessionRequest>()

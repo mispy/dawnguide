@@ -4,15 +4,26 @@ import Markdown from "markdown-to-jsx"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
 import { renderToStaticMarkup } from "react-dom/server"
-import { MarkdownString } from '../shared/types'
+import { MarkdownString, User } from '../shared/types'
 import _ from 'lodash'
 import { Bibliography } from '../shared/Bibliography'
 import { emailHtmlTemplate } from './emailUtils'
 import { isExternalUrl, absurl } from '../shared/utils'
+import { sendMail } from './mail'
+import * as db from './db'
 
-export function conceptEmailHtml(concept: Concept) {
+export async function sendConceptEmail(user: User, concept: Concept) {
+    const loginToken = await db.emailConfirmTokens.create(user.id, user.email)
+    return sendMail({
+        to: user.email,
+        subject: concept.title + ": " + concept.tagLine,
+        html: conceptEmailHtml(loginToken, concept)
+    })
+}
+
+export function conceptEmailHtml(loginToken: string, concept: Concept) {
     const body = renderToStaticMarkup(<ConceptEmailBody concept={concept} />)
-    return emailHtmlTemplate(body, `
+    return emailHtmlTemplate(loginToken, body, `
     a {
         color: #c33071;
         text-decoration: none;

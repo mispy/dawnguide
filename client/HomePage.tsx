@@ -8,7 +8,7 @@ import { Link } from "react-router-dom"
 import { useContext } from "react"
 import { showReviewTime } from "./ConceptPage"
 import { DebugTools } from "./DebugTools"
-import { IS_PRODUCTION } from "../server/settings"
+import { IS_PRODUCTION } from "./settings"
 
 export function HomePage() {
     const { app, sunpedia } = useContext(AppContext)

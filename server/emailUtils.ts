@@ -1,11 +1,13 @@
 import juice from 'juice'
 import { absurl } from '../shared/utils'
+import { APP_SECRET } from './settings'
+import * as bcrypt from 'bcryptjs'
 
 export function inlineCss(htmlWithStyles: string) {
     return juice(htmlWithStyles)
 }
 
-export function emailHtmlTemplate(innerBody: string, style?: string) {
+export function emailHtmlTemplate(loginToken: string, innerBody: string, style?: string) {
     return inlineCss(`
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -43,7 +45,7 @@ export function emailHtmlTemplate(innerBody: string, style?: string) {
                                 <tr>
                                     <td style="border-top: 1px solid #eeeeee; padding-top: 20px; color:#606060; font-size: 11px;">
                                         <em>Copyright &copy; 2020 Dawnlight Technology, All rights reserved.</em><br>
-                                        <a href="${absurl('/notifications')}">Unsubscribe or update email settings</a>
+                                        <a href="${absurl(`/notifications?emailToken=${loginToken}`)}">Unsubscribe or update email settings</a>
                                     </td>
                                 </tr>
                             </tbody>

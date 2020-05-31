@@ -7,6 +7,11 @@ export const IS_PRODUCTION: boolean = global.BASE_URL && !global.BASE_URL.includ
 
 export const IS_TESTING: boolean = typeof jest !== 'undefined'
 
+export const APP_SECRET: string = global.APP_SECRET || process.env.APP_SECRET
+if (!APP_SECRET || APP_SECRET.length < 16) {
+    throw new Error(`Expected APP_SECRET of at least 16 chars in length`)
+}
+
 export const ADMIN_SECRET: string = global.ADMIN_SECRET || process.env.ADMIN_SECRET || ""
 
 export const DEPLOY_ENV = IS_PRODUCTION ? (global.BASE_URL.includes("dawnguide.com") ? "live" : "staging") : "dev"
