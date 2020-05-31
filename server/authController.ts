@@ -24,7 +24,15 @@ export async function submitSignup(req: EventRequest) {
 
         const existingUser = await db.users.getByEmail(email)
         if (existingUser) {
-            throw new ResponseError(`User with email ${email} already exists`, 409)
+            const sessionKey = await tryLogin(email, password)
+            if (sessionKey) {
+                // Signup with credentials matching existing account just logs in 
+                const res = redirect(req.json.then ? decodeURIComponent(req.json.then) : "/home")
+                res.headers.set('Set-Cookie', sessionCookie(sessionKey))
+                return res
+            } else {
+                throw new ResponseError(`User with email ${email} already exists`, 409)
+            }
         }
 
         // Default name is inferred from email
@@ -171,6 +179,25 @@ export function sessionCookie(sessionKey: string) {
         httpOnly: true,
         maxAge: weeks(1)
     })
+}
+
+async function tryLogin(email: string, password: string): Promise<string | false> {
+    const user = await db.users.getByEmail(email)
+    if (!user) {
+        return false
+    }
+
+    // Must be done synchronously or CF will think worker never exits
+    const validPassword = bcrypt.compareSync(password, user.cryptedPassword)
+
+    if (validPassword) {
+        // Login successful
+        const sessionKey = await db.sessions.create(user.id)
+        return sessionKey
+    } else {
+        return false
+    }
+
 }
 
 async function expectLogin(email: string, password: string): Promise<string> {
