@@ -145,6 +145,10 @@ export class AdminApi {
         await this.http.post('/api/admin/testConceptEmail', { conceptId: conceptId })
     }
 
+    async testReviewsEmail() {
+        await this.http.post('/api/admin/testReviewsEmail')
+    }
+
     async emailEveryone(conceptId: string) {
         await this.http.post('/api/admin/emailEveryone', { conceptId: conceptId })
     }

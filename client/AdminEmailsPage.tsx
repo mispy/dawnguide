@@ -27,6 +27,10 @@ class AdminPageState {
         await this.api.admin.testConceptEmail(conceptId)
     }
 
+    async testReviewsEmail() {
+        await this.api.admin.testReviewsEmail()
+    }
+
     async emailEveryone(conceptId: string) {
         if (window.confirm(`Really email everyone about ${conceptId}?`)) {
             await this.api.admin.emailEveryone(conceptId)
@@ -65,6 +69,7 @@ export function AdminEmailsPage() {
                         </tr>)}
                     </tbody>
                 </table>
+                <button className="btn btn-sm btn-outline-dawn" onClick={() => state.testReviewsEmail(}>Test Reviews Email</button>
             </Container>
         </main>
     </AppLayout>)

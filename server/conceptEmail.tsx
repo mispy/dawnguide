@@ -22,8 +22,8 @@ export async function sendConceptEmail(user: User, concept: Concept) {
 }
 
 export function conceptEmailHtml(loginToken: string, concept: Concept) {
-    const body = renderToStaticMarkup(<ConceptEmailBody concept={concept} />)
-    return emailHtmlTemplate(loginToken, body, `
+    const innerBody = renderToStaticMarkup(<ConceptEmailBody concept={concept} />)
+    return emailHtmlTemplate(loginToken, innerBody, `
     a {
         color: #c33071;
         text-decoration: none;
@@ -110,7 +110,7 @@ export function ConceptEmailBody(props: { concept: Concept }) {
         }
     }
 
-    return <body>
+    return <>
         <h1>
             {concept.title}
         </h1>
@@ -126,7 +126,7 @@ export function ConceptEmailBody(props: { concept: Concept }) {
         <div className="text-right">
             <a href={absurl(`/review/${concept.id}`)} className="btn btn-dawn">Continue to review <FontAwesomeIcon icon={faArrowRight} /></a>
         </div>
-    </body>
+    </>
 }
 
 function transformRefs(markdown: MarkdownString, conceptId: string): [MarkdownString, string[]] {

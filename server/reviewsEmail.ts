@@ -31,6 +31,20 @@ export async function sendReviewsEmailIfNeeded(user: User) {
     await db.notificationSettings.update(user.id, { lastWeeklyReviewEmail: Date.now() })
 }
 
+export async function sendReviewsEmail(user: User) {
+    const sunpedia = new Sunpedia()
+    const progressItems = await db.progressItems.allFor(user.id)
+    const { lessons, reviews } = sunpedia.getLessonsAndReviews(progressItems)
+
+    await sendMail({
+        to: user.email,
+        subject: "Your Lessons and Reviews Update",
+        html: await reviewsEmailHtml(user, lessons.length, reviews.length)
+    })
+
+    await db.notificationSettings.update(user.id, { lastWeeklyReviewEmail: Date.now() })
+}
+
 export async function reviewsEmailHtml(user: User, numLessons: number, numReviews: number) {
     let linkSection = ''
     if (numLessons > 0 && numReviews > 0) {
@@ -52,7 +66,6 @@ export async function reviewsEmailHtml(user: User, numLessons: number, numReview
     const loginToken = await db.emailConfirmTokens.create(user.id, user.email)
 
     return emailHtmlTemplate(loginToken, `
-<body style="width: 100% !important; background-color: #FFF; color: #333; margin: 0;" bgcolor="#FFF">
         <table style="min-width: 100%;">
             <tbody>
                 <tr>
@@ -68,22 +81,7 @@ export async function reviewsEmailHtml(user: User, numLessons: number, numReview
                         </h1>
                     </td>
                 </tr>
-                <tr>
-                    <td align="center" style="padding-top: 20px;">
-                        <table style="width: 600px;">
-                            <tbody>
-                                <tr>
-                                    <td style="border-top: 1px solid #eeeeee; padding-top: 20px; color:#606060; font-size: 11px;">
-                                        <em>Copyright &copy; 2020 Dawnlight Technology, All rights reserved.</em><br>
-                                        <a href="${absurl('/notifications')}">Unsubscribe or update email settings</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
             </tbody>
         </table>
-      </body>
 `.trim())
 }

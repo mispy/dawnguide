@@ -12,6 +12,7 @@ import { CONTACT_FORM_EMAIL } from "./settings"
 import { Sunpedia } from "../shared/sunpedia"
 import { conceptEmailHtml, sendConceptEmail } from "./conceptEmail"
 import { absurl } from "../shared/utils"
+import { sendReviewsEmail } from "./reviewsEmail"
 
 export async function processRequest(req: SessionRequest) {
     const r = new Router<SessionRequest>()
@@ -214,6 +215,7 @@ export namespace admin {
         r.get('/api/admin/users', getUsers)
         r.delete('/api/admin/users/(.*)', deleteUser)
         r.post('/api/admin/testConceptEmail', testConceptEmail)
+        r.post('/api/admin/testReviewsEmail', testReviewsEmail)
         r.post('/api/admin/emailEveryone', emailEveryone)
 
         return await r.route(req)
@@ -236,6 +238,12 @@ export namespace admin {
         const user = await db.users.expect(req.session.userId)
         await sendConceptEmail(user, concept)
     }
+
+    export async function testReviewsEmail(req: SessionRequest) {
+        const user = await db.users.expect(req.session.userId)
+        await sendReviewsEmail(user)
+    }
+
 
     export async function emailEveryone(req: SessionRequest) {
         const { conceptId } = expectStrings(req.json, 'conceptId')
