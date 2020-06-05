@@ -2,7 +2,10 @@ import * as _ from 'lodash'
 import * as ReactDOMServer from 'react-dom/server'
 import { Memoize } from 'typescript-memoize'
 import * as React from 'react'
+import { fromString } from 'html-to-text'
+
 import { absurl, isAbsoluteUrl } from '../shared/utils'
+import { WEBPACK_MANIFEST, IS_PRODUCTION } from './settings'
 
 export function renderToHtml(rootElement: Parameters<typeof ReactDOMServer.renderToStaticMarkup>[0]) {
     const markup = ReactDOMServer.renderToStaticMarkup(rootElement)
@@ -75,8 +78,6 @@ export class JsonResponse extends Response {
     }
 }
 
-import { fromString } from 'html-to-text'
-
 export function htmlToPlaintext(html: string): string {
     return fromString(html, {
         tables: true,
@@ -130,3 +131,16 @@ export class ResponseError extends Error {
 }
 
 export const memoize = Memoize
+
+function devFilename(filename: string) {
+    const spl = filename.split(".")
+    return spl[0] + '.development.' + spl[1]
+}
+
+function prodFilename(filename: string) {
+    return WEBPACK_MANIFEST[filename] ?? filename
+}
+
+export function resolveAsset(filename: string) {
+    return '/assets/' + (IS_PRODUCTION ? prodFilename(filename) : devFilename(filename))
+}

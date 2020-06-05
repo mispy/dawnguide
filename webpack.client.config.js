@@ -1,5 +1,7 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const ManifestPlugin = require('webpack-manifest-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = (env, argv) => {
     const isProduction = argv.mode === 'production'
@@ -9,17 +11,35 @@ module.exports = (env, argv) => {
             site: "./client/site.sass"
         },
         output: {
-            filename: '[name].js',
-            path: path.resolve(__dirname, 'client/dist'),
+            filename: isProduction ? '[name].[contenthash].js' : '[name].development.js',
+            path: path.resolve(__dirname, 'client/dist/assets'),
         },
         resolve: {
             extensions: ['.tsx', '.ts', '.js'],
         },
+        plugins: [
+            new MiniCssExtractPlugin({
+                filename: isProduction ? '[name].[contenthash].css' : '[name].development.css',
+            }),
+            new ManifestPlugin(),
+            new CopyWebpackPlugin({
+                patterns: [
+                    { from: 'public', to: '../' },
+                ],
+            })
+        ],
         module: {
             rules: [
                 {
                     test: /\.tsx?$/,
-                    use: 'ts-loader',
+                    use: [
+                        {
+                            loader: 'ts-loader',
+                            options: {
+                                transpileOnly: true
+                            }
+                        }
+                    ],
                     exclude: /node_modules/,
                 },
                 {
@@ -32,18 +52,14 @@ module.exports = (env, argv) => {
                 },
                 {
                     test: /\.(jpe?g|gif|png|eot|woff|ttf|svg|woff2)$/,
-                    loader: 'url-loader?limit=10000'
+                    use: 'url-loader?limit=10000'
                 }
             ],
         },
-        plugins: [
-            new MiniCssExtractPlugin({
-                filename: '[name].css',
-            }),
-        ],
         devServer: {
             port: 1234,
-            contentBase: false
+            contentBase: path.resolve(__dirname, 'public'),
+            publicPath: '/assets/'
         }
     }
 }

@@ -120,14 +120,22 @@ async function behindLogin(req: EventRequest) {
 }
 
 async function serveStatic(req: EventRequest) {
+    let res: Response
     // Transform path for pretty urls etc
     if (IS_PRODUCTION) {
         // Serve asset from Cloudflare KV storage
-        return await serveStaticLive(req.event, req.path)
+        res = await serveStaticLive(req.event, req.path)
     } else {
         // Proxy through to webpack dev server to serve asset
-        return await fetch(`${ASSET_DEV_SERVER}${req.path}`)
+        res = await fetch(`${ASSET_DEV_SERVER}${req.path}`)
     }
+
+    // Files in /assets are treated as immutable and version stamped
+    if (IS_PRODUCTION && req.path.split("/").includes("assets") && res.status === 200) {
+        res = new Response(res.body, { headers: res.headers, status: res.status })
+        res.headers.set('Cache-Control', 'max-age=365000000, immutable')
+    }
+    return res
 }
 
 async function serveStaticLive(event: FetchEvent, pathname: string) {

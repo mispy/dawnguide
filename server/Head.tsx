@@ -1,12 +1,13 @@
 import * as React from 'react'
 import { absurl } from '../shared/utils'
+import { resolveAsset } from './utils'
 
 export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, pageDesc?: string, imageUrl?: string, children?: any, cssUrl?: string }) => {
     const pageTitle = props.pageTitle || `Dawnguide`
     const fullPageTitle = pageTitle.includes("Dawnguide") ? pageTitle : `${pageTitle} - Dawnguide`
     const pageDesc = props.pageDesc
     const imageUrl = absurl(props.imageUrl || '/social-media-small.png')
-    const cssUrl = props.cssUrl || "/site.css"
+    const cssUrl = props.cssUrl || resolveAsset('site.css')
     const canonicalUrl = props.canonicalUrl ? absurl(props.canonicalUrl) : null
 
     const script = `if ('serviceWorker' in navigator) {
@@ -43,7 +44,7 @@ export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, p
             <meta name="twitter:image:src" content={imageUrl} />
             {/* For now! */}
             {/* <meta name="robots" content="noindex" /> */}
-            <link rel="manifest" href="/manifest.webmanifest" />
+            {/* <link rel="manifest" href="/manifest.webmanifest" /> */}
             <meta name="apple-mobile-web-app-capable" content="yes" />
             <meta name="apple-mobile-web-app-status-bar-style" content="black" />
             <meta name="apple-mobile-web-app-title" content="Dawnguide" />

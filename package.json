@@ -5,11 +5,11 @@
         "server-webpack": "webpack -w --config webpack.server.config.js",
         "server-cloudworker": "nodemon --watch server/devdist/worker.js --exec cloudworker --debug --kv-file STORE=store.json server/devdist/worker.js",
         "server": "npm-run-all --parallel server-webpack server-cloudworker",
-        "build-client": "rm -rf client/dist/* && parcel build public/* -d client/dist",
-        "build-server": "rm -rf server/dist/* && parcel build server/worker.tsx -d server/dist",
-        "build": "npm-run-all --parallel build-client build-server",
-        "td": "wrangler publish --env test",
-        "deploy": "wrangler publish --env live",
+        "build-client": "rm -rf client/dist/* && webpack -p --config webpack.client.config.js",
+        "build-server": "rm -rf server/dist/* && webpack -p --config webpack.server.config.js",
+        "build": "npm-run-all build-client build-server",
+        "td": "yarn build && wrangler publish --env test",
+        "deploy": "yarn build && wrangler publish --env live",
         "typecheck": "cd server && tsc && cd ../client && tsc",
         "test": "jest"
     },
@@ -44,6 +44,7 @@
         "bootstrap": "^4.1.1",
         "classnames": "^2.2.6",
         "cookie": "^0.4.0",
+        "copy-webpack-plugin": "^6.0.2",
         "css-loader": "^3.5.3",
         "decko": "^1.2.0",
         "file-loader": "^6.0.0",
@@ -75,7 +76,8 @@
         "uuid": "^8.0.0",
         "webpack": "^4.43.0",
         "webpack-cli": "^3.3.11",
-        "webpack-dev-server": "^3.11.0"
+        "webpack-dev-server": "^3.11.0",
+        "webpack-manifest-plugin": "^2.2.0"
     },
     "devDependencies": {
         "@babel/core": "^7.9.6",

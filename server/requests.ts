@@ -2,6 +2,7 @@ import { Json, getQueryParams } from "./utils"
 import * as db from './db'
 import { Session } from "./db"
 import cookie = require('cookie')
+import _ from "lodash"
 
 /** Our annotation wrapper around incoming FetchEvents */
 export class EventRequest {
@@ -51,6 +52,10 @@ export class EventRequest {
 
     get path() {
         return this.url.pathname
+    }
+
+    get filename() {
+        return _.last(this.path.split("/")) as string
     }
 
     get json(): Json | undefined {
