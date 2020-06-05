@@ -1,11 +1,10 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import * as _ from 'lodash'
 
-import '../client/app.sass'
-import { AppRouter } from '../client/AppRouter'
-import { AppContext } from '../client/AppContext'
-import { AppStore } from '../client/AppStore'
+import './app.sass'
+import { AppRouter } from './AppRouter'
+import { AppContext } from './AppContext'
+import { AppStore } from './AppStore'
 import { useMemo } from 'react'
 import { User } from '../shared/types'
 

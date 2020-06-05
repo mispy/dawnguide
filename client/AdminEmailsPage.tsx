@@ -69,7 +69,7 @@ export function AdminEmailsPage() {
                         </tr>)}
                     </tbody>
                 </table>
-                <button className="btn btn-sm btn-outline-dawn" onClick={() => state.testReviewsEmail(}>Test Reviews Email</button>
+                <button className="btn btn-sm btn-outline-dawn" onClick={() => state.testReviewsEmail()}>Test Reviews Email</button>
             </Container>
         </main>
     </AppLayout>)
