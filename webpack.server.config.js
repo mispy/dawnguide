@@ -37,7 +37,13 @@ module.exports = (env, argv) => {
                 },
                 {
                     test: /\.(jpe?g|gif|png|eot|woff|ttf|svg|woff2)$/,
-                    use: 'url-loader?limit=10000'
+                    use: [{
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[contenthash].[ext]',
+                            publicPath: '/assets/'
+                        },
+                    }]
                 }
             ],
         },
