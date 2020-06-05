@@ -2,10 +2,13 @@ const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
-    entry: "./client/app.tsx",
+    entry: {
+        app: "./client/app.tsx",
+        site: "./client/site.sass"
+    },
     output: {
-        filename: 'app.js',
-        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].js',
+        path: path.resolve(__dirname, 'client/dist'),
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
@@ -33,7 +36,11 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: 'app.css'
+            filename: '[name].css',
         }),
     ],
+    devServer: {
+        port: 1234,
+        contentBase: false
+    }
 };
