@@ -1,10 +1,10 @@
 {
     "main": "server/dist/worker.js",
     "scripts": {
-        "client": "rm -rf client/devdist && parcel serve public/* -d client/devdist",
-        "server-parcel": "parcel watch server/worker.tsx -d server/devdist",
+        "client": "webpack-dev-server --config webpack.client.config.js",
+        "server-webpack": "webpack -w --config webpack.server.config.js",
         "server-cloudworker": "nodemon --watch server/devdist/worker.js --exec cloudworker --debug --kv-file STORE=store.json server/devdist/worker.js",
-        "server": "npm-run-all --parallel server-parcel server-cloudworker",
+        "server": "npm-run-all --parallel server-webpack server-cloudworker",
         "build-client": "rm -rf client/dist/* && parcel build public/* -d client/dist",
         "build-server": "rm -rf server/dist/* && parcel build server/worker.tsx -d server/dist",
         "build": "npm-run-all --parallel build-client build-server",
