@@ -6,7 +6,7 @@ import * as auth from './authController'
 import * as site from './siteController'
 import * as system from './systemController'
 import * as payments from './paymentsController'
-import { IS_PRODUCTION, ASSET_DEV_SERVER, SENTRY_KEY, STRIPE_WEBHOOK_SECRET } from './settings'
+import { IS_PRODUCTION, ASSET_DEV_SERVER, SENTRY_KEY, STRIPE_WEBHOOK_SECRET, BUILD_ID } from './settings'
 import { redirect, JsonResponse } from './utils'
 import api = require('./api')
 import * as _ from 'lodash'
@@ -37,7 +37,7 @@ async function maybeCached(req: EventRequest): Promise<Response> {
 
     if (cacheable) {
         const cachedResponse = await cache.match(req.event.request)
-        if (cachedResponse) {
+        if (cachedResponse && cachedResponse.headers.get("Dawnguide-Build-Id") === BUILD_ID) {
             return cachedResponse
         }
     }
@@ -46,8 +46,9 @@ async function maybeCached(req: EventRequest): Promise<Response> {
 
     if (cacheable && res.status === 200) {
         console.log(req.path, res.headers.get('Cache-Control'))
+        res = new Response(res.body, { headers: res.headers, status: res.status })
+        res.headers.set('Dawnguide-Build-Id', BUILD_ID)
         if (!res.headers.get('Cache-Control')) {
-            res = new Response(res.body, { headers: res.headers, status: res.status })
             res.headers.set('Cache-Control', 's-maxage=365000000')
         }
         req.event.waitUntil(cache.put(req.event.request, res.clone()))
