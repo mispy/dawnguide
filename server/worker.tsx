@@ -49,7 +49,7 @@ async function maybeCached(req: EventRequest): Promise<Response> {
         res = new Response(res.body, { headers: res.headers, status: res.status })
         res.headers.set('Dawnguide-Build-Id', BUILD_ID)
         if (!res.headers.get('Cache-Control')) {
-            res.headers.set('Cache-Control', 's-maxage=365000000')
+            res.headers.set('Cache-Control', 'max-age=0, s-maxage=365000000')
         }
         req.event.waitUntil(cache.put(req.event.request, res.clone()))
     }
