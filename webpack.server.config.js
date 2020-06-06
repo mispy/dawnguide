@@ -1,9 +1,14 @@
 const path = require('path')
 const webpack = require('webpack')
 const fs = require('fs')
+const uuid = require('uuid').v4
 
 module.exports = (env, argv) => {
     const isProduction = argv.mode === 'production'
+
+    const commitHash = require('child_process')
+        .execSync('git rev-parse --short HEAD')
+        .toString()
 
     return {
         target: "webworker",
@@ -18,7 +23,8 @@ module.exports = (env, argv) => {
         },
         plugins: [
             new webpack.EnvironmentPlugin({
-                WEBPACK_MANIFEST: fs.readFileSync(path.resolve(__dirname, 'client/dist/assets/manifest.json'), 'utf8')
+                WEBPACK_MANIFEST: fs.readFileSync(path.resolve(__dirname, 'client/dist/assets/manifest.json'), 'utf8'),
+                BUILD_ID: uuid()
             })
         ],
         module: {
