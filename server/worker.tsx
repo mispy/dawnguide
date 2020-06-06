@@ -22,10 +22,41 @@ addEventListener('fetch', event => {
 async function handleEvent(event: FetchEvent) {
     // Performing some conversion/annotation of the event here
     const req = await EventRequest.from(event)
-    return processRequest(req)
+    return maybeCached(req)
 }
 
-async function processRequest(req: EventRequest) {
+declare const caches: {
+    default: Cache
+}
+
+async function maybeCached(req: EventRequest): Promise<Response> {
+    // Cloudflare Workers replaces the normal Cloudflare CDN behavior, so
+    // we implement our caching logic here
+    const cacheable = req.method === 'GET' && !req.path.match(new RegExp("^(/heartbeat|/api.*)$"))
+    const cache = caches.default
+
+    if (cacheable) {
+        const cachedResponse = await cache.match(req.event.request)
+        if (cachedResponse) {
+            return cachedResponse
+        }
+    }
+
+    let res = await processRequest(req)
+
+    if (cacheable && res.status === 200) {
+        console.log(req.path, res.headers.get('Cache-Control'))
+        if (!res.headers.get('Cache-Control')) {
+            res = new Response(res.body, { headers: res.headers, status: res.status })
+            res.headers.set('Cache-Control', 's-maxage=365000000')
+        }
+        req.event.waitUntil(cache.put(req.event.request, res.clone()))
+    }
+
+    return res
+}
+
+async function processRequest(req: EventRequest): Promise<Response> {
     const r = new Router<EventRequest>()
     r.get('/(assets/.*)|.*\\.js|.*\\.css|.*\\.jpg|.*\\.png|.*\\.ico|.*\\.svg|.*\\.webmanifest|.*\\.json|.*\\.txt', serveStatic)
     r.get('/login', auth.loginPage)
