@@ -1,5 +1,5 @@
 import Router from "./router"
-import { expectStrings, ResponseError, expectKeys } from "./utils"
+import { ResponseError, expectKeys, trimStrings } from "./utils"
 import * as db from './db'
 import { User, UserProgressItem } from '../shared/types'
 import { getReviewTime } from "../shared/logic"
@@ -110,7 +110,7 @@ async function submitProgress(req: SessionRequest) {
 
 async function debugHandler(req: SessionRequest) {
     const { userId } = req.session
-    const json = expectStrings(req.json, 'action')
+    const json = trimStrings(req.json, 'action')
 
     if (json.action === 'resetProgress') {
         await db.progressItems.resetAllProgressTo(userId, [])
@@ -130,12 +130,12 @@ async function debugHandler(req: SessionRequest) {
 }
 
 async function changeUsername(req: SessionRequest) {
-    const { newUsername } = expectStrings(req.json, 'newUsername')
+    const { newUsername } = trimStrings(req.json, 'newUsername')
     await db.users.changeUsername(req.session.userId, newUsername)
 }
 
 async function changeEmail(req: SessionRequest) {
-    const { newEmail, password } = expectStrings(req.json, 'newEmail', 'password')
+    const { newEmail, password } = trimStrings(req.json, 'newEmail', 'password')
     const user = await db.users.expect(req.session.userId)
 
     if (user.email === newEmail && user.emailConfirmed)
@@ -160,7 +160,7 @@ async function changeEmail(req: SessionRequest) {
 }
 
 async function changePassword(req: SessionRequest) {
-    const { newPassword, currentPassword } = expectStrings(req.json, 'newPassword', 'currentPassword')
+    const { newPassword, currentPassword } = trimStrings(req.json, 'newPassword', 'currentPassword')
     const user = await db.users.expect(req.session.userId)
 
     const validPassword = bcrypt.compareSync(currentPassword, user.cryptedPassword)
@@ -196,7 +196,7 @@ async function updateNotificationSettings(req: SessionRequest) {
 
 async function sendContactMessage(req: SessionRequest) {
     const user = await db.users.expect(req.session.userId)
-    const { subject, body } = expectStrings(req.json, 'subject', 'body')
+    const { subject, body } = trimStrings(req.json, 'subject', 'body')
     return await sendMail({
         to: CONTACT_FORM_EMAIL,
         subject: `Contact from ${user.username}: ${subject}`,
@@ -232,7 +232,7 @@ export namespace admin {
     }
 
     export async function testConceptEmail(req: SessionRequest) {
-        const { conceptId } = expectStrings(req.json, 'conceptId')
+        const { conceptId } = trimStrings(req.json, 'conceptId')
         const concept = new Sunpedia().expectConcept(conceptId)
 
         const user = await db.users.expect(req.session.userId)
@@ -246,7 +246,7 @@ export namespace admin {
 
 
     export async function emailEveryone(req: SessionRequest) {
-        const { conceptId } = expectStrings(req.json, 'conceptId')
+        const { conceptId } = trimStrings(req.json, 'conceptId')
         const concept = new Sunpedia().expectConcept(conceptId)
 
         const promises = []

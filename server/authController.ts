@@ -1,7 +1,7 @@
 import bcrypt = require('bcryptjs')
 import cookie = require('cookie')
 import * as db from './db'
-import { redirect, expectStrings, QueryParams, pageResponse, ResponseError } from './utils'
+import { redirect, trimStrings, QueryParams, pageResponse, ResponseError } from './utils'
 import { sendMail } from './mail'
 import * as _ from 'lodash'
 import { ResetPasswordPage } from './ResetPasswordPage'
@@ -20,7 +20,7 @@ export async function signupPage(req: EventRequest) {
 
 export async function submitSignup(req: EventRequest) {
     try {
-        const { email, password } = expectStrings(req.json, 'email', 'password')
+        const { email, password } = trimStrings(req.json, 'email', 'password')
 
         const existingUser = await db.users.getByEmail(email)
         if (existingUser) {
@@ -78,7 +78,7 @@ export async function loginPage(req: EventRequest) {
 
 export async function submitLogin(req: EventRequest) {
     try {
-        const { email, password } = expectStrings(req.json, 'email', 'password')
+        const { email, password } = trimStrings(req.json, 'email', 'password')
 
         const sessionKey = await expectLogin(email, password)
 
@@ -99,7 +99,7 @@ export async function resetPasswordPage(req: EventRequest) {
 }
 
 export async function submitResetPassword(req: EventRequest) {
-    const { email } = expectStrings(req.json, 'email')
+    const { email } = trimStrings(req.json, 'email')
     const user = await db.users.getByEmail(email)
 
     if (user) {
@@ -120,7 +120,7 @@ export async function resetPasswordConfirmPage(req: EventRequest, token: string)
 }
 
 export async function submitResetPasswordConfirm(req: EventRequest, token: string) {
-    const { newPassword } = expectStrings(req.json, 'newPassword')
+    const { newPassword } = trimStrings(req.json, 'newPassword')
 
     const email = await db.passwordResets.get(token)
     if (!email) {

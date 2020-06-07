@@ -2,7 +2,7 @@ import * as _ from 'lodash'
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 import { API_BASE_URL, IS_PRODUCTION } from './settings'
-import { expectStrings, delay } from './utils'
+import { delay } from './utils'
 import { User, UserProgressItem, UserNotificationSettings } from '../shared/types'
 import { Sunpedia } from '../shared/sunpedia'
 // @ts-ignore

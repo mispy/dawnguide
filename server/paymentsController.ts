@@ -1,6 +1,6 @@
 import * as db from './db'
 import { EventRequest, SessionRequest } from './requests'
-import { expectStrings } from './utils'
+import { trimStrings } from './utils'
 import { MONTHLY_PLAN_ID, ANNUAL_PLAN_ID } from '../shared/settings'
 
 import stripe = require('./stripe')
@@ -10,7 +10,7 @@ import { absurl } from '../shared/utils'
 export async function subscribeToPlan(req: SessionRequest): Promise<{ checkoutSessionId: string } | { user: User }> {
     const user = await db.users.expect(req.session.userId)
 
-    const { planId } = expectStrings(req.params, 'planId')
+    const { planId } = trimStrings(req.params, 'planId')
 
     if (user.subscription) {
         if (user.subscription.planId === planId) {

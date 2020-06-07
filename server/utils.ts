@@ -44,6 +44,18 @@ export function expectStrings<U extends keyof Record<string, string | undefined>
     return obj
 }
 
+export function trimStrings<U extends keyof Record<string, string | undefined>>(json: Record<string, string | undefined>, ...keys: U[]): Pick<Record<string, string>, U> {
+    const obj: any = {}
+    for (const key of keys) {
+        const val = json[key]
+        if (!_.isString(val)) {
+            throw new Error(`Expected string value for '${key}', instead saw: ${val}`)
+        }
+        obj[key] = val.trim()
+    }
+    return obj
+}
+
 /** Expect a given json object to have keys */
 export function expectKeys<U extends keyof Record<string, any>>(json: Record<string, any>, ...keys: U[]): Pick<Record<string, any>, U> {
     for (const key of keys) {
