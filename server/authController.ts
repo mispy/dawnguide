@@ -151,7 +151,7 @@ export async function emailConfirmSuccess(req: EventRequest, token: string) {
     await db.users.changeEmail(userId, email)
 
     // Log the user in if they weren't already
-    const res = redirect('/')
+    const res = redirect('/home')
     const sessionKey = await db.sessions.create(userId)
     res.headers.set('Set-Cookie', sessionCookie(sessionKey))
     return res
