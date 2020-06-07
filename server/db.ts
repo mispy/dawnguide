@@ -173,11 +173,16 @@ export namespace users {
         const user = await users.expect(userId)
         const oldEmail = user.email
 
-        await Promise.all([
-            users.update(user.id, { email: newEmail, emailConfirmed: true }),
-            db.delete(`user_id_by_email:${oldEmail}`),
-            db.put(`user_id_by_email:${newEmail}`, user.id)
-        ])
+        if (oldEmail === newEmail) {
+            // Just confirming the address
+            await users.update(user.id, { email: newEmail, emailConfirmed: true })
+        } else {
+            await Promise.all([
+                users.update(user.id, { email: newEmail, emailConfirmed: true }),
+                db.delete(`user_id_by_email:${oldEmail}`),
+                db.put(`user_id_by_email:${newEmail}`, user.id)
+            ])
+        }
     }
 
     export async function changeUsername(userId: string, newUsername: string) {

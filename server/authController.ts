@@ -37,11 +37,12 @@ export async function submitSignup(req: EventRequest) {
 
         // Default name is inferred from email
         const name = email.split('@')[0]
-        const user = await db.users.create({ username: name, email, password })
+        const user = await db.users.create({ username: name, email: email, password: password })
 
         // Send confirmation email
         const token = await db.emailConfirmTokens.create(user.id, email)
         const confirmUrl = absurl(`/account/confirmation/${token}`)
+        console.log(`"${email}"`)
         await Promise.all([
             sendMail({
                 to: email,
