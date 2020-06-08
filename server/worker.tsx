@@ -31,8 +31,11 @@ declare const caches: {
 
 async function maybeCached(req: EventRequest): Promise<Response> {
     // Cloudflare Workers replaces the normal Cloudflare CDN behavior, so
-    // we implement our caching logic here
-    const cacheable = req.method === 'GET' && !req.path.match(new RegExp("^(/heartbeat|/api.*)$"))
+    // we implement our caching logic here.
+    // Things are not cached by default if logged in, are if logged out.
+    const cacheable = req.session
+        ? req.method === 'GET' && req.path.match(new RegExp("^/assets/"))
+        : req.method === 'GET' && !req.path.match(new RegExp("^/heartbeat$"))
     const cache = caches.default
 
     if (cacheable) {

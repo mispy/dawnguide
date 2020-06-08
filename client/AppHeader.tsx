@@ -34,9 +34,7 @@ export function AppHeader() {
                         <Nav.Link as={Link} to="/settings">Settings</Nav.Link>
                         <Nav.Link href="/logout">Logout</Nav.Link>
                     </Nav>
-
                 </div>
-
             </Container>
         </Navbar>
     </header>)
