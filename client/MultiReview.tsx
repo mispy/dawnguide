@@ -8,6 +8,7 @@ import { AppContext } from "./AppContext"
 import { MemoryCard } from "./MemoryCard"
 import { useContext } from "react"
 import { Concept } from "../shared/sunpedia"
+import { ExerciseView } from './ExerciseView'
 
 interface ExerciseWithConcept {
     concept: Concept
@@ -36,8 +37,10 @@ export function MultiReview(props: { reviews: ExerciseWithConcept[], onComplete:
     })
 
     return useObserver(() => {
+        const review = state.reviews[state.reviews.length - 1]
+
         return <div className="MultiReview">
-            <MemoryCard review={state.reviews[state.reviews.length - 1]} onSubmit={onCardComplete} />
+            <ExerciseView exercise={review.exercise} concept={review.concept} onSubmit={onCardComplete} />
         </div>
     })
 }

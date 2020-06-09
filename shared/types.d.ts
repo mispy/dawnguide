@@ -17,6 +17,19 @@ export type User = {
     }
 }
 
+export type BasicExerciseDef = {
+    question: string
+    answer: string
+}
+
+export type FillblankExerciseDef = {
+    type: 'fillblank'
+    question: string
+    possibleAnswers: string[]
+}
+
+export type ExerciseDef = BasicExerciseDef | FillblankExerciseDef
+
 export type ConceptDef = {
     id: string
     title: string
@@ -27,15 +40,18 @@ export type ConceptDef = {
     draft?: true
     introduction: MarkdownString
     furtherReading?: MarkdownString
-    exercises: { question: string, answer: string }[]
+    exercises: ExerciseDef[]
     bibliography: BibtexString
 }
 
-export type Exercise = {
+export type ExerciseWithConcept = {
+    concept: Concept
+    exercise: Exercise
+}
+
+export type Exercise = ExerciseDef & {
     id: string
     conceptId: string
-    question: string
-    answer: string
 }
 
 export type Reference = {

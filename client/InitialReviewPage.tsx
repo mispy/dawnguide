@@ -8,7 +8,9 @@ import { Link, Redirect } from "react-router-dom"
 import { AppLayout } from "./AppLayout"
 import { useContext, useEffect } from "react"
 import { Concept } from '../shared/sunpedia'
-import { MemoryCard, ExerciseWithConcept } from './MemoryCard'
+import { MemoryCard } from './MemoryCard'
+import { ExerciseView } from './ExerciseView'
+import { ExerciseWithConcept } from '../shared/types'
 
 function LessonReviews(props: { reviews: ExerciseWithConcept[], onComplete: () => void }) {
     const { api } = useContext(AppContext)
@@ -49,7 +51,7 @@ function LessonReviews(props: { reviews: ExerciseWithConcept[], onComplete: () =
     return useObserver(() => {
         const review = state.reviews[state.reviews.length - 1]
         return <div className="LessonReviews">
-            {review ? <MemoryCard review={review} onSubmit={onCardComplete} /> : undefined}
+            {review ? <ExerciseView concept={review.concept} exercise={review.exercise} onSubmit={onCardComplete} /> : undefined}
         </div>
     })
 }
@@ -97,7 +99,7 @@ function InitialReviewPageLoaded(props: { concept: Concept }) {
                 <div>
                     <div className="text-center mb-2">
                         Lesson complete!
-          </div>
+                    </div>
                     <div>
                         <Link className="btn btn-dawn" to="/home">Home</Link>
                         {nextLesson && <Link to={`/${nextLesson.id}`} className="btn btn-dawn ml-2">Next Lesson</Link>}

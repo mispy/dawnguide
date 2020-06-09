@@ -24,8 +24,11 @@ Depression biases us to underestimate the joy in things, and avoiding engaging w
 `,
     exercises: [
         {
-            question: "When depressed, should I wait to feel better before doing something fun?",
-            answer: "Often it's best to give the activity a go anyway. Depression biases us to underestimate possible joy!"
+            type: 'fillblank',
+            question: "Behavioral ____ means scheduling fun things even when we're feeling depressed",
+            possibleAnswers: [
+                'activation'
+            ]
         },
         {
             question: "What is the vicious cycle of depression?",

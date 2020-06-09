@@ -23,8 +23,11 @@ Proximal goals work best when they're tied a distal goal that means a lot to you
 
     exercises: [
         {
-            question: "What is the main way that setting proximal subgoals can increase motivation?",
-            answer: `By increasing your perception of self-efficacy, making the distal goal seem less daunting and more attainable.`
+            type: 'fillblank',
+            question: "Achieving proximal subgoals can motivate you by increasing perceived ____",
+            possibleAnswers: [
+                'self-efficacy'
+            ]
         },
         {
             question: "At what stage of a task is achieving proximal subgoals likely to be most motivating?",

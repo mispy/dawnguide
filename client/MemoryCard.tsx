@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Concept } from "../shared/sunpedia"
 import classnames from 'classnames'
 import { action } from "mobx"
-import { Exercise } from "../shared/types"
+import { Exercise, BasicExerciseDef } from "../shared/types"
 import Markdown from 'markdown-to-jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUndoAlt, faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -11,14 +11,8 @@ import { faEye } from '@fortawesome/free-solid-svg-icons'
 import { Passage } from "../shared/Passage"
 import { Container } from "react-bootstrap"
 
-export interface ExerciseWithConcept {
-    concept: Concept
-    exercise: Exercise
-}
-
-export function MemoryCard(props: { review: ExerciseWithConcept, onSubmit: (remembered: boolean) => void }) {
-    const { review, onSubmit } = props
-    const { exercise } = review
+export function MemoryCard(props: { concept: Concept, exercise: BasicExerciseDef, onSubmit: (remembered: boolean) => void }) {
+    const { concept, exercise, onSubmit } = props
     const state = useLocalStore<{ revealed: boolean, showConcept: boolean }>(() => ({ revealed: false, showConcept: false }))
 
     const reveal = action(() => state.revealed = true)
@@ -45,6 +39,6 @@ export function MemoryCard(props: { review: ExerciseWithConcept, onSubmit: (reme
         <div className="d-flex justify-content-center mt-4">
             <button className="btn btn-outline-secondary" disabled={!state.revealed} onClick={showConcept}><FontAwesomeIcon icon={faEye} /> Show concept</button>
         </div>
-        {state.showConcept && <Container><Passage concept={review.concept} /></Container>}
+        {state.showConcept && <Container><Passage concept={concept} /></Container>}
     </div>)
 }

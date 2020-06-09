@@ -6,7 +6,7 @@ import * as bibTexParse from 'bibtex-parser-js'
 import { computed, observable } from 'mobx'
 
 import conceptDefs from '../concepts'
-import { ConceptDef, Reference, MarkdownString, UserProgressItem } from './types'
+import { ConceptDef, Reference, MarkdownString, UserProgressItem, Exercise } from './types'
 import * as _ from 'lodash'
 import { isReadyForReview } from './logic'
 
@@ -44,13 +44,6 @@ function parseBibliography(bibliography: string): Reference[] {
         publisher: entry.entryTags.PUBLISHER,
         url: entry.entryTags.URL
     }))
-}
-
-export type Exercise = {
-    id: string
-    conceptId: string
-    question: string
-    answer: string
 }
 
 export class Concept {
@@ -100,8 +93,7 @@ export class Concept {
             return {
                 id: `${this.id}:${i}`,
                 conceptId: this.id,
-                question: e.question,
-                answer: e.answer
+                ...e
             }
         })
     }
