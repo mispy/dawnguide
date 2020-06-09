@@ -26,6 +26,8 @@ export type FillblankExerciseDef = {
     type: 'fillblank'
     question: string
     possibleAnswers: string[]
+    successFeedback: string
+    reviseFeedback: string
 }
 
 export type ExerciseDef = BasicExerciseDef | FillblankExerciseDef

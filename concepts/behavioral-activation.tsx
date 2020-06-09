@@ -25,10 +25,12 @@ Depression biases us to underestimate the joy in things, and avoiding engaging w
     exercises: [
         {
             type: 'fillblank',
-            question: "Behavioral ____ means scheduling fun things even when we're feeling depressed",
+            question: "Behavioral ____ means scheduling fun things even when we're depressed",
             possibleAnswers: [
                 'activation'
-            ]
+            ],
+            successFeedback: "Yep! Staying in bed all day won't help you feel better, so might as well try some behavioral activation.",
+            reviseFeedback: `Not quite! This strategy is called behavioral *activation*.`
         },
         {
             question: "What is the vicious cycle of depression?",

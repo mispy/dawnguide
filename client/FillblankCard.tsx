@@ -5,6 +5,9 @@ import * as React from 'react'
 import { FillblankExerciseDef } from "../shared/types"
 import { Concept } from "../shared/sunpedia"
 import classNames from "classnames"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faEye, faChevronRight } from "@fortawesome/free-solid-svg-icons"
+import Markdown from "markdown-to-jsx"
 
 function paddingForFill(fill: string): number {
     if (fill.length === 0) {
@@ -20,7 +23,7 @@ export const FillblankCard = observer(function FillblankCard(props: { exercise: 
     const { exercise, concept, onSubmit } = props
     const canonicalAnswer = exercise.possibleAnswers[0]
     const responseInput = useRef<HTMLInputElement>(null)
-    const state = useLocalStore<{ response: string, correct: null | boolean }>(() => ({ response: "", correct: null }))
+    const state = useLocalStore<{ response: string, current: 'unanswered' | 'correct' | 'incorrect', showAnswer: boolean }>(() => ({ response: "", current: 'unanswered', showAnswer: false }))
 
     useEffect(() => {
         if (responseInput.current)
@@ -31,19 +34,26 @@ export const FillblankCard = observer(function FillblankCard(props: { exercise: 
         state.response = e.currentTarget.value
     })
 
-    const onConfirm = action(() => {
+    const onAnswer = action(() => {
         const match = exercise.possibleAnswers.find(ans => state.response === ans)
         if (match) {
-            state.correct = true
+            state.current = 'correct'
         } else {
-            state.correct = false
+            state.current = 'incorrect'
         }
     })
 
     const onKeydown = action((e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && state.response.length) {
-            onConfirm()
+            if (state.current === 'unanswered')
+                onAnswer()
+            else
+                onContinue()
         }
+    })
+
+    const onContinue = action(() => {
+        onSubmit(state.current === 'correct')
     })
 
     const parts = exercise.question.split("____")
@@ -56,19 +66,26 @@ export const FillblankCard = observer(function FillblankCard(props: { exercise: 
         }
     }
 
-    return <div className={classNames('FillblankCard', state.correct === true && 'correct', state.correct === false && 'incorrect')}>
+    return <div className={classNames('FillblankCard', state.current)}>
         <div className="card">
             <p className="qline">{qline}</p>
-            <input
-                type="text"
-                ref={responseInput}
-                value={state.response}
-                placeholder="Your Answer"
-                onChange={onChange}
-                onKeyDown={onKeydown}
-                disabled={state.correct !== null}
-                autoFocus
-            />
+            <fieldset>
+                <input
+                    type="text"
+                    ref={responseInput}
+                    value={state.response}
+                    placeholder="Your Answer"
+                    onChange={onChange}
+                    onKeyDown={onKeydown}
+                    disabled={state.current !== 'unanswered'}
+                    autoFocus
+                />
+                <button>
+                    <FontAwesomeIcon icon={faChevronRight} onClick={onContinue} />
+                </button>
+            </fieldset>
         </div>
+        {state.current === 'correct' && <p className="successFeedback"><Markdown>{exercise.successFeedback}</Markdown></p>}
+        {state.current === 'incorrect' && <p className="reviseFeedback"><Markdown>{exercise.reviseFeedback}</Markdown></p>}
     </div>
 })

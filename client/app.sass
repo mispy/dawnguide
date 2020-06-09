@@ -335,6 +335,23 @@ ul.navigation-shortcuts
         padding: 1rem
         border: 0
         text-align: center
+        border-radius: 0 0 8px 8px
+
+    // fieldset svg
+    //     display: none
+
+.FillblankCard
+    fieldset
+        position: relative
+
+    fieldset button
+        position: absolute
+        padding: 0 20px
+        right: 5px
+        height: 100%
+        font-size: 1.3em
+        line-height: 1em
+        border: none
         background: none
 
 .FillblankCard.correct
@@ -343,7 +360,14 @@ ul.navigation-shortcuts
 
     input
         background: rgba(71, 209, 71, 0.8)
+
+    input, fieldset svg
         color: white
+
+    .successFeedback
+        margin-top: 1rem
+        color: rgba(0, 151, 0, 0.8)
+        text-align: center
 
 .FillblankCard.incorrect
     span.fillblank
@@ -351,7 +375,13 @@ ul.navigation-shortcuts
 
     input
         background: rgba(255, 77, 77, 0.8)
+
+    input, fieldset svg
         color: white
+
+    .reviseFeedback
+        margin-top: 1rem
+        text-align: center
 
 .LessonPage
     h1
