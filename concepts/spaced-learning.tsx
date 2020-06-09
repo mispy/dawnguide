@@ -5,7 +5,7 @@ export default concept({
     title: "Spaced learning",
     keyFinding: "Learning is more effective when study sessions are spaced out",
     introduction: `
-Spaced learning is a way of committing ideas to memory by reviewing them in short intervals over a longer time period. Understanding spaced learning will help you understand how Dawnguide works, and it's also a general technique that you can use yourself to learn any kind of material.
+Spaced learning is a way of committing ideas to memory by reviewing them in short sessions over a longer time period. Understanding spaced learning will help you understand how Dawnguide works, and it's also a general technique that you can use yourself to learn any kind of material.
 
 Spaced learning leads to better recall than massed learning strategies, such as cramming for an exam. In psychology this is called the "spacing effect" and it's supported by a lot of research![@cepeda2006distributed]
 
@@ -18,16 +18,32 @@ You don't need any software to take advantage of the spacing effect, but there a
 `,
     exercises: [
         {
-            question: "What is the learning method used by Dawnguide?",
-            answer: "Spaced learning, an evidence-based way of committing ideas to memory by reviewing them in short intervals over a longer time period."
+            type: 'fillblank',
+            question: "Dawnguide uses the ____ learning method",
+            possibleAnswers: [
+                'spaced'
+            ],
+            successFeedback: "Yep! Spaced learning is based on a lot of psych research about human memory.",
+            reviseFeedback: "The method is known as _spaced_ learning. It's based on a lot of psych research about human memory."
         },
         {
-            question: "How can I apply spaced learning without software?",
-            answer: "After first learning something you want to remember, schedule some review sessions over the next days or weeks."
+            type: 'fillblank',
+            question: "Spaced learning involves ____ material in multiple short sessions over a longer period",
+            possibleAnswers: [
+                'revising',
+                'reviewing'
+            ],
+            successFeedback: "That's right. The interval between the revisions is gradually increased as you go.",
+            reviseFeedback: "We want to be _revising_ material. That's what we're doing right now!"
         },
         {
-            question: "What spaced learning software can I use for topics Dawnguide doesn't cover?",
-            answer: "A commonly used one is [Anki](https://apps.ankiweb.net/)"
+            type: 'fillblank',
+            question: "For topics Dawnguide doesn't cover, you can use the general-purpose spaced learning app called ____",
+            possibleAnswers: [
+                'Anki'
+            ],
+            successFeedback: "Anki is a very useful tool for studying!",
+            reviseFeedback: "It's called _Anki_. Check it out here: [apps.ankiweb.net](https://apps.ankiweb.net/)"
         }
     ],
     bibliography: `
