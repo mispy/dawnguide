@@ -26,21 +26,33 @@ A sense of _common humanity_ is key to self-compassion. You are not alone in you
 
     exercises: [
         {
-            question: "What does it mean to be self-compassionate?",
-            answer: "Being open to and moved by one's own suffering, experiencing feelings of caring and kindness toward oneself, taking an understanding, nonjudgmental attitude toward one's inadequacies and failures, and recognizing that one's experience is part of the common human experience."
+            type: 'fillblank',
+            question: "Self-compassion involves experiencing feelings of caring and ____ towards oneself",
+            possibleAnswers: [
+                'kindness',
+                'warmth'
+            ],
+            successFeedback: "Be nice to yourself, as though with a little bird.",
+            reviseFeedback: "Feelings of _kindness_! Be nice to yourself, as though with a little bird."
         },
         {
-            question: "How do people high in self-compassion tend to respond to failure?",
-            answer: "They take greater responsibility for their failures and are more able to adapt as a result."
+            type: 'fillblank',
+            question: "People high in self-compassion tend to take greater ____ for their failures",
+            possibleAnswers: [
+                'responsibility',
+            ],
+            successFeedback: "Right. Self-compassion can help you process criticism without becoming too defensive.",
+            reviseFeedback: "They take greater _responsibility_. Self-compassion can help you process criticism without becoming too defensive."
         },
         {
-            question: "Why is common humanity a key element of self-compassion?",
-            answer: "All people experience suffering and are worthy of compassion. You are also people!"
+            type: 'fillblank',
+            question: "Common humanity is a key element of self-compassion because all people experience ____",
+            possibleAnswers: [
+                'suffering'
+            ],
+            successFeedback: "Yep. You are also people!",
+            reviseFeedback: "All people experience _suffering_. You are also people!"
         },
-        {
-            question: "How does self-compassion differ from self-esteem?",
-            answer: "Self-esteem is based on an evaluation of worth. Compassion on the basis of common humanity is independent of any evaluation."
-        }
     ],
     bibliography: `
     @article{allen2010self,
