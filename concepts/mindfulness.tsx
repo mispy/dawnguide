@@ -20,16 +20,31 @@ Mindfulness is a skill you can use at any time to help cope with difficult thoug
 `,
     exercises: [
         {
-            question: "What is mindfulness?",
-            answer: "The process of bringing your attention to the present moment, without judgment."
+            type: 'fillblank',
+            question: "Mindfulness is the process of bringing your attention to the present moment, without ____",
+            possibleAnswers: [
+                'judgment'
+            ],
+            successFeedback: "Try to perceive things just as they are right now.",
+            reviseFeedback: "Without _judgment_. Try to perceive things just as they are right now."
         },
         {
-            question: "How effective are mindfulness-based therapies?",
-            answer: "About as effective as cognitive-behavioral therapy or antidepressants on average, across a range of different psychiatric disorders."
+            type: 'fillblank',
+            question: "Mindfulness-based therapies are about as ____ as cognitive-behavioral therapy or antidepressants on average",
+            possibleAnswers: [
+                'effective'
+            ],
+            successFeedback: "They seem useful across a range of different disorders.",
+            reviseFeedback: "They're about as _effective_, across a range of different disorders. "
         },
         {
-            question: "How do I practice mindfulness?",
-            answer: "[Meditation exercises](https://www.tarabrach.com/guided-meditations/) can help you train the skill so that it's easier to use in everyday life."
+            type: 'fillblank',
+            question: "Mindfulness is often practiced with regular ____",
+            possibleAnswers: [
+                'meditation'
+            ],
+            successFeedback: "It gets easier to use in everyday life the more you practice.",
+            reviseFeedback: "With regular _meditation_. It gets easier to use in everyday life the more you practice."
         }
     ],
     bibliography: `

@@ -78,7 +78,7 @@ export const FillblankCard = observer(function FillblankCard(props: FillblankPro
         }
     })
 
-    const parts = exercise.question.split("____")
+    const parts = exercise.question.split(/_+/)
     const qline = []
     for (let i = 0; i < parts.length; i++) {
         qline.push(parts[i])
