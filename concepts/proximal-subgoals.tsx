@@ -27,6 +27,7 @@ Proximal goals work best when they're tied a distal goal that means a lot to you
             question: "Achieving proximal subgoals can motivate you by increasing perceived ____",
             possibleAnswers: [
                 'self-efficacy',
+                'efficacy',
                 'effectiveness',
                 'confidence'
             ],

@@ -51,7 +51,7 @@ export function ConceptPage(props: { concept: Concept }) {
                             </thead>
                             <tbody>
                                 {exercisesWithProgress.map(ewp => <tr key={ewp.exercise.id}>
-                                    <td><Markdown>{ewp.exercise.question}</Markdown></td>
+                                    <td>{ewp.exercise.question}</td>
                                     <td>
                                         {ewp.exercise.type === 'fillblank'
                                             ? ewp.exercise.possibleAnswers[0]

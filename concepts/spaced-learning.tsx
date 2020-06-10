@@ -34,7 +34,7 @@ You don't need any software to take advantage of the spacing effect, but there a
                 'revising'
             ],
             successFeedback: "That's right. The interval between the revisions is gradually increased as you go.",
-            reviseFeedback: "We want to be _revising_ material. That's what we're doing right now!"
+            reviseFeedback: "We want to be _reviewing_ material. That's what we're doing right now!"
         },
         {
             type: 'fillblank',
