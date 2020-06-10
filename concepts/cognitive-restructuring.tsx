@@ -41,20 +41,38 @@ Evidence-wise, cognitive restructuring is a component of cognitive-behavioral th
 
     exercises: [
         {
-            question: "What is cognitive restructuring?",
-            answer: "The process of influencing your feelings by changing your thoughts."
+            type: 'fillblank',
+            question: "Cognitive restructuring is the process of influencing your feelings by changing your ___",
+            possibleAnswers: [
+                'thoughts',
+                'thinking'
+            ],
+            successFeedback: "Yep, the way we think changes the way we feel!",
+            reviseFeedback: `By changing your _thoughts_. Feelings are hard to alter directly, but we can change the way we think!`
         },
         {
-            question: "In the cognitive triangle, what are the main influences on your feelings?",
-            answer: "Your thoughts and behavior. Changing these is a way of indirectly changing the way you feel."
+            type: 'fillblank',
+            question: "In the cognitive ___, there is a three-way relationship between feelings, thoughts, and behavior",
+            possibleAnswers: [
+                'triangle'
+            ],
+            successFeedback: "That's right. All three play an important role in our psychology!",
+            reviseFeedback: `This relationship is called the cognitive _triangle_.`
         },
         {
-            question: "What are the steps to practice cognitive restructuring in writing?",
-            answer: `
+            type: 'fillblank',
+            question: `
+The steps to practice cognitive restructuring in writing are:
+
 1. Write down a negative automatic thought
-2. Identify the distortions
+2. Identify possible ____
 3. Rewrite the thought with a more reasonable, positive framing
-            `
+            `,
+            possibleAnswers: [
+                'distortions'
+            ],
+            successFeedback: "Distortions can sneak into our thoughts when we least expect it!",
+            reviseFeedback: `Identify possible _distortions_. Distortions are ways of thinking that don't quite reflect reality.`
         },
     ],
     bibliography: `
