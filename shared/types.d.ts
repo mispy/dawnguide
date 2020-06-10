@@ -18,6 +18,7 @@ export type User = {
 }
 
 export type BasicExerciseDef = {
+    type?: undefined
     question: string
     answer: string
 }
