@@ -29,7 +29,7 @@ class FillblankState {
 
         const match = this.props.exercise.possibleAnswers.find(ans => matchesAnswerPermissively(this.response, ans))
         if (match) {
-            this.response = match
+            this.response = this.props.exercise.possibleAnswers[0]
             this.current = 'correct'
         } else {
             this.current = 'incorrect'

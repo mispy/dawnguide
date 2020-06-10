@@ -26,16 +26,35 @@ Proximal goals work best when they're tied a distal goal that means a lot to you
             type: 'fillblank',
             question: "Achieving proximal subgoals can motivate you by increasing perceived ____",
             possibleAnswers: [
-                'self-efficacy'
-            ]
+                'self-efficacy',
+                'effectiveness',
+                'confidence'
+            ],
+            successFeedback: "Gotta be convinced that your goals are possible for you!",
+            reviseFeedback: `It increases perceived _self-efficacy_, making you more confident that you can achieve the overall goal.`
         },
         {
-            question: "At what stage of a task is achieving proximal subgoals likely to be most motivating?",
-            answer: "Early on, when you most need confidence that you can complete the task."
+            type: 'fillblank',
+            question: "Achieving proximal subgoals is most motivating at the ____ of a task",
+            possibleAnswers: [
+                'start',
+                'beginning',
+                'onset'
+            ],
+            successFeedback: "Yep! This is when you're likely to need a confidence boost the most.",
+            reviseFeedback: `It's usually most helpful at the _start_, when you need to boost your confidence the most.`
+
         },
         {
-            question: "Why is it good to have both proximal goals and distal ones?",
-            answer: "Proximal goals give immediate structure to long-term plans, while distal goals give meaning to the present."
+            type: 'fillblank',
+            question: "A related long-term goal provides important ____ for your proximal subgoals",
+            possibleAnswers: [
+                'context',
+                'meaning'
+            ],
+            successFeedback: "That's right! Make sure to tie your subgoals to a meaningful outcome down the road.",
+            reviseFeedback: `It gives important _context_. A proximal subgoal is easy to achieve, but it needs meaning to be most motivating.`
+
         }
     ],
     bibliography: `
