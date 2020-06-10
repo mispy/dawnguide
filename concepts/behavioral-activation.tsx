@@ -33,12 +33,23 @@ Depression biases us to underestimate the joy in things, and avoiding engaging w
             reviseFeedback: `Not quite! This strategy is called behavioral *activation*.`
         },
         {
-            question: "What is the vicious cycle of depression?",
-            answer: "When we feel low, we may stop doing things that are meaningful to us. This leads us to feel worse, so we stop doing more things, and so on."
+            type: 'fillblank',
+            question: "The vicious ____ of depression is when feeling bad stops us doing meaningful things, which then makes us feel worse",
+            possibleAnswers: [
+                'cycle',
+                'loop'
+            ],
+            successFeedback: "A troublesome feedback loop...",
+            reviseFeedback: `It's a vicious _cycle_. Once we know our enemy, we can counteract it..!`
         },
         {
-            question: "What is the positive cycle of activity?",
-            answer: "As we do things that are meaningful to us, we gain more positive experiences with the world. This leads us to do more things, and so on."
+            type: 'fillblank',
+            question: "The positive cycle of ____ is when doing meaningful things makes us feel good, so we then do more meaningful things",
+            possibleAnswers: [
+                'activity'
+            ],
+            successFeedback: "A helpful feedback loop!",
+            reviseFeedback: `The positive cycle of _activity_. Best kind of cycle.`
         }
     ],
     bibliography: `

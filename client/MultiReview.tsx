@@ -38,6 +38,7 @@ export function MultiReview(props: { reviews: ExerciseWithConcept[], onComplete:
 
     return useObserver(() => {
         const review = state.reviews[state.reviews.length - 1]
+        if (!review) return null
 
         return <div className="MultiReview">
             <ExerciseView exercise={review.exercise} concept={review.concept} onSubmit={onCardComplete} />

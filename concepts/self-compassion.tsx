@@ -41,7 +41,7 @@ A sense of _common humanity_ is key to self-compassion. You are not alone in you
             possibleAnswers: [
                 'responsibility',
             ],
-            successFeedback: "Right. Self-compassion can help you process criticism without becoming too defensive.",
+            successFeedback: "Right! Self-compassion can help you process criticism without becoming too defensive.",
             reviseFeedback: "They take greater _responsibility_. Self-compassion can help you process criticism without becoming too defensive."
         },
         {

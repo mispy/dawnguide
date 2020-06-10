@@ -30,8 +30,8 @@ You don't need any software to take advantage of the spacing effect, but there a
             type: 'fillblank',
             question: "Spaced learning involves ____ material in multiple short sessions over a longer period",
             possibleAnswers: [
-                'revising',
-                'reviewing'
+                'reviewing',
+                'revising'
             ],
             successFeedback: "That's right. The interval between the revisions is gradually increased as you go.",
             reviseFeedback: "We want to be _revising_ material. That's what we're doing right now!"
