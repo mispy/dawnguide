@@ -29,7 +29,7 @@ Depression biases us to underestimate the joy in things, and avoiding engaging w
             possibleAnswers: [
                 'activation'
             ],
-            successFeedback: "Yep! Staying in bed all day won't help you feel better, so might as well try some behavioral activation.",
+            successFeedback: "Yep! Staying in bed all week won't help you feel better, so might as well try some behavioral activation.",
             reviseFeedback: `Not quite! This strategy is called behavioral *activation*.`
         },
         {

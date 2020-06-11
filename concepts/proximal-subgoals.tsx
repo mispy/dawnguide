@@ -55,7 +55,6 @@ Proximal goals work best when they're tied a distal goal that means a lot to you
             ],
             successFeedback: "That's right! Make sure to tie your subgoals to a meaningful outcome down the road.",
             reviseFeedback: `It gives important _context_. A proximal subgoal is easy to achieve, but it needs meaning to be most motivating.`
-
         }
     ],
     bibliography: `
