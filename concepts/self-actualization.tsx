@@ -10,25 +10,28 @@ export default concept({
     keyFinding: "",
     author: "Reece Matthews and Jake Leoht",
     introduction: `
-Self-actualization is the process of becoming motivated to fulfill one’s own talents and potential, in order to bring out the best in oneself. At face value, this concept can seem unrealistic or vague, but once broken down and explored it becomes easier to identify what needs to be done in order to self-actualize.
+Humans, in general, want to become better humans. Few people believe they are already the best they could be. Rather, each of us has a sense of our greatest potential, an idea of what we can be when our highest needs are met and we are able to live each day with wonder, purpose, and authenticity. In humanistic psychology, the pursuit of this fulfillment is called **self-actualization**.
 
- the evidence does not support the idea that they form a hierarchy. Rather, 
+Research supports the idea that there are "universal" human needs that are predictive of subjective well-being across many different cultures. Theories differ slightly on the exact breakdown of needs. Here's one way of defining them, taken from a cross-country study[@tay2011needs] based on the Gallup World Poll:
 
-Though Maslow's general thinking continues to be influential in psychology, his theory is not considered to be literally true. 
+- Basic needs for food and shelter
+- Safety and security
+- Social support and love
+- Self-direction and autonomy
+- Feeling respected and pride in activities
+- Mastery
 
-A.H. Maslow believed that humans naturally, unconsciously, aim for self-actualization in everything they do. He also believed that it was the default for humans - humanity with “nothing taken away”. He developed the Hierarchy of Needs model in order to demonstrate what humans need in order to self-actualize.
+These needs tend to be achieved in a certain order, but there is no strict hierarchy and each has an independent contribution to the whole. It is possible, though rarer, to have psychological needs fulfilled even before basic and safety needs. In a global context, the difficulty of meeting your basic needs has a lot to do with the country in which you live, while psychological needs vary more with individual conditions.[@tay2011needs]
 
-![Maslow's hierarchy of needs](${maslowsHierarchy})
+Which of the universal needs do you think is most important in your life right now? What are some ways it could be fulfilled? Focusing on the most pressing need is likely to be most rewarding. For example, if you have a successful career but often feel lonely, it may be worth shifting more of your focus to "social support and love" than "feeling respected" or "mastery".
 
-Despite the pyramidal appearance, the hierarchy does not necessarily start from the bottom deficit need and work upwards. Each individual progresses towards self-actualisation at different paces and in different ways[@ivtzan2013wellbeing]. Age and maturity can alter the order of priorities people have in order to reach their own state of self-actualisation. Young people in particular may prioritise physiological needs such as exercise and sleep over love/belonging, which may be prioritised higher by older people[@reiss2005motivation]. Both are still very important to both types of people, but the order of priority has shifted.
+> Like vitamins, each of the needs is individually required, just as having much of one vitamin does not negate the need for other vitamins.[@tay2011needs]
 
-Self-actualisation is sort of in the eye of the beholder; an artist’s idea of self-actualisation may mean they have motivation to keep practicing their passion and producing what makes them happy. An office worker's version may be that they have found a work environment they are comfortable in and have attained a good work/life balance where stress is minimal. It is as unique as each human who experiences it. 
+Each person progresses towards self-actualization at their own pace and in different ways. Older people tend to score higher on measures of self-actualization, and are more likely to be concerned with "higher motives" like honor and idealism.[@reiss2005motivation] However, there's lots of individual variation. Shifting priorities with age may be something fundamental, but it may also simply be explained by generational differences or increasing access to resources with which to meet needs.
 
-The key is to take a step back, analyse each of the deficit needs and try to figure out how satisfied you are with each one. If you notice there’s a particular area where you are struggling, the next step is to try and make changes, big or small, that may help you to be more satisfied in that particular need.
+The universal needs are open-ended in the way they are fulfilled. An artist’s idea of self-actualization may mean they have motivation to keep practicing their passion and producing what makes them happy, while an office worker's may be that they have found a work environment they are comfortable in and a good work/life balance where stress is minimal. Self-actualization is as unique as each human who experiences it. 
 
-Self-actualisation is a long process, and is often not unidirectional, different life circumstances can cause changes in deficit needs that were previously satisfied. This is not an erasure of progress, but simply one more step in a long-term goal of achieving your potential. When each basic, deficit need is more-or-less satisfied, and you as an individual are satisfied with its level of fulfillment, motivation to hone their passions and talents will continue to increase.
-
-It may be a struggle but it is worth noting that friends, family, professionals, and peers all come under the basic deficit need of ‘love and belonging, and self-actualisation is seldom achieved alone! Never be afraid to seek advice and comfort from those around you. Re-orienting your viewpoint, hearing the viewpoints of others, and critically analysing each basic need, may well reveal what you want to change or reshape to move on in your journey through life!
+The struggle towards self-actualization need not be done in isolation. With friends, family and peers we can help each other fulfill our universal needs, starting with social support and love. Never be afraid to seek advice and comfort from those around you. Reorienting your viewpoint, hearing the viewpoints of others, and critically analysing each need, may reveal what you want to change to move on in your journey through life!
 `,
 
     furtherReading: `
@@ -84,18 +87,6 @@ The steps to practice cognitive restructuring in writing are:
         publisher={American Psychological Association},
         url={http://academic.udayton.edu/jackbauer/Readings%20595/Tay%20Diener%2011%20needs%20WB%20world%20copy.pdf}
     }
-
-    @article{ivtzan2013wellbeing,
-        title={Wellbeing through self-fulfilment: Examining developmental aspects of self-actualization},
-        author={Ivtzan, Itai and Gardner, Hannah E and Bernard, Izra and Sekhon, Mandeep and Hart, Rona},
-        journal={The Humanistic Psychologist},
-        volume={41},
-        number={2},
-        pages={119--132},
-        year={2013},
-        publisher={Taylor & Francis},
-        url={https://sci-hub.tw/https://doi.org/10.1080/08873267.2012.712076}
-      }
 
       @article{reiss2005motivation,
         title={Motivation in developmental context: A new method for studying self-actualization},

@@ -12,11 +12,13 @@ import { isExternalUrl } from './utils'
 
 function transformRefs(markdown: MarkdownString): [MarkdownString, string[]] {
     const referenceIds: string[] = []
-    let i = 0
     const content = markdown.replace(/\[@([^\]]+)\]/g, (substr, id) => {
-        referenceIds.push(id)
-        i += 1
-        return `<a href="#${id}"><sup>[${i}]</sup></a>`
+        let index = referenceIds.indexOf(id)
+        if (index === -1) {
+            index = referenceIds.length
+            referenceIds.push(id)
+        }
+        return `<a href="#${id}"><sup>[${index+1}]</sup></a>`
     })
     return [content, referenceIds]
 }
