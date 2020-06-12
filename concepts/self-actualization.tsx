@@ -3,11 +3,10 @@ import { concept } from '../shared/concept'
 import maslowsHierarchy from './img/maslows-hierarchy.jpg'
 
 export default concept({
-    draft: true,
     id: 'self-actualization',
     title: 'Self-actualization',
-    tagLine: "",
-    keyFinding: "",
+    tagLine: "Fulfillment of universal needs contributes to subjective well-being",
+    keyFinding: "Fulfillment of universal needs contributes to subjective well-being",
     author: "Reece Matthews and Jake Leoht",
     introduction: `
 Humans, in general, want to become better humans. Few people believe they are already the best they could be. Rather, each of us has a sense of our greatest potential, an idea of what we can be when our highest needs are met and we are able to live each day with wonder, purpose, and authenticity. In humanistic psychology, the pursuit of this fulfillment is called **self-actualization**.
@@ -21,7 +20,7 @@ Research supports the idea that there are "universal" human needs that are predi
 - Feeling respected and pride in activities
 - Mastery
 
-These needs tend to be achieved in a certain order, but there is no strict hierarchy and each has an independent contribution to the whole. It is possible, though rarer, to have psychological needs fulfilled even before basic and safety needs. In a global context, the difficulty of meeting your basic needs has a lot to do with the country in which you live, while psychological needs vary more with individual conditions.[@tay2011needs]
+These needs tend to be achieved in a certain order, but there is no strict hierarchy and each has an independent contribution to the whole. It is possible, though rarer, to have psychosocial needs fulfilled even before basic and safety needs. In a global context, the difficulty of meeting your basic needs has a lot to do with the country in which you live, while psychosocial needs vary more with individual conditions.[@tay2011needs]
 
 Which of the universal needs do you think is most important in your life right now? What are some ways it could be fulfilled? Focusing on the most pressing need is likely to be most rewarding. For example, if you have a successful career but often feel lonely, it may be worth shifting more of your focus to "social support and love" than "feeling respected" or "mastery".
 
@@ -37,41 +36,43 @@ The struggle towards self-actualization need not be done in isolation. With frie
     furtherReading: `
 - [22 Self-Actualization Tests and Tools to Apply Maslow’s Theory](https://positivepsychology.com/self-actualization-tests-tools-maslow/) by Elaine Mead
 `,
-
     exercises: [
         {
             type: 'fillblank',
-            question: "Cognitive restructuring is the process of influencing your feelings by changing your ___",
+            question: "Self-actualization is the process of fulfilling our needs and achieving our true ____",
             possibleAnswers: [
-                'thoughts',
-                'thinking'
+                'potential'
             ],
-            successFeedback: "Yep, the way we think changes the way we feel!",
-            reviseFeedback: `By changing your _thoughts_. Feelings are hard to alter directly, but we can change the way we think!`
+            successFeedback: "It's more about the journey than the destination.",
+            reviseFeedback: `Our true _potential_. How you define that is up to you.`
         },
         {
             type: 'fillblank',
-            question: "In the cognitive ___, there is a three-way relationship between feelings, thoughts, and behavior",
+            question: "Because of their consistency across cultures, humans may be considered to have ____ needs",
             possibleAnswers: [
-                'triangle'
+                'universal',
+                'fundamental'
             ],
-            successFeedback: "That's right. All three play an important role in our psychology!",
-            reviseFeedback: `This relationship is called the cognitive _triangle_.`
+            successFeedback: "Yep. Each need has many different ways of fulfilling it.",
+            reviseFeedback: `_Universal_ needs. They're open-ended, but every culture seems to have them.`
         },
         {
             type: 'fillblank',
-            question: `
-The steps to practice cognitive restructuring in writing are:
-
-1. Write down a negative automatic thought
-2. Identify possible ____
-3. Rewrite the thought with a more reasonable, positive framing
-            `,
+            question: "There is no strict hierarchy of needs and each makes an ____ contribution to the whole",
             possibleAnswers: [
-                'distortions'
+                'independent',
             ],
-            successFeedback: "Distortions can sneak into our thoughts when we least expect it!",
-            reviseFeedback: `Identify possible _distortions_. Distortions are ways of thinking that don't quite reflect reality.`
+            successFeedback: "Like vitamins!",
+            reviseFeedback: `Each makes an _independent_ contribution. One universal need can't be substituted for another.`
+        },
+        {
+            type: 'fillblank',
+            question: `We can all ____ each other towards self-actualization`,
+            possibleAnswers: [
+                'help'
+            ],
+            successFeedback: "Yep, friends and family are an important part of the journey!",
+            reviseFeedback: `We can _help_ each other. It need not be a lonesome quest.`
         },
     ],
     bibliography: `
