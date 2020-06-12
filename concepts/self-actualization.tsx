@@ -1,6 +1,4 @@
 import { concept } from '../shared/concept'
-// @ts-ignore
-import maslowsHierarchy from './img/maslows-hierarchy.jpg'
 
 export default concept({
     id: 'self-actualization',
@@ -9,9 +7,11 @@ export default concept({
     keyFinding: "Fulfillment of universal needs contributes to subjective well-being",
     author: "Reece Matthews and Jake Leoht",
     introduction: `
-Humans, in general, want to become better humans. Few people believe they are already the best they could be. Rather, each of us has a sense of our greatest potential, an idea of what we can be when our highest needs are met and we are able to live each day with wonder, purpose, and authenticity. In humanistic psychology, the pursuit of this fulfillment is called **self-actualization**.
+Humans, in general, want to improve their lives. Few people believe they are already the most awesome they could be. Instead, each of us has a sense of our potential, an idea of how it might be like if our highest needs are met and we are living each day with full purpose and authenticity. In the theory of humanistic psychology, the pursuit of this fulfillment is called **self-actualization**.
 
-Research supports the idea that there are "universal" human needs that are predictive of subjective well-being across many different cultures. Theories differ slightly on the exact breakdown of needs. Here's one way of defining them, taken from a cross-country study[@tay2011needs] based on the Gallup World Poll:
+The details of self-actualization have been defined differently by different authors. Often it seems to be more of an aspirational philosophy more than a psychological model, encompassing lots of traits considered noble about humans. In this entry, we're thinking of self-actualization mainly as the _fulfillment of needs_. What do humans need to be happy humans?
+
+Evidence supports the idea that there are universal human needs that are predictive of subjective well-being across many different cultures. Here's one way of listing them, taken from a cross-country study[@tay2011needs] based on the Gallup World Poll:
 
 - Basic needs for food and shelter
 - Safety and security
@@ -20,32 +20,21 @@ Research supports the idea that there are "universal" human needs that are predi
 - Feeling respected and pride in activities
 - Mastery
 
-These needs tend to be achieved in a certain order, but there is no strict hierarchy and each has an independent contribution to the whole. It is possible, though rarer, to have psychosocial needs fulfilled even before basic and safety needs. In a global context, the difficulty of meeting your basic needs has a lot to do with the country in which you live, while psychosocial needs vary more with individual conditions.[@tay2011needs]
+If you've heard of [Maslow's hierarchy of needs](https://en.wikipedia.org/wiki/Maslow%27s_hierarchy_of_needs), this will be familiar. However, there isn't actually much evidence for the ordering proposed by Maslow[@wahba1976maslow]; each need instead seems to contribute independently. It's possible, though rarer, to have psychosocial needs fulfilled even before basic and safety needs. Globally speaking, whether you can meet your basic needs easily has a lot to do with the country in which you live, while psychosocial needs vary more with individual conditions.[@tay2011needs]
 
-Which of the universal needs do you think is most important in your life right now? What are some ways it could be fulfilled? Focusing on the most pressing need is likely to be most rewarding. For example, if you have a successful career but often feel lonely, it may be worth shifting more of your focus to "social support and love" than "feeling respected" or "mastery".
+Which of the universal needs do you think is most important for you right now? What are some ways it could be fulfilled? Focusing on the most pressing need is likely to be most rewarding. For example, if you have a successful career but often feel lonely, you could put more of your focus on "social support and love" than "feeling respected" or "mastery".
 
 > Like vitamins, each of the needs is individually required, just as having much of one vitamin does not negate the need for other vitamins.[@tay2011needs]
 
-Each person progresses towards self-actualization at their own pace and in different ways. Older people tend to score higher on measures of self-actualization, and are more likely to be concerned with "higher motives" like honor and idealism.[@reiss2005motivation] However, there's lots of individual variation. Shifting priorities with age may be something fundamental, but it may also simply be explained by generational differences or increasing access to resources with which to meet needs.
+It's interesting to think about the relationship between self-actualization and [mindfulness](/mindfulness). While self-actualization encourages us to look to the future, mindfulness is all about immediate sensory experience. These are more compatible perspectives than they seem. Focusing on what we're doing right now can help us work towards the future effectively, and measures of mindfulness and self-actualization have been found to correlate.[@beitel2014stillness]
 
-The universal needs are open-ended in the way they are fulfilled. An artist’s idea of self-actualization may mean they have motivation to keep practicing their passion and producing what makes them happy, while an office worker's may be that they have found a work environment they are comfortable in and a good work/life balance where stress is minimal. Self-actualization is as unique as each human who experiences it. 
-
-The struggle towards self-actualization need not be done in isolation. With friends, family and peers we can help each other fulfill our universal needs, starting with social support and love. Never be afraid to seek advice and comfort from those around you. Reorienting your viewpoint, hearing the viewpoints of others, and critically analysing each need, may reveal what you want to change to move on in your journey through life!
+You don't need to try to self-actualize all by yourself. With friends, family and peers we can help each other fulfill our universal needs, starting with social support and love. Never be afraid to seek advice and comfort from those around you. Reorienting your viewpoint, hearing the viewpoints of others, and critically analysing each need, may reveal what you want to change to move on in your journey through life!
 `,
 
     furtherReading: `
 - [22 Self-Actualization Tests and Tools to Apply Maslow’s Theory](https://positivepsychology.com/self-actualization-tests-tools-maslow/) by Elaine Mead
 `,
     exercises: [
-        {
-            type: 'fillblank',
-            question: "Self-actualization is the process of fulfilling our needs and achieving our true ____",
-            possibleAnswers: [
-                'potential'
-            ],
-            successFeedback: "It's more about the journey than the destination.",
-            reviseFeedback: `Our true _potential_. How you define that is up to you.`
-        },
         {
             type: 'fillblank',
             question: "Because of their consistency across cultures, humans may be considered to have ____ needs",
@@ -76,7 +65,6 @@ The struggle towards self-actualization need not be done in isolation. With frie
         },
     ],
     bibliography: `
-
     @article{tay2011needs,
         title={Needs and subjective well-being around the world.},
         author={Tay, Louis and Diener, Ed},
@@ -88,17 +76,28 @@ The struggle towards self-actualization need not be done in isolation. With frie
         publisher={American Psychological Association},
         url={http://academic.udayton.edu/jackbauer/Readings%20595/Tay%20Diener%2011%20needs%20WB%20world%20copy.pdf}
     }
+      @article{wahba1976maslow,
+        title={Maslow reconsidered: A review of research on the need hierarchy theory},
+        author={Wahba, Mahmoud A and Bridwell, Lawrence G},
+        journal={Organizational behavior and human performance},
+        volume={15},
+        number={2},
+        pages={212--240},
+        year={1976},
+        publisher={Elsevier},
+        url={http://larrybridwell.com/Maslo.pdf}
+      }
 
-      @article{reiss2005motivation,
-        title={Motivation in developmental context: A new method for studying self-actualization},
-        author={Reiss, Steven and Havercamp, Susan M},
-        journal={Journal of Humanistic Psychology},
-        volume={45},
-        number={1},
-        pages={41--53},
-        year={2005},
-        publisher={Sage Publications Sage CA: Thousand Oaks, CA},
-        url={https://sci-hub.tw/https://doi.org/10.1177/0022167804269133}
+      @article{beitel2014stillness,
+        title={Stillness and motion: An empirical investigation of mindfulness and self-actualization},
+        author={Beitel, Mark and Bogus, Samantha and Hutz, Aida and Green, Dovid and Cecero, John J and Barry, Declan T},
+        journal={Person-Centered & Experiential Psychotherapies},
+        volume={13},
+        number={3},
+        pages={187--202},
+        year={2014},
+        publisher={Taylor & Francis},
+        url={https://sci-hub.tw/https://doi.org/10.1080/14779757.2013.855131}
       }
 `
 })
