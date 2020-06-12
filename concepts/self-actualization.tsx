@@ -3,8 +3,8 @@ import { concept } from '../shared/concept'
 export default concept({
     id: 'self-actualization',
     title: 'Self-actualization',
-    tagLine: "Fulfillment of universal needs contributes to subjective well-being",
-    keyFinding: "Fulfillment of universal needs contributes to subjective well-being",
+    tagLine: "Humans have universal needs for things like safety, love, and autonomy",
+    keyFinding: "Humans have universal needs for things like safety, love, and autonomy",
     author: "Reece Matthews and Jake Leoht",
     introduction: `
 Humans, in general, want to improve their lives. Few people believe they are already the most awesome they could be. Instead, each of us has a sense of our potential, an idea of how it might be like if our highest needs are met and we are living each day with full purpose and authenticity. In the theory of humanistic psychology, the pursuit of this fulfillment is called **self-actualization**.
