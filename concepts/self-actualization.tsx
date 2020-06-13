@@ -9,7 +9,7 @@ export default concept({
     introduction: `
 Humans, in general, want to improve their lives. Few people believe they are already the most awesome they could be. Instead, each of us has a sense of our potential, an idea of how it might be like if our highest needs are met and we are living each day with full purpose and authenticity. In the theory of humanistic psychology, the pursuit of this fulfillment is called **self-actualization**.
 
-The details of self-actualization have been defined differently by different authors. Often it seems to be more of an aspirational philosophy more than a psychological model, encompassing lots of traits considered noble about humans. In this entry, we're thinking of self-actualization mainly as the _fulfillment of needs_. What do humans need to be happy humans?
+The details of self-actualization have been defined differently by different authors. Often it seems to be more of an aspirational philosophy than a psychological model, encompassing lots of traits considered noble about humans. In this entry, we're thinking of self-actualization mainly as the _fulfillment of needs_. What do humans need to be happy humans?
 
 Evidence supports the idea that there are universal human needs that are predictive of subjective well-being across many different cultures. Here's one way of listing them, taken from a cross-country study[@tay2011needs] based on the Gallup World Poll:
 
@@ -18,7 +18,7 @@ Evidence supports the idea that there are universal human needs that are predict
 - Social support and love
 - Self-direction and autonomy
 - Feeling respected and pride in activities
-- Mastery
+- Mastery and growth
 
 If you've heard of [Maslow's hierarchy of needs](https://en.wikipedia.org/wiki/Maslow%27s_hierarchy_of_needs), this will be familiar. However, there isn't actually much evidence for the ordering proposed by Maslow[@wahba1976maslow]; each need instead seems to contribute independently. It's possible, though rarer, to have psychosocial needs fulfilled even before basic and safety needs. Globally speaking, whether you can meet your basic needs easily has a lot to do with the country in which you live, while psychosocial needs vary more with individual conditions.[@tay2011needs]
 

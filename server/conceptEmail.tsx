@@ -63,15 +63,17 @@ export function conceptEmailHtml(loginToken: string, concept: Concept) {
         text-decoration: none;
     }
 
-    #furtherReading ul {
+    blockquote {
+        font-style: italic;
+        padding-left: 15px;
+        border-left: 4px solid #c33071;
+    }
+
+    #references ol, #furtherReading ul {
         padding-left: 0;
     }
 
-    #references ol {
-        padding-left: 0;
-    }
-
-    #references li {
+    #references li, #furtherReading li {
         margin-left: 20px;
         padding-left: 5px;
         list-style-position: outside;
