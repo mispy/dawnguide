@@ -139,7 +139,7 @@ function transformRefs(markdown: MarkdownString, conceptId: string): [MarkdownSt
             index = referenceIds.length
             referenceIds.push(id)
         }
-        return `<a href="#${id}"><sup>[${index + 1}]</sup></a>`
+        return `<a href="${absurl(conceptId)}#${id}"><sup>[${index + 1}]</sup></a>`
     })
     return [content, referenceIds]
 }
