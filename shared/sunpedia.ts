@@ -88,6 +88,10 @@ export class Concept {
         return this.def.furtherReading
     }
 
+    @computed get notes(): MarkdownString | undefined {
+        return this.def.notes
+    }
+
     @computed get exercises(): Exercise[] {
         return this.def.exercises.map((e, i) => {
             return {

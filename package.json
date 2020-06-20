@@ -88,7 +88,7 @@
         "@babel/preset-env": "^7.9.6",
         "@babel/preset-typescript": "^7.9.0",
         "@cloudflare/wrangler": "^1.8.2",
-        "@dollarshaveclub/cloudworker": "github:foldspark/cloudworker",
+        "@dollarshaveclub/cloudworker": "github:leohtj/cloudworker",
         "@types/jest": "^25.2.1",
         "@typescript-eslint/eslint-plugin": "^2.11.0",
         "@typescript-eslint/parser": "^2.11.0",

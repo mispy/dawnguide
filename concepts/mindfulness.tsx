@@ -32,7 +32,9 @@ Mindfulness is a skill you can use at any time to help cope with difficult thoug
             type: 'fillblank',
             question: "Mindfulness-based therapies are about as ____ as cognitive-behavioral therapy or antidepressants on average",
             possibleAnswers: [
-                'effective'
+                'effective',
+                'useful',
+                'good'
             ],
             successFeedback: "They seem useful across a range of different disorders.",
             reviseFeedback: "They're about as _effective_, across a range of different disorders. "

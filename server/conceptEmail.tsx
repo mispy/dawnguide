@@ -121,6 +121,10 @@ export function ConceptEmailBody(props: { concept: Concept }) {
             <h2>Further Reading</h2>
             <Markdown options={markdownOptions}>{concept.furtherReading}</Markdown>
         </section> : undefined}
+        {concept.notes ? <section id="notes">
+            <h2>Notes</h2>
+            <Markdown options={markdownOptions}>{concept.notes}</Markdown>
+        </section> : undefined}
         {referencesInText.length ? <section id="references">
             <h2>References</h2>
             <Bibliography references={referencesInText} />

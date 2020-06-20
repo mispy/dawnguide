@@ -106,7 +106,7 @@ export const FillblankCard = observer(function FillblankCard(props: FillblankPro
                 </button>}
             </fieldset>
         </div>
-        {state.current === 'correct' && <p className="successFeedback"><Markdown>{exercise.successFeedback}</Markdown></p>}
-        {state.current === 'incorrect' && <p className="reviseFeedback"><Markdown>{exercise.reviseFeedback}</Markdown></p>}
+        {state.current === 'correct' && exercise.successFeedback && <p className="successFeedback"><Markdown>{exercise.successFeedback}</Markdown></p>}
+        {state.current === 'incorrect' && exercise.reviseFeedback && <p className="reviseFeedback"><Markdown>{exercise.reviseFeedback}</Markdown></p>}
     </div>
 })

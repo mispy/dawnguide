@@ -27,8 +27,8 @@ export type FillblankExerciseDef = {
     type: 'fillblank'
     question: string
     possibleAnswers: string[]
-    successFeedback: string
-    reviseFeedback: string
+    successFeedback?: string
+    reviseFeedback?: string
 }
 
 export type ExerciseDef = BasicExerciseDef | FillblankExerciseDef
@@ -43,6 +43,7 @@ export type ConceptDef = {
     draft?: true
     introduction: MarkdownString
     furtherReading?: MarkdownString
+    notes?: MarkdownString
     exercises: ExerciseDef[]
     bibliography: BibtexString
 }
