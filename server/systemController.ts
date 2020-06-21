@@ -33,7 +33,8 @@ export async function databaseExport(req: EventRequest, secret: string) {
     let result = await db.cfstore.list({})
 
     async function recordKey(key: string) {
-        dbexport[key] = await db.cfstore.get(key)
+        const val = await db.cfstore.get(key)
+        dbexport[key] = val !== null ? Buffer.from(val) : val
     }
 
     const promises = []
