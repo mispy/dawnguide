@@ -23,6 +23,14 @@ class FillblankState {
         this.response = e.currentTarget.value
     }
 
+    @action.bound continue() {
+        if (this.current === 'unanswered') {
+            this.checkAnswer()
+        } else {
+            this.finish()
+        }
+    }
+
     @action.bound checkAnswer() {
         if (!this.response.length)
             return
@@ -101,9 +109,9 @@ export const FillblankCard = observer(function FillblankCard(props: FillblankPro
                     disabled={state.current !== 'unanswered'}
                     autoFocus
                 />
-                {state.current !== 'unanswered' && <button>
-                    <FontAwesomeIcon icon={faChevronRight} onClick={state.finish} />
-                </button>}
+                <button onClick={state.continue}>
+                    <FontAwesomeIcon icon={faChevronRight} />
+                </button>
             </fieldset>
         </div>
         {state.current === 'correct' && exercise.successFeedback && <p className="successFeedback"><Markdown>{exercise.successFeedback}</Markdown></p>}
