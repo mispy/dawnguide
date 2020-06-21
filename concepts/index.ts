@@ -7,5 +7,6 @@ import cognitiveRestructuring from './cognitive-restructuring'
 import proximalSubgoals from './proximal-subgoals'
 import selfActualization from './self-actualization'
 import taps from './trigger-action-plans'
+import mentalContrasting from './mental-contrasting'
 
-export default [spacedLearning, selfCompassion, mindfulness, behavioralActivation, automaticity, cognitiveRestructuring, proximalSubgoals, selfActualization, taps]
+export default [spacedLearning, selfCompassion, mindfulness, behavioralActivation, automaticity, cognitiveRestructuring, proximalSubgoals, selfActualization, taps, mentalContrasting]
