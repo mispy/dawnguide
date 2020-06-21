@@ -1,11 +1,10 @@
 import { concept } from '../shared/concept'
 
 export default concept({
-    draft: true,
     id: 'trigger-action-plans',
     title: 'Trigger-action plans',
-    tagLine: "",
-    keyFinding: "",
+    tagLine: "Build good habits by associating specific cues with a behavioral response",
+    keyFinding: "Build good habits by associating specific cues with a behavioral response",
     author: "Jake Leoht",
     introduction: `
 Creating **trigger-action plans** (TAPs) is a way of turning vague goals into concrete changes in your behavior. By associating a specific _trigger_ situation with an _action_ you you will do in response, you can start a new routine or modify an existing one. Some examples:
@@ -13,7 +12,7 @@ Creating **trigger-action plans** (TAPs) is a way of turning vague goals into co
 - **Goal:** Exercise more
 - **TAP:** When I see the stairs, I will take them instead of the elevator
 
-- **Goal:** Do more nice things 
+- **Goal:** Do more nice things
 - **TAP:** When I see an item that reminds me of a friend, I'll write it down as a birthday gift idea
 
 - **Goal:** Improve mental health
@@ -28,7 +27,7 @@ The steps to creating a TAP:
 - Decide on an action you will take after the trigger
 - Rehearse the causal link (e.g. with deliberate visualization)
 
-In the academic literature, this strategy is known as "implementation intentions", and there's strong evidence for it being effective. A meta-analysis of 94 studies found that implementation intentions had a medium-to-large effect of .65 standard deviations towards successfully achieving a broad goal.[@gollwitzer2006implementation]  
+In the academic literature, this strategy is known as "implementation intentions", and there's strong evidence for it being effective. A meta-analysis of 94 studies found that interventions using implementation intentions had a medium-to-large effect towards successful goal achievement, across a variety of goals such as reducing snack consumption, avoiding stereotyping, or persisting with difficult puzzles.[@gollwitzer2006implementation]  
 `,
 
     furtherReading: `
@@ -45,14 +44,9 @@ The meta-analysis is striking in its confidence about implementation intentions 
             question: `Creating trigger-____ plans is a way of turning vague goals into concrete changes in behavior`,
             possibleAnswers: [
                 "action"
-            ]
-        },
-        {
-            type: 'fillblank',
-            question: `After creating a trigger-action plan, it's important to ____ the causal link`,
-            possibleAnswers: [
-                "rehearse"
-            ]
+            ],
+            successFeedback: "Supported by lots of evidence!",
+            reviseFeedback: "They're called trigger-_action_ plans, also if-then plans or implementation intentions."
         },
         {
             type: 'fillblank',
@@ -62,6 +56,17 @@ The meta-analysis is striking in its confidence about implementation intentions 
                 'if',
                 'once'
             ],
+            successFeedback: "Please do!",
+            reviseFeedback: "_When_ you see the email. That's the trigger part of the TAP."
+        },
+        {
+            type: 'fillblank',
+            question: `After creating a trigger-action plan, it's important to ____ the causal link`,
+            possibleAnswers: [
+                "rehearse"
+            ],
+            successFeedback: "Either by actually practicing the process or visualizing it.",
+            reviseFeedback: "It's important to _rehearse_. That way, you're primed to act when the trigger comes around."
         }
     ],
     bibliography: `
@@ -73,7 +78,7 @@ The meta-analysis is striking in its confidence about implementation intentions 
         pages={69--119},
         year={2006},
         publisher={Elsevier},
-        url={https://kops.uni-konstanz.de/bitstream/handle/123456789/10973/06GollwitzerSheeran_ImplementationIntentionsAndGoalAchievement.pdf?sequence=}
+        url={https://duwtje.com/wp-content/uploads/2015/06/implementation-intention.pdf}
       }
 `
 })

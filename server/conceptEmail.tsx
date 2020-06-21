@@ -29,6 +29,11 @@ export function conceptEmailHtml(loginToken: string, concept: Concept) {
         text-decoration: none;
     }
 
+    p {
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+
     img {
         display: block;
         margin: auto;
