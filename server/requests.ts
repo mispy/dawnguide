@@ -12,6 +12,10 @@ export class EventRequest {
 
         // Get the session if there is one
         const session = await getSession(event) || undefined
+        if (session) {
+            // Record the user's presence
+            event.waitUntil(db.users.update(session.userId, { lastSeenAt: Date.now() }))
+        }
 
         // Parse body of the request as json, if present
         let json: Json | undefined

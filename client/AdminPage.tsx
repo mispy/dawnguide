@@ -20,15 +20,17 @@ class AdminPageState {
     async loadUsers() {
         const users = await this.api.admin.getUsers()
         runInAction(() => {
-            this.users = _.sortBy(users, u => -u.createdAt)
+            this.users = _.sortBy(users, u => -u.lastSeenAt)
         })
     }
 
-    async deleteUser(id: string) {
-        await this.api.admin.deleteUser(id)
-        runInAction(() => {
-            this.users = this.users.filter(u => u.id !== id)
-        })
+    async deleteUser(user: User) {
+        if (window.confirm(`Really delete ${user.email}?`)) {
+            await this.api.admin.deleteUser(user.id)
+            runInAction(() => {
+                this.users = this.users.filter(u => u.id !== user.id)
+            })
+        }
     }
 }
 
@@ -49,7 +51,7 @@ export function AdminPage() {
                         <tr>
                             <th>Email</th>
                             <th>Signed Up</th>
-                            {/* <th>Last Login</th> */}
+                            <th>Last Seen</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -57,9 +59,9 @@ export function AdminPage() {
                         {state.users.map(user => <tr key={user.id}>
                             <td>{user.email}</td>
                             <td><TimeAgo date={user.createdAt} /></td>
-                            {/* <td></td> */}
+                            <td><TimeAgo date={user.lastSeenAt} /></td>
                             <td>
-                                <button className="btn btn-sm btn-danger" onClick={() => state.deleteUser(user.id)}>Delete</button>
+                                <button className="btn btn-sm btn-danger" onClick={() => state.deleteUser(user)}>Delete</button>
                             </td>
                         </tr>)}
                     </tbody>

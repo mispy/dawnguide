@@ -39,7 +39,12 @@ export async function findKeys(prefix: string) {
 }
 
 async function deleteKey(key: string) {
-    await cfstore.delete(key)
+    try {
+        await cfstore.delete(key)
+    } catch (err) {
+        // We don't really care that much about errors in deletion
+        console.error(err)
+    }
 }
 
 export { deleteKey as delete }
@@ -53,6 +58,7 @@ export type User = {
     cryptedPassword: string
     createdAt: number
     updatedAt: number
+    lastSeenAt: number
     emailConfirmed?: true
     subscription?: {
         // Stripe details
@@ -131,7 +137,8 @@ export namespace users {
             username: props.username,
             cryptedPassword: hashed,
             createdAt: now,
-            updatedAt: now
+            updatedAt: now,
+            lastSeenAt: now
         }
 
         await db.putJson(`users:${userId}`, user)
@@ -141,7 +148,7 @@ export namespace users {
 
     export async function update(userId: string, changes: Partial<User>): Promise<User> {
         const user = await users.expect(userId)
-        Object.assign(user, changes)
+        Object.assign(user, { updatedAt: Date.now() }, changes)
         await db.putJson(`users:${userId}`, user)
         return user
     }

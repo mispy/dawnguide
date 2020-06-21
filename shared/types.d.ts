@@ -7,6 +7,7 @@ export type User = {
     username: string
     createdAt: number
     updatedAt: number
+    lastSeenAt: number
     emailConfirmed?: true
     subscription?: {
         // Stripe details
