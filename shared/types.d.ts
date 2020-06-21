@@ -18,6 +18,10 @@ export type User = {
     }
 }
 
+export type UserAdminReport = User & {
+    meanLevel: number
+}
+
 export type BasicExerciseDef = {
     type?: undefined
     question: string

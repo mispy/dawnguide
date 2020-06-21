@@ -1,7 +1,7 @@
 import Router from "./router"
 import { ResponseError, expectKeys, trimStrings } from "./utils"
 import * as db from './db'
-import { User, UserProgressItem } from '../shared/types'
+import { User, UserProgressItem, UserAdminReport } from '../shared/types'
 import { getReviewTime } from "../shared/logic"
 import * as _ from 'lodash'
 import { sendMail } from "./mail"
@@ -221,9 +221,21 @@ export namespace admin {
         return await r.route(req)
     }
 
-    export async function getUsers(): Promise<User[]> {
+    export async function getUsers(): Promise<UserAdminReport[]> {
         const users = await db.users.all()
-        return users.map(u => _.pick(u, 'id', 'email', 'username', 'createdAt', 'updatedAt', 'lastSeenAt'))
+        const userProgress = await Promise.all(users.map(u => db.progressItems.allFor(u.id)))
+        const sunpedia = new Sunpedia()
+
+        return users.map((u, i) => {
+            const progress = userProgress[i]
+            const progressByExercise = _.keyBy(progress, p => p.exerciseId)
+            const meanLevel = _.meanBy(sunpedia.exercises, e => progressByExercise[e.id]?.level || 0)
+
+            return Object.assign(
+                _.pick(u, 'id', 'email', 'username', 'createdAt', 'updatedAt', 'lastSeenAt'),
+                { meanLevel: meanLevel }
+            )
+        })
     }
 
     export async function deleteUser(req: SessionRequest, userId: string) {

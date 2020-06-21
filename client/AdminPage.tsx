@@ -6,14 +6,14 @@ import * as React from 'react'
 import { AppLayout } from "./AppLayout"
 import { ClientApi } from "./ClientApi"
 import { observable, runInAction, action } from "mobx"
-import { User } from "../shared/types"
+import { User, UserAdminReport } from "../shared/types"
 
 // @ts-ignore
 import TimeAgo from "react-timeago"
 import { Container } from "react-bootstrap"
 
 class AdminPageState {
-    @observable users: User[] = []
+    @observable users: UserAdminReport[] = []
 
     constructor(readonly api: ClientApi) { }
 
@@ -52,6 +52,7 @@ export function AdminPage() {
                             <th>Email</th>
                             <th>Signed Up</th>
                             <th>Last Seen</th>
+                            <th>Mean Level</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -60,6 +61,9 @@ export function AdminPage() {
                             <td>{user.email}</td>
                             <td><TimeAgo date={user.createdAt} /></td>
                             <td><TimeAgo date={user.lastSeenAt} /></td>
+                            <td>
+                                {user.meanLevel}
+                            </td>
                             <td>
                                 <button className="btn btn-sm btn-danger" onClick={() => state.deleteUser(user)}>Delete</button>
                             </td>
