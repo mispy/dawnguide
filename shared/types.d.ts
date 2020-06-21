@@ -20,6 +20,8 @@ export type User = {
 
 export type UserAdminReport = User & {
     meanLevel: number
+    lessonsStudied: number
+    notificationSettings: UserNotificationSettings
 }
 
 export type BasicExerciseDef = {

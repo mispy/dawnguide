@@ -20,7 +20,7 @@ class AdminPageState {
     async loadUsers() {
         const users = await this.api.admin.getUsers()
         runInAction(() => {
-            this.users = _.sortBy(users, u => -u.lastSeenAt)
+            this.users = _.sortBy(users, u => -u.meanLevel)
         })
     }
 
@@ -52,22 +52,37 @@ export function AdminPage() {
                             <th>Email</th>
                             <th>Signed Up</th>
                             <th>Last Seen</th>
+                            <th>Lessons Studied</th>
                             <th>Mean Level</th>
+                            <th>Notifications</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {state.users.map(user => <tr key={user.id}>
-                            <td>{user.email}</td>
-                            <td><TimeAgo date={user.createdAt} /></td>
-                            <td><TimeAgo date={user.lastSeenAt} /></td>
-                            <td>
-                                {user.meanLevel}
-                            </td>
-                            <td>
-                                <button className="btn btn-sm btn-danger" onClick={() => state.deleteUser(user)}>Delete</button>
-                            </td>
-                        </tr>)}
+                        {state.users.map(user => {
+                            const notifs = user.notificationSettings
+                            let notifStatus = "Disabled"
+                            if (!notifs.disableNotificationEmails) {
+                                if (notifs.emailAboutNewConcepts && notifs.emailAboutWeeklyReviews) {
+                                    notifStatus = "Everything"
+                                } else if (notifs.emailAboutNewConcepts) {
+                                    notifStatus = "New Concepts Only"
+                                } else {
+                                    notifStatus = "Reviews Only"
+                                }
+                            }
+                            return <tr key={user.id}>
+                                <td>{user.email}</td>
+                                <td><TimeAgo date={user.createdAt} /></td>
+                                <td><TimeAgo date={user.lastSeenAt} /></td>
+                                <td>{user.lessonsStudied}</td>
+                                <td>{user.meanLevel}</td>
+                                <td>{notifStatus}</td>
+                                <td>
+                                    <button className="btn btn-sm btn-danger" onClick={() => state.deleteUser(user)}>Delete</button>
+                                </td>
+                            </tr>
+                        })}
                     </tbody>
                 </table>
             </Container>

@@ -224,16 +224,18 @@ export namespace admin {
     export async function getUsers(): Promise<UserAdminReport[]> {
         const users = await db.users.all()
         const userProgress = await Promise.all(users.map(u => db.progressItems.allFor(u.id)))
+        const notificationSettings = await Promise.all(users.map(u => db.notificationSettings.get(u.id)))
         const sunpedia = new Sunpedia()
 
         return users.map((u, i) => {
             const progress = userProgress[i]
             const progressByExercise = _.keyBy(progress, p => p.exerciseId)
             const meanLevel = _.meanBy(sunpedia.exercises, e => progressByExercise[e.id]?.level || 0)
+            const lessonsStudied = sunpedia.concepts.filter(c => _.some(c.exercises, e => progressByExercise[e.id])).length
 
             return Object.assign(
                 _.pick(u, 'id', 'email', 'username', 'createdAt', 'updatedAt', 'lastSeenAt'),
-                { meanLevel: meanLevel }
+                { meanLevel: meanLevel, lessonsStudied: lessonsStudied, notificationSettings: notificationSettings[i] }
             )
         })
     }

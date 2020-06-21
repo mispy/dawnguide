@@ -3,7 +3,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 import { API_BASE_URL, IS_PRODUCTION } from './settings'
 import { delay } from './utils'
-import { User, UserProgressItem, UserNotificationSettings } from '../shared/types'
+import { User, UserProgressItem, UserNotificationSettings, UserAdminReport } from '../shared/types'
 import { Sunpedia } from '../shared/sunpedia'
 // @ts-ignore
 const NProgress = require('accessible-nprogress')
@@ -132,7 +132,7 @@ export class ClientApi {
 export class AdminApi {
     constructor(readonly http: HTTPProvider) { }
 
-    async getUsers(): Promise<User[]> {
+    async getUsers(): Promise<UserAdminReport[]> {
         const { data } = await this.http.get('/api/admin/users')
         return data
     }
