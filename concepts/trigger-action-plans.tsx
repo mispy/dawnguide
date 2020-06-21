@@ -50,7 +50,7 @@ The meta-analysis is striking in its confidence about implementation intentions 
         },
         {
             type: 'fillblank',
-            question: "A trigger-action plan: ____ I see a reminder email from Dawnguide, I'll complete my reviews",
+            question: "An example trigger-action plan: ____ I see a reminder email from Dawnguide, I'll complete my reviews",
             possibleAnswers: [
                 'when',
                 'if',
@@ -63,7 +63,9 @@ The meta-analysis is striking in its confidence about implementation intentions 
             type: 'fillblank',
             question: `After creating a trigger-action plan, it's important to ____ the causal link`,
             possibleAnswers: [
-                "rehearse"
+                "rehearse",
+                "practice",
+                "visualize"
             ],
             successFeedback: "Either by actually practicing the process or visualizing it.",
             reviseFeedback: "It's important to _rehearse_. That way, you're primed to act when the trigger comes around."

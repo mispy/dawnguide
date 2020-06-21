@@ -48,7 +48,8 @@ A sense of _common humanity_ is key to self-compassion. You are not alone in you
             type: 'fillblank',
             question: "Common humanity is a key element of self-compassion because all people experience ____",
             possibleAnswers: [
-                'suffering'
+                'suffering',
+                'hardship'
             ],
             successFeedback: "Yep. You are also people!",
             reviseFeedback: "All people experience _suffering_. You are also people!"
