@@ -42,6 +42,11 @@ class FillblankState {
         } else {
             this.current = 'incorrect'
         }
+
+        // Fix bug in firefox where you can't press enter to progress
+        requestAnimationFrame(() => {
+            (document.activeElement as HTMLInputElement)?.blur()
+        })
     }
 
     @action.bound finish() {
