@@ -15,8 +15,10 @@ type FillblankProps = { exercise: FillblankExerciseDef, concept: Concept, onSubm
 class FillblankState {
     @observable response: string = ""
     @observable current: 'unanswered' | 'correct' | 'incorrect' = 'unanswered'
+    @observable props: FillblankProps
 
-    constructor(readonly props: FillblankProps) {
+    constructor(props: FillblankProps) {
+        this.props = props
     }
 
     @action.bound changeResponse(e: React.ChangeEvent<HTMLInputElement>) {
@@ -51,6 +53,8 @@ class FillblankState {
 
     @action.bound finish() {
         this.props.onSubmit(this.current === 'correct')
+        this.response = ""
+        this.current = 'unanswered'
     }
 }
 
@@ -85,10 +89,7 @@ export const FillblankCard = observer(function FillblankCard(props: FillblankPro
     useEffect(() => {
         if (responseInput.current)
             responseInput.current.focus()
-
-        if (props.exercise !== state.props.exercise) {
-            store.state = new FillblankState(props)
-        }
+        state.props = props
     })
 
     const parts = exercise.question.split(/_+/)
