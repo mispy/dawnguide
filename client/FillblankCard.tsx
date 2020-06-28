@@ -60,7 +60,7 @@ class FillblankState {
 
 
 export const FillblankCard = observer(function FillblankCard(props: FillblankProps) {
-    const { exercise, concept, onSubmit } = props
+    const { exercise } = props
     const canonicalAnswer = exercise.possibleAnswers[0]
     const responseInput = useRef<HTMLInputElement>(null)
     const store = useLocalStore(() => ({ state: new FillblankState(props) }))

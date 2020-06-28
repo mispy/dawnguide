@@ -34,7 +34,8 @@ Mindfulness is a skill you can use at any time to help cope with difficult thoug
             possibleAnswers: [
                 'effective',
                 'useful',
-                'good'
+                'good',
+                'helpful'
             ],
             successFeedback: "They seem useful across a range of different disorders.",
             reviseFeedback: "They're about as _effective_, across a range of different disorders. "
