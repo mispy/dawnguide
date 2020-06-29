@@ -6,9 +6,9 @@ import { Concept } from "./sunpedia"
 import { Bibliography } from "./Bibliography"
 import { MarkdownString } from "./types"
 import classNames from 'classnames'
-import { Link } from 'react-router-dom'
 import { IS_SERVER } from './settings'
 import { isExternalUrl } from './utils'
+import { HashLink as Link } from 'react-router-hash-link'
 
 function transformRefs(markdown: MarkdownString): [MarkdownString, string[]] {
     const referenceIds: string[] = []
