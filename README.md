@@ -1,4 +1,4 @@
-# Dawnguide
+# Dawnguide ☀️📖
 
 ![](https://github.com/leohtj/dawnguide/workflows/Test%20on%20commit/badge.svg)
 
