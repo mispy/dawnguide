@@ -1,6 +1,6 @@
 # Dawnguide
 
-![](https://github.com/leohtj/dawnguide/.github/workflows/test-commits.yml/badge.svg)
+![](https://github.com/leohtj/dawnguide/workflows/.github/workflows/test-commits.yml/badge.svg)
 
 Dawnguide is a small, specialized encyclopedia and spaced learning system for mental health strategies that are strongly supported by evidence. It aims to bridge the gap between the collective knowledge of the human mind that is locked away in scientific journals, and the people who would most benefit from applying that knowledge in their own lives.
 
