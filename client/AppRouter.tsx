@@ -20,11 +20,13 @@ import { AdminEmailsPage } from './AdminEmailsPage'
 import { AccountPage } from './AccountPage'
 import { NotificationsPage } from './NotificationsPage'
 import { ContactPage } from './ContactPage'
+import ScrollToTop from './ScrollToTop'
 
 export function AppRouter() {
     const { sunpedia } = useContext(AppContext)
 
     return <Router>
+        <ScrollToTop />
         <Switch>
             <Route path="/home">
                 <HomePage />
