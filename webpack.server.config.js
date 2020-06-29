@@ -3,6 +3,14 @@ const webpack = require('webpack')
 const fs = require('fs')
 const uuid = require('uuid').v4
 
+function maybeReadFile(path) {
+    try {
+        fs.readFileSync(path, 'utf8')
+    } catch (err) {
+        return undefined
+    }
+}
+
 module.exports = (env, argv) => {
     const isProduction = argv.mode === 'production'
 
@@ -23,7 +31,7 @@ module.exports = (env, argv) => {
         },
         plugins: [
             new webpack.EnvironmentPlugin({
-                WEBPACK_MANIFEST: fs.readFileSync(path.resolve(__dirname, 'client/dist/assets/manifest.json'), 'utf8'),
+                WEBPACK_MANIFEST: maybeReadFile(path.resolve(__dirname, 'client/dist/assets/manifest.json')),
                 BUILD_ID: uuid()
             })
         ],
