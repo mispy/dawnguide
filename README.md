@@ -4,9 +4,9 @@
 
 Dawnguide is a small, specialized encyclopedia and spaced learning system for mental health strategies that are strongly supported by evidence. It aims to bridge the gap between the collective knowledge of the human mind that is locked away in scientific journals, and the people who would most benefit from applying that knowledge in their own lives.
 
-The site is fully serverless and runs on [Cloudflare Workers](https://workers.cloudflare.com/sites), using [Workers KV](https://developers.cloudflare.com/workers/reference/storage) for data storage.
+The site is a fully serverless isomorphic React app and runs on [Cloudflare Workers](https://workers.cloudflare.com/sites), using [Workers KV](https://developers.cloudflare.com/workers/reference/storage) for data storage.
 
-This repository contains both the code for the site and also the lesson and exercise content, under `concepts`. The code is MIT licensed, while the content is [CC-BY](https://creativecommons.org/licenses/by/2.0/).
+This repository contains both the backend and frontend code for the site as well as the lesson and exercise content, under `concepts`. The code is MIT licensed, while the content is [CC-BY](https://creativecommons.org/licenses/by/2.0/).
 
 ## Development setup
 
