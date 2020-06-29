@@ -2,7 +2,7 @@
 
 ![](https://github.com/leohtj/dawnguide/workflows/Test%20on%20commit/badge.svg)
 
-Dawnguide is a small, specialized encyclopedia and spaced learning system for people who want to learn mental health strategies strongly supported by evidence. It aims to bridge the gap between the collective knowledge of the human mind that is locked away in scientific journals, and those who would most benefit from applying that knowledge in their own lives.
+Dawnguide is a small, specialized encyclopedia and spaced learning system for mental health strategies that are strongly supported by evidence. It aims to bridge the gap between the collective knowledge of the human mind that is locked away in scientific journals, and those who would most benefit from applying that knowledge in their own lives.
 
 The site is a fully serverless isomorphic React app and runs on [Cloudflare Workers](https://workers.cloudflare.com/sites), using [Workers KV](https://developers.cloudflare.com/workers/reference/storage) for data storage.
 
