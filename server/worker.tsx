@@ -61,6 +61,11 @@ async function maybeCached(req: EventRequest): Promise<Response> {
 }
 
 async function processRequest(req: EventRequest): Promise<Response> {
+    // Handle sneaky trailing slashes
+    if (req.path.endsWith('/') && req.path !== "/") {
+        return redirect(_.trimEnd(req.path, '/'), 301)
+    }
+
     const r = new Router<EventRequest>()
     r.get('/(assets/.*)|.*\\.js|.*\\.css|.*\\.jpg|.*\\.png|.*\\.ico|.*\\.svg|.*\\.webmanifest|.*\\.json|.*\\.txt', serveStatic)
     r.get('/login', auth.loginPage)
