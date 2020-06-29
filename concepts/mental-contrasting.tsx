@@ -1,7 +1,6 @@
 import { concept } from '../shared/concept'
 
 export default concept({
-    draft: true,
     id: 'mental-contrasting',
     title: 'Mental contrasting',
     tagLine: "Find energy to act by contrasting the future you want with obstacles in the present",
@@ -48,27 +47,28 @@ The psychologists who originally introduced mental contrasting and implementatio
                 'future',
                 'outcome'
             ],
-            // successFeedback: "Yep. Each need has many different ways of fulfilling it.",
-            // reviseFeedback: `_Universal_ needs. They're open-ended, but every culture seems to have them.`
+            successFeedback: "Yep! Research suggests it's a particularly effective way of thinking about the future.",
+            reviseFeedback: "Contrasting a desired _future_. Think about where you want to be, then consider how you will get there."
         },
         {
             type: 'fillblank',
-            question: "There is no strict hierarchy of needs and each makes an ____ contribution to the whole",
+            question: `Mental contrasting leads to goal commitment in line with a person's ____ of success`,
             possibleAnswers: [
-                'independent',
+                'expectations',
+                'confidence'
             ],
-            successFeedback: "Like vitamins!",
-            reviseFeedback: `Each makes an _independent_ contribution. One universal need can't be substituted for another.`
+            successFeedback: "It motivates you more when you are confident the future is realistic to achieve.",
+            reviseFeedback: `In line with a person's _expectations_. Contrasting against realistic futures is more motivating.`
         },
         {
             type: 'fillblank',
-            question: `We can all ____ each other towards self-actualization`,
+            question: "Indulging too much in positive ____ about the future without contrasting the present can reduce motivation",
             possibleAnswers: [
-                'help'
+                'fantasies',
             ],
-            successFeedback: "Yep, friends and family are an important part of the journey!",
-            reviseFeedback: `We can _help_ each other. It need not be a lonesome quest.`
-        },
+            successFeedback: "Right! Make sure to link fantasies about the future to the actions needed to achieve them.",
+            reviseFeedback: `Indulging in positive _fantasies_ can be a problem, as it delinks thoughts of success from the effort needed.`
+        }
     ],
     bibliography: `
     @article{oettingen2013mind,
