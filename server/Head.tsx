@@ -10,17 +10,17 @@ export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, p
     const cssUrl = props.cssUrl || resolveAsset('site.css')
     const canonicalUrl = props.canonicalUrl ? absurl(props.canonicalUrl) : null
 
-    const script = `if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/serviceWorker.js').then(function(registration) {
-            // Registration was successful
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          }, function(err) {
-            // registration failed :(
-            console.log('ServiceWorker registration failed: ', err);
-          });
-        });
-      }`
+    // const script = `if ('serviceWorker' in navigator) {
+    //     window.addEventListener('load', function() {
+    //       navigator.serviceWorker.register('/serviceWorker.js').then(function(registration) {
+    //         // Registration was successful
+    //         console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    //       }, function(err) {
+    //         // registration failed :(
+    //         console.log('ServiceWorker registration failed: ', err);
+    //       });
+    //     });
+    //   }`
 
     return <head>
         <meta charSet="utf-8" />
@@ -56,7 +56,6 @@ export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, p
             </>}
 
         <link rel="stylesheet" href={cssUrl} />
-        <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700|Montserrat:400,700|Open+Sans:300,400&amp;display=swap" rel="stylesheet" type="text/css" />
         {props.children}
         {/* <script dangerouslySetInnerHTML={{ __html: script }} /> */}
     </head>
