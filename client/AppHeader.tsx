@@ -16,7 +16,7 @@ export function AppHeader() {
                     <Logo /> Dawnguide <span className="environment">{window.location.origin.match(/localhost/) ? 'dev' : 'alpha'}</span>
                 </Navbar.Brand>
                 <div className="ml-auto d-flex align-items-center">
-                    <Nav className="learnButtons">
+                    <Nav>
                         <ul className="navigation-shortcuts">
                             <li className="navigation-shortcut navigation-shortcut--lessons">
                                 <Link to="/lesson" className={app.numLessons === 0 ? 'inactive' : undefined}>
