@@ -31,7 +31,7 @@ export function HomePage() {
                         </thead>
                         <tbody>
                             {app.exercisesWithProgress.map(item => <tr key={item.exercise.id}>
-                                <td><Link to={`/${item.exercise.conceptId}`}>{sunpedia.conceptById[item.exercise.conceptId].title}</Link></td>
+                                <td><Link className="text-link" to={`/${item.exercise.conceptId}`}>{sunpedia.conceptById[item.exercise.conceptId].title}</Link></td>
                                 <td style={{ maxWidth: '300px' }}>{item.exercise.question}</td>
                                 <td>{item.progress ? item.progress.level : 0}</td>
                                 <td>{app.reviews.some(r => r.exercise.id === item.exercise.id) ? "Available now" : showReviewTime(item)}</td>

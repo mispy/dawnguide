@@ -11,7 +11,7 @@ import { isExternalUrl } from './utils'
 import { HashLink as Link } from 'react-router-hash-link'
 
 function transformRefs(markdown: MarkdownString): [MarkdownString, string[]] {
-    const referenceIds: string[] = []
+    const referenceIds: string[] = []   
     const content = markdown.replace(/\[@([^\]]+)\]/g, (substr, id) => {
         let index = referenceIds.indexOf(id)
         if (index === -1) {
@@ -25,11 +25,11 @@ function transformRefs(markdown: MarkdownString): [MarkdownString, string[]] {
 
 function SmartLink(props: { href: string }) {
     if (isExternalUrl(props.href)) {
-        return <a target="_blank" {...props}/>    
+        return <a target="_blank" {...props} className="text-link"  />
     } else if (IS_SERVER) {
-        return <a href={props.href} {..._.omit(props, 'href')}/>
+        return <a href={props.href} {..._.omit(props, 'href')} className="text-link"/>
     } else {
-        return <Link to={props.href} {..._.omit(props, 'href')}/>
+        return <Link to={props.href} {..._.omit(props, 'href')} className="text-link"/>
     }
 }
 

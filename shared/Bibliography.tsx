@@ -17,9 +17,9 @@ export function BibliographyReference(props: { reference: Reference }) {
 
     let format = <></>
     if (ref.volume && ref.issue && ref.page) {
-        format = <>{authorStr} ({ref.year}). <a href={ref.url} target="_blank" rel="noopener">{ref.title}</a> <em>{ref.journal}</em>, <em>{ref.volume}</em>({ref.issue}), {ref.page.replace("--", "—")}.</>
+        format = <>{authorStr} ({ref.year}). <a className="text-link" href={ref.url} target="_blank" rel="noopener">{ref.title}</a> <em>{ref.journal}</em>, <em>{ref.volume}</em>({ref.issue}), {ref.page.replace("--", "—")}.</>
     } else {
-        format = <>{authorStr} ({ref.year}). <a href={ref.url} target="_blank" rel="noopener">{ref.title}</a> <em>{ref.journal}</em>.</>
+        format = <>{authorStr} ({ref.year}). <a className="text-link" href={ref.url} target="_blank" rel="noopener">{ref.title}</a> <em>{ref.journal}</em>.</>
     }
 
 
