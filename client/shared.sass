@@ -18,9 +18,11 @@ body
     @media (max-width: $mobile)
         font-size: 16px
 
-    a.text-link, a.text-link:hover
+    a, a:hover
         color: $base-color
-        font-weight: 500
+
+    a.text-link
+        font-weight: 400
 
 .btn-dawn
     background: $base-color
@@ -114,7 +116,7 @@ span.Logo
     blockquote
         font-style: italic
         padding-left: 15px
-        border-left: 4px solid #c33071
+        border-left: 4px solid $base-color
 
 .Passage
     h1

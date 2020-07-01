@@ -28,7 +28,7 @@ export function ConceptPage(props: { concept: Concept }) {
                     <Passage concept={concept} />
                     <section>
                         <div className="text-right">
-                            <a href={`/review/${concept.id}`} className="btn btn-dawn">Continue to review <FontAwesomeIcon icon={faArrowRight} /></a>
+                            <a href={`/review/${concept.id}`} className="btn btn-dawn">Review {concept.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></a>
                         </div>
                     </section>
                 </div>

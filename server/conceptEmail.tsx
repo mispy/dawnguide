@@ -135,7 +135,7 @@ export function ConceptEmailBody(props: { concept: Concept }) {
             <Bibliography references={referencesInText} />
         </section> : undefined}
         <div className="text-right">
-            <a href={absurl(`/review/${concept.id}`)} className="btn btn-dawn">Continue to review <FontAwesomeIcon icon={faArrowRight} /></a>
+            <a href={absurl(`/review/${concept.id}`)} className="btn btn-dawn">Review {concept.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></a>
         </div>
     </>
 }

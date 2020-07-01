@@ -65,7 +65,7 @@ export function ConceptPage(props: { concept: Concept }) {
 
                     </section> : <section>
                             <div className="text-right">
-                                <Link to={`/review/${concept.id}`} className="btn btn-dawn">Continue to review <FontAwesomeIcon icon={faArrowRight} /></Link>
+                                <Link to={`/review/${concept.id}`} className="btn btn-dawn">Review {concept.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></Link>
                             </div>
                         </section>}
 

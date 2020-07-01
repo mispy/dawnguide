@@ -24,7 +24,7 @@ export function SignupPage(props: { then?: string, error?: string }) {
                     <input type="hidden" name="then" value={props.then} />
                     <button type="submit" className="btn btn-dawn">✨ Sign up</button>
                     <hr />
-                    <div><a href={props.then ? `/login?then=${props.then}` : `/login`}>Sign in</a></div>
+                    <div><a className="text-link" href={props.then ? `/login?then=${props.then}` : `/login`}>Sign in</a></div>
                 </form>
             </main>
         </body>

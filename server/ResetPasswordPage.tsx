@@ -17,8 +17,8 @@ export function ResetPasswordPage(props: { emailSent?: string }) {
                     </div>
                     <button type="submit" className="btn btn-dawn">Reset password</button>
                     <hr />
-                    <div><a href="/login">Login</a></div>
-                    <div><a href="/signup">Sign up</a></div>
+                    <div><a className="text-link" href="/login">Login</a></div>
+                    <div><a className="text-link" href="/signup">Sign up</a></div>
                 </form>
             </main>
         </body>
