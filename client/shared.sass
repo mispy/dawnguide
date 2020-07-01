@@ -1,7 +1,7 @@
 @import "node_modules/bootstrap/scss/bootstrap"
 
 $mobile: 550px
-$base-color: #ffa400 // For contrast against white
+$base-color: #f1911f // For contrast against white
 $base-color-light: lighten($base-color, 50) // For contrast against black
 
 html, body
@@ -9,16 +9,22 @@ html, body
     margin: 0
 
 body
-    font-size: 16px
-    color: #333
+    font-size: 18px
     margin: 0
-    font-family: 'Montserrat', sans-serif
+    font: normal 16px/26px "Roboto", Arial, sans-serif
+    text-rendering: optimizeLegibility
+    -webkit-font-smoothing: antialiased
+    font-style: normal
+    font-size: 18px
+    line-height: 1.6em
+    color: #3a3a3a
 
     @media (max-width: $mobile)
-        font-size: 14px
+        font-size: 16px
 
     a, a:hover
-        color: #d05700
+        color: $base-color
+        font-weight: 500
 
 .btn-dawn
     background: $base-color
@@ -96,7 +102,7 @@ span.Logo
     padding-top: 2rem
 
     .container
-        max-width: 800px
+        max-width: 700px
 
     section
         margin-top: 2rem
@@ -136,6 +142,7 @@ span.Logo
 .Passage.hasSubtitle
     h1
         margin-bottom: 0
+        font-weight: 500
 
     .subtitle
         font-style: italic

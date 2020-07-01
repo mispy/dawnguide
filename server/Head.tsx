@@ -56,6 +56,7 @@ export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, p
             </>}
 
         <link rel="stylesheet" href={cssUrl} />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700|Montserrat:400,700|Open+Sans:300,400&amp;display=swap" rel="stylesheet" type="text/css" />
         {props.children}
         {/* <script dangerouslySetInnerHTML={{ __html: script }} /> */}
     </head>
