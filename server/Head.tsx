@@ -49,7 +49,7 @@ export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, p
             <meta name="apple-mobile-web-app-status-bar-style" content="black" />
             <meta name="apple-mobile-web-app-title" content="Dawnguide" />
             <link rel="apple-touch-icon" href="/icon-152.png"></link>
-            <meta name="theme-color" content="#ef98a8" />
+            <meta name="theme-color" content="#ffe072" />
 
         </> : <>
                 <meta name="robots" content="noindex" />
