@@ -5,7 +5,7 @@ const uuid = require('uuid').v4
 
 function maybeReadFile(path) {
     try {
-        fs.readFileSync(path, 'utf8')
+        return fs.readFileSync(path, 'utf8')
     } catch (err) {
         return undefined
     }
