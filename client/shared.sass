@@ -10,35 +10,33 @@ html, body
 
 body
     margin: 0
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji
-    font-size: 16px
-    line-height: 1.5
     color: #24292e
 
     @media (max-width: $mobile)
-        font-size: 16px
+        font-size: 14px
 
     a, a:hover
-        color: $base-color
+        color: #008656
 
     a.text-link
         font-weight: 400
 
 .btn-dawn
-    background: $base-color
-    color: white
+    background: #fdf4bb
+    color: #3a3a3a
 
 .btn-dawn:hover
     color: white
-    background: darken($base-color, 10)
+    background: #008656
 
 .btn-outline-dawn
-    color: $base-color
-    border: 1px solid $base-color
+    color: #008656
+    border: 1px solid #008656
 
 .btn-outline-dawn:hover
-    background: $base-color
-    color: white
+    background: #fdf4bb
+    color: #3a3a3a
+    border: none
 
 // Less chonky tables
 table.table
@@ -57,7 +55,7 @@ span.Logo
 
 .SiteFooter, .AppFooter
     margin-top: 3rem
-    background-image: url("./img/dawnguide-concept-footer.svg")
+    background-image: url("./img/concept-footer.svg")
     background-repeat: no-repeat
     background-size: 100% auto
     width: 100%
@@ -85,7 +83,6 @@ span.Logo
             display: inline-block
             background-color: rgba(85,85,85,0.9)
             color: white
-            text-shadow: 0 1px 0 rgba(0,0,0,0.2)
 
             a
                 display: block
@@ -95,7 +92,8 @@ span.Logo
 
         li:last-child
             padding: 10px 15px
-            background: transparentize($base-color, 0.3)
+            color: #3a3a3a
+            background: transparentize(#fdf4bb, 0)
 
 .ConceptPage
     padding-top: 2rem

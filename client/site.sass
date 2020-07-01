@@ -40,7 +40,6 @@ $landing-color: #167475
 
     li.signup > a
         margin-left: 0.5rem
-        color: white
         @extend .btn-dawn
 
     .ml-auto
@@ -208,7 +207,7 @@ $landing-color: #167475
         position: relative
         padding: 1.5rem
         transition: box-shadow .3s ease
-        color: $base-color
+        color: #008656
 
     .concept:hover
         box-shadow: 0 2px 3px #af8d8d33, 0 4px 10px rgba(0,0,0,.15)
@@ -236,7 +235,7 @@ $landing-color: #167475
         line-height: 1.2
         min-height: 150px
 
-    .concept > div:after
+    .concept > div:before
         content: ""
         background-color: currentColor
         position: absolute
@@ -245,6 +244,7 @@ $landing-color: #167475
         bottom: 0
         top: 0
         opacity: .05
+        z-index: -1
 
     .concept .keyFinding
         font-size: 1.4rem
