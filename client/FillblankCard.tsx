@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEye, faChevronRight } from "@fortawesome/free-solid-svg-icons"
 import Markdown from "markdown-to-jsx"
 import { matchesAnswerPermissively } from "../shared/logic"
+import { AppContext } from "./AppContext"
+import { CanvasEffects } from "./CanvasEffects"
 
 type FillblankProps = { exercise: FillblankExerciseDef, concept: Concept, onSubmit: (remembered: boolean) => void }
 
@@ -16,8 +18,9 @@ class FillblankState {
     @observable response: string = ""
     @observable current: 'unanswered' | 'correct' | 'incorrect' = 'unanswered'
     @observable props: FillblankProps
+    responseInput?: HTMLInputElement
 
-    constructor(props: FillblankProps) {
+    constructor(props: FillblankProps, readonly effects: CanvasEffects) {
         this.props = props
     }
 
@@ -40,7 +43,13 @@ class FillblankState {
         const match = this.props.exercise.possibleAnswers.find(ans => matchesAnswerPermissively(this.response, ans))
         if (match) {
             this.response = this.props.exercise.possibleAnswers[0]
+
+            if (this.responseInput) {
+                this.effects.spawnParticlesAt(this.responseInput)
+            }
+
             this.current = 'correct'
+            this.finish()
         } else {
             this.current = 'incorrect'
         }
@@ -55,15 +64,19 @@ class FillblankState {
         this.props.onSubmit(this.current === 'correct')
         this.response = ""
         this.current = 'unanswered'
+        if (this.responseInput) {
+            this.responseInput.focus()
+        }
     }
 }
 
 
 export const FillblankCard = observer(function FillblankCard(props: FillblankProps) {
+    const { effects } = React.useContext(AppContext)
     const { exercise } = props
     const canonicalAnswer = exercise.possibleAnswers[0]
     const responseInput = useRef<HTMLInputElement>(null)
-    const store = useLocalStore(() => ({ state: new FillblankState(props) }))
+    const store = useLocalStore(() => ({ state: new FillblankState(props, effects) }))
     const { state } = store
 
     const windowKeydown = action((e: KeyboardEvent) => {
@@ -87,8 +100,10 @@ export const FillblankCard = observer(function FillblankCard(props: FillblankPro
     }, [])
 
     useEffect(() => {
-        if (responseInput.current)
+        if (responseInput.current) {
             responseInput.current.focus()
+            state.responseInput = responseInput.current
+        }
         state.props = props
     })
 
