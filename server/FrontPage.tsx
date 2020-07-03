@@ -31,7 +31,7 @@ export function FrontPage() {
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="password">Password</label>
-                                            <input name="password" id="password" type="password" className="form-control" placeholder="Password" required />
+                                            <input name="password" id="password" type="password" className="form-control" placeholder="Password" minLength={10} required />
                                         </div>
                                         <button type="submit" className="btn btn-dawn">✨ Sign up for Dawnguide</button>
                                     </form>

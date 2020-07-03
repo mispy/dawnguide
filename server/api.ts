@@ -163,6 +163,10 @@ async function changePassword(req: SessionRequest) {
     const { newPassword, currentPassword } = trimStrings(req.json, 'newPassword', 'currentPassword')
     const user = await db.users.expect(req.session.userId)
 
+    if (newPassword.length < 10) {
+        throw new ResponseError(`Please use a password at least 10 characters long`, 422)
+    }
+
     const validPassword = bcrypt.compareSync(currentPassword, user.cryptedPassword)
     if (validPassword) {
         await db.users.update(user.id, { cryptedPassword: db.users.hashPassword(newPassword) })

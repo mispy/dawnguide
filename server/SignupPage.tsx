@@ -19,7 +19,7 @@ export function SignupPage(props: { then?: string, error?: string }) {
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">Password</label>
-                        <input name="password" id="password" type="password" className="form-control" placeholder="Password" required />
+                        <input name="password" id="password" type="password" className="form-control" placeholder="Password" minLength={10} required />
                     </div>
                     <input type="hidden" name="then" value={props.then} />
                     <button type="submit" className="btn btn-dawn">✨ Sign up</button>

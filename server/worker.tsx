@@ -54,6 +54,22 @@ async function maybeCached(req: EventRequest): Promise<Response> {
         if (!res.headers.get('Cache-Control')) {
             res.headers.set('Cache-Control', 'max-age=0, s-maxage=365000000')
         }
+
+        // res.headers.set("moomin0", "⠀⠀⠀⠀⠀⠀⠀⢠⢦⡀⠀⡰⣩⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀")
+        // res.headers.set("moomin1", "⠀⠀⠀⠀⠀⠀⠀⠘⣄⠙⠍⠁⠙⠦⡀⠀⠀⠀⠀⠀⠀⠀⠀")
+        // res.headers.set("moomin2", "⠀⠀⠀⠀⠀⠀⠀⠀⡎⠀⠀⡠⠄⠔⠊⠉⠒⠒⠒⢄⠀⠀⠀")
+        // res.headers.set("moomin3", "⠀⠀⠀⠀⠀⠀⠀⢀⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢈⠆⠀⠀")
+        // res.headers.set("moomin4", "⠀⠀⢠⢤⠜⡆⠀⢸⠀⠰⣄⠀⠀⠀⠀⠀⠀⠀⣠⠎⠀⠀⠀")
+        // res.headers.set("moomin5", "⠀⠀⠱⠤⡁⠈⠑⠇⠀⠀⠀⠉⠒⠤⠤⠄⢖⠊⠀⡐⠧⣄⣀")
+        // res.headers.set("moomin6", "⠀⠀⠀⠀⠘⢆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⡉⠀⣀⣨⡷")
+        // res.headers.set("moomin7", "⠀⠀⠀⠀⠀⠈⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢱⠜⠁  ")
+        // res.headers.set("moomin8", "⠀⠀⠀⠀⠀⠀⢇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣸⠱⡀⠀")
+        // res.headers.set("moomin9", "⠀⠀⠀⠀⠀⠀⠸⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⠁⠀⣣⠀")
+        // res.headers.set("moominA", "⠀⠀⠀⠀⠀⠀⠀⠑⣄⠀⠀⠀⠀⠀⠀⠀⢀⣠⣀⠴⠊⠁⠀")
+        // res.headers.set("moominB", "⠰⢍⢒⢄⠀⠀⠀⠀⢸⢳⢆⠀⠀⠀⠰⡖⠋⠁⠀⠀⠀⠀⠀")
+        // res.headers.set("moominC", "⠀⠳⠴⣙⢄⠀⢀⡠⣣⠃⠈⠑⢤⡄⠀⡸⠂⠀⠀⠀⠀⠀⠀")
+        // res.headers.set("moominD", "⠀⠀⠀⠀⠑⠋⠓⠊⠁⠀⠀⠀⠓⠒⠉⠀⠀⠀⠀⠀⠀⠀⠀")
+
         req.event.waitUntil(cache.put(req.event.request, res.clone()))
     }
 

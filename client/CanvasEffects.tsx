@@ -1,6 +1,5 @@
 import { bind } from "decko"
 import { easeCubicOut } from 'd3-ease'
-import _ from "lodash"
 
 const confettiColors = [
     '#FFFF04',

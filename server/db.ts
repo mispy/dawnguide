@@ -128,6 +128,10 @@ export namespace users {
             throw new ResponseError(`'${props.username}' is not a valid display name. Your name must be between 1 and 50 characters.`, 422)
         }
 
+        if (props.password.length < 10) {
+            throw new ResponseError(`Please use a password at least 10 characters long`, 422)
+        }
+
         // Must be done synchronously or CF will think worker never exits
         const hashed = users.hashPassword(props.password)
         const now = Date.now()
@@ -141,7 +145,7 @@ export namespace users {
             lastSeenAt: now
         }
 
-        await db.putJson(`users:${userId}`, user)
+        await users.save(user)
         await db.put(`user_id_by_email:${props.email}`, userId)
         return user
     }
