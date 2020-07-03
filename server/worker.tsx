@@ -98,7 +98,6 @@ async function processRequest(req: EventRequest): Promise<Response> {
     r.post(`/stripe/webhook/${STRIPE_WEBHOOK_SECRET}`, payments.stripeWebhook)
 
     r.get('/heartbeat', system.heartbeat)
-    // r.post('/webhook/checkout', fulfillCheckout) // From Stripe
 
     // These pages are server-rendered only if user isn't logged in
     if (!req.session) {
@@ -107,6 +106,9 @@ async function processRequest(req: EventRequest): Promise<Response> {
             r.get(`/${concept.id}`, (req) => site.conceptPage(req, concept.id))
         }
     }
+
+    // Api does its own authentication handling
+    r.all('/api/.*', api.processRequest)
 
     r.all('.*', behindLogin)
 
@@ -154,7 +156,6 @@ async function behindLogin(req: EventRequest) {
     }
 
     const r = new Router<SessionRequest>()
-    r.all('/api/.*', api.processRequest)
     r.get('/', site.appPage)
     r.get('/home', site.appPage)
     r.get('/review/:conceptId', site.appPage)

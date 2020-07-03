@@ -1,20 +1,24 @@
 import Router from "./router"
 import { ResponseError, expectKeys, trimStrings } from "./utils"
 import * as db from './db'
-import { User, UserProgressItem, UserAdminReport } from '../shared/types'
+import { UserProgressItem, UserAdminReport } from '../shared/types'
 import { getReviewTime } from "../shared/logic"
 import * as _ from 'lodash'
 import { sendMail } from "./mail"
 import bcrypt = require('bcryptjs')
-import { SessionRequest } from "./requests"
+import { SessionRequest, EventRequest } from "./requests"
 import * as payments from './paymentsController'
 import { CONTACT_FORM_EMAIL } from "./settings"
 import { Sunpedia } from "../shared/sunpedia"
-import { conceptEmailHtml, sendConceptEmail } from "./conceptEmail"
+import { sendConceptEmail } from "./conceptEmail"
 import { absurl } from "../shared/utils"
 import { sendReviewsEmail } from "./reviewsEmail"
 
-export async function processRequest(req: SessionRequest) {
+export async function processRequest(req: EventRequest) {
+    if (!req.session) {
+        throw new ResponseError("Login required", 401)
+    }
+
     const r = new Router<SessionRequest>()
     r.get('/api/progress', getProgress)
     r.put('/api/progress', submitProgress)
@@ -31,7 +35,7 @@ export async function processRequest(req: SessionRequest) {
     r.post('/api/debug', debugHandler)
     r.all('/api/admin/.*', admin.processRequest)
 
-    return await r.route(req)
+    return await r.route(req as SessionRequest)
 }
 
 async function getProgress(req: SessionRequest): Promise<{ items: UserProgressItem[] }> {

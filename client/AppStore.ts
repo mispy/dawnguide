@@ -7,6 +7,7 @@ import { Sunpedia } from "../shared/sunpedia"
 import { UserProgressItem, User } from "../shared/types"
 import * as Sentry from '@sentry/browser'
 import { SENTRY_DSN_URL } from "./settings"
+import { AxiosError } from "axios"
 // @ts-ignore
 const NProgress = require('accessible-nprogress')
 
@@ -111,6 +112,13 @@ export class AppStore {
      * Global error handling when all else fails. Our last stand against the darkness.
      */
     @action.bound handleUnexpectedError(err: Error) {
+        const maybeAxios = err as AxiosError
+        if (maybeAxios.response?.status === 401) {
+            const current = `${window.location.pathname}${window.location.search}`
+            window.location.replace(`/login?then=${encodeURIComponent(current)}`)
+            return
+        }
+
         console.error(err)
         this.unexpectedError = err
 
