@@ -215,7 +215,7 @@ async function sendContactMessage(req: SessionRequest) {
 export namespace admin {
     export async function processRequest(req: SessionRequest) {
         const user = await db.users.get(req.session.userId)
-        if (!user || user.email !== "foldspark@gmail.com") {
+        if (!user || user.email !== "lumebug@gmail.com") {
             return new Response("Unauthorized", { status: 401 })
         }
 

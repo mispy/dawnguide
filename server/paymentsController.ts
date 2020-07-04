@@ -127,7 +127,7 @@ export async function cancelSubscription(req: SessionRequest): Promise<{ user: U
       "cancel_url": "http://localhost:3000/subscription",
       "client_reference_id": null,
       "customer": "cus_HCiDzRqkc5HvPr",
-      "customer_email": "foldspark@gmail.com",
+      "customer_email": "lumebug@gmail.com",
       "display_items": [
         {
           "amount": 900,

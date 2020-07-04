@@ -28,7 +28,7 @@ export const SENTRY_PROJECT_ID = '5189056'
 
 export const MAILGUN_SECRET: string = global.MAILGUN_SECRET || process.env.MAILGUN_SECRET || ""
 
-export const CONTACT_FORM_EMAIL: string = "foldspark@gmail.com"
+export const CONTACT_FORM_EMAIL: string = "lumebug@gmail.com"
 
 export const WEBPACK_MANIFEST: { [key: string]: string } = process.env.WEBPACK_MANIFEST ? JSON.parse(process.env.WEBPACK_MANIFEST) : {}
 
