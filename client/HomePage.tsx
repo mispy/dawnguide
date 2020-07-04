@@ -76,12 +76,12 @@ export function HomePage() {
 
     return useObserver(() => <AppLayout>
         <main className="HomePage">
-            {!app.loading && <Container className="mt-4">
+            {!app.loading && <Container className="mt-2">
                 <div className="row mb-4">
-                    <div className="col">
+                    <div className="col-md-6 mt-2">
                         <NextLessonCard lesson={app.nextLesson} />
                     </div>
-                    <div className="col">
+                    <div className="col-md-6 mt-2">
                         <NextReviewCard reviews={app.reviews} />
                     </div>
                 </div>
