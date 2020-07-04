@@ -53,7 +53,7 @@ export function FrontPage() {
                 </section>
                 <section className="concepts">
                     <div className="container">
-                        <h3>Key Findings</h3>
+                        <h3>Lessons</h3>
                         <div className="conceptsGrid">
                             {concepts.map(concept => <a className="concept" href={`/${concept.id}`}>
                                 <div>

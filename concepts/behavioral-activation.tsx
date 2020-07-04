@@ -7,7 +7,7 @@ import baCycle from './img/behavioral-activation-cycle.jpg'
 export default concept({
     id: 'behavioral-activation',
     title: "Behavioral activation",
-    keyFinding: "Bootstrap a positive cycle by scheduling meaningful activities",
+    keyFinding: "Begin a new positive cycle by scheduling meaningful activities",
     introduction: `
 Behavioral activation is a strategy for combating depression. It could be summarized as "consciously taking opportunities to do fun and meaningful things even if you don't feel like it". For example, you might schedule a game with your friends even though you feel like hiding, or decide to get out of bed when you've had enough sleep despite lack of emotional motivation to do so.
 

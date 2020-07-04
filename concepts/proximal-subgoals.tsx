@@ -3,8 +3,8 @@ import { concept } from '../shared/concept'
 export default concept({
     id: 'proximal-subgoals',
     title: 'Proximal subgoals',
-    tagLine: "Increase motivation by setting and achieving smaller objectives",
-    keyFinding: "Increase motivation by setting and achieving smaller objectives",
+    tagLine: "Increase your motivation by setting and achieving smaller objectives",
+    keyFinding: "Increase your motivation by setting and achieving smaller objectives",
     author: "Jake Leoht",
     introduction: `
 You may have heard it said that it helps to break big tasks into small steps. This is good advice, but we want to know more: why is this helpful, and how can we do it most effectively?
