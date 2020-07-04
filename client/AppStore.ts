@@ -1,6 +1,6 @@
 import { observable, runInAction, computed, action, toJS } from "mobx"
 import { ExerciseWithProgress } from "../shared/logic"
-import { Concept } from "../shared/sunpedia"
+import { Concept, Review } from "../shared/sunpedia"
 import * as _ from 'lodash'
 import { ClientApi } from "./ClientApi"
 import { Sunpedia } from "../shared/sunpedia"
@@ -92,19 +92,27 @@ export class AppStore {
         return this.lessonsAndReviews.lessons
     }
 
-    @computed get numLessons() {
+    @computed get nextLesson(): Concept | undefined {
+        return this.lessonConcepts[0]
+    }
+
+    @computed get numLessons(): number {
         return this.lessonConcepts.length
     }
 
-    @computed get reviews() {
+    @computed get reviews(): Review[] {
         return this.lessonsAndReviews.reviews
     }
 
-    @computed get numReviews() {
+    @computed get numReviews(): number {
         return this.reviews.length
     }
 
-    userStartedLearning(conceptId: string) {
+    @computed get nextReview(): Review | undefined {
+        return this.reviews[0]
+    }
+
+    userStartedLearning(conceptId: string): boolean {
         return _.some(this.exercisesWithProgress, e => e.exercise.conceptId === conceptId && e.progress)
     }
 

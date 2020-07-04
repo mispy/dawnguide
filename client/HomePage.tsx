@@ -9,6 +9,67 @@ import { useContext } from "react"
 import { showReviewTime } from "./ConceptPage"
 import { DebugTools } from "./DebugTools"
 import { IS_PRODUCTION } from "./settings"
+import { Concept, Review } from '../shared/sunpedia'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+
+function NextLessonCard(props: { lesson: Concept | undefined }) {
+    const { lesson } = props
+
+    if (!lesson) {
+        return <div>
+
+        </div>
+    } else {
+        return <Link to={`/${lesson.id}`} className="NextLessonCard">
+            <h4>Next Lesson</h4>
+            <div>
+                <div className="keyFinding">
+                    {lesson.keyFinding}
+                </div>
+                <h5>
+                    {lesson.title} <FontAwesomeIcon icon={faArrowRight} />
+                </h5>
+            </div>
+        </Link>
+    }
+
+}
+
+function NextReviewCard(props: { reviews: Review[] }) {
+    const { reviews } = props
+
+    const concepts = _.uniq(reviews.map(r => r.concept))
+
+    if (!concepts.length) {
+        return <div>
+
+        </div>
+    } else {
+
+        let practiceLine
+        if (concepts.length === 1) {
+            practiceLine = <>Refresh your understanding of {concepts[0].name}</>
+        } else if (concepts.length === 2) {
+            practiceLine = <>Refresh your understanding of {concepts[0].name} and {concepts[1].name}</>
+        } else {
+            practiceLine = <>Refresh your understanding of {concepts[0].name}, {concepts[1].name}, and more</>
+        }
+
+        return <Link to={`/review`} className="NextReviewCard">
+            <h4>Next Review</h4>
+            <div>
+                <div className="keyFinding">
+                    {practiceLine}
+                </div>
+                <h5>
+                    Go to reviews <FontAwesomeIcon icon={faArrowRight} />
+                </h5>
+            </div>
+        </Link>
+    }
+
+}
 
 export function HomePage() {
     const { app, sunpedia } = useContext(AppContext)
@@ -16,10 +77,15 @@ export function HomePage() {
     return useObserver(() => <AppLayout>
         <main className="HomePage">
             {!app.loading && <Container className="mt-4">
-                <p>Dawnguide is a tool for learning useful concepts in psychology that can be applied to everyday life.</p>
-                <p>I haven't written many lessons yet, but the system should be functional. Thanks for testing! 💛</p>
+                <div className="row mb-4">
+                    <div className="col">
+                        <NextLessonCard lesson={app.nextLesson} />
+                    </div>
+                    <div className="col">
+                        <NextReviewCard reviews={app.reviews} />
+                    </div>
+                </div>
                 {app.exercisesWithProgress.length ? <>
-                    <h4>Learning progress</h4>
                     <table className="table mt-4">
                         <thead>
                             <tr>

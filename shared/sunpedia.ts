@@ -60,6 +60,10 @@ export class Concept {
         return this.def.title
     }
 
+    @computed get name(): string {
+        return this.def.title.toLowerCase()
+    }
+
     @computed get subtitle(): string | undefined {
         return this.def.subtitle
     }
@@ -105,6 +109,11 @@ export class Concept {
     @computed get references(): Reference[] {
         return parseBibliography(this.def.bibliography)
     }
+}
+
+export type Review = {
+    concept: Concept
+    exercise: Exercise
 }
 
 export class Sunpedia {
@@ -153,7 +162,7 @@ export class Sunpedia {
             return c.exercises.some(e => progressByExerciseId[e.id])
         })
 
-        const reviews: { concept: Concept, exercise: Exercise }[] = []
+        const reviews: Review[] = []
         for (const concept of reviewConcepts) {
             for (const exercise of concept.exercises) {
                 const item = progressByExerciseId[exercise.id]
