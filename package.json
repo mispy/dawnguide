@@ -9,7 +9,7 @@
         "build-server": "rm -rf server/dist/* && webpack -p --config webpack.server.config.js",
         "build": "npm-run-all build-client build-server",
         "td": "yarn build && wrangler publish --env test",
-        "deploy": "yarn build && wrangler publish --env live",
+        "deploy": "yarn typecheck && yarn test && yarn build && wrangler publish --env live",
         "typecheck": "cd server && tsc && cd ../client && tsc",
         "test": "jest"
     },
