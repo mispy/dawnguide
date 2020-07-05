@@ -1,10 +1,10 @@
 
 import { api } from './helpers'
 
-describe('progress', () => {
+describe('public site pages', () => {
     it('tests stuff', async () => {
 
-        const res = await api.get("/")
+        const res = await api.get("/spaced-learning")
         console.log(res)
     })
 })
