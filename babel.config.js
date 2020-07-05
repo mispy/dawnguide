@@ -1,14 +1,14 @@
-{
+module.exports = {
     "presets": [
+        // Must come before typescript https://github.com/babel/babel/issues/8752
+        "@babel/preset-env",
+        "@babel/preset-react",
         [
             "@babel/preset-typescript",
             {
                 "allowNamespaces": true
             }
         ],
-        [
-            "@babel/preset-env"
-        ]
     ],
     "plugins": [
         "@babel/plugin-transform-runtime",

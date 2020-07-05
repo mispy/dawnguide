@@ -3,7 +3,7 @@ import { EventRequest, SessionRequest } from './requests'
 import { trimStrings } from './utils'
 import { MONTHLY_PLAN_ID, ANNUAL_PLAN_ID } from '../shared/settings'
 
-import stripe = require('./stripe')
+import * as stripe from './stripe'
 import { User } from '../shared/types'
 import { absurl } from '../shared/utils'
 

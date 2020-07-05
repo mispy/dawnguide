@@ -1,7 +1,7 @@
 import { Json, getQueryParams } from "./utils"
 import * as db from './db'
 import { Session } from "./db"
-import cookie = require('cookie')
+import * as cookie from "cookie"
 import _ from "lodash"
 
 /** Our annotation wrapper around incoming FetchEvents */

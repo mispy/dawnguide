@@ -11,7 +11,6 @@ export function isAbsoluteUrl(href: string): boolean {
 }
 
 export function absurl(path: string): string {
-    console.log(BASE_URL, path)
     if (isAbsoluteUrl(path)) {
         return path
     } else {

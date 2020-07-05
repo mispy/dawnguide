@@ -5,7 +5,7 @@ import { UserProgressItem, UserAdminReport } from '../shared/types'
 import { getReviewTime } from "../shared/logic"
 import * as _ from 'lodash'
 import { sendMail } from "./mail"
-import bcrypt = require('bcryptjs')
+import * as bcrypt from "bcryptjs"
 import { SessionRequest, EventRequest } from "./requests"
 import * as payments from './paymentsController'
 import { CONTACT_FORM_EMAIL } from "./settings"

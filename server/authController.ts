@@ -1,5 +1,5 @@
-import bcrypt = require('bcryptjs')
-import cookie = require('cookie')
+import * as bcrypt from "bcryptjs"
+import * as cookie from "cookie"
 import * as db from './db'
 import { redirect, trimStrings, QueryParams, pageResponse, ResponseError } from './utils'
 import { sendMail } from './mail'

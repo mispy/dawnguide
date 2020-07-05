@@ -1,5 +1,5 @@
 // @ts-ignore
-const { getAssetFromKV } = require('@cloudflare/kv-asset-handler')
+import { getAssetFromKV } from '@cloudflare/kv-asset-handler'
 
 import Router from './router'
 import * as auth from './authController'
@@ -8,7 +8,7 @@ import * as system from './systemController'
 import * as payments from './paymentsController'
 import { IS_PRODUCTION, ASSET_DEV_SERVER, SENTRY_KEY, STRIPE_WEBHOOK_SECRET, BUILD_ID } from './settings'
 import { redirect, JsonResponse } from './utils'
-import api = require('./api')
+import * as api from './api'
 import * as _ from 'lodash'
 import { logToSentry } from './sentry'
 import { EventRequest, SessionRequest } from './requests'
@@ -19,7 +19,7 @@ addEventListener('fetch', event => {
     event.respondWith(handleEvent(event))
 })
 
-async function handleEvent(event: FetchEvent) {
+export async function handleEvent(event: FetchEvent) {
     // Performing some conversion/annotation of the event here
     const req = await EventRequest.from(event)
     return maybeCached(req)
@@ -48,7 +48,7 @@ async function maybeCached(req: EventRequest): Promise<Response> {
     let res = await processRequest(req)
 
     if (cacheable && res.status === 200) {
-        console.log(req.path, res.headers.get('Cache-Control'))
+        // console.log(req.path, res.headers.get('Cache-Control'))
         res = new Response(res.body, { headers: res.headers, status: res.status })
         res.headers.set('Dawnguide-Build-Id', BUILD_ID)
         if (!res.headers.get('Cache-Control')) {
