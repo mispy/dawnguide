@@ -50,8 +50,8 @@ function NotificationsSection() {
                 <input className="form-check-input" type="checkbox" checked={settings.emailAboutWeeklyReviews} disabled={settings.disableNotificationEmails}
                     onChange={e => state.update({ emailAboutWeeklyReviews: e.currentTarget.checked })} id="emailAboutWeeklyReviews" />
                 <label className="form-check-label" htmlFor="emailAboutWeeklyReviews">
-                    Weekly review emails
-                    <aside className="text-secondary">Get an email each week if you have reviews to complete</aside>
+                    Review reminder emails
+                    <aside className="text-secondary">Get a reminder email when you have reviews to complete</aside>
                 </label>
             </div><br />
             <div className="form-check">

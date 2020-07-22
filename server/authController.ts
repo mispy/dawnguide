@@ -42,7 +42,6 @@ export async function submitSignup(req: EventRequest) {
         // Send confirmation email
         const token = await db.emailConfirmTokens.create(user.id, email)
         const confirmUrl = absurl(`/account/confirmation/${token}`)
-        console.log(`"${email}"`)
         await Promise.all([
             sendMail({
                 to: email,

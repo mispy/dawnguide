@@ -15,12 +15,15 @@ export async function sendReviewsEmailIfNeeded(user: User) {
     if (settings.lastWeeklyReviewEmail + weeks(1) > Date.now())
         return // Not yet time for weekly reviews email
 
+    if (user.lastSeenAt <= settings.lastWeeklyReviewEmail - weeks(1))
+        return // Don't keep sending emails if the user doesn't log in
+
     const sunpedia = new Sunpedia()
     const progressItems = await db.progressItems.allFor(user.id)
     const { lessons, reviews } = sunpedia.getLessonsAndReviews(progressItems)
 
-    if (lessons.length === 0 && reviews.length === 0)
-        return // Nothing to prompt user about!
+    if (reviews.length === 0)
+        return // No reviews to prompt about!
 
     await sendMail({
         to: user.email,

@@ -3,6 +3,8 @@ import { heartbeat } from '../server/systemController'
 import { testMailsSent } from '../server/mail'
 import * as db from '../server/db'
 import { weeks } from '../server/time'
+import { api } from './helpers'
+import { Sunpedia } from '../shared/sunpedia'
 
 afterEach(() => {
     while (testMailsSent.length)
@@ -11,19 +13,34 @@ afterEach(() => {
 
 describe('emails', () => {
     it('sends lesson and review emails', async () => {
-
         const user = await db.users.create({
             username: "fluffles",
             email: "fluffles@gmail.com",
             password: "imfluffles"
         })
 
+        const weekAgo = Date.now() - weeks(1)
+
+        // Make sure user has some reviews to do
+        const sunpedia = new Sunpedia()
+        const lesson = sunpedia.concepts[0]
+        const toSave = lesson.exercises.map(ex => {
+            return {
+                userId: user.id,
+                exerciseId: ex.id,
+                level: 1,
+                learnedAt: weekAgo,
+                reviewedAt: weekAgo
+            }
+        })
+        await db.progressItems.saveAll(user.id, toSave)
+
         await heartbeat()
 
         // Newly created user won't receive an immediate reminder email
         expect(testMailsSent.length).toBe(0)
 
-
+        // Imagine the user was created a week ago
         await db.notificationSettings.update(user.id, {
             lastWeeklyReviewEmail: Date.now() - weeks(1)
         })
@@ -38,6 +55,18 @@ describe('emails', () => {
         expect(msg.subject).toBe("Your Lessons and Reviews Update")
 
         // But it won't send another one yet
+        await heartbeat()
+        expect(testMailsSent.length).toBe(1)
+
+        // We don't keep sending emails if the user hasn't logged in since our last couple
+        await db.notificationSettings.update(user.id, {
+            lastWeeklyReviewEmail: weekAgo
+        })
+
+        await db.users.update(user.id, {
+            lastSeenAt: weekAgo - weeks(1)
+        })
+
         await heartbeat()
         expect(testMailsSent.length).toBe(1)
     })
