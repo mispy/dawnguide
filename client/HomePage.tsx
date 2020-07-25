@@ -12,13 +12,15 @@ import { IS_PRODUCTION } from "./settings"
 import { Concept, Review } from '../shared/sunpedia'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { ReviewWithTime } from './AppStore'
+import ReactTimeago from 'react-timeago'
 
 function NextLessonCard(props: { lesson: Concept | undefined }) {
     const { lesson } = props
 
     if (!lesson) {
         return <div className="NextLessonCard complete">
-            <h4>You're up to date on lessons! ⭐️</h4>
+            <h4>All lessons complete! ⭐️</h4>
             <div>
                 <p>When we write a new one, it'll be available here.</p>
             </div>
@@ -36,17 +38,26 @@ function NextLessonCard(props: { lesson: Concept | undefined }) {
             </div>
         </Link>
     }
-
 }
 
-function NextReviewCard(props: { reviews: Review[] }) {
+function NextReviewCard(props: { reviews: ReviewWithTime[] }) {
     const { reviews } = props
 
     const concepts = _.uniq(reviews.map(r => r.concept))
 
-    if (!concepts.length) {
+    const now = Date.now()
+
+    if (!reviews.length) {
+        // TODO either no learned concepts, or mastered all concepts
         return <div>
 
+        </div>
+    } else if (reviews[0].when > now) {
+        return <div className="NextReviewCard">
+            <h4>You're up to date on reviews</h4>
+            <div>
+                <p>The next review is <ReactTimeago date={reviews[0].when} />.<br /><br />It will be about {concepts[0].name}.</p>
+            </div>
         </div>
     } else {
 
@@ -71,7 +82,6 @@ function NextReviewCard(props: { reviews: Review[] }) {
             </div>
         </Link>
     }
-
 }
 
 export function HomePage() {
@@ -85,7 +95,7 @@ export function HomePage() {
                         <NextLessonCard lesson={app.nextLesson} />
                     </div>
                     <div className="col-md-6 mt-2">
-                        <NextReviewCard reviews={app.reviews} />
+                        <NextReviewCard reviews={app.upcomingReviews} />
                     </div>
                 </div>
                 {app.exercisesWithProgress.length ? <>

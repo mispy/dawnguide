@@ -1,13 +1,20 @@
 import { observable, runInAction, computed, action, toJS } from "mobx"
-import { ExerciseWithProgress } from "../shared/logic"
+import { ExerciseWithProgress, getReviewTime } from "../shared/logic"
 import { Concept, Review } from "../shared/sunpedia"
 import * as _ from 'lodash'
 import { ClientApi } from "./ClientApi"
 import { Sunpedia } from "../shared/sunpedia"
-import { UserProgressItem, User } from "../shared/types"
+import { UserProgressItem, User, Exercise } from "../shared/types"
 import * as Sentry from '@sentry/browser'
 import { SENTRY_DSN_URL } from "./settings"
 import { AxiosError } from "axios"
+
+export type ReviewWithTime = {
+    concept: Concept
+    exercise: Exercise
+    when: number
+}
+
 // @ts-ignore
 const NProgress = require('accessible-nprogress')
 
@@ -110,6 +117,18 @@ export class AppStore {
 
     @computed get nextReview(): Review | undefined {
         return this.reviews[0]
+    }
+
+    @computed get upcomingReviews() {
+        const reviews = this.exercisesWithProgress.map(ex => {
+            return {
+                concept: this.sunpedia.conceptById[ex.exercise.conceptId],
+                exercise: ex.exercise,
+                when: ex.progress ? getReviewTime(ex.progress) : Infinity
+            }
+        }).filter(d => isFinite(d.when))
+
+        return _.sortBy(reviews, d => d.when)
     }
 
     userStartedLearning(conceptId: string): boolean {
