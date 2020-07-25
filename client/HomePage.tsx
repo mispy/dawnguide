@@ -17,8 +17,11 @@ function NextLessonCard(props: { lesson: Concept | undefined }) {
     const { lesson } = props
 
     if (!lesson) {
-        return <div>
-
+        return <div className="NextLessonCard complete">
+            <h4>You're up to date on lessons! ⭐️</h4>
+            <div>
+                <p>When we write a new one, it'll be available here.</p>
+            </div>
         </div>
     } else {
         return <Link to={`/${lesson.id}`} className="NextLessonCard">
