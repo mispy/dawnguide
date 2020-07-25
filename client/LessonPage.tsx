@@ -11,7 +11,7 @@ export function LessonPage() {
 
     function content() {
         if (app.loading)
-            return <div>Loading...</div>
+            return <></>
 
         if (!app.lessonConcepts.length) {
             // Nothing ready to learn

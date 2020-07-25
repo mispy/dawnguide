@@ -124,7 +124,7 @@ export function InitialReviewPage(props: { concept: Concept }) {
 
     function content() {
         if (app.loading)
-            return <div>Loading...</div>
+            return <></>
 
         if (app.userStartedLearning(concept.id)) {
             // User already did initial exercises for this concept

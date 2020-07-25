@@ -23,7 +23,7 @@ export function ReviewPage() {
 
     function content() {
         if (app.loading)
-            return <div>Loading...</div>
+            return <></>
 
         if (!app.reviews.length)
             return <div>Nothing to review!</div>

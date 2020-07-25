@@ -23,7 +23,7 @@ class HTTPProvider {
             this.http.interceptors.response.use(async response => {
                 // Numbers are based on how long API requests take for me on GitHub, which uses
                 // a similar kind of loading indicator to us
-                await delay(_.random(100, 300))
+                await delay(_.random(200, 700))
                 return response
             })
         }
