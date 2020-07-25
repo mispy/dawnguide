@@ -1,10 +1,10 @@
-import { concept } from '../shared/concept'
+import { concept, md } from '../shared/concept'
 
 export default concept({
     id: 'mindfulness',
     title: "Mindfulness",
     keyFinding: "Allow negative thoughts to peacefully dissipate by focusing on your immediate experience",
-    introduction: `
+    introduction: md`
 Mindfulness is the process of bringing your attention to experiences occurring in the present moment, without judgment. It's a strategy of "slowing down" the mind when it's going too fast, the mental equivalent of taking a deep breath.
 
 Though it originates in spiritual practice, mindfulness has since been adopted and expanded upon by psychological research. In a 2018 meta-analysis of randomized controlled trials, mindfulness-based interventions were found to be effective across a range of disorders[@goldberg2018mindfulness], especially depression, chronic pain, and addiction. It's about as effective as other evidence-based therapies, such as cognitive-behavioral therapy or antidepressant medication. <small>(TODO: explore the literature on individual differences in therapy responsiveness-- who is better suited for mindfulness vs. CBT?)</small>
@@ -13,7 +13,7 @@ Mindfulness is a skill you can use at any time to help cope with difficult thoug
 
 <small>(TODO: SRS meditation exercises?)</small>
 `,
-    furtherReading: `
+    furtherReading: md`
 - [22 Mindfulness Exercises, Techniques & Activities](https://positivepsychology.com/mindfulness-exercises-techniques-activities/) by Courtney Ackerman
 
 - [Guided Meditations](https://www.tarabrach.com/guided-meditations/) by Tara Brach

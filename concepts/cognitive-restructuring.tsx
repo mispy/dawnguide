@@ -1,4 +1,4 @@
-import { concept } from '../shared/concept'
+import { concept, md } from '../shared/concept'
 // @ts-ignore
 import cognitiveTriangle from './img/cognitive-triangle.jpg'
 
@@ -8,7 +8,7 @@ export default concept({
     tagLine: "Influence your emotions by challenging negative thoughts",
     keyFinding: "Influence your emotions by challenging negative thoughts",
     author: "Jake Leoht",
-    introduction: `
+    introduction: md`
 As a human, you've probably noticed that your ability to directly control your feelings is limited. When something happens, you can't just _decide_ to be happy, sad, calm, or angry about it: some part of your brain has already decided how it feels and tells your conscious mind about it after the fact. 
 
 What you _do_ have control over, at least to a much greater extent than emotions, is the way you think about stuff.
@@ -35,7 +35,7 @@ It takes practice to do effective restructuring, and it can often help at the st
 Evidence-wise, cognitive restructuring is a component of cognitive-behavioral therapy, which is a strongly supported treatment for a variety of problems[@hofmann2012efficacy]. Since there seems to be less research on the technique as a standalone therapy, it's likely best used together with behavioral methods like <a href="/behavioral-activation">behavioral activation</a>.
 
 `,
-    furtherReading: `
+    furtherReading: md`
 - [CBT's Cognitive Restructuring (CR) For Tackling Cognitive Distortions](https://positivepsychology.com/cbt-cognitive-restructuring-cognitive-distortions/) by Courtney E. Ackerman
 `,
 

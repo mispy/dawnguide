@@ -1,4 +1,4 @@
-import { concept } from '../shared/concept'
+import { concept, md } from '../shared/concept'
 // @ts-ignore
 import baCycle from './img/behavioral-activation-cycle.jpg'
 
@@ -8,7 +8,7 @@ export default concept({
     id: 'behavioral-activation',
     title: "Behavioral activation",
     keyFinding: "Begin a new positive cycle by scheduling meaningful activities",
-    introduction: `
+    introduction: md`
 Behavioral activation is a strategy for combating depression. It could be summarized as "consciously taking opportunities to do fun and meaningful things even if you don't feel like it". For example, you might schedule a game with your friends even though you feel like hiding, or decide to get out of bed when you've had enough sleep despite lack of emotional motivation to do so.
 
 Behavioral activation is a key part of cognitive-behavioral therapy, and is also an effective treatment for depression in its own right.[@cuijpers2007behavioral] In the relationship between thoughts, feelings, and actions, it seeks to intercede at the level of actions.
@@ -19,7 +19,7 @@ Behavioral activation is a key part of cognitive-behavioral therapy, and is also
 
 Depression biases us to underestimate the joy in things, and avoiding engaging with the world tends to make depression worse. By making a conscious decision to account for this bias, and seek joyful activities anyway, we can start to circumvent the cycle of depression. Of course, this isn't something that's easy to do-- it often takes much effort! Hopefully, knowing that behavioral activation is a good strategy supported by research will help your willpower along.
 `,
-    furtherReading: `
+    furtherReading: md`
 - [How To Use Behavioral Activation (BA) To Overcome Depression](https://www.psychologytools.com/self-help/behavioral-activation/) at psychologytools.com
 `,
     exercises: [

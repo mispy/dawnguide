@@ -1,4 +1,4 @@
-import { concept } from '../shared/concept'
+import { concept, md } from '../shared/concept'
 
 export default concept({
     id: 'mental-contrasting',
@@ -6,7 +6,7 @@ export default concept({
     tagLine: "Find energy to act by contrasting the future you want with obstacles in the present",
     keyFinding: "Find energy to act by contrasting the future you want with obstacles in the present",
     author: "Jake Leoht",
-    introduction: `
+    introduction: md`
 When people are not fully occupied in the present, their thoughts often drift towards life and the future. Moments of reflection help us to reconsider strategies and how committed we are to our goals. **Mental contrasting** is a particularly effective structure for reflective thoughts[@oettingen2013mind], following these steps:
 
 - Consider what you want to achieve
@@ -33,10 +33,10 @@ Because of the expectancy-dependent nature, you might want to be careful with me
 Mental contrasting works particularly well in conjunction with [implementation intentions](/trigger-action-plans), which are a way of translating the goal commitment into concrete actions.[@oettingen2012future]
 `,
 
-    furtherReading: `
+    furtherReading: md`
 - [What Is Mental Contrasting and How to Benefit From It?](https://positivepsychology.com/mental-contrasting/) by Madhuleena Roy Chowdhury
 `,
-    notes: `
+    notes: md`
 The psychologists who originally introduced mental contrasting and implementation intentions, Gabriele Oettingen and Peter Gollwitzer respectively, are married to each other! Also, Gabriele is [literally a princess](https://en.wikipedia.org/wiki/House_of_Oettingen-Spielberg). I'm pleasantly amused by the idea of practicing Fantasy Realization Theory as described by _Professor Gabriele Elisabeth Aloisia Notgera Prinzessin zu Oettingen-Oettingen und Oettingen-Spielberg_.
 `,
     exercises: [

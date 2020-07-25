@@ -1,4 +1,4 @@
-import { concept } from '../shared/concept'
+import { concept, md } from '../shared/concept'
 
 export default concept({
     id: 'trigger-action-plans',
@@ -6,7 +6,7 @@ export default concept({
     tagLine: "Build good habits by associating specific cues with a behavioral response",
     keyFinding: "Build good habits by associating specific cues with a behavioral response",
     author: "Jake Leoht",
-    introduction: `
+    introduction: md`
 Creating **trigger-action plans** (TAPs) is a way of turning vague goals into concrete changes in your behavior. By associating a specific _trigger_ situation with an _action_ you will do in response, you can start a new routine or modify an existing one. Some examples:
 
 - **Goal:** Exercise more
@@ -30,10 +30,10 @@ The steps to creating a TAP:
 In the academic literature, this strategy is known as "implementation intentions", and there's strong evidence for it being effective. A meta-analysis of 94 studies found that interventions using implementation intentions had a medium-to-large effect towards successful goal achievement, across a variety of goals such as reducing snack consumption, avoiding stereotyping, or persisting with difficult puzzles.[@gollwitzer2006implementation]  
 `,
 
-    furtherReading: `
+    furtherReading: md`
 - [Making intentions concrete - Trigger-Action Planning](https://www.lesswrong.com/posts/v4nNuJBZWPkMkgQRb/making-intentions-concrete-trigger-action-planning) by Kaj Sotala
 `,
-    notes: `
+    notes: md`
 The name "trigger-action plans" comes from the [CFAR handbook](https://rationality.org/files/cfar-handbook.pdf) section on the topic. I decided to go with their term over "implementation intentions" because it seems more descriptive to me, and has a catchy acronym (TAPs).
 
 The meta-analysis is striking in its confidence about implementation intentions and the number of different tests where they come out well (possible ego depletion or rigidity tradeoffs etc). I can see why CFAR listed the epistemic status as "established and confirmed"!

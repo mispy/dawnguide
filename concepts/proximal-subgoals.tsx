@@ -1,4 +1,4 @@
-import { concept } from '../shared/concept'
+import { concept, md } from '../shared/concept'
 
 export default concept({
     id: 'proximal-subgoals',
@@ -6,7 +6,7 @@ export default concept({
     tagLine: "Increase your motivation by setting and achieving smaller objectives",
     keyFinding: "Increase your motivation by setting and achieving smaller objectives",
     author: "Jake Leoht",
-    introduction: `
+    introduction: md`
 You may have heard it said that it helps to break big tasks into small steps. This is good advice, but we want to know more: why is this helpful, and how can we do it most effectively?
 
 In psychology the steps of a task are called **proximal subgoals**, "proximal" meaning "close by". They are defined relative to _distal goals_ which are our longer-term aims. For example, studying a page in a textbook would be considered a proximal subgoal of the distal goal to learn the material in the chapter. Learning the chapter is itself a proximal goal relative to the more distal aim of mastering the subject, and so on.
@@ -17,7 +17,7 @@ When you are already close to completing something, or have high intrinsic inter
 
 Proximal goals work best when they're tied a distal goal that means a lot to you. For example, you may want to do well in school because you are excited about trying a particular career, or because you seek opportunities to help the people you care for. A long-term, self-directed goal gives important emotional context to the work you do in the present, and proximal subgoals in turn give you the structure and confidence to follow through.[@miller2004model]
 `,
-    furtherReading: `
+    furtherReading: md`
 - [Step by Step: Sub-Goals as a Source of Motivation](https://huangsc.people.stanford.edu/sites/g/files/sbiybj2896/f/step_by_step_obhdp_for_web_1.pdf) by Szu-chi Huang, Liyin Jin and Ying Zhang
 `,
 
