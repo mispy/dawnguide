@@ -1,4 +1,6 @@
 import { concept, md } from '../shared/concept'
+// @ts-ignore
+import mindfulnessImg from './img/mindfulness.png'
 
 export default concept({
     id: 'mindfulness',
@@ -6,6 +8,8 @@ export default concept({
     keyFinding: "Allow negative thoughts to peacefully dissipate by focusing on your immediate experience",
     introduction: md`
 Mindfulness is the process of bringing your attention to experiences occurring in the present moment, without judgment. It's a strategy of "slowing down" the mind when it's going too fast, the mental equivalent of taking a deep breath. It's sort of the opposite of being lost in our thoughts, which makes it a very useful strategy for coping with intense thoughts and feelings.
+
+![Mindfulness is about focusing your awareness on the present](${mindfulnessImg})
 
 Mindfulness is often practiced with [meditation exercises](https://positivepsychology.com/mindfulness-exercises-techniques-activities/) that involve focusing your awareness on physical sensations. It can be tricky to understand what a mindful state is like just from reading about it, so giving one of these meditations a try is recommended. You can think of meditation as a way of honing your ability to be mindful in everyday life, like how intentional writing practice improves your ability with language.
 
