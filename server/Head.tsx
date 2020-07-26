@@ -1,12 +1,16 @@
 import * as React from 'react'
 import { absurl } from '../shared/utils'
 import { resolveAsset } from './utils'
+// @ts-ignore
+import socialMediaSmall from '../public/social-media-small.png'
+// @ts-ignore
+import icon152 from '../public/icon-152.png'
 
 export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, pageDesc?: string, imageUrl?: string, children?: any, cssUrl?: string }) => {
     const pageTitle = props.pageTitle || `Dawnguide`
     const fullPageTitle = pageTitle.includes("Dawnguide") ? pageTitle : `${pageTitle} - Dawnguide`
     const pageDesc = props.pageDesc
-    const imageUrl = absurl(props.imageUrl || '/social-media-small.png')
+    const imageUrl = absurl(props.imageUrl || socialMediaSmall)
     const cssUrl = props.cssUrl || resolveAsset('site.css')
     const canonicalUrl = props.canonicalUrl ? absurl(props.canonicalUrl) : null
 
@@ -48,7 +52,7 @@ export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, p
             <meta name="apple-mobile-web-app-capable" content="yes" />
             <meta name="apple-mobile-web-app-status-bar-style" content="black" />
             <meta name="apple-mobile-web-app-title" content="Dawnguide" />
-            <link rel="apple-touch-icon" href="/icon-152.png"></link>
+            <link rel="apple-touch-icon" href={icon152}></link>
             <meta name="theme-color" content="#ffe072" />
 
         </> : <>

@@ -4,6 +4,8 @@ import { SiteHeader } from "./SiteHeader"
 import { Sunpedia } from '../shared/sunpedia'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+// @ts-ignore
+import socialMediaLarge from '../public/social-media-large.jpg'
 
 export function FrontPage() {
     const sunpedia = new Sunpedia()
@@ -12,7 +14,7 @@ export function FrontPage() {
     const pageDesc = "Dawnguide collects key research findings that help maintain good mental health. Memorize them forever using our spaced learning system."
 
     return <html lang="en">
-        <Head pageTitle="Dawnguide: Learn the science of human happiness" pageDesc={pageDesc} canonicalUrl="/" imageUrl="/social-media-large.jpg" />
+        <Head pageTitle="Dawnguide: Learn the science of human happiness" pageDesc={pageDesc} canonicalUrl="/" imageUrl={socialMediaLarge} />
         <body>
             <main className="FrontPage">
                 <section className="intro">

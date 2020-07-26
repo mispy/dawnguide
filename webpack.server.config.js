@@ -54,8 +54,8 @@ module.exports = (env, argv) => {
                     use: [{
                         loader: 'file-loader',
                         options: {
-                            name: '[name].[contenthash].[ext]',
-                            publicPath: '/assets/'
+                            name: 'assets/[name].[contenthash].[ext]',
+                            publicPath: '/'
                         },
                     }]
                 }
