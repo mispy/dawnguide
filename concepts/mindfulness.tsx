@@ -23,12 +23,12 @@ Though it originates in spiritual practice, mindfulness is strongly supported by
     exercises: [
         {
             type: 'fillblank',
-            question: "Mindfulness is the process of bringing your attention to the present moment, without ____",
+            question: "Mindfulness is the process of bringing your attention to the ____ moment, without judgment",
             possibleAnswers: [
-                'judgment'
+                'present'
             ],
             successFeedback: "Try to perceive things just as they are right now.",
-            reviseFeedback: "Without _judgment_. Try to perceive things just as they are right now."
+            reviseFeedback: "To the _present_ moment. Try to perceive things just as they are right now."
         },
         {
             type: 'fillblank',
