@@ -5,13 +5,11 @@ export default concept({
     title: "Mindfulness",
     keyFinding: "Allow negative thoughts to peacefully dissipate by focusing on your immediate experience",
     introduction: md`
-Mindfulness is the process of bringing your attention to experiences occurring in the present moment, without judgment. It's a strategy of "slowing down" the mind when it's going too fast, the mental equivalent of taking a deep breath.
+Mindfulness is the process of bringing your attention to experiences occurring in the present moment, without judgment. It's a strategy of "slowing down" the mind when it's going too fast, the mental equivalent of taking a deep breath. It's sort of the opposite of being lost in our thoughts, which makes it a very useful strategy for coping with intense thoughts and feelings.
 
-Though it originates in spiritual practice, mindfulness has since been adopted and expanded upon by psychological research. In a 2018 meta-analysis of randomized controlled trials, mindfulness-based interventions were found to be effective across a range of disorders[@goldberg2018mindfulness], especially depression, chronic pain, and addiction. It's about as effective as other evidence-based therapies, such as cognitive-behavioral therapy or antidepressant medication. <small>(TODO: explore the literature on individual differences in therapy responsiveness-- who is better suited for mindfulness vs. CBT?)</small>
+Mindfulness is often practiced with [meditation exercises](https://positivepsychology.com/mindfulness-exercises-techniques-activities/) that involve focusing your awareness on physical sensations. It can be tricky to understand what a mindful state is like just from reading about it, so giving one of these meditations a try is recommended. You can think of meditation as a way of honing your ability to be mindful in everyday life, like how intentional writing practice improves your ability with language.
 
-Mindfulness is a skill you can use at any time to help cope with difficult thoughts or emotions. Intentional practice makes it easier: it's often trained using meditation exercises that involve focusing awareness on your breath and the physical sensations of different parts of your body.
-
-<small>(TODO: SRS meditation exercises?)</small>
+Though it originates in spiritual practice, mindfulness is strongly supported by evidence. In a 2018 meta-analysis of randomized controlled trials, mindfulness-based interventions were found to be effective across a range of disorders[@goldberg2018mindfulness], especially depression, chronic pain, and addiction. It's about as effective as other evidence-based therapies, like cognitive-behavioral therapy or antidepressant medication.
 `,
     furtherReading: md`
 - [22 Mindfulness Exercises, Techniques & Activities](https://positivepsychology.com/mindfulness-exercises-techniques-activities/) by Courtney Ackerman
@@ -42,12 +40,12 @@ Mindfulness is a skill you can use at any time to help cope with difficult thoug
         },
         {
             type: 'fillblank',
-            question: "Mindfulness is often practiced with regular ____",
+            question: "Mindfulness is often practiced with ____ exercises",
             possibleAnswers: [
                 'meditation'
             ],
             successFeedback: "It gets easier to use in everyday life the more you practice.",
-            reviseFeedback: "With regular _meditation_. It gets easier to use in everyday life the more you practice."
+            reviseFeedback: "With _meditation_. It gets easier to use in everyday life the more you practice."
         }
     ],
     bibliography: `
