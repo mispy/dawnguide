@@ -47,7 +47,7 @@ module.exports = (env, argv) => {
                             }
                         }
                     ],
-                    exclude: /node_modules/
+                    exclude: /client|node_modules/
                 },
                 {
                     test: /\.(jpe?g|gif|png|eot|woff|ttf|svg|woff2)$/,

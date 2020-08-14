@@ -3,7 +3,7 @@ import { useContext } from "react"
 import { Navbar, Container, Nav } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { AppContext } from "./AppContext"
-import { Logo } from "../server/Logo"
+import { Logo } from "../shared/Logo"
 import { LittleSpinner } from "./littleComponents"
 import { useObserver } from "mobx-react-lite"
 

@@ -3,7 +3,7 @@ import { Navbar, Container, Nav } from "react-bootstrap"
 import { Sunpedia, Concept } from "../shared/sunpedia"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
-import { Logo } from "./Logo"
+import { Logo } from "../shared/Logo"
 
 /** Dropdown part is implemented in pure css in site.sass */
 function ConceptsDropdown() {

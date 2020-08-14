@@ -15,7 +15,7 @@ module.exports = (env, argv) => {
             path: path.resolve(__dirname, 'client/dist/assets'),
         },
         resolve: {
-            extensions: ['.tsx', '.ts', '.js'],
+            extensions: ['.tsx', '.ts', '.js']
         },
         plugins: [
             new MiniCssExtractPlugin({
@@ -40,7 +40,8 @@ module.exports = (env, argv) => {
                             }
                         }
                     ],
-                    exclude: /node_modules/,
+                    // TODO use webpack 5 resolve.restrictions for server when it's available
+                    exclude: /server|node_modules/,
                 },
                 {
                     test: /\.css$/,
