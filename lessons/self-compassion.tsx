@@ -3,8 +3,7 @@ import { Lesson, md } from '../shared/Lesson'
 export default Lesson({
     id: 'self-compassion',
     title: 'Self-compassion',
-    tagLine: 'Caring for yourself the way you care for friends',
-    keyFinding: "Become more emotionally resilient by caring for yourself the way you care for friends",
+    summaryLine: "Become more emotionally resilient by caring for yourself the way you care for friends",
     // subtitle: "Caring for yourself the way you care for friends",s
     author: "Jake Leoht",
     introduction: md`

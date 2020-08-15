@@ -43,10 +43,9 @@ export type ExerciseDef = BasicExerciseDef | FillblankExerciseDef
 export type LessonDef = {
     id: string
     title: string
-    tagLine?: string
     subtitle?: string
     author?: string
-    keyFinding?: string
+    summaryLine: string
     draft?: true
     introduction: MarkdownString
     furtherReading?: MarkdownString

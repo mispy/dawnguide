@@ -14,7 +14,7 @@ export function LessonPage(props: { lesson: Lesson }) {
     const { lesson } = props
 
     const intro = renderToStaticMarkup(<Markdown>{lesson.introduction.replace(/\[@[^\]]+\]/g, '')}</Markdown>)
-    const pageDesc = lesson.keyFinding || htmlToPlaintext(intro).split("\n\n")[0]
+    const pageDesc = lesson.summaryLine || htmlToPlaintext(intro).split("\n\n")[0]
 
     return <html lang="en">
         <Head pageTitle={lesson.title} canonicalUrl={`/Lessons/${lesson.id}`} pageDesc={pageDesc}>

@@ -3,7 +3,7 @@ import { Lesson, md } from '../shared/Lesson'
 export default Lesson({
     id: 'spaced-learning',
     title: "Spaced learning",
-    keyFinding: "Use cognitive science to memorize ideas by spacing your study sessions across time",
+    summaryLine: "Using cognitive science to learn more effectively by spacing study sessions across time",
     introduction: md`
 Spaced learning is a way of committing ideas to memory by reviewing them in short sessions over a longer time period. Understanding spaced learning will help you understand how Dawnguide works, and it's also a general technique that you can use yourself to learn any kind of material.
 

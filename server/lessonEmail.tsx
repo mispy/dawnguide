@@ -16,7 +16,7 @@ export async function sendLessonEmail(user: User, lesson: Lesson) {
     const loginToken = await db.emailConfirmTokens.create(user.id, user.email)
     return sendMail({
         to: user.email,
-        subject: lesson.title + ": " + lesson.tagLine,
+        subject: lesson.title + ": " + lesson.summaryLine,
         html: lessonEmailHtml(loginToken, lesson)
     })
 }

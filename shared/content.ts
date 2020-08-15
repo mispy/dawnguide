@@ -145,12 +145,8 @@ export class Lesson {
         return this.def.subtitle
     }
 
-    @computed get tagLine(): string | undefined {
-        return this.def.tagLine
-    }
-
-    @computed get keyFinding(): string | undefined {
-        return this.def.keyFinding
+    @computed get summaryLine(): string | undefined {
+        return this.def.summaryLine
     }
 
     @computed get author(): string {

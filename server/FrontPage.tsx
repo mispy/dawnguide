@@ -58,8 +58,8 @@ export function FrontPage() {
                         <div className="lessonsGrid">
                             {lessons.map(lesson => <a className="lesson" key={lesson.id} href={`/${lesson.id}`}>
                                 <div>
-                                    <div className="keyFinding">
-                                        {lesson.keyFinding}
+                                    <div className="summaryLine">
+                                        {lesson.summaryLine}
                                     </div>
                                     <h5>
                                         {lesson.title} <FontAwesomeIcon icon={faArrowRight} />

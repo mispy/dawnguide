@@ -29,8 +29,8 @@ function NextLessonCard(props: { lesson: Lesson | undefined }) {
         return <Link to={`/${lesson.id}`} className="NextLessonCard">
             <h4>Next Lesson</h4>
             <div>
-                <div className="keyFinding">
-                    {lesson.keyFinding}
+                <div className="summaryLine">
+                    {lesson.summaryLine}
                 </div>
                 <h5>
                     {lesson.title} <FontAwesomeIcon icon={faArrowRight} />
@@ -73,7 +73,7 @@ function NextReviewCard(props: { reviews: ReviewWithTime[] }) {
         return <Link to={`/review`} className="NextReviewCard">
             <h4>Next Review</h4>
             <div>
-                <div className="keyFinding">
+                <div className="summaryLine">
                     {practiceLine}
                 </div>
                 <h5>

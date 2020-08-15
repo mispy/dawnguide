@@ -5,8 +5,7 @@ import cognitiveTriangle from './img/cognitive-triangle.jpg'
 export default Lesson({
     id: 'cognitive-restructuring',
     title: 'Cognitive restructuring',
-    tagLine: "Influence your emotions by challenging negative thoughts",
-    keyFinding: "Influence your emotions by challenging negative thoughts",
+    summaryLine: "Influence your emotions by challenging negative thoughts",
     author: "Jake Leoht",
     introduction: md`
 As a human, you've probably noticed that your ability to directly control your feelings is limited. When something happens, you can't just _decide_ to be happy, sad, calm, or angry about it: some part of your brain has already decided how it feels and tells your conscious mind about it after the fact. 
