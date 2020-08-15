@@ -1,6 +1,6 @@
-import { concept, md } from '../shared/concept'
+import { Lesson, md } from '../shared/Lesson'
 
-export default concept({
+export default Lesson({
     id: 'mental-contrasting',
     title: 'Mental contrasting',
     tagLine: "Find energy to act by contrasting the future you want with obstacles in the present",

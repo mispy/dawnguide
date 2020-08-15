@@ -1,8 +1,8 @@
-import { concept, md } from '../shared/concept'
+import { Lesson, md } from '../shared/Lesson'
 // @ts-ignore
 import cognitiveTriangle from './img/cognitive-triangle.jpg'
 
-export default concept({
+export default Lesson({
     id: 'cognitive-restructuring',
     title: 'Cognitive restructuring',
     tagLine: "Influence your emotions by challenging negative thoughts",

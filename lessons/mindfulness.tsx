@@ -1,8 +1,8 @@
-import { concept, md } from '../shared/concept'
+import { Lesson, md } from '../shared/Lesson'
 // @ts-ignore
 import mindfulnessImg from './img/mindfulness.png'
 
-export default concept({
+export default Lesson({
     id: 'mindfulness',
     title: "Mindfulness",
     keyFinding: "Allow negative thoughts to peacefully dissipate by focusing on your immediate experience",

@@ -1,8 +1,8 @@
 import { pageResponse } from "./utils"
 import { FrontPage } from "./FrontPage"
 import { EventRequest, SessionRequest } from "./requests"
-import { Sunpedia } from "../shared/sunpedia"
-import { ConceptPage } from "./ConceptPage"
+import { content } from "../shared/content"
+import { LessonPage } from "./LessonPage"
 import * as _ from 'lodash'
 import { AppPage } from "./AppPage"
 import * as db from './db'
@@ -16,14 +16,12 @@ export async function appPage(req: SessionRequest) {
     return pageResponse(AppPage, { user: user })
 }
 
-export async function conceptPage(req: EventRequest, conceptId: string) {
-    const sunpedia = new Sunpedia()
+export async function lessonPage(req: EventRequest, lessonId: string) {
+    const lesson = content.lessonsWithDrafts.find(c => c.id === lessonId)
 
-    const concept = sunpedia.conceptsWithDrafts.find(c => c.id === conceptId)
-
-    if (!concept) {
-        return new Response(`Unknown concept ${conceptId}`, { status: 404 })
+    if (!lesson) {
+        return new Response(`Unknown lesson ${lessonId}`, { status: 404 })
     }
 
-    return pageResponse(ConceptPage, { concept: concept })
+    return pageResponse(LessonPage, { lesson: lesson })
 }

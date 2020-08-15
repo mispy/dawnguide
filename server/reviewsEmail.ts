@@ -1,7 +1,7 @@
 import { User } from "../shared/types"
 import * as _ from 'lodash'
 import * as db from './db'
-import { Sunpedia } from "../shared/sunpedia"
+import { content } from "../shared/content"
 import { sendMail } from "./mail"
 import { weeks } from "./time"
 import { absurl } from "../shared/utils"
@@ -18,9 +18,8 @@ export async function sendReviewsEmailIfNeeded(user: User) {
     if (user.lastSeenAt <= settings.lastWeeklyReviewEmail - weeks(1))
         return // Don't keep sending emails if the user doesn't log in
 
-    const sunpedia = new Sunpedia()
     const progressItems = await db.progressItems.allFor(user.id)
-    const { lessons, reviews } = sunpedia.getLessonsAndReviews(progressItems)
+    const { lessons, reviews } = content.getLessonsAndReviews(progressItems)
 
     if (reviews.length === 0)
         return // No reviews to prompt about!
@@ -35,9 +34,8 @@ export async function sendReviewsEmailIfNeeded(user: User) {
 }
 
 export async function sendReviewsEmail(user: User) {
-    const sunpedia = new Sunpedia()
     const progressItems = await db.progressItems.allFor(user.id)
-    const { lessons, reviews } = sunpedia.getLessonsAndReviews(progressItems)
+    const { lessons, reviews } = content.getLessonsAndReviews(progressItems)
 
     await sendMail({
         to: user.email,

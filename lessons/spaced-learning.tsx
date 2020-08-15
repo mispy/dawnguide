@@ -1,6 +1,6 @@
-import { concept, md } from '../shared/concept'
+import { Lesson, md } from '../shared/Lesson'
 
-export default concept({
+export default Lesson({
     id: 'spaced-learning',
     title: "Spaced learning",
     keyFinding: "Use cognitive science to memorize ideas by spacing your study sessions across time",
@@ -9,7 +9,7 @@ Spaced learning is a way of committing ideas to memory by reviewing them in shor
 
 Spaced learning leads to better recall than massed learning strategies, such as cramming for an exam. In psychology this is called the "spacing effect" and it's supported by a lot of research![@cepeda2006distributed]
 
-Dawnguide's form of spaced learning starts with reading a short passage about the key ideas of a concept (such as this one). Afterwards, you'll be shown some question-answer review cards. Each time you remember the answer to a question, we'll wait longer before showing it to you again. This way you can memorize ideas for the long term.
+Dawnguide's form of spaced learning starts with reading a short passage about the key ideas of a Lesson (such as this one). Afterwards, you'll be shown some question-answer review cards. Each time you remember the answer to a question, we'll wait longer before showing it to you again. This way you can memorize ideas for the long term.
 
 You don't need any software to take advantage of the spacing effect, but there are a number of apps (like Dawnguide) that aim to make it easier. A common free one for making your own flashcards is [Anki](https://apps.ankiweb.net/).
 `,

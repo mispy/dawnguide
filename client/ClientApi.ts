@@ -4,7 +4,6 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { API_BASE_URL, IS_PRODUCTION } from './settings'
 import { delay } from './utils'
 import { User, UserProgressItem, UserNotificationSettings, UserAdminReport } from '../shared/types'
-import { Sunpedia } from '../shared/sunpedia'
 // @ts-ignore
 const NProgress = require('accessible-nprogress')
 
@@ -69,7 +68,7 @@ export class ClientApi {
     admin: AdminApi
     debug: DebugApi
 
-    constructor(readonly sunpedia: Sunpedia) {
+    constructor() {
         this.http = new HTTPProvider()
         this.admin = new AdminApi(this.http)
         this.debug = new DebugApi(this.http)
@@ -141,16 +140,16 @@ export class AdminApi {
         await this.http.delete(`/api/admin/users/${userId}`)
     }
 
-    async testConceptEmail(conceptId: string) {
-        await this.http.post('/api/admin/testConceptEmail', { conceptId: conceptId })
+    async testLessonEmail(lessonId: string) {
+        await this.http.post('/api/admin/testLessonEmail', { lessonId: lessonId })
     }
 
     async testReviewsEmail() {
         await this.http.post('/api/admin/testReviewsEmail')
     }
 
-    async emailEveryone(conceptId: string) {
-        await this.http.post('/api/admin/emailEveryone', { conceptId: conceptId })
+    async emailEveryone(lessonId: string) {
+        await this.http.post('/api/admin/emailEveryone', { lessonId: lessonId })
     }
 }
 

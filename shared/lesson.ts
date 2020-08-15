@@ -1,6 +1,6 @@
-import { ConceptDef } from "./types"
+import { LessonDef } from "./types"
 
-export function concept(def: ConceptDef): ConceptDef {
+export function Lesson(def: LessonDef): LessonDef {
     return def
 }
 

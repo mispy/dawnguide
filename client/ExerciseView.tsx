@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { Concept } from "../shared/sunpedia"
+import { Lesson } from "../shared/content"
 import { Exercise, FillblankExerciseDef, BasicExerciseDef } from "../shared/types"
 import { MemoryCard } from './MemoryCard'
 import { FillblankCard } from './FillblankCard'
 
-export function ExerciseView(props: { concept: Concept, exercise: Exercise, onSubmit: (remembered: boolean) => void }) {
+export function ExerciseView(props: { lesson: Lesson, exercise: Exercise, onSubmit: (remembered: boolean) => void }) {
     const { exercise } = props
 
     if (exercise.type === 'fillblank') {

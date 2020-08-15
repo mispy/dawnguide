@@ -12,7 +12,7 @@ import * as api from './api'
 import * as _ from 'lodash'
 import { logToSentry } from './sentry'
 import { EventRequest, SessionRequest } from './requests'
-import conceptDefs from '../concepts'
+import lessonDefs from '../lessons'
 
 // Workers require that this be a sync callback
 addEventListener('fetch', event => {
@@ -102,8 +102,8 @@ async function processRequest(req: EventRequest): Promise<Response> {
     // These pages are server-rendered only if user isn't logged in
     if (!req.session) {
         r.get('/', site.frontPage)
-        for (const concept of conceptDefs) {
-            r.get(`/${concept.id}`, (req) => site.conceptPage(req, concept.id))
+        for (const lesson of lessonDefs) {
+            r.get(`/${lesson.id}`, (req) => site.lessonPage(req, lesson.id))
         }
     }
 
@@ -158,7 +158,7 @@ async function behindLogin(req: EventRequest) {
     const r = new Router<SessionRequest>()
     r.get('/', site.appPage)
     r.get('/home', site.appPage)
-    r.get('/review/:conceptId', site.appPage)
+    r.get('/review/:lessonId', site.appPage)
     r.get('/review', site.appPage)
     r.get('/lesson', site.appPage)
     r.get('/settings', site.appPage)
@@ -169,8 +169,8 @@ async function behindLogin(req: EventRequest) {
     r.get('/admin', site.appPage)
     r.get('/admin/emails', site.appPage)
 
-    for (const concept of conceptDefs) {
-        r.get(`/${concept.id}`, site.appPage)
+    for (const lesson of lessonDefs) {
+        r.get(`/${lesson.id}`, site.appPage)
     }
 
     return await r.route(req as SessionRequest)

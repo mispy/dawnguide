@@ -7,15 +7,14 @@ import * as _ from 'lodash'
 import { Link, Redirect } from "react-router-dom"
 import { AppLayout } from "./AppLayout"
 import { useContext, useEffect } from "react"
-import { Concept } from '../shared/sunpedia'
-import { MemoryCard } from './MemoryCard'
+import { Lesson } from '../shared/content'
 import { ExerciseView } from './ExerciseView'
-import { ExerciseWithConcept } from '../shared/types'
+import { Review } from '../shared/types'
 
-function LessonReviews(props: { reviews: ExerciseWithConcept[], onComplete: () => void }) {
+function LessonReviews(props: { reviews: Review[], onComplete: () => void }) {
     const { api } = useContext(AppContext)
     const { reviews, onComplete } = props
-    const state = useLocalStore<{ reviews: ExerciseWithConcept[], completedIds: string[] }>(() => ({ reviews: _.clone(reviews).reverse(), completedIds: [] }))
+    const state = useLocalStore<{ reviews: Review[], completedIds: string[] }>(() => ({ reviews: _.clone(reviews).reverse(), completedIds: [] }))
 
     const onCompleteAll = async (exerciseIds: string[]) => {
         await api.completeLesson(exerciseIds)
@@ -51,7 +50,7 @@ function LessonReviews(props: { reviews: ExerciseWithConcept[], onComplete: () =
     return useObserver(() => {
         const review = state.reviews[state.reviews.length - 1]
         return <div className="LessonReviews">
-            {review ? <ExerciseView concept={review.concept} exercise={review.exercise} onSubmit={onCardComplete} /> : undefined}
+            {review ? <ExerciseView lesson={review.lesson} exercise={review.exercise} onSubmit={onCardComplete} /> : undefined}
         </div>
     })
 }
@@ -60,17 +59,17 @@ class LessonPageState {
     @observable showing: 'reviews' | 'complete' = 'reviews'
     @observable exerciseIndex: number = 0
 
-    constructor(readonly concept: Concept) {
+    constructor(readonly lesson: Lesson) {
     }
 
     @computed get exercise() {
-        return this.concept.exercises[this.exerciseIndex]
+        return this.lesson.exercises[this.exerciseIndex]
     }
 
     @computed get reviews() {
-        return this.concept.exercises.map(e => {
+        return this.lesson.exercises.map(e => {
             return {
-                concept: this.concept,
+                lesson: this.lesson,
                 exercise: e
             }
         })
@@ -85,15 +84,15 @@ class LessonPageState {
     }
 }
 
-function InitialReviewPageLoaded(props: { concept: Concept }) {
+function InitialReviewPageLoaded(props: { lesson: Lesson }) {
     const { app } = useContext(AppContext)
-    const state = useLocalStore(() => new LessonPageState(props.concept))
+    const state = useLocalStore(() => new LessonPageState(props.lesson))
 
     function content() {
         if (state.showing === 'reviews') {
             return <LessonReviews reviews={state.reviews} onComplete={state.completeReview} />
         } else {
-            const nextLesson = app.lessonConcepts.find(c => c !== props.concept)
+            const nextLesson = app.lessonLessons.find(c => c !== props.lesson)
 
             return <div className="d-flex justify-content-center">
                 <div>
@@ -118,20 +117,20 @@ function InitialReviewPageLoaded(props: { concept: Concept }) {
     </div >)
 }
 
-export function InitialReviewPage(props: { concept: Concept }) {
+export function InitialReviewPage(props: { lesson: Lesson }) {
     const { app } = useContext(AppContext)
-    const { concept } = props
+    const { lesson: Lesson } = props
 
     function content() {
         if (app.loading)
             return <></>
 
-        if (app.userStartedLearning(concept.id)) {
-            // User already did initial exercises for this concept
+        if (app.userStartedLearning(Lesson.id)) {
+            // User already did initial exercises for this Lesson
             return <Redirect to="/home" />
         }
 
-        return <InitialReviewPageLoaded concept={concept} />
+        return <InitialReviewPageLoaded lesson={Lesson} />
     }
 
     return useObserver(() => {
@@ -140,79 +139,3 @@ export function InitialReviewPage(props: { concept: Concept }) {
         </AppLayout>
     })
 }
-
-    // @observer
-    // export class LessonPage extends React.Component {
-    //     @observable conceptIndex: number = 0
-    //     @observable reviewPrompt: boolean = false
-    //     @observable mode: 'learn' | 'review' = 'learn'
-
-    //     static contextType = AppContext
-    //     declare context: React.ContextType<typeof AppContext>
-
-
-
-    //     @action.bound prev() {
-    //         if (this.reviewPrompt) {
-    //             this.reviewPrompt = false
-    //             return
-    //         }
-
-    //         this.conceptIndex = Math.max(0, this.conceptIndex - 1)
-    //     }
-
-    //     @action.bound next() {
-    //         if (this.reviewPrompt) {
-    //             this.mode = 'review'
-    //             return
-    //         }
-
-    //         if (this.conceptIndex === this.concepts.length - 1) {
-    //             // Finished lesson batch, prompt to continue to review
-    //             this.reviewPrompt = true
-    //             return
-    //         }
-
-    //         this.conceptIndex = Math.min(this.concepts.length - 1, this.conceptIndex + 1)
-    //     }
-
-    //     @action.bound onKeyup(ev: KeyboardEvent) {
-    //         if (ev.key == "ArrowRight") {
-    //             this.next()
-    //         } else if (ev.key == "ArrowLeft") {
-    //             this.prev()
-    //         }
-    //     }
-
-    //     componentDidMount() {
-    //         window.addEventListener('keyup', this.onKeyup)
-    //     }
-
-    //     componentWillUnmount() {
-    //         window.removeEventListener('keyup', this.onKeyup)
-    //     }
-
-    //     content() {
-    //         if (!this.conceptsWithProgress.length) {
-    //             return "Loading..."
-    //         }
-
-    //         if (this.concepts.length === 0) {
-    //             // Nothing new to learn
-    //             return <Redirect to="/home" />
-    //         }
-
-    //         if (this.mode === 'review') {
-    //             const reviews = this.concepts.map(c => ({ concept: c, exercise: c.exercises[0] }))
-    //             return <ReviewsUI reviews={reviews} />
-    //         }
-
-
-    //     }
-
-    //     render() {
-    //         return <AppLayout noHeader>
-    //             {this.content()}
-    //         </AppLayout>
-    //     }
-    // }

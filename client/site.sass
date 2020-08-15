@@ -55,7 +55,7 @@ $landing-color: #167475
         .navbar-nav.other
             margin-left: auto
 
-.SiteHeader .ConceptsDropdown
+.SiteHeader .LessonsDropdown
     position: relative
 
     label
@@ -81,10 +81,10 @@ $landing-color: #167475
         display: block
         padding: 0.5rem 1rem
 
-    #conceptsDropdownToggle
+    #lessonsDropdownToggle
         display: none
 
-    #conceptsDropdownToggle:checked ~ ul
+    #lessonsDropdownToggle:checked ~ ul
         display: block
 
 .FrontPage .SiteHeader
@@ -103,10 +103,10 @@ $landing-color: #167475
         flex-direction: row
         align-items: center
 
-    .ConceptsDropdown label
+    .LessonsDropdown label
         color: white
 
-    .ConceptsDropdown ul li > a
+    .LessonsDropdown ul li > a
         color: $landing-color
 
     li.nav-item > a
@@ -191,29 +191,29 @@ $landing-color: #167475
     .container
         max-width: 800px
 
-.FrontPage section.concepts
+.FrontPage section.lessons
     padding-top: 3rem
 
     h3
         margin-bottom: 2rem
 
-    .conceptsGrid
+    .lessonsGrid
         display: grid
         grid-template-columns: repeat(3,1fr)
         grid-template-rows: repeat(5,auto)
         grid-gap: .5rem
 
-    .concept
+    .lesson
         position: relative
         padding: 1.5rem
         transition: box-shadow .3s ease
         color: #008656
 
-    .concept:hover
+    .lesson:hover
         box-shadow: 0 2px 3px #af8d8d33, 0 4px 10px rgba(0,0,0,.15)
         text-decoration: none
 
-    .concept:after
+    .lesson:after
         position: absolute
         content: ""
         left: 0
@@ -224,10 +224,10 @@ $landing-color: #167475
         opacity: 0
         transition: opacity .3s ease
 
-    .concept:hover:after
+    .lesson:hover:after
         opacity: 1
 
-    .concept > div
+    .lesson > div
         display: flex
         flex-direction: column
         justify-content: space-between
@@ -235,7 +235,7 @@ $landing-color: #167475
         line-height: 1.2
         min-height: 150px
 
-    .concept > div:before
+    .lesson > div:before
         content: ""
         background-color: currentColor
         position: absolute
@@ -246,24 +246,24 @@ $landing-color: #167475
         opacity: .05
         z-index: -1
 
-    .concept .keyFinding
+    .lesson .keyFinding
         font-size: 1.4rem
         margin-bottom: 1rem
         color: #333
 
-    .concept h5
+    .lesson h5
         margin: 0
         font-size: 1rem
         text-align: right
         font-weight: bold
 
     @media (max-width: $mobile)
-        .conceptsGrid
+        .lessonsGrid
             display: block
 
-        .concept
+        .lesson
             display: block
             margin-bottom: 1rem
 
-        .concept:after
+        .lesson:after
             opacity: 1

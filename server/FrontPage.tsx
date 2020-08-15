@@ -1,15 +1,14 @@
 import * as React from 'react'
 import { Head } from "./Head"
 import { SiteHeader } from "./SiteHeader"
-import { Sunpedia } from '../shared/sunpedia'
+import { content } from '../shared/content'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 // @ts-ignore
 import socialMediaLarge from '../public/social-media-large.jpg'
 
 export function FrontPage() {
-    const sunpedia = new Sunpedia()
-    const { concepts } = sunpedia
+    const { lessons } = content
 
     const pageDesc = "Dawnguide collects key research findings that help maintain good mental health. Memorize them forever using our spaced learning system."
 
@@ -53,17 +52,17 @@ export function FrontPage() {
                         <hr />
                     </div>
                 </section>
-                <section className="concepts">
+                <section className="lessons">
                     <div className="container">
                         <h3>Lessons</h3>
-                        <div className="conceptsGrid">
-                            {concepts.map(concept => <a className="concept" key={concept.id} href={`/${concept.id}`}>
+                        <div className="lessonsGrid">
+                            {lessons.map(lesson => <a className="lesson" key={lesson.id} href={`/${lesson.id}`}>
                                 <div>
                                     <div className="keyFinding">
-                                        {concept.keyFinding}
+                                        {lesson.keyFinding}
                                     </div>
                                     <h5>
-                                        {concept.title} <FontAwesomeIcon icon={faArrowRight} />
+                                        {lesson.title} <FontAwesomeIcon icon={faArrowRight} />
                                     </h5>
                                 </div>
                             </a>)}

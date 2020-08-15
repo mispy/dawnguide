@@ -1,6 +1,6 @@
-import { concept, md } from '../shared/concept'
+import { Lesson, md } from '../shared/Lesson'
 
-export default concept({
+export default Lesson({
     id: 'trigger-action-plans',
     title: 'Trigger-action plans',
     tagLine: "Build good habits by associating specific cues with a behavioral response",

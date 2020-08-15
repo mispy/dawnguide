@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as _ from 'lodash'
 import Markdown from 'markdown-to-jsx'
 
-import { Concept } from "./sunpedia"
+import { Lesson } from "./content"
 import { Bibliography } from "./Bibliography"
 import { MarkdownString } from "./types"
 import classNames from 'classnames'
@@ -33,11 +33,11 @@ function SmartLink(props: { href: string }) {
     }
 }
 
-export function Passage(props: { concept: Concept }) {
-    const { concept } = props
-    const referencesById = _.keyBy(concept.references, r => r.id)
+export function Passage(props: { lesson: Lesson }) {
+    const { lesson } = props
+    const referencesById = _.keyBy(lesson.references, r => r.id)
 
-    const [introduction, referenceIds] = transformRefs(concept.introduction)
+    const [introduction, referenceIds] = transformRefs(lesson.introduction)
     const referencesInText = referenceIds.map(id => referencesById[id])
 
     const markdownOptions = {
@@ -46,24 +46,24 @@ export function Passage(props: { concept: Concept }) {
         }
     }
 
-    return <div className={classNames("Passage", concept.subtitle && 'hasSubtitle')}>
+    return <div className={classNames("Passage", lesson.subtitle && 'hasSubtitle')}>
         <h1>
-            {concept.title} {concept.draft && <span className="draft-marker">// Draft</span>}
+            {lesson.title} {lesson.draft && <span className="draft-marker">// Draft</span>}
         </h1>
-        {concept.subtitle && <div className="subtitle">
-            {concept.subtitle}
+        {lesson.subtitle && <div className="subtitle">
+            {lesson.subtitle}
         </div>}
         <Markdown options={markdownOptions}>{introduction}</Markdown>
         <div className="authorship">
-            Written by {concept.author}
+            Written by {lesson.author}
         </div>
-        {concept.furtherReading ? <section id="furtherReading">
+        {lesson.furtherReading ? <section id="furtherReading">
             <h2>Further Reading</h2>
-            <Markdown options={markdownOptions}>{concept.furtherReading}</Markdown>
+            <Markdown options={markdownOptions}>{lesson.furtherReading}</Markdown>
         </section> : undefined}
-        {concept.notes ? <section id="notes">
+        {lesson.notes ? <section id="notes">
             <h2>Notes</h2>
-            <Markdown options={markdownOptions}>{concept.notes}</Markdown>
+            <Markdown options={markdownOptions}>{lesson.notes}</Markdown>
         </section> : undefined}
         {referencesInText.length ? <section id="references">
             <h2>References</h2>

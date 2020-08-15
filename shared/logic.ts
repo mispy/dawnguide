@@ -1,4 +1,4 @@
-import { Concept } from "./sunpedia"
+import { Lesson } from "./content"
 
 export interface ExerciseProgressItem {
     /** Unique id of the exercise, which refers to a hardcoded string */

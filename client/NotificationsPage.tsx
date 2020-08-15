@@ -42,8 +42,8 @@ function NotificationsSection() {
                 <input className="form-check-input" type="checkbox" checked={settings.emailAboutNewConcepts} disabled={settings.disableNotificationEmails}
                     onChange={e => state.update({ emailAboutNewConcepts: e.currentTarget.checked })} id="emailAboutNewConcepts" />
                 <label className="form-check-label" htmlFor="emailAboutNewConcepts">
-                    New concept emails
-                    <aside className="text-secondary">Get an email when we release a new concept to learn</aside>
+                    New Lesson emails
+                    <aside className="text-secondary">Get an email when we release a new Lesson to learn</aside>
                 </label>
             </div><br />
             <div className="form-check">

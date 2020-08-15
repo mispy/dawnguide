@@ -1,6 +1,6 @@
 import { useObserver, useLocalStore } from "mobx-react-lite"
 import * as React from 'react'
-import { Concept } from "../shared/sunpedia"
+import { Lesson } from "../shared/content"
 import classnames from 'classnames'
 import { action } from "mobx"
 import { Exercise, BasicExerciseDef } from "../shared/types"
@@ -11,16 +11,16 @@ import { faEye } from '@fortawesome/free-solid-svg-icons'
 import { Passage } from "../shared/Passage"
 import { Container } from "react-bootstrap"
 
-export function MemoryCard(props: { concept: Concept, exercise: BasicExerciseDef, onSubmit: (remembered: boolean) => void }) {
-    const { concept, exercise, onSubmit } = props
-    const state = useLocalStore<{ revealed: boolean, showConcept: boolean }>(() => ({ revealed: false, showConcept: false }))
+export function MemoryCard(props: { lesson: Lesson, exercise: BasicExerciseDef, onSubmit: (remembered: boolean) => void }) {
+    const { lesson, exercise, onSubmit } = props
+    const state = useLocalStore<{ revealed: boolean, showLesson: boolean }>(() => ({ revealed: false, showLesson: false }))
 
     const reveal = action(() => state.revealed = true)
 
-    const didntRemember = action(() => { onSubmit(false); state.revealed = false; state.showConcept = false })
-    const remembered = action(() => { onSubmit(true); state.revealed = false; state.showConcept = false })
+    const didntRemember = action(() => { onSubmit(false); state.revealed = false; state.showLesson = false })
+    const remembered = action(() => { onSubmit(true); state.revealed = false; state.showLesson = false })
 
-    const showConcept = action(() => state.showConcept = !state.showConcept)
+    const showLesson = action(() => state.showLesson = !state.showLesson)
 
     return useObserver(() => <div className="MemoryCardContainer mt-2">
         <div className="container">
@@ -37,8 +37,8 @@ export function MemoryCard(props: { concept: Concept, exercise: BasicExerciseDef
 
         </div>
         <div className="d-flex justify-content-center mt-4">
-            <button className="btn btn-outline-secondary" disabled={!state.revealed} onClick={showConcept}><FontAwesomeIcon icon={faEye} /> Show concept</button>
+            <button className="btn btn-outline-secondary" disabled={!state.revealed} onClick={showLesson}><FontAwesomeIcon icon={faEye} /> Show Lesson</button>
         </div>
-        {state.showConcept && <Container><Passage concept={concept} /></Container>}
+        {state.showLesson && <Container><Passage lesson={lesson} /></Container>}
     </div>)
 }

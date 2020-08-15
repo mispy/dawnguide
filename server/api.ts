@@ -9,8 +9,8 @@ import * as bcrypt from "bcryptjs"
 import { SessionRequest, EventRequest } from "./requests"
 import * as payments from './paymentsController'
 import { CONTACT_FORM_EMAIL } from "./settings"
-import { Sunpedia } from "../shared/sunpedia"
-import { sendConceptEmail } from "./conceptEmail"
+import { content } from "../shared/content"
+import { sendLessonEmail } from "./lessonEmail"
 import { absurl } from "../shared/utils"
 import { sendReviewsEmail } from "./reviewsEmail"
 
@@ -44,7 +44,7 @@ async function getProgress(req: SessionRequest): Promise<{ items: UserProgressIt
 }
 
 /** 
- * Called when a user has completed the lesson for a concept and is moving
+ * Called when a user has completed the lesson for a Lesson and is moving
  * on to reviews
  */
 async function completeLesson(req: SessionRequest) {
@@ -222,7 +222,7 @@ export namespace admin {
         const r = new Router<SessionRequest>()
         r.get('/api/admin/users', getUsers)
         r.delete('/api/admin/users/(.*)', deleteUser)
-        r.post('/api/admin/testConceptEmail', testConceptEmail)
+        r.post('/api/admin/testLessonEmail', testLessonEmail)
         r.post('/api/admin/testReviewsEmail', testReviewsEmail)
         r.post('/api/admin/emailEveryone', emailEveryone)
 
@@ -233,13 +233,12 @@ export namespace admin {
         const users = await db.users.all()
         const userProgress = await Promise.all(users.map(u => db.progressItems.allFor(u.id)))
         const notificationSettings = await Promise.all(users.map(u => db.notificationSettings.get(u.id)))
-        const sunpedia = new Sunpedia()
 
         return users.map((u, i) => {
             const progress = userProgress[i]
             const progressByExercise = _.keyBy(progress, p => p.exerciseId)
-            const meanLevel = _.meanBy(sunpedia.exercises, e => progressByExercise[e.id]?.level || 0)
-            const lessonsStudied = sunpedia.concepts.filter(c => _.some(c.exercises, e => progressByExercise[e.id])).length
+            const meanLevel = _.meanBy(content.exercises, e => progressByExercise[e.id]?.level || 0)
+            const lessonsStudied = content.lessons.filter(c => _.some(c.exercises, e => progressByExercise[e.id])).length
 
             return Object.assign(
                 _.pick(u, 'id', 'email', 'username', 'createdAt', 'updatedAt', 'lastSeenAt'),
@@ -253,12 +252,12 @@ export namespace admin {
         return { userId: userId, deleted: true }
     }
 
-    export async function testConceptEmail(req: SessionRequest) {
-        const { conceptId } = trimStrings(req.json, 'conceptId')
-        const concept = new Sunpedia().expectConcept(conceptId)
+    export async function testLessonEmail(req: SessionRequest) {
+        const { lessonId } = trimStrings(req.json, 'lessonId')
+        const lesson = content.expectLesson(lessonId)
 
         const user = await db.users.expect(req.session.userId)
-        await sendConceptEmail(user, concept)
+        await sendLessonEmail(user, lesson)
     }
 
     export async function testReviewsEmail(req: SessionRequest) {
@@ -266,17 +265,15 @@ export namespace admin {
         await sendReviewsEmail(user)
     }
 
-
     export async function emailEveryone(req: SessionRequest) {
-        const { conceptId } = trimStrings(req.json, 'conceptId')
-        const concept = new Sunpedia().expectConcept(conceptId)
+        const { lessonId } = trimStrings(req.json, 'lessonId')
+        const Lesson = content.expectLesson(lessonId)
 
         const promises = []
         for (const user of await db.users.all()) {
             const settings = await db.notificationSettings.get(user.id)
             if (settings.emailAboutNewConcepts && !settings.disableNotificationEmails) {
-                console.log(user.email, concept.title)
-                promises.push(sendConceptEmail(user, concept))
+                promises.push(sendLessonEmail(user, Lesson))
             }
         }
 

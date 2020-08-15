@@ -3,21 +3,14 @@ import { useLocalStore, useObserver } from "mobx-react-lite"
 import { action } from "mobx"
 
 import * as _ from 'lodash'
-import { Exercise } from "../shared/types"
 import { AppContext } from "./AppContext"
-import { MemoryCard } from "./MemoryCard"
 import { useContext } from "react"
-import { Concept } from "../shared/sunpedia"
+import { Lesson, Review } from "../shared/content"
 import { ExerciseView } from './ExerciseView'
 
-interface ExerciseWithConcept {
-    concept: Concept
-    exercise: Exercise
-}
-
-export function MultiReview(props: { reviews: ExerciseWithConcept[], onComplete: () => void }) {
+export function MultiReview(props: { reviews: Review[], onComplete: () => void }) {
     const { reviews, onComplete } = props
-    const state = useLocalStore(() => ({ showConcept: false, reviews: _.clone(reviews).reverse() }))
+    const state = useLocalStore(() => ({ showLesson: false, reviews: _.clone(reviews).reverse() }))
     const { api } = useContext(AppContext)
 
     const onCardComplete = action((remembered: boolean) => {
@@ -41,18 +34,18 @@ export function MultiReview(props: { reviews: ExerciseWithConcept[], onComplete:
         if (!review) return null
 
         return <div className="MultiReview">
-            <ExerciseView exercise={review.exercise} concept={review.concept} onSubmit={onCardComplete} />
+            <ExerciseView exercise={review.exercise} lesson={review.lesson} onSubmit={onCardComplete} />
         </div>
     })
 }
 
 
 // @observer
-// export class ReviewsUI extends React.Component<{ reviews: ExerciseWithConcept[] }> {
+// export class ReviewsUI extends React.Component<{ reviews: ExerciseWithLesson[] }> {
 //     @observable ready: boolean = false
 //     @observable response: string = ""
 //     @observable answerFeedback: 'correct' | 'incorrect' | null = null
-//     @observable reviewsToComplete: ExerciseWithConcept[] = []
+//     @observable reviewsToComplete: ExerciseWithLesson[] = []
 //     responseInput = React.createRef<HTMLInputElement>()
 //     static contextType = AppContext
 //     declare context: React.ContextType<typeof AppContext>
@@ -72,7 +65,7 @@ export function MultiReview(props: { reviews: ExerciseWithConcept[], onComplete:
 //             this.answerFeedback = 'incorrect'
 //         }
 
-//         this.context.api.submitProgress(this.currentReview.concept.id, this.answerFeedback === 'correct')
+//         this.context.api.submitProgress(this.currentReview.Lesson.id, this.answerFeedback === 'correct')
 
 //     }
 

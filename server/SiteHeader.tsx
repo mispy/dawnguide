@@ -1,20 +1,17 @@
 import * as React from 'react'
-import { Navbar, Container, Nav } from "react-bootstrap"
-import { Sunpedia, Concept } from "../shared/sunpedia"
+import { content } from "../shared/content"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import { Logo } from "../shared/Logo"
 
 /** Dropdown part is implemented in pure css in site.sass */
-function ConceptsDropdown() {
-    const sunpedia = new Sunpedia()
-
-    return <li className="nav-item ConceptsDropdown">
-        <input id="conceptsDropdownToggle" type="checkbox" />
-        <label className="nav-link" htmlFor="conceptsDropdownToggle">Concepts <FontAwesomeIcon icon={faAngleDown} /></label>
+function LessonsDropdown() {
+    return <li className="nav-item LessonsDropdown">
+        <input id="lessonsDropdownToggle" type="checkbox" />
+        <label className="nav-link" htmlFor="lessonsDropdownToggle">Lessons <FontAwesomeIcon icon={faAngleDown} /></label>
         <ul>
-            {sunpedia.concepts.map(concept => <li key={concept.id}>
-                <a href={`/${concept.id}`}>{concept.title}</a>
+            {content.lessons.map(lesson => <li key={lesson.id}>
+                <a href={`/${lesson.id}`}>{lesson.title}</a>
             </li>)}
         </ul>
     </li>
@@ -28,7 +25,7 @@ export function SiteHeader() {
                     <Logo /> Dawnguide
                 </a>
                 <ul className="navbar-nav ml-auto">
-                    <ConceptsDropdown />
+                    <LessonsDropdown />
                     <li className="nav-item">
                         <a className="nav-link" href="/login">Sign in</a>
                     </li>

@@ -1,6 +1,6 @@
-import { concept, md } from '../shared/concept'
+import { Lesson, md } from '../shared/Lesson'
 
-export default concept({
+export default Lesson({
     id: 'self-actualization',
     title: 'Self-actualization',
     tagLine: "Humans have universal needs for things like safety, love, and autonomy",

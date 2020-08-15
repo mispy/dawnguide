@@ -1,10 +1,10 @@
-import { concept, md } from '../shared/concept'
+import { Lesson, md } from '../shared/Lesson'
 // @ts-ignore
 import baCycle from './img/behavioral-activation-cycle.jpg'
 
 //  https://beckinstitute.org/behavioral-activation-tip/
 
-export default concept({
+export default Lesson({
     id: 'behavioral-activation',
     title: "Behavioral activation",
     keyFinding: "Begin a new positive cycle by scheduling meaningful activities",

@@ -66,7 +66,7 @@ export function AdminPage() {
                                 if (notifs.emailAboutNewConcepts && notifs.emailAboutWeeklyReviews) {
                                     notifStatus = "Everything"
                                 } else if (notifs.emailAboutNewConcepts) {
-                                    notifStatus = "New Concepts Only"
+                                    notifStatus = "New Lessons Only"
                                 } else {
                                     notifStatus = "Reviews Only"
                                 }
@@ -95,13 +95,13 @@ export function AdminPage() {
 //   const { api } = useContext(AppContext)
 
 //   async function getUsers() {
-//     const conceptsWithProgress = await api.admin.getUsers()
+//     const lessonsWithProgress = await api.admin.getUsers()
 //     const reviews: Review[] = []
-//     for (const c of conceptsWithProgress) {
+//     for (const c of lessonsWithProgress) {
 //       if (c.progress && isReadyForReview(c.progress)) {
-//         const exercise = _.sample(c.concept.exercises)
+//         const exercise = _.sample(c.lesson.exercises)
 //         if (exercise) {
-//           reviews.push({ concept: c.concept, exercise: exercise })
+//           reviews.push({ lesson: c.lesson, exercise: exercise })
 //         }
 //       }
 //     }

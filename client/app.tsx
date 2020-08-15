@@ -17,7 +17,6 @@ function App(props: { user: User }) {
         return {
             app: app,
             api: app.api,
-            sunpedia: app.sunpedia,
             user: app.user,
             effects: new CanvasEffects()
         }

@@ -1,6 +1,6 @@
-import { concept, md } from '../shared/concept'
+import { Lesson, md } from '../shared/Lesson'
 
-export default concept({
+export default Lesson({
     id: 'self-compassion',
     title: 'Self-compassion',
     tagLine: 'Caring for yourself the way you care for friends',
@@ -10,7 +10,7 @@ export default concept({
     introduction: md`
 **Self-compassion** involves directing the same sense of caring warmth that you have for others towards yourself. Think of someone important to you, a friend or loved one, and imagine they are suffering in some way. Do you feel your heart moved by their plight, and wish for them to be safe and happy? That feeling of compassion is a beautiful strength of humanity, and intentionally invoking it can help us to deal with negative emotions.[@allen2010self]
 
-Self-compassion is an ancient idea long discussed in Eastern philosophy-- its introduction as a psychological concept comes from the comparatively recent work of Kristin Neff[@neff2003development]. She describes self-compassion as “being open to and moved by one's own suffering, experiencing feelings of caring and kindness toward oneself, taking an understanding, nonjudgmental attitude toward one's inadequacies and failures, and recognizing that one's experience is part of the common human experience”.
+Self-compassion is an ancient idea long discussed in Eastern philosophy-- its introduction as a psychological Lesson comes from the comparatively recent work of Kristin Neff[@neff2003development]. She describes self-compassion as “being open to and moved by one's own suffering, experiencing feelings of caring and kindness toward oneself, taking an understanding, nonjudgmental attitude toward one's inadequacies and failures, and recognizing that one's experience is part of the common human experience”.
 
 Research has shown that self-compassion is a robust resilience factor when faced with feelings of personal inadequacy.[@barnard2011self][@macbeth2012exploring] Rather than criticizing yourself harshly when you fail, self-compassion means showing kindness and understanding in that moment of pain. People who are high in self-compassion take greater responsibility for their failures and make needed changes while maintaining a loving, caring, and patient approach toward themselves.[@leary2007self]
 
@@ -69,7 +69,7 @@ A sense of _common humanity_ is key to self-compassion. You are not alone in you
       }
 
       @article{barnard2011self,
-        title={Self-compassion: Conceptualizations, correlates, & interventions},
+        title={Self-compassion: Lessonualizations, correlates, & interventions},
         author={Barnard, Laura K and Curry, John F},
         journal={Review of general psychology},
         volume={15},

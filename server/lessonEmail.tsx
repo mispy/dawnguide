@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Concept } from "../shared/sunpedia"
+import { Lesson } from "../shared/content"
 import Markdown from "markdown-to-jsx"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
@@ -12,17 +12,17 @@ import { isExternalUrl, absurl } from '../shared/utils'
 import { sendMail } from './mail'
 import * as db from './db'
 
-export async function sendConceptEmail(user: User, concept: Concept) {
+export async function sendLessonEmail(user: User, lesson: Lesson) {
     const loginToken = await db.emailConfirmTokens.create(user.id, user.email)
     return sendMail({
         to: user.email,
-        subject: concept.title + ": " + concept.tagLine,
-        html: conceptEmailHtml(loginToken, concept)
+        subject: lesson.title + ": " + lesson.tagLine,
+        html: lessonEmailHtml(loginToken, lesson)
     })
 }
 
-export function conceptEmailHtml(loginToken: string, concept: Concept) {
-    const innerBody = renderToStaticMarkup(<ConceptEmailBody concept={concept} />)
+export function lessonEmailHtml(loginToken: string, lesson: Lesson) {
+    const innerBody = renderToStaticMarkup(<LessonEmailBody lesson={lesson} />)
     return emailHtmlTemplate(loginToken, innerBody, `
     a {
         color: #c33071;
@@ -104,10 +104,10 @@ function AbsImg(props: { src: string }) {
 }
 
 
-export function ConceptEmailBody(props: { concept: Concept }) {
-    const { concept } = props
-    const referencesById = _.keyBy(concept.references, r => r.id)
-    const [introduction, referenceIds] = transformRefs(concept.introduction, concept.id)
+export function LessonEmailBody(props: { lesson: Lesson }) {
+    const { lesson } = props
+    const referencesById = _.keyBy(lesson.references, r => r.id)
+    const [introduction, referenceIds] = transformRefs(lesson.introduction, lesson.id)
     const referencesInText = referenceIds.map(id => referencesById[id])
 
     const markdownOptions = {
@@ -119,28 +119,28 @@ export function ConceptEmailBody(props: { concept: Concept }) {
 
     return <>
         <h1>
-            {concept.title}
+            {lesson.title}
         </h1>
         <Markdown options={markdownOptions}>{introduction}</Markdown>
-        {concept.furtherReading ? <section id="furtherReading">
+        {lesson.furtherReading ? <section id="furtherReading">
             <h2>Further Reading</h2>
-            <Markdown options={markdownOptions}>{concept.furtherReading}</Markdown>
+            <Markdown options={markdownOptions}>{lesson.furtherReading}</Markdown>
         </section> : undefined}
-        {concept.notes ? <section id="notes">
+        {lesson.notes ? <section id="notes">
             <h2>Notes</h2>
-            <Markdown options={markdownOptions}>{concept.notes}</Markdown>
+            <Markdown options={markdownOptions}>{lesson.notes}</Markdown>
         </section> : undefined}
         {referencesInText.length ? <section id="references">
             <h2>References</h2>
             <Bibliography references={referencesInText} />
         </section> : undefined}
         <div className="text-right">
-            <a href={absurl(`/review/${concept.id}`)} className="btn btn-dawn">Review {concept.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></a>
+            <a href={absurl(`/review/${lesson.id}`)} className="btn btn-dawn">Review {lesson.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></a>
         </div>
     </>
 }
 
-function transformRefs(markdown: MarkdownString, conceptId: string): [MarkdownString, string[]] {
+function transformRefs(markdown: MarkdownString, lessonId: string): [MarkdownString, string[]] {
     const referenceIds: string[] = []
     const content = markdown.replace(/\[@([^\]]+)\]/g, (substr, id) => {
         let index = referenceIds.indexOf(id)
@@ -148,7 +148,7 @@ function transformRefs(markdown: MarkdownString, conceptId: string): [MarkdownSt
             index = referenceIds.length
             referenceIds.push(id)
         }
-        return `<a href="${absurl(conceptId)}#${id}"><sup>[${index + 1}]</sup></a>`
+        return `<a href="${absurl(lessonId)}#${id}"><sup>[${index + 1}]</sup></a>`
     })
     return [content, referenceIds]
 }

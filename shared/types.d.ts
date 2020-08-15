@@ -40,7 +40,7 @@ export type FillblankExerciseDef = {
 
 export type ExerciseDef = BasicExerciseDef | FillblankExerciseDef
 
-export type ConceptDef = {
+export type LessonDef = {
     id: string
     title: string
     tagLine?: string
@@ -55,14 +55,14 @@ export type ConceptDef = {
     bibliography: BibtexString
 }
 
-export type ExerciseWithConcept = {
-    concept: Concept
+export type Review = {
+    lesson: Lesson
     exercise: Exercise
 }
 
 export type Exercise = ExerciseDef & {
     id: string
-    conceptId: string
+    lessonId: string
 }
 
 export type Reference = {
@@ -100,7 +100,7 @@ export type UserNotificationSettings = {
      * */
     disableNotificationEmails: boolean
 
-    /** Whether to email user about new concepts */
+    /** Whether to email user about new Lessons */
     emailAboutNewConcepts: boolean
 
     /** Whether to send user a weekly email about reviews to complete */

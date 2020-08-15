@@ -1,6 +1,6 @@
-import { concept } from '../shared/concept'
+import { Lesson } from '../shared/Lesson'
 
-export default concept({
+export default Lesson({
     id: 'automaticity',
     title: "Automaticity",
     draft: true,

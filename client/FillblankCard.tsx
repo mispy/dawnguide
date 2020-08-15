@@ -3,7 +3,7 @@ import { useLocalStore, observer } from "mobx-react-lite"
 import { action, observable } from "mobx"
 import * as React from 'react'
 import { FillblankExerciseDef } from "../shared/types"
-import { Concept } from "../shared/sunpedia"
+import { Lesson } from "../shared/content"
 import classNames from "classnames"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEye, faChevronRight } from "@fortawesome/free-solid-svg-icons"
@@ -12,7 +12,7 @@ import { matchesAnswerPermissively } from "../shared/logic"
 import { AppContext } from "./AppContext"
 import { CanvasEffects } from "./CanvasEffects"
 
-type FillblankProps = { exercise: FillblankExerciseDef, concept: Concept, onSubmit: (remembered: boolean) => void }
+type FillblankProps = { exercise: FillblankExerciseDef, lesson: Lesson, onSubmit: (remembered: boolean) => void }
 
 class FillblankState {
     @observable response: string = ""

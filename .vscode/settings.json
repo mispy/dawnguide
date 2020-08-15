@@ -14,27 +14,5 @@
         "client/devdist/": true,
         "server/dist/": true,
         "server/devdist/": true
-    },
-    "eslint.workingDirectories": [
-        {
-            "directory": "client",
-            "changeProcessCWD": true
-        },
-        {
-            "directory": "server",
-            "changeProcessCWD": true
-        },
-        {
-            "directory": "concepts",
-            "changeProcessCWD": true
-        },
-        {
-            "directory": "shared",
-            "changeProcessCWD": true
-        },
-        {
-            "directory": "cfscripts",
-            "changeProcessCWD": true
-        }
-    ]
+    }
 }

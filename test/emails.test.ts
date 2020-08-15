@@ -4,7 +4,7 @@ import { testMailsSent } from '../server/mail'
 import * as db from '../server/db'
 import { weeks } from '../server/time'
 import { api } from './helpers'
-import { Sunpedia } from '../shared/sunpedia'
+import { content } from '../shared/content'
 
 afterEach(() => {
     while (testMailsSent.length)
@@ -22,8 +22,7 @@ describe('emails', () => {
         const weekAgo = Date.now() - weeks(1)
 
         // Make sure user has some reviews to do
-        const sunpedia = new Sunpedia()
-        const lesson = sunpedia.concepts[0]
+        const lesson = content.lessons[0]
         const toSave = lesson.exercises.map(ex => {
             return {
                 userId: user.id,
