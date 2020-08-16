@@ -15,6 +15,11 @@ export type ReviewWithTime = {
     when: number
 }
 
+export type LessonWithProgress = {
+    lesson: Lesson
+    fracProgress: number
+}
+
 // @ts-ignore
 const NProgress = require('accessible-nprogress')
 
@@ -73,12 +78,14 @@ export class AppStore {
         return content.getLessonsAndReviews(this.progressItems)
     }
 
-    @computed get exercisesWithProgress() {
-        const progressByExerciseId = _.keyBy(this.progressItems, item => item.exerciseId) as _.Dictionary<UserProgressItem | undefined>
+    @computed get progressByExerciseId() {
+        return _.keyBy(this.progressItems, item => item.exerciseId) as _.Dictionary<UserProgressItem | undefined>
+    }
 
+    @computed get exercisesWithProgress() {
         const exercisesWithProgress: ExerciseWithProgress[] = []
         for (const exercise of content.exercises) {
-            const item = progressByExerciseId[exercise.id]
+            const item = this.progressByExerciseId[exercise.id]
 
             exercisesWithProgress.push({
                 exercise: exercise,
@@ -87,6 +94,23 @@ export class AppStore {
         }
 
         return exercisesWithProgress
+    }
+
+    @computed get lessonsWithProgress() {
+        const lessonsWithProgress: LessonWithProgress[] = []
+        for (const lesson of content.lessons) {
+            const meanProgress = _.mean(lesson.exercises.map(ex => {
+                const progress = this.progressByExerciseId[ex.id]
+                return progress?.level || 0
+            }))
+
+            lessonsWithProgress.push({
+                lesson: lesson,
+                fracProgress: meanProgress / 9
+            })
+        }
+
+        return lessonsWithProgress
     }
 
     // A Lesson is available as a "lesson" if any of its exercises have no progress
