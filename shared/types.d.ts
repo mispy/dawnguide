@@ -40,9 +40,12 @@ export type FillblankExerciseDef = {
 
 export type ExerciseDef = BasicExerciseDef | FillblankExerciseDef
 
+export type LessonType = 'article' | 'exercise'
+
 export type LessonDef = {
     id: string
     title: string
+    type?: string
     subtitle?: string
     author?: string
     summaryLine: string

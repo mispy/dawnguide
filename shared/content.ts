@@ -153,6 +153,10 @@ export class Lesson {
         return this.def.author || "Jake Leoht"
     }
 
+    @computed get type(): 'article' | 'exercise' {
+        return this.def.type || 'article'
+    }
+
     @computed get draft(): boolean {
         return !!this.def.draft
     }
