@@ -5,7 +5,7 @@ import * as bibTexParse from 'bibtex-parser-js'
 import { computed, observable } from 'mobx'
 
 import lessonDefs from '../lessons'
-import { LessonDef, Reference, MarkdownString, UserProgressItem, Exercise } from './types'
+import { LessonDef, Reference, MarkdownString, UserProgressItem, Exercise, LessonType } from './types'
 import * as _ from 'lodash'
 import { isReadyForReview } from './logic'
 
@@ -153,8 +153,8 @@ export class Lesson {
         return this.def.author || "Jake Leoht"
     }
 
-    @computed get type(): 'article' | 'exercise' {
-        return this.def.type || 'article'
+    @computed get type(): LessonType {
+        return (this.def.type || 'article') as LessonType
     }
 
     @computed get draft(): boolean {

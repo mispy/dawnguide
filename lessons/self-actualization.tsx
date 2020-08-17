@@ -1,6 +1,6 @@
-import { Lesson, md } from '../shared/Lesson'
+import { defineLesson, md } from '../shared/lesson'
 
-export default Lesson({
+export default defineLesson({
     id: 'self-actualization',
     title: 'Self-actualization',
     summaryLine: "Humans have universal needs for things like safety, love, and autonomy",

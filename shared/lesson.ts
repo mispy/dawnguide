@@ -1,6 +1,6 @@
 import { LessonDef } from "./types"
 
-export function Lesson(def: LessonDef): LessonDef {
+export function defineLesson(def: LessonDef): LessonDef {
     return def
 }
 

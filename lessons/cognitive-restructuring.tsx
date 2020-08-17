@@ -1,8 +1,8 @@
-import { Lesson, md } from '../shared/Lesson'
+import { defineLesson, md } from '../shared/lesson'
 // @ts-ignore
 import cognitiveTriangle from './img/cognitive-triangle.jpg'
 
-export default Lesson({
+export default defineLesson({
     id: 'cognitive-restructuring',
     title: 'Cognitive restructuring',
     summaryLine: "Influence your emotions by challenging negative thoughts",

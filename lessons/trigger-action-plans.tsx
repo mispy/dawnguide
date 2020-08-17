@@ -1,6 +1,6 @@
-import { Lesson, md } from '../shared/Lesson'
+import { defineLesson, md } from '../shared/lesson'
 
-export default Lesson({
+export default defineLesson({
     id: 'trigger-action-plans',
     title: 'Trigger-action plans',
     summaryLine: "Build good habits by associating specific cues with a behavioral response",

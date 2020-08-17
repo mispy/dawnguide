@@ -1,6 +1,6 @@
-import { Lesson, md } from '../shared/Lesson'
+import { defineLesson, md } from '../shared/lesson'
 
-export default Lesson({
+export default defineLesson({
     id: 'spaced-learning',
     title: "Spaced learning",
     summaryLine: "Using cognitive science to learn more effectively by spacing study sessions across time",

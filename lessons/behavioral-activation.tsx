@@ -1,10 +1,10 @@
-import { Lesson, md } from '../shared/Lesson'
+import { defineLesson, md } from '../shared/lesson'
 // @ts-ignore
 import baCycle from './img/behavioral-activation-cycle.jpg'
 
 //  https://beckinstitute.org/behavioral-activation-tip/
 
-export default Lesson({
+export default defineLesson({
     id: 'behavioral-activation',
     title: "Behavioral activation",
     summaryLine: "Begin a new positive cycle by scheduling meaningful activities",

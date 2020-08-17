@@ -1,6 +1,6 @@
-import { Lesson, md } from '../shared/Lesson'
+import { defineLesson, md } from '../shared/lesson'
 
-export default Lesson({
+export default defineLesson({
     id: 'self-compassion',
     title: 'Self-compassion',
     summaryLine: "Become more emotionally resilient by caring for yourself the way you care for friends",

@@ -1,6 +1,6 @@
-import { Lesson, md } from '../shared/Lesson'
+import { defineLesson, md } from '../shared/lesson'
 
-export default Lesson({
+export default defineLesson({
     id: 'proximal-subgoals',
     title: 'Proximal subgoals',
     summaryLine: "Increase your motivation by setting and achieving smaller objectives",
