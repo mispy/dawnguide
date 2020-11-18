@@ -27,6 +27,10 @@ export class Learny {
         return _.mean(this.ewps.map(ewp => ewp.progress?.level || 0))
     }
 
+    @computed get masteryPercent(): number {
+        return (this.meanReviewLevel / 9) * 100
+    }
+
     @computed get started() {
         // TODO
         return true

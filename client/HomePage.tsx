@@ -12,7 +12,7 @@ import { IS_PRODUCTION } from "./settings"
 import { Lesson, content } from '../shared/content'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faBookReader, faCheckCircle, faHeart, faPen } from '@fortawesome/free-solid-svg-icons'
-import { ReviewWithTime } from './AppStore'
+import { Learny, ReviewWithTime } from './AppStore'
 import ReactTimeago from 'react-timeago'
 import classNames from 'classnames'
 import styled from 'styled-components'
@@ -126,6 +126,38 @@ function NextReviewCard(props: { reviews: ReviewWithTime[] }) {
 //     </AppLayout>)
 // }
 
+const MasteryProgressBarDiv = styled.div`
+.outer, .inner {
+    border-radius: 10px;
+}
+
+.outer {
+    width: 300px;
+    height: 10px;
+    background: rgba(33,36,44,0.08);
+}
+
+.inner {
+    height: 100%;
+    background: #9059ff;
+}
+
+.outer:not(.mastered) .inner {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+`
+
+function MasteryProgressBar(props: { learny: Learny }) {
+    const { learny } = props
+
+    return <MasteryProgressBarDiv>
+        <div className={classNames({ outer: true, mastered: learny.mastered })}>
+            <div className="inner" style={{ width: `${learny.masteryPercent}%` }} />
+        </div>
+    </MasteryProgressBarDiv>
+}
+
 const lessonItems = [
     {
         lesson: {
@@ -164,27 +196,27 @@ const lessonItems = [
 
 const Main = styled.main`
 h2 {
-    font-size: 1.7rem;
+            font - size: 1.7rem;
 }
 
 h2 > div {
-    margin-top: 1rem;
+            margin - top: 1rem;
     margin-bottom: 1rem;
     font-size: 1rem;
     font-weight: normal;
 }
 
 ul {
-    padding: 0;
+            padding: 0;
 }
 
 li {
-    position: relative;
+            position: relative;
     list-style-type: none;
 }
 
 li .intermarker {
-    position: absolute;
+            position: absolute;
     left: 1.9rem;
     width: 2px;
     height: 100%;
@@ -193,27 +225,27 @@ li .intermarker {
 }
 
 li:first-child .intermarker {
-    height: 50%;
+            height: 50%;
     bottom: 0;
 }
 
 li:last-child .intermarker {
-    height: 50%;
+            height: 50%;
 }
 
 li.learned .intermarker {
-    background: #008656;
+            background: #008656;
 }
 
 li > a {
-    display: flex;
+            display: flex;
     padding: 1rem;
     border-top: 1px solid #ccc;
     align-items: center;
 }
 
 li .marker {
-    width: 1.8rem;
+            width: 1.8rem;
     height: 1.8rem;
     border: 1px solid rgba(33,36,44,0.50);
     margin-right: 1rem;
@@ -226,13 +258,13 @@ li .marker {
     padding: 0.5rem;
 
     .lessonType {
-        color: #333;
+            color: #333;
         width: 0.8rem;
         height: 0.8rem;
     }
 
     .tick {
-        position: absolute;
+            position: absolute;
         top: 0;
         right: 0;
         transform: translate(50%, -50%);
@@ -243,11 +275,11 @@ li .marker {
 }
 
 /* li.learned .marker {
-    border-bottom: 1px solid #008656
+            border - bottom: 1px solid #008656
 } */
 
 li.learned .fillbar {
-    position: absolute;
+            position: absolute;
     top: -1px;
     left: -1px;
     width: 1.8rem;
@@ -255,7 +287,6 @@ li.learned .fillbar {
     border-bottom: 5px solid #008656;
     border-radius: 10%;
 }
-
 `
 
 export function HomePage() {
@@ -292,6 +323,9 @@ export function HomePage() {
                                 {learny.learned && <div className="fillbar" />}
                             </div>
                             <div>{learny.lesson.title}</div>
+                            <div className="ml-auto">
+                                {learny.learned && <MasteryProgressBar learny={learny} />}
+                            </div>
                         </Link>
                     </li>)}
                 </ul>
