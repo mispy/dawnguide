@@ -119,18 +119,18 @@ function InitialReviewPageLoaded(props: { lesson: Lesson }) {
 
 export function InitialReviewPage(props: { lesson: Lesson }) {
     const { app } = useContext(AppContext)
-    const { lesson: Lesson } = props
+    const { lesson } = props
 
     function content() {
         if (app.loading)
             return <></>
 
-        if (app.userStartedLearning(Lesson.id)) {
+        if (app.learnyByLessonId[lesson.id].learned) {
             // User already did initial exercises for this Lesson
             return <Redirect to="/home" />
         }
 
-        return <InitialReviewPageLoaded lesson={Lesson} />
+        return <InitialReviewPageLoaded lesson={lesson} />
     }
 
     return useObserver(() => {

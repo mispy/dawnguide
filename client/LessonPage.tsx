@@ -30,7 +30,7 @@ export function showReviewTime(ewp: ExerciseWithProgress) {
 export function LessonPage(props: { lesson: Lesson }) {
     const { app } = React.useContext(AppContext)
     const { lesson } = props
-    const progress = app.lessonProgressById[lesson.id]
+    const progress = app.learnyByLessonId[lesson.id]
 
     return useObserver(() => {
         // const LessonProgress = store.LessonsWithProgressById[Lesson.id]

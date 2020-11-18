@@ -40,7 +40,7 @@ export type FillblankExerciseDef = {
 
 export type ExerciseDef = BasicExerciseDef | FillblankExerciseDef
 
-export type LessonType = 'article' | 'exercise'
+export type LessonType = 'reading' | 'writing' | 'meditation'
 
 export type LessonDef = {
     id: string

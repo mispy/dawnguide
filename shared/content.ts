@@ -154,7 +154,7 @@ export class Lesson {
     }
 
     @computed get type(): LessonType {
-        return (this.def.type || 'article') as LessonType
+        return (this.def.type || 'reading') as LessonType
     }
 
     @computed get draft(): boolean {

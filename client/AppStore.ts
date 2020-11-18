@@ -27,6 +27,10 @@ export class Learny {
         return _.mean(this.ewps.map(ewp => ewp.progress?.level || 0))
     }
 
+    @computed get masteryLevel(): number {
+        return Math.floor(this.meanReviewLevel)
+    }
+
     @computed get masteryPercent(): number {
         return (this.meanReviewLevel / 9) * 100
     }
@@ -169,10 +173,6 @@ export class AppStore {
         }).filter(d => isFinite(d.when))
 
         return _.sortBy(reviews, d => d.when)
-    }
-
-    lessonProgress(lessonId: string) {
-        return this.lessonProgressById[lessonId]
     }
 
     /**
