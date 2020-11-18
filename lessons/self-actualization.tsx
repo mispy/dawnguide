@@ -1,6 +1,7 @@
 import { defineLesson, md } from '../shared/lesson'
 
 export default defineLesson({
+    type: 'reading',
     id: 'self-actualization',
     title: 'Self-actualization',
     summaryLine: "Humans have universal needs for things like safety, love, and autonomy",

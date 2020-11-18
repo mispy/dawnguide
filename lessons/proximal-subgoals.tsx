@@ -1,6 +1,7 @@
 import { defineLesson, md } from '../shared/lesson'
 
 export default defineLesson({
+    type: 'reading',
     id: 'proximal-subgoals',
     title: 'Proximal subgoals',
     summaryLine: "Increase your motivation by setting and achieving smaller objectives",

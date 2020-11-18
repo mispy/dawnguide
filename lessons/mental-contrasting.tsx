@@ -1,6 +1,7 @@
 import { defineLesson, md } from '../shared/lesson'
 
 export default defineLesson({
+    type: 'reading',
     id: 'mental-contrasting',
     title: 'Mental contrasting',
     summaryLine: "Find energy to act by contrasting the future you want with obstacles in the present",

@@ -29,17 +29,18 @@ export function showReviewTime(ewp: ExerciseWithProgress) {
 
 export function LessonPage(props: { lesson: Lesson }) {
     const { app } = React.useContext(AppContext)
-    const { lesson: Lesson } = props
+    const { lesson } = props
+    const progress = app.lessonProgressById[lesson.id]
 
     return useObserver(() => {
         // const LessonProgress = store.LessonsWithProgressById[Lesson.id]
-        const exercisesWithProgress = app.exercisesWithProgress.filter(ewp => ewp.exercise.lessonId === Lesson.id)
+        const exercisesWithProgress = app.exercisesWithProgress.filter(ewp => ewp.exercise.lessonId === lesson.id)
 
         return <AppLayout title={props.lesson.title}>
             <main className="LessonPage">
                 <Container>
-                    <Passage lesson={Lesson} />
-                    {app.userStartedLearning(Lesson.id) ? <section className="exercises">
+                    <Passage lesson={lesson} />
+                    {progress.learned ? <section className="exercises">
                         <h2>Exercises</h2>
                         <table className="table">
                             <thead>
@@ -62,10 +63,9 @@ export function LessonPage(props: { lesson: Lesson }) {
                                 </tr>)}
                             </tbody>
                         </table>
-
                     </section> : <section>
                             <div className="text-right">
-                                <Link to={`/review/${Lesson.id}`} className="btn btn-dawn">Review {Lesson.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></Link>
+                                <Link to={`/review/${lesson.id}`} className="btn btn-dawn">Review {lesson.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></Link>
                             </div>
                         </section>}
 

@@ -15,8 +15,35 @@ export type ReviewWithTime = {
     when: number
 }
 
+/** 
+ * A learny represents what we know about a user's learning progress
+ * associated with a given lesson.
+ */
+export class Learny {
+    constructor(readonly lesson: Lesson, readonly ewps: ExerciseWithProgress[]) {
+    }
+
+    @computed get meanReviewLevel(): number {
+        return _.mean(this.ewps.map(ewp => ewp.progress?.level || 0))
+    }
+
+    @computed get started() {
+        // TODO
+        return true
+    }
+
+    @computed get learned() {
+        return this.meanReviewLevel > 0
+    }
+
+    @computed get mastered() {
+        return this.meanReviewLevel === 9
+    }
+}
+
 export type LessonWithProgress = {
     lesson: Lesson
+    learned: boolean
     fracProgress: number
 }
 
@@ -89,21 +116,15 @@ export class AppStore {
         return exercisesWithProgress
     }
 
-    @computed get lessonsWithProgress() {
-        const lessonsWithProgress: LessonWithProgress[] = []
-        for (const lesson of content.lessons) {
-            const meanProgress = _.mean(lesson.exercises.map(ex => {
-                const progress = this.progressByExerciseId[ex.id]
-                return progress?.level || 0
-            }))
+    @computed get learnies() {
+        return content.lessons.map(lesson => {
+            const ewps = this.exercisesWithProgress.filter(ewp => ewp.exercise.lessonId === lesson.id)
+            return new Learny(lesson, ewps)
+        })
+    }
 
-            lessonsWithProgress.push({
-                lesson: lesson,
-                fracProgress: meanProgress / 9
-            })
-        }
-
-        return lessonsWithProgress
+    @computed get learnyByLessonId() {
+        return _.keyBy(this.learnies, p => p.lesson.id)
     }
 
     // A Lesson is available as a "lesson" if any of its exercises have no progress
@@ -146,8 +167,8 @@ export class AppStore {
         return _.sortBy(reviews, d => d.when)
     }
 
-    userStartedLearning(lessonId: string): boolean {
-        return _.some(this.exercisesWithProgress, e => e.exercise.lessonId === lessonId && e.progress)
+    lessonProgress(lessonId: string) {
+        return this.lessonProgressById[lessonId]
     }
 
     /**

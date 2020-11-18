@@ -3,6 +3,7 @@ import { defineLesson, md } from '../shared/lesson'
 import mindfulnessImg from './img/mindfulness.png'
 
 export default defineLesson({
+    type: 'reading',
     id: 'mindfulness',
     title: "Mindfulness",
     summaryLine: "Allow negative thoughts to peacefully dissipate by focusing on your immediate experience",

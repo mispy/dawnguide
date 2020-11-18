@@ -5,6 +5,7 @@ import baCycle from './img/behavioral-activation-cycle.jpg'
 //  https://beckinstitute.org/behavioral-activation-tip/
 
 export default defineLesson({
+    type: 'reading',
     id: 'behavioral-activation',
     title: "Behavioral activation",
     summaryLine: "Begin a new positive cycle by scheduling meaningful activities",

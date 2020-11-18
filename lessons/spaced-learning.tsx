@@ -1,6 +1,7 @@
 import { defineLesson, md } from '../shared/lesson'
 
 export default defineLesson({
+    type: 'reading',
     id: 'spaced-learning',
     title: "Spaced learning",
     summaryLine: "Using cognitive science to learn more effectively by spacing study sessions across time",

@@ -1,6 +1,7 @@
 import { defineLesson, md } from '../shared/lesson'
 
 export default defineLesson({
+    type: 'reading',
     id: 'trigger-action-plans',
     title: 'Trigger-action plans',
     summaryLine: "Build good habits by associating specific cues with a behavioral response",
