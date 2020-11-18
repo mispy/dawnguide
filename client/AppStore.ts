@@ -8,45 +8,12 @@ import { UserProgressItem, User, Exercise } from "../shared/types"
 import * as Sentry from '@sentry/browser'
 import { SENTRY_DSN_URL } from "./settings"
 import { AxiosError } from "axios"
+import { Learny } from "./Learny"
 
 export type ReviewWithTime = {
     lesson: Lesson
     exercise: Exercise
     when: number
-}
-
-/** 
- * A learny represents what we know about a user's learning progress
- * associated with a given lesson.
- */
-export class Learny {
-    constructor(readonly lesson: Lesson, readonly ewps: ExerciseWithProgress[]) {
-    }
-
-    @computed get meanReviewLevel(): number {
-        return _.mean(this.ewps.map(ewp => ewp.progress?.level || 0))
-    }
-
-    @computed get masteryLevel(): number {
-        return Math.floor(this.meanReviewLevel)
-    }
-
-    @computed get masteryPercent(): number {
-        return (this.meanReviewLevel / 9) * 100
-    }
-
-    @computed get started() {
-        // TODO
-        return true
-    }
-
-    @computed get learned() {
-        return this.meanReviewLevel > 0
-    }
-
-    @computed get mastered() {
-        return this.meanReviewLevel === 9
-    }
 }
 
 export type LessonWithProgress = {

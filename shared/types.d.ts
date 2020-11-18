@@ -40,6 +40,11 @@ export type FillblankExerciseDef = {
 
 export type ExerciseDef = BasicExerciseDef | FillblankExerciseDef
 
+export type Exercise = ExerciseDef & {
+    id: string
+    lessonId: string
+}
+
 export type LessonType = 'reading' | 'writing' | 'meditation'
 
 export type LessonDef = {
@@ -60,11 +65,6 @@ export type LessonDef = {
 export type Review = {
     lesson: Lesson
     exercise: Exercise
-}
-
-export type Exercise = ExerciseDef & {
-    id: string
-    lessonId: string
 }
 
 export type Reference = {

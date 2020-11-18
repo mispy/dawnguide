@@ -45,7 +45,7 @@ function NextLessonCard(props: { lesson: Lesson | undefined }) {
 function NextReviewCard(props: { reviews: ReviewWithTime[] }) {
     const { reviews } = props
 
-    const Lessons = _.uniq(reviews.map(r => r.lesson))
+    const lessons = _.uniq(reviews.map(r => r.lesson))
 
     const now = Date.now()
 
@@ -58,18 +58,18 @@ function NextReviewCard(props: { reviews: ReviewWithTime[] }) {
         return <div className="NextReviewCard">
             <h4>You're up to date on reviews</h4>
             <div>
-                <p>The next review is <ReactTimeago date={reviews[0].when} />.<br /><br />It will be about {Lessons[0].name}.</p>
+                <p>The next review is <ReactTimeago date={reviews[0].when} />.<br /><br />It will be about {lessons[0].name}.</p>
             </div>
         </div>
     } else {
 
         let practiceLine
-        if (Lessons.length === 1) {
-            practiceLine = <>Refresh your understanding of {Lessons[0].name}</>
-        } else if (Lessons.length === 2) {
-            practiceLine = <>Refresh your understanding of {Lessons[0].name} and {Lessons[1].name}</>
+        if (lessons.length === 1) {
+            practiceLine = <>Refresh your understanding of {lessons[0].name}</>
+        } else if (lessons.length === 2) {
+            practiceLine = <>Refresh your understanding of {lessons[0].name} and {lessons[1].name}</>
         } else {
-            practiceLine = <>Refresh your understanding of {Lessons[0].name}, {Lessons[1].name}, and more</>
+            practiceLine = <>Refresh your understanding of {lessons[0].name}, {lessons[1].name}, and more</>
         }
 
         return <Link to={`/review`} className="NextReviewCard">
@@ -130,13 +130,16 @@ const MasteryProgressBarDiv = styled.div`
 display: flex;
 flex-direction: column;
 color: #666;
+font-size: 0.8rem;
+padding-right: 1rem;
+cursor: pointer;
 
 .outer, .inner {
     border-radius: 10px;
 }
 
 .outer {
-    width: 300px;
+    width: 250px;
     height: 10px;
     background: rgba(33,36,44,0.08);
 }
@@ -154,6 +157,7 @@ color: #666;
 
 function MasteryProgressBar(props: { learny: Learny }) {
     const { learny } = props
+    const { nextReview } = learny
 
     return <MasteryProgressBarDiv>
         <div className="d-flex">
@@ -164,6 +168,10 @@ function MasteryProgressBar(props: { learny: Learny }) {
 
         <div className={classNames({ outer: true, mastered: learny.mastered })}>
             <div className="inner" style={{ width: `${learny.masteryPercent}%` }} />
+        </div>
+
+        <div>
+            {nextReview && <span>Reviewing: <ReactTimeago date={nextReview.when} /></span>}
         </div>
     </MasteryProgressBarDiv>
 }
