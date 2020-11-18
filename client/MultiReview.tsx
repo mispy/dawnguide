@@ -11,11 +11,11 @@ import { ExerciseView } from './ExerciseView'
 export function MultiReview(props: { reviews: Review[], onComplete: () => void }) {
     const { reviews, onComplete } = props
     const state = useLocalStore(() => ({ showLesson: false, reviews: _.clone(reviews).reverse() }))
-    const { api } = useContext(AppContext)
+    const { app } = useContext(AppContext)
 
     const onCardComplete = action((remembered: boolean) => {
         const review = state.reviews[state.reviews.length - 1]
-        api.submitProgress(review.exercise.id, remembered)
+        app.backgroundApi.submitProgress(review.exercise.id, remembered)
 
         if (remembered) {
             state.reviews.pop()

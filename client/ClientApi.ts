@@ -7,10 +7,22 @@ import { User, UserProgressItem, UserNotificationSettings, UserAdminReport } fro
 // @ts-ignore
 const NProgress = require('accessible-nprogress')
 
+NProgress.configure({
+    showSpinner: false
+})
+
+export type HttpProviderOptions = {
+    /** If true, show global nprogress loading for each request. */
+    nprogress?: boolean
+}
+
 /** Wraps axios http methods so we can do stuff on each call */
-class HTTPProvider {
+class HttpProvider {
     http: AxiosInstance
-    constructor() {
+    nprogress: boolean
+    constructor(readonly opts: HttpProviderOptions = {}) {
+        this.nprogress = opts.nprogress || true
+
         this.http = axios.create({
             baseURL: API_BASE_URL,
             timeout: 10000
@@ -30,14 +42,17 @@ class HTTPProvider {
 
     async request(config: AxiosRequestConfig) {
         const req = this.http.request(config)
+        if (this.nprogress) {
+            NProgress.promise(req)
+        }
 
-        let complete = false
-        req.then(() => complete = true)
-        delay(500).then(() => {
-            if (!complete) {
-                NProgress.promise(req)
-            }
-        })
+        // let complete = false
+        // req.then(() => complete = true)
+        // delay(500).then(() => {
+        //     if (!complete) {
+        //         NProgress.promise(req)
+        //     }
+        // })
 
         return req
     }
@@ -64,14 +79,20 @@ class HTTPProvider {
 }
 
 export class ClientApi {
-    http: HTTPProvider
+    http: HttpProvider
     admin: AdminApi
     debug: DebugApi
 
-    constructor() {
-        this.http = new HTTPProvider()
+    constructor(opts: HttpProviderOptions = {}) {
+        this.http = new HttpProvider(opts)
         this.admin = new AdminApi(this.http)
         this.debug = new DebugApi(this.http)
+    }
+
+    /** Get a new api wrapper with some changed options */
+    with(opts: HttpProviderOptions) {
+        const newOpts = Object.assign({}, this.http.opts, opts)
+        return new ClientApi(newOpts)
     }
 
     async getProgressItems(): Promise<UserProgressItem[]> {
@@ -129,7 +150,7 @@ export class ClientApi {
 }
 
 export class AdminApi {
-    constructor(readonly http: HTTPProvider) { }
+    constructor(readonly http: HttpProvider) { }
 
     async getUsers(): Promise<UserAdminReport[]> {
         const { data } = await this.http.get('/api/admin/users')
@@ -154,7 +175,7 @@ export class AdminApi {
 }
 
 export class DebugApi {
-    constructor(readonly http: HTTPProvider) { }
+    constructor(readonly http: HttpProvider) { }
 
     async resetProgress() {
         await this.http.post('/api/debug', { action: 'resetProgress' })

@@ -20,27 +20,24 @@ export type LessonWithProgress = {
     fracProgress: number
 }
 
-// @ts-ignore
-const NProgress = require('accessible-nprogress')
 
 export class AppStore {
     api: ClientApi
+    backgroundApi: ClientApi
     @observable user: User
     @observable.ref progressItems: UserProgressItem[] | null = null
     @observable.ref unexpectedError?: Error
 
     constructor(user: User) {
         this.user = user
+
         this.api = new ClientApi()
+        this.backgroundApi = this.api.with({ nprogress: false })
 
         const w = window as any
         w.user = toJS(user)
 
-        Sentry.init({ dsn: SENTRY_DSN_URL });
-
-        NProgress.configure({
-            showSpinner: false
-        })
+        Sentry.init({ dsn: SENTRY_DSN_URL })
 
         window.addEventListener("error", ev => {
             this.handleUnexpectedError(ev.error)
@@ -60,10 +57,6 @@ export class AppStore {
     async reloadUser() {
         const user = await this.api.getCurrentUser()
         runInAction(() => this.user = user)
-    }
-
-    applyLoadingIndicator<T>(promise: Promise<T>) {
-        NProgress.promise(promise)
     }
 
     @computed get loading(): boolean {
