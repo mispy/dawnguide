@@ -3,6 +3,7 @@ import { defineLesson, md } from '../lesson'
 export default defineLesson({
     type: 'reading',
     id: 'self-actualization',
+    slug: 'self-actualization',
     title: 'Self-actualization',
     summaryLine: "Humans have universal needs for things like safety, love, and autonomy",
     author: "Reece Matthews and Jake Leoht",

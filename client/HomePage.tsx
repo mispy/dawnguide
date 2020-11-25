@@ -314,7 +314,7 @@ export function HomePage() {
                 </h2> */}
                 <ul>
                     {app.learnies.map(learny => <li key={learny.lesson.id} className={classNames({ lessonItem: true, learned: learny.learned })}>
-                        <Link to={learny.lesson.id}>
+                        <Link to={learny.lesson.slug}>
                             <div className="intermarker"></div>
                             <div className="marker">
                                 {learny.learned && <FontAwesomeIcon className="tick" icon={faCheckCircle} />}

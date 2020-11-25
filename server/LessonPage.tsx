@@ -17,7 +17,7 @@ export function LessonPage(props: { lesson: Lesson }) {
     const pageDesc = lesson.summaryLine || htmlToPlaintext(intro).split("\n\n")[0]
 
     return <html lang="en">
-        <Head pageTitle={lesson.title} canonicalUrl={`/Lessons/${lesson.id}`} pageDesc={pageDesc}>
+        <Head pageTitle={lesson.title} canonicalUrl={`/${lesson.slug}`} pageDesc={pageDesc}>
             {lesson.draft ? <meta name="robots" content="noindex" /> : null}
         </Head>
 
@@ -28,7 +28,7 @@ export function LessonPage(props: { lesson: Lesson }) {
                     <Passage lesson={lesson} />
                     <section>
                         <div className="text-right">
-                            <a href={`/review/${lesson.id}`} className="btn btn-dawn">Review {lesson.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></a>
+                            <a href={`/review/${lesson.slug}`} className="btn btn-dawn">Review {lesson.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></a>
                         </div>
                     </section>
                 </div>

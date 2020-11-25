@@ -31,7 +31,7 @@ export function AppRouter() {
                 <NextLessonPage />
             </Route>
             {content.lessonsWithDrafts.map(lesson =>
-                <Route key={lesson.id} path={`/review/${lesson.id}`}>
+                <Route key={lesson.id} path={`/review/${lesson.slug}`}>
                     <InitialReviewPage lesson={lesson} />
                 </Route>
             )}
@@ -60,7 +60,7 @@ export function AppRouter() {
                 <ContactPage />
             </Route>
             {content.lessonsWithDrafts.map(lesson =>
-                <Route key={lesson.id} path={`/${lesson.id}`}>
+                <Route key={lesson.id} path={`/${lesson.slug}`}>
                     <LessonPage lesson={lesson} />
                 </Route>
             )}

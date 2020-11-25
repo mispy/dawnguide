@@ -65,7 +65,7 @@ export function LessonPage(props: { lesson: Lesson }) {
                         </table>
                     </section> : <section>
                             <div className="text-right">
-                                <Link to={`/review/${lesson.id}`} className="btn btn-dawn">Review {lesson.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></Link>
+                                <Link to={`/review/${lesson.slug}`} className="btn btn-dawn">Review {lesson.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></Link>
                             </div>
                         </section>}
 

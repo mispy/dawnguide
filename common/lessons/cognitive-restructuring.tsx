@@ -5,6 +5,7 @@ import cognitiveTriangle from './img/cognitive-triangle.jpg'
 export default defineLesson({
     type: 'reading',
     id: 'cognitive-restructuring',
+    slug: 'cognitive-restructuring',
     title: 'Cognitive restructuring',
     summaryLine: "Influence your emotions by challenging negative thoughts",
     author: "Jake Leoht",

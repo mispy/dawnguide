@@ -56,6 +56,7 @@ export type LessonType = 'reading' | 'writing' | 'meditation'
 
 export type LessonDef = {
     id: string
+    slug: string
     title: string
     type?: string
     subtitle?: string

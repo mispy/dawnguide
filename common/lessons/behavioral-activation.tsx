@@ -7,6 +7,7 @@ import baCycle from './img/behavioral-activation-cycle.jpg'
 export default defineLesson({
     type: 'reading',
     id: 'behavioral-activation',
+    slug: 'behavioral-activation',
     title: "Behavioral activation",
     summaryLine: "Begin a new positive cycle by scheduling meaningful activities",
     introduction: md`

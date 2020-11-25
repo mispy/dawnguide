@@ -3,6 +3,7 @@ import { defineLesson, md } from '../lesson'
 export default defineLesson({
     type: 'reading',
     id: 'trigger-action-plans',
+    slug: 'trigger-action-plans',
     title: 'Trigger-action plans',
     summaryLine: "Build good habits by associating specific cues with a behavioral response",
     author: "Jake Leoht",

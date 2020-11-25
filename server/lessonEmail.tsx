@@ -135,7 +135,7 @@ export function LessonEmailBody(props: { lesson: Lesson }) {
             <Bibliography references={referencesInText} />
         </section> : undefined}
         <div className="text-right">
-            <a href={absurl(`/review/${lesson.id}`)} className="btn btn-dawn">Review {lesson.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></a>
+            <a href={absurl(`/review/${lesson.slug}`)} className="btn btn-dawn">Review {lesson.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></a>
         </div>
     </>
 }

@@ -3,6 +3,7 @@ import { defineLesson, md } from '../lesson'
 export default defineLesson({
     type: 'reading',
     id: 'self-compassion',
+    slug: 'self-compassion',
     title: 'Self-compassion',
     summaryLine: "Become more emotionally resilient by caring for yourself the way you care for friends",
     // subtitle: "Caring for yourself the way you care for friends",s

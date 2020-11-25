@@ -3,6 +3,7 @@ import { defineLesson, md } from '../lesson'
 export default defineLesson({
     type: 'reading',
     id: 'proximal-subgoals',
+    slug: 'proximal-subgoals',
     title: 'Proximal subgoals',
     summaryLine: "Increase your motivation by setting and achieving smaller objectives",
     author: "Jake Leoht",

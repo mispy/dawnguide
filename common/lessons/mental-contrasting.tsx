@@ -3,6 +3,7 @@ import { defineLesson, md } from '../lesson'
 export default defineLesson({
     type: 'reading',
     id: 'mental-contrasting',
+    slug: 'mental-contrasting',
     title: 'Mental contrasting',
     summaryLine: "Find energy to act by contrasting the future you want with obstacles in the present",
     author: "Jake Leoht",

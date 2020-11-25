@@ -55,7 +55,7 @@ export function FrontPage() {
                     <div className="container">
                         <h3>Lessons</h3>
                         <div className="lessonsGrid">
-                            {lessons.map(lesson => <a className="lesson" key={lesson.id} href={`/${lesson.id}`}>
+                            {lessons.map(lesson => <a className="lesson" key={lesson.id} href={`/${lesson.slug}`}>
                                 <div>
                                     <div className="summaryLine">
                                         {lesson.summaryLine}

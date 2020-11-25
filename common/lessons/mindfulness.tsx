@@ -5,6 +5,7 @@ import mindfulnessImg from './img/mindfulness.png'
 export default defineLesson({
     type: 'reading',
     id: 'mindfulness',
+    slug: 'mindfulness',
     title: "Mindfulness",
     summaryLine: "Allow negative thoughts to peacefully dissipate by focusing on your immediate experience",
     introduction: md`

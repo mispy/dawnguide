@@ -103,7 +103,7 @@ async function processRequest(req: EventRequest): Promise<Response> {
     if (!req.session) {
         r.get('/', site.frontPage)
         for (const lesson of lessonDefs) {
-            r.get(`/${lesson.id}`, (req) => site.lessonPage(req, lesson.id))
+            r.get(`/${lesson.slug}`, (req) => site.lessonPage(req, lesson.id))
         }
     }
 
@@ -158,7 +158,7 @@ async function behindLogin(req: EventRequest) {
     const r = new Router<SessionRequest>()
     r.get('/', site.appPage)
     r.get('/home', site.appPage)
-    r.get('/review/:lessonId', site.appPage)
+    r.get('/review/:lessonSlug', site.appPage)
     r.get('/review', site.appPage)
     r.get('/lesson', site.appPage)
     r.get('/settings', site.appPage)
@@ -170,7 +170,7 @@ async function behindLogin(req: EventRequest) {
     r.get('/admin/emails', site.appPage)
 
     for (const lesson of lessonDefs) {
-        r.get(`/${lesson.id}`, site.appPage)
+        r.get(`/${lesson.slug}`, site.appPage)
     }
 
     return await r.route(req as SessionRequest)

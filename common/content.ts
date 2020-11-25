@@ -135,6 +135,10 @@ export class Lesson {
         return this.def.id
     }
 
+    @computed get slug(): string {
+        return this.def.slug
+    }
+
     @computed get title(): string {
         return this.def.title
     }
