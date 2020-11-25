@@ -1,5 +1,5 @@
 
-import { matchesAnswerPermissively } from '../shared/logic'
+import { matchesAnswerPermissively } from '../common/logic'
 
 describe('logic', () => {
     it('tolerates typos but not too much', async () => {

@@ -7,9 +7,9 @@ import * as _ from 'lodash'
 import { Link, Redirect } from "react-router-dom"
 import { AppLayout } from "./AppLayout"
 import { useContext, useEffect } from "react"
-import { Lesson } from '../shared/content'
+import { Lesson } from '../common/content'
 import { ExerciseView } from './ExerciseView'
-import { Review } from '../shared/types'
+import { Review } from '../common/types'
 
 function LessonReviews(props: { reviews: Review[], onComplete: () => void }) {
     const { api } = useContext(AppContext)
@@ -125,7 +125,7 @@ export function InitialReviewPage(props: { lesson: Lesson }) {
         if (app.loading)
             return <></>
 
-        if (app.learnyByLessonId[lesson.id].learned) {
+        if (app.learnyByLessonId[lesson.id]!.learned) {
             // User already did initial exercises for this Lesson
             return <Redirect to="/home" />
         }

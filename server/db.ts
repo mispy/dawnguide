@@ -3,8 +3,8 @@ import * as bcrypt from 'bcryptjs'
 import { KVNamespace } from '@cloudflare/workers-types'
 import { weeks, days } from './time'
 
-import { UserProgressItem, UserNotificationSettings } from '../shared/types'
-import { isReadyForReview } from '../shared/logic'
+import { UserProgressItem, UserNotificationSettings, UserLesson } from '../common/types'
+import { isReadyForReview } from '../common/logic'
 import * as _ from 'lodash'
 import { ResponseError } from './utils'
 
@@ -106,7 +106,7 @@ export namespace users {
 
     export async function allIds(): Promise<string[]> {
         const keys = await db.findKeys(`users:`)
-        return keys.map(k => k.split('users:')[1])
+        return keys.map(k => k.split('users:')[1]!)
     }
 
     export async function all(): Promise<User[]> {
@@ -259,6 +259,26 @@ export namespace sessions {
 
     export async function expire(sessionKey: string) {
         return await db.delete(`sessions:${sessionKey}`)
+    }
+}
+
+/** User-lesson relationships. Stored as one big object per user. */
+export namespace userLessons {
+    export async function byLessonId(userId: string): Promise<_.Dictionary<UserLesson>> {
+        const lessons = await db.getJson<any>(`user_lessons:${userId}`)
+        return lessons || {}
+    }
+
+    export async function update(userId: string, lessonId: string, changes: Partial<UserLesson>) {
+        const lessonItems = await userLessons.byLessonId(userId)
+        const userLesson = lessonItems[lessonId] || {}
+        Object.assign(userLesson, changes)
+        lessonItems[lessonId] = userLesson
+        return await db.putJson(`user_lessons:${userId}`, lessonItems)
+    }
+
+    export async function resetProgressFor(userId: string) {
+        await db.delete(`user_lessons:${userId}`)
     }
 }
 

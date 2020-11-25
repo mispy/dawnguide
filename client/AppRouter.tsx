@@ -18,7 +18,7 @@ import { AccountPage } from './AccountPage'
 import { NotificationsPage } from './NotificationsPage'
 import { ContactPage } from './ContactPage'
 import ScrollToTop from './ScrollToTop'
-import { content } from '../shared/content'
+import { content } from '../common/content'
 
 export function AppRouter() {
     return <Router>

@@ -9,13 +9,15 @@ import { useContext } from "react"
 import { showReviewTime } from "./LessonPage"
 import { DebugTools } from "./DebugTools"
 import { IS_PRODUCTION } from "./settings"
-import { Lesson, content } from '../shared/content'
+import { Lesson, content } from '../common/content'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faBookReader, faCheckCircle, faHeart, faPen, faStar } from '@fortawesome/free-solid-svg-icons'
-import { Learny, ReviewWithTime } from './AppStore'
+import { ReviewWithTime } from './AppStore'
 import ReactTimeago from 'react-timeago'
 import classNames from 'classnames'
 import styled from 'styled-components'
+import { action } from 'mobx'
+import { Learny } from './Learny'
 
 function NextLessonCard(props: { lesson: Lesson | undefined }) {
     const { lesson } = props
@@ -44,32 +46,30 @@ function NextLessonCard(props: { lesson: Lesson | undefined }) {
 
 function NextReviewCard(props: { reviews: ReviewWithTime[] }) {
     const { reviews } = props
-
     const lessons = _.uniq(reviews.map(r => r.lesson))
-
     const now = Date.now()
+    const nextReview = reviews[0]
 
-    if (!reviews.length) {
+    if (!nextReview) {
         // TODO either no learned Lessons, or mastered all Lessons
         return <div>
 
         </div>
-    } else if (reviews[0].when > now) {
+    } else if (nextReview.when > now) {
         return <div className="NextReviewCard">
             <h4>You're up to date on reviews</h4>
             <div>
-                <p>The next review is <ReactTimeago date={reviews[0].when} />.<br /><br />It will be about {lessons[0].name}.</p>
+                <p>The next review is <ReactTimeago date={nextReview.when} />.<br /><br />It will be about {lessons[0]!.name}.</p>
             </div>
         </div>
     } else {
-
         let practiceLine
         if (lessons.length === 1) {
-            practiceLine = <>Refresh your understanding of {lessons[0].name}</>
+            practiceLine = <>Refresh your understanding of {lessons[0]!.name}</>
         } else if (lessons.length === 2) {
-            practiceLine = <>Refresh your understanding of {lessons[0].name} and {lessons[1].name}</>
+            practiceLine = <>Refresh your understanding of {lessons[0]!.name} and {lessons[1]!.name}</>
         } else {
-            practiceLine = <>Refresh your understanding of {lessons[0].name}, {lessons[1].name}, and more</>
+            practiceLine = <>Refresh your understanding of {lessons[0]!.name}, {lessons[1]!.name}, and more</>
         }
 
         return <Link to={`/review`} className="NextReviewCard">
@@ -146,7 +146,12 @@ cursor: pointer;
 
 .inner {
     height: 100%;
-    background: #9059ff;
+    background-color: #9059ff;
+    transition: background-color .3s ease;
+}
+
+&.disabled .inner {
+    background-color: rgba(33,36,44,0.3)
 }
 
 .outer:not(.mastered) .inner {
@@ -159,10 +164,14 @@ function MasteryProgressBar(props: { learny: Learny }) {
     const { learny } = props
     const { nextReview } = learny
 
-    return <MasteryProgressBarDiv>
+    const toggleDisabled = action(() => {
+        // learny.disabled = !learny.disabled
+    })
+
+    return useObserver(() => <MasteryProgressBarDiv onClick={toggleDisabled} className={classNames({ disabled: learny.disabled })}>
         <div className="d-flex">
             <div>
-                {learny.masteryLevel === 9 && <FontAwesomeIcon icon={faStar} color="darkgold" />} Mastery level {learny.masteryLevel}/9
+                {learny.masteryLevel === 9 && <FontAwesomeIcon icon={faStar} />} Mastery level {learny.masteryLevel}/9
             </div>
         </div>
 
@@ -172,8 +181,9 @@ function MasteryProgressBar(props: { learny: Learny }) {
 
         <div>
             {nextReview && <span>Reviewing: <ReactTimeago date={nextReview.when} /></span>}
+            {learny.disabled && <span>Reviews disabled</span>}
         </div>
-    </MasteryProgressBarDiv>
+    </MasteryProgressBarDiv>)
 }
 
 const Main = styled.main`

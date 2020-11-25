@@ -6,7 +6,7 @@ import * as React from 'react'
 import { AppLayout } from "./AppLayout"
 import { ClientApi } from "./ClientApi"
 import { observable, runInAction, action } from "mobx"
-import { User, UserAdminReport } from "../shared/types"
+import { User, UserAdminReport } from "../common/types"
 
 // @ts-ignore
 import TimeAgo from "react-timeago"

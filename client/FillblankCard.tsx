@@ -2,13 +2,13 @@ import { useEffect, useRef } from "react"
 import { useLocalStore, observer } from "mobx-react-lite"
 import { action, observable } from "mobx"
 import * as React from 'react'
-import { FillblankExerciseDef } from "../shared/types"
-import { Lesson } from "../shared/content"
+import { FillblankExerciseDef } from "../common/types"
+import { Lesson } from "../common/content"
 import classNames from "classnames"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEye, faChevronRight } from "@fortawesome/free-solid-svg-icons"
 import Markdown from "markdown-to-jsx"
-import { matchesAnswerPermissively } from "../shared/logic"
+import { matchesAnswerPermissively } from "../common/logic"
 import { AppContext } from "./AppContext"
 import { CanvasEffects } from "./CanvasEffects"
 
@@ -42,7 +42,7 @@ class FillblankState {
 
         const match = this.props.exercise.possibleAnswers.find(ans => matchesAnswerPermissively(this.response, ans))
         if (match) {
-            this.response = this.props.exercise.possibleAnswers[0]
+            this.response = this.props.exercise.possibleAnswers[0]!
 
             if (this.responseInput) {
                 this.effects.spawnParticlesAt(this.responseInput)
@@ -71,7 +71,7 @@ class FillblankState {
 export const FillblankCard = observer(function FillblankCard(props: FillblankProps) {
     const { effects } = React.useContext(AppContext)
     const { exercise } = props
-    const canonicalAnswer = exercise.possibleAnswers[0]
+    const canonicalAnswer = exercise.possibleAnswers[0]!
     const responseInput = useRef<HTMLInputElement>(null)
     const store = useLocalStore(() => ({ state: new FillblankState(props, effects) }))
     const { state } = store

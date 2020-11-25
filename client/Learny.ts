@@ -1,13 +1,14 @@
 import _ from "lodash"
-import { computed } from "mobx"
-import { Lesson } from "../shared/content"
-import { ExerciseWithProgress, getReviewTime } from "../shared/logic"
+import { computed, observable } from "mobx"
+import { Lesson } from "../common/content"
+import { ExerciseWithProgress, getReviewTime } from "../common/logic"
 
 /** 
  * A learny represents what we know about a user's learning progress
  * associated with a given lesson.
  */
 export class Learny {
+    @observable disabled: boolean = false
     constructor(readonly lesson: Lesson, readonly ewps: ExerciseWithProgress[]) {
     }
 
@@ -24,6 +25,9 @@ export class Learny {
     }
 
     @computed get nextReview() {
+        if (this.disabled)
+            return undefined
+
         const reviews = this.ewps.map(ex => {
             return {
                 lesson: this.lesson,

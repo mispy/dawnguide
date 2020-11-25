@@ -11,25 +11,25 @@ import { isExternalUrl } from './utils'
 import { HashLink as Link } from 'react-router-hash-link'
 
 function transformRefs(markdown: MarkdownString): [MarkdownString, string[]] {
-    const referenceIds: string[] = []   
+    const referenceIds: string[] = []
     const content = markdown.replace(/\[@([^\]]+)\]/g, (substr, id) => {
         let index = referenceIds.indexOf(id)
         if (index === -1) {
             index = referenceIds.length
             referenceIds.push(id)
         }
-        return `<a href="#${id}"><sup>[${index+1}]</sup></a>`
+        return `<a href="#${id}"><sup>[${index + 1}]</sup></a>`
     })
     return [content, referenceIds]
 }
 
 function SmartLink(props: { href: string }) {
     if (isExternalUrl(props.href)) {
-        return <a target="_blank" {...props} className="text-link"  />
+        return <a target="_blank" {...props} className="text-link" />
     } else if (IS_SERVER) {
-        return <a href={props.href} {..._.omit(props, 'href')} className="text-link"/>
+        return <a href={props.href} {..._.omit(props, 'href')} className="text-link" />
     } else {
-        return <Link to={props.href} {..._.omit(props, 'href')} className="text-link"/>
+        return <Link to={props.href} {..._.omit(props, 'href')} className="text-link" />
     }
 }
 
@@ -38,7 +38,7 @@ export function Passage(props: { lesson: Lesson }) {
     const referencesById = _.keyBy(lesson.references, r => r.id)
 
     const [introduction, referenceIds] = transformRefs(lesson.introduction)
-    const referencesInText = referenceIds.map(id => referencesById[id])
+    const referencesInText = referenceIds.map(id => referencesById[id]!)
 
     const markdownOptions = {
         overrides: {

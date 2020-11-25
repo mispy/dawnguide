@@ -36,6 +36,7 @@ module.exports = (env, argv) => {
                         {
                             loader: 'ts-loader',
                             options: {
+                                configFile: "client/tsconfig.json",
                                 transpileOnly: true
                             }
                         }

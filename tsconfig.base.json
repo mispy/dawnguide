@@ -1,6 +1,8 @@
 {
     "compilerOptions": {
+        "target": "es6",
         "strict": true,
+        "noUncheckedIndexedAccess": true,
         "noImplicitReturns": true,
         "allowJs": false,
         "outDir": "./dist/",
@@ -8,20 +10,18 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "jsx": "react",
-        "target": "es5",
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,
         "lib": [
-            "es6",
-            "esnext.asynciterable"
-        ],
-        "plugins": [
-            {
-                "name": "tslint-language-service"
-            }
+            "esnext",
+            "webworker"
         ],
         "resolveJsonModule": true,
         "skipLibCheck": true,
         "esModuleInterop": true
-    }
+    },
+    // Stop base being used directly, it should always be overridden
+    "exclude": [
+        "*"
+    ]
 }

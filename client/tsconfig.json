@@ -1,28 +1,16 @@
 {
+    "extends": "../tsconfig.base.json",
+    "include": [
+        "**/*",
+        "../common"
+    ],
+    "exclude": [],
     "compilerOptions": {
-        "strict": true,
-        "noImplicitReturns": true,
-        "allowJs": false,
         "outDir": "./dist/",
-        "sourceMap": true,
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "jsx": "react",
-        "target": "es5",
-        "experimentalDecorators": true,
-        "forceConsistentCasingInFileNames": true,
         "lib": [
             "dom",
             "es6",
             "esnext.asynciterable"
-        ],
-        "plugins": [
-            {
-                "name": "tslint-language-service"
-            }
-        ],
-        "resolveJsonModule": true,
-        "skipLibCheck": true,
-        "esModuleInterop": true
+        ]
     }
 }

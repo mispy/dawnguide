@@ -1,11 +1,11 @@
 import * as db from './db'
 import { EventRequest, SessionRequest } from './requests'
 import { trimStrings } from './utils'
-import { MONTHLY_PLAN_ID, ANNUAL_PLAN_ID } from '../shared/settings'
+import { MONTHLY_PLAN_ID, ANNUAL_PLAN_ID } from '../common/settings'
 
 import * as stripe from './stripe'
-import { User } from '../shared/types'
-import { absurl } from '../shared/utils'
+import { User } from '../common/types'
+import { absurl } from '../common/utils'
 
 export async function subscribeToPlan(req: SessionRequest): Promise<{ checkoutSessionId: string } | { user: User }> {
     const user = await db.users.expect(req.session.userId)
@@ -26,10 +26,10 @@ export async function subscribeToPlan(req: SessionRequest): Promise<{ checkoutSe
                 cancel_at_period_end: false,
                 proration_behavior: 'create_prorations',
                 items: [{
-                    id: sub.items.data[0].id,
+                    id: sub.items.data[0]!.id,
                     plan: planId,
                 }]
-            });
+            })
 
             const newUser = await db.users.update(user.id, {
                 subscription: {

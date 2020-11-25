@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Row, Col, Badge } from "react-bootstrap"
 import { STRIPE_PUBLIC_KEY } from "./settings"
 import { AppContext } from "./AppContext"
-import { MONTHLY_PLAN_ID, ANNUAL_PLAN_ID } from "../shared/settings"
+import { MONTHLY_PLAN_ID, ANNUAL_PLAN_ID } from "../common/settings"
 import { SettingsLayout } from "./SettingsLayout"
 import { useObserver, useLocalStore } from "mobx-react-lite"
 import { loadStripe } from '@stripe/stripe-js'

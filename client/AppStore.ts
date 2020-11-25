@@ -1,10 +1,10 @@
 import { observable, runInAction, computed, action, toJS } from "mobx"
-import { ExerciseWithProgress, getReviewTime } from "../shared/logic"
-import { Lesson, Review } from "../shared/content"
+import { ExerciseWithProgress, getReviewTime } from "../common/logic"
+import { Lesson, Review } from "../common/content"
 import * as _ from 'lodash'
 import { ClientApi } from "./ClientApi"
-import { content } from "../shared/content"
-import { UserProgressItem, User, Exercise } from "../shared/types"
+import { content } from "../common/content"
+import { UserProgressItem, User, Exercise } from "../common/types"
 import * as Sentry from '@sentry/browser'
 import { SENTRY_DSN_URL } from "./settings"
 import { AxiosError } from "axios"

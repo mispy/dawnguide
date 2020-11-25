@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { content } from "../shared/content"
+import { content } from "../common/content"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
-import { Logo } from "../shared/Logo"
+import { Logo } from "../common/Logo"
 
 /** Dropdown part is implemented in pure css in site.sass */
 function LessonsDropdown() {

@@ -1,10 +1,9 @@
 import * as _ from 'lodash'
 import * as ReactDOMServer from 'react-dom/server'
-import { Memoize } from 'typescript-memoize'
 import * as React from 'react'
 import { fromString } from 'html-to-text'
 
-import { absurl, isAbsoluteUrl } from '../shared/utils'
+import { absurl, isAbsoluteUrl } from '../common/utils'
 import { WEBPACK_MANIFEST, IS_PRODUCTION } from './settings'
 
 export function renderToHtml(rootElement: Parameters<typeof ReactDOMServer.renderToStaticMarkup>[0]) {
@@ -77,7 +76,7 @@ export function getQueryParams(queryStr: string): QueryParams {
 
     for (const param of querySplit) {
         const pair = param.split("=")
-        params[pair[0]] = pair[1]
+        params[pair[0]!] = pair[1]
     }
 
     return params
@@ -141,8 +140,6 @@ export class ResponseError extends Error {
         this.status = status
     }
 }
-
-export const memoize = Memoize
 
 function devFilename(filename: string) {
     const spl = filename.split(".")

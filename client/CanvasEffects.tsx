@@ -15,7 +15,7 @@ class Particle {
     r = Math.random() * 3 + 3
     lifetime = Math.random() * 500 + 300
     birth = Date.now()
-    color = confettiColors[Math.floor(Math.random() * confettiColors.length)]
+    color = confettiColors[Math.floor(Math.random() * confettiColors.length)]!
     constructor(public x: number, public y: number) { }
 
     update() {

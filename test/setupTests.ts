@@ -2,12 +2,13 @@ declare const global: any
 
 // @ts-ignore
 import * as runtime from '@dollarshaveclub/cloudworker/lib/runtime'
+// @ts-ignore
 import StubCacheFactory from '@dollarshaveclub/cloudworker/lib/runtime/cache/stub'
 import EventEmitter from 'events'
 
 const dispatcher = new (EventEmitter as any)()
-const eventListener = (eventType, handler) => {
-    const wrapper = (event) => {
+const eventListener = (eventType: any, handler: any) => {
+    const wrapper = (event: any) => {
         Promise.resolve(handler(event)).catch((error) => { event.onError(error) })
     }
     dispatcher.on(eventType, wrapper)
@@ -22,5 +23,6 @@ for (const key in context) {
     }
 }
 
+// @ts-ignore
 import { KeyValueStore } from '@dollarshaveclub/cloudworker/lib/kv'
 global.STORE = new KeyValueStore()

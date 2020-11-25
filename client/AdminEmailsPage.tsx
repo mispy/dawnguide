@@ -6,8 +6,8 @@ import * as React from 'react'
 import { AppLayout } from "./AppLayout"
 import { ClientApi } from "./ClientApi"
 import { observable, runInAction, action } from "mobx"
-import { User } from "../shared/types"
-import { content } from "../shared/content"
+import { User } from "../common/types"
+import { content } from "../common/content"
 
 // @ts-ignore
 import { Container } from "react-bootstrap"

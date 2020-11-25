@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Head } from "./Head"
-import { User } from "../shared/types"
+import { User } from "../common/types"
 import * as _ from 'lodash'
 import { resolveAsset } from './utils'
 

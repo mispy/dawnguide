@@ -17,7 +17,7 @@ export function NextLessonPage() {
             // Nothing ready to learn
             return <Redirect to="/home" />
         } else {
-            return <Redirect to={`/${app.lessonLessons[0].id}`} />
+            return <Redirect to={`/${app.lessonLessons[0]!.id}`} />
         }
     }
 

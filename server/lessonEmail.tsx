@@ -1,14 +1,14 @@
 import * as React from 'react'
-import { Lesson } from "../shared/content"
+import { Lesson } from "../common/content"
 import Markdown from "markdown-to-jsx"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
 import { renderToStaticMarkup } from "react-dom/server"
-import { MarkdownString, User } from '../shared/types'
+import { MarkdownString, User } from '../common/types'
 import _ from 'lodash'
-import { Bibliography } from '../shared/Bibliography'
+import { Bibliography } from '../common/Bibliography'
 import { emailHtmlTemplate } from './emailUtils'
-import { isExternalUrl, absurl } from '../shared/utils'
+import { isExternalUrl, absurl } from '../common/utils'
 import { sendMail } from './mail'
 import * as db from './db'
 
@@ -108,7 +108,7 @@ export function LessonEmailBody(props: { lesson: Lesson }) {
     const { lesson } = props
     const referencesById = _.keyBy(lesson.references, r => r.id)
     const [introduction, referenceIds] = transformRefs(lesson.introduction, lesson.id)
-    const referencesInText = referenceIds.map(id => referencesById[id])
+    const referencesInText = referenceIds.map(id => referencesById[id]!)
 
     const markdownOptions = {
         overrides: {

@@ -1,14 +1,14 @@
 import { useObserver, useLocalStore } from "mobx-react-lite"
 import * as React from 'react'
-import { Lesson } from "../shared/content"
+import { Lesson } from "../common/content"
 import classnames from 'classnames'
 import { action } from "mobx"
-import { Exercise, BasicExerciseDef } from "../shared/types"
+import { Exercise, BasicExerciseDef } from "../common/types"
 import Markdown from 'markdown-to-jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUndoAlt, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
-import { Passage } from "../shared/Passage"
+import { Passage } from "../common/Passage"
 import { Container } from "react-bootstrap"
 
 export function MemoryCard(props: { lesson: Lesson, exercise: BasicExerciseDef, onSubmit: (remembered: boolean) => void }) {

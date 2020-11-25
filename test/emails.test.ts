@@ -4,7 +4,7 @@ import { testMailsSent } from '../server/mail'
 import * as db from '../server/db'
 import { weeks } from '../server/time'
 import { api } from './helpers'
-import { content } from '../shared/content'
+import { content } from '../common/content'
 
 afterEach(() => {
     while (testMailsSent.length)
@@ -22,7 +22,7 @@ describe('emails', () => {
         const weekAgo = Date.now() - weeks(1)
 
         // Make sure user has some reviews to do
-        const lesson = content.lessons[0]
+        const lesson = content.lessons[0]!
         const toSave = lesson.exercises.map(ex => {
             return {
                 userId: user.id,
@@ -48,8 +48,7 @@ describe('emails', () => {
 
         // Now heartbeat will have sent an email
         expect(testMailsSent.length).toBe(1)
-
-        const msg = testMailsSent[0]
+        const msg = testMailsSent[0]!
         expect(msg.to).toBe("fluffles@gmail.com")
         expect(msg.subject).toBe("Your Lessons and Reviews Update")
 

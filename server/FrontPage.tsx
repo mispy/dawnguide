@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Head } from "./Head"
 import { SiteHeader } from "./SiteHeader"
-import { content } from '../shared/content'
+import { content } from '../common/content'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 // @ts-ignore

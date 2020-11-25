@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { absurl } from '../shared/utils'
+import { absurl } from '../common/utils'
 import { resolveAsset } from './utils'
 // @ts-ignore
 import socialMediaSmall from '../public/social-media-small.png'

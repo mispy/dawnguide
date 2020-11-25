@@ -1,4 +1,4 @@
-import { defineLesson, md } from '../shared/lesson'
+import { defineLesson, md } from '../lesson'
 // @ts-ignore
 import baCycle from './img/behavioral-activation-cycle.jpg'
 

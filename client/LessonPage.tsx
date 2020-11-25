@@ -4,12 +4,12 @@ import { useObserver } from 'mobx-react-lite'
 const TimeAgo = require('react-timeago').default
 import Markdown from 'markdown-to-jsx'
 
-import { Lesson } from '../shared/content'
+import { Lesson } from '../common/content'
 import { AppLayout } from './AppLayout'
 import { Container } from 'react-bootstrap'
 import { AppContext } from './AppContext'
-import { getReviewTime, ExerciseWithProgress } from '../shared/logic'
-import { Passage } from '../shared/Passage'
+import { getReviewTime, ExerciseWithProgress } from '../common/logic'
+import { Passage } from '../common/Passage'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
@@ -30,7 +30,7 @@ export function showReviewTime(ewp: ExerciseWithProgress) {
 export function LessonPage(props: { lesson: Lesson }) {
     const { app } = React.useContext(AppContext)
     const { lesson } = props
-    const progress = app.learnyByLessonId[lesson.id]
+    const progress = app.learnyByLessonId[lesson.id]!
 
     return useObserver(() => {
         // const LessonProgress = store.LessonsWithProgressById[Lesson.id]

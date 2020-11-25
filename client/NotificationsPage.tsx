@@ -6,7 +6,7 @@ import * as React from 'react'
 import { AppLayout } from "./AppLayout"
 import { observable, runInAction, action } from "mobx"
 import { Container } from "react-bootstrap"
-import { User, UserNotificationSettings } from "../shared/types"
+import { User, UserNotificationSettings } from "../common/types"
 import { ClientApi } from "./ClientApi"
 import { Link } from "react-router-dom"
 import { SettingsLayout } from "./SettingsLayout"

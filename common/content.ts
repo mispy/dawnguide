@@ -4,7 +4,7 @@ import * as bibTexParse from 'bibtex-parser-js'
 
 import { computed, observable } from 'mobx'
 
-import lessonDefs from '../lessons'
+import lessonDefs from '../common/lessons'
 import { LessonDef, Reference, MarkdownString, UserProgressItem, Exercise, LessonType } from './types'
 import * as _ from 'lodash'
 import { isReadyForReview } from './logic'

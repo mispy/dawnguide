@@ -1,22 +1,16 @@
 {
+    "extends": "../tsconfig.base.json",
+    "include": [
+        "**/*",
+        "../common"
+    ],
+    "exclude": [],
     "compilerOptions": {
-        "target": "es2018",
-        "strict": true,
-        "noImplicitReturns": true,
-        "allowJs": false,
         "outDir": "./dist/",
-        "sourceMap": true,
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "jsx": "react",
-        "experimentalDecorators": true,
-        "forceConsistentCasingInFileNames": true,
         "lib": [
             "esnext",
             "webworker"
         ],
-        "resolveJsonModule": true,
-        "skipLibCheck": true,
-        "esModuleInterop": true
-    }
+        "target": "es2018"
+    },
 }

@@ -10,8 +10,8 @@ import { LoginPage } from './LoginPage'
 import { SignupPage } from './SignupPage'
 import { EventRequest } from './requests'
 import { ResetPasswordFinalizePage } from './ResetPasswordFinalizePage'
-import { absurl } from '../shared/utils'
-import { BASE_URL } from '../shared/settings'
+import { absurl } from '../common/utils'
+import { BASE_URL } from '../common/settings'
 
 export async function signupPage(req: EventRequest) {
     const { then } = req.params as { then: string | undefined }
@@ -36,7 +36,7 @@ export async function submitSignup(req: EventRequest) {
         }
 
         // Default name is inferred from email
-        const name = email.split('@')[0]
+        const name = email.split('@')[0]!
         const user = await db.users.create({ username: name, email: email, password: password })
 
         // Send confirmation email

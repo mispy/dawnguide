@@ -5,7 +5,7 @@ import { action } from "mobx"
 import * as _ from 'lodash'
 import { AppContext } from "./AppContext"
 import { useContext } from "react"
-import { Lesson, Review } from "../shared/content"
+import { Lesson, Review } from "../common/content"
 import { ExerciseView } from './ExerciseView'
 
 export function MultiReview(props: { reviews: Review[], onComplete: () => void }) {
@@ -15,7 +15,7 @@ export function MultiReview(props: { reviews: Review[], onComplete: () => void }
 
     const onCardComplete = action((remembered: boolean) => {
         const review = state.reviews[state.reviews.length - 1]
-        app.backgroundApi.submitProgress(review.exercise.id, remembered)
+        app.backgroundApi.submitProgress(review!.exercise.id, remembered)
 
         if (remembered) {
             state.reviews.pop()

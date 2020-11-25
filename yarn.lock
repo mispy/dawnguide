@@ -1147,10 +1147,10 @@
   resolved "https://registry.yarnpkg.com/@cloudflare/workers-types/-/workers-types-1.0.9.tgz#00cfb188e93125f95ccc27d7a4c6aabd6b62e699"
   integrity sha512-x6aA5FRK0fR0pC/mkDq0nG6WNkf3aVu6vLRfA7FoMtajbvWKN9JBveI/HhbjpMOIRWfNnGd2rw6WH7NAv4XesA==
 
-"@cloudflare/wrangler@^1.8.2":
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/@cloudflare/wrangler/-/wrangler-1.10.1.tgz#3ce46598e714b98ee691b3572138663074fa1fb3"
-  integrity sha512-83cHQFUoV+6JDfDkc1SFpmTyfWdoN2j3PBkG9LZUOteWgG+Y/uZ8XV4FozgkTl3Z3D26JpZW9Z8Q2ycEhNpMvA==
+"@cloudflare/wrangler@^1.12.2":
+  version "1.12.2"
+  resolved "https://registry.yarnpkg.com/@cloudflare/wrangler/-/wrangler-1.12.2.tgz#9185d46f0f81c2f7a3700511712754fd9c3b2615"
+  integrity sha512-hovZ0yR8pofMiyIAsxOdKxdU9P33yWcTKuaiOYlwKRAMctB8ghRDeUhYzreAe/Kq6Iu7hdP8lfeub4sUHQxe4Q==
   dependencies:
     binary-install "0.0.1"
 
@@ -3550,11 +3550,6 @@ core-js-pure@^3.0.0:
   version "3.6.5"
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.6.5.tgz#c79e75f5e38dbc85a662d91eea52b8256d53b813"
   integrity sha512-lacdXOimsiD0QyNf9BC/mxivNJ/ybBGJXQFKzRekp1WTHoVUWsUHEn+2T8GJAzzIhyOuXA+gOxCVN3l+5PLPUA==
-
-core-js@2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.4.1.tgz#4de911e667b0eae9124e34254b53aea6fc618d3e"
-  integrity sha1-TekR5mew6ukSTjQlS1OupvxhjT4=
 
 core-js@^2.4.0, core-js@^2.6.5:
   version "2.6.11"
@@ -11066,17 +11061,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript-memoize@^1.0.0-alpha.3:
-  version "1.0.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/typescript-memoize/-/typescript-memoize-1.0.0-alpha.3.tgz#699a5415f886694a8d6e2e5451bc28a39a6bc2f9"
-  integrity sha1-aZpUFfiGaUqNbi5UUbwoo5prwvk=
-  dependencies:
-    core-js "2.4.1"
-
-typescript@^3.8.3:
-  version "3.9.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.5.tgz#586f0dba300cde8be52dd1ac4f7e1009c1b13f36"
-  integrity sha512-hSAifV3k+i6lEoCJ2k6R2Z/rp/H3+8sdmcn5NrS3/3kE7+RyZXm9aqvxWqjEXHAd8b0pShatpcdMTvEdvAJltQ==
+typescript@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.1.2.tgz#6369ef22516fe5e10304aae5a5c4862db55380e9"
+  integrity sha512-thGloWsGH3SOxv1SoY7QojKi0tc+8FnOmiarEGMbd/lar7QOEd3hvlx3Fp5y6FlDUGl9L+pd4n2e+oToGMmhRQ==
 
 uncontrollable@^7.0.0:
   version "7.1.1"

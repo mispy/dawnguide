@@ -1,5 +1,5 @@
 import { handleEvent } from '../server/worker'
-import { absurl } from '../shared/utils'
+import { absurl } from '../common/utils'
 
 class TestFetchEvent {
     constructor(readonly request: Request) {
@@ -42,7 +42,9 @@ class APITester {
         const asUser = new APITester()
         const response = await asUser.post("/login", { email, password })
         const cookie = response.headers.get('Set-Cookie')
-        asUser.cookie = cookie
+        if (cookie) {
+            asUser.cookie = cookie
+        }
         return asUser
     }
 }

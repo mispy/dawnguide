@@ -1,5 +1,5 @@
 import juice from 'juice'
-import { absurl } from '../shared/utils'
+import { absurl } from '../common/utils'
 
 export function inlineCss(htmlWithStyles: string) {
     return juice(htmlWithStyles)

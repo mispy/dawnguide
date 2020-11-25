@@ -1,17 +1,17 @@
 import Router from "./router"
 import { ResponseError, expectKeys, trimStrings } from "./utils"
 import * as db from './db'
-import { UserProgressItem, UserAdminReport } from '../shared/types'
-import { getReviewTime } from "../shared/logic"
+import { UserProgressItem, UserAdminReport } from '../common/types'
+import { getReviewTime } from "../common/logic"
 import * as _ from 'lodash'
 import { sendMail } from "./mail"
 import * as bcrypt from "bcryptjs"
 import { SessionRequest, EventRequest } from "./requests"
 import * as payments from './paymentsController'
 import { CONTACT_FORM_EMAIL } from "./settings"
-import { content } from "../shared/content"
+import { content } from "../common/content"
 import { sendLessonEmail } from "./lessonEmail"
-import { absurl } from "../shared/utils"
+import { absurl } from "../common/utils"
 import { sendReviewsEmail } from "./reviewsEmail"
 
 export async function processRequest(req: EventRequest) {
@@ -242,7 +242,7 @@ export namespace admin {
 
             return Object.assign(
                 _.pick(u, 'id', 'email', 'username', 'createdAt', 'updatedAt', 'lastSeenAt'),
-                { meanLevel: meanLevel, lessonsStudied: lessonsStudied, notificationSettings: notificationSettings[i] }
+                { meanLevel: meanLevel, lessonsStudied: lessonsStudied, notificationSettings: notificationSettings[i]! }
             )
         })
     }

@@ -18,6 +18,13 @@ export type User = {
     }
 }
 
+export type UserLesson = {
+    /** When the user first learned this lesson */
+    learnedAt?: number
+    /** If true, no future reviews will be given for this lesson */
+    disabled?: true
+}
+
 export type UserAdminReport = User & {
     meanLevel: number
     lessonsStudied: number

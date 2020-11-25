@@ -134,8 +134,8 @@ function parse(err: Error) {
             return {
                 function: lineMatch[1] || undefined,
                 filename: lineMatch[2] || undefined,
-                lineno: +lineMatch[3] || undefined,
-                colno: +lineMatch[4] || undefined,
+                lineno: +lineMatch[3]! || undefined,
+                colno: +lineMatch[4]! || undefined,
                 in_app: lineMatch[5] !== 'native' || undefined,
             }
         })
@@ -145,7 +145,7 @@ function parse(err: Error) {
 function uuidv4() {
     const bytes = new Uint8Array(16)
     crypto.getRandomValues(bytes)
-    bytes[6] = (bytes[6] & 0x0f) | 0x40
-    bytes[8] = (bytes[8] & 0x3f) | 0x80
+    bytes[6] = (bytes[6]! & 0x0f) | 0x40
+    bytes[8] = (bytes[8]! & 0x3f) | 0x80
     return [...bytes].map(b => ('0' + b.toString(16)).slice(-2)).join('') // to hex
 }

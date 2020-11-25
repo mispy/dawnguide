@@ -6,7 +6,7 @@ import { AppRouter } from './AppRouter'
 import { AppContext } from './AppContext'
 import { AppStore } from './AppStore'
 import { useMemo } from 'react'
-import { User } from '../shared/types'
+import { User } from '../common/types'
 import { CanvasEffects } from './CanvasEffects'
 
 // These props come from AppPage on the server

@@ -1,0 +1,10 @@
+{
+    // This file just exists for vscode's benefit; pre-compilation typechecking
+    // is done by the server and client tsconfigs which actually produce
+    // the executed code
+    "extends": "../tsconfig.base.json",
+    "exclude": [],
+    "compilerOptions": {
+        "outDir": "./dist/"
+    },
+}

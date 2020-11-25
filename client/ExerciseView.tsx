@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Lesson } from "../shared/content"
-import { Exercise, FillblankExerciseDef, BasicExerciseDef } from "../shared/types"
+import { Lesson } from "../common/content"
+import { Exercise, FillblankExerciseDef, BasicExerciseDef } from "../common/types"
 import { MemoryCard } from './MemoryCard'
 import { FillblankCard } from './FillblankCard'
 

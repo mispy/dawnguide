@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Head } from "./Head"
 import { htmlToPlaintext } from './utils'
-import { Lesson } from "../shared/content"
-import { Passage } from '../shared/Passage'
+import { Lesson } from "../common/content"
+import { Passage } from '../common/Passage'
 import { SiteHeader } from "./SiteHeader"
 import { SiteFooter } from "./SiteFooter"
 import Markdown from "markdown-to-jsx"

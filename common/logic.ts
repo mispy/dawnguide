@@ -42,8 +42,13 @@ const timingLookup = [
 ]
 
 // The SRS timing function
-export function getTimeFromLevel(level: number) {
-    return timingLookup[level]
+export function getTimeFromLevel(level: number): number {
+    const time = timingLookup[level]
+    if (!time) {
+        throw new Error(`Timing level ${level} is out of range`)
+    } else {
+        return time
+    }
 }
 
 export function getReviewTime(progress: ExerciseProgressItem) {

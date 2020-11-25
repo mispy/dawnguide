@@ -1,10 +1,10 @@
-import { User } from "../shared/types"
+import { User } from "../common/types"
 import * as _ from 'lodash'
 import * as db from './db'
-import { content } from "../shared/content"
+import { content } from "../common/content"
 import { sendMail } from "./mail"
 import { weeks } from "./time"
-import { absurl } from "../shared/utils"
+import { absurl } from "../common/utils"
 import { emailHtmlTemplate } from "./emailUtils"
 
 export async function sendReviewsEmailIfNeeded(user: User) {
