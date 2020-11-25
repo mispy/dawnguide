@@ -22,7 +22,7 @@ export type UserLesson = {
     /** When the user first learned this lesson */
     learnedAt?: number
     /** If true, no future reviews will be given for this lesson */
-    disabled?: true
+    disabled?: boolean
 }
 
 export type UserAdminReport = User & {

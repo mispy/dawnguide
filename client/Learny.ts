@@ -2,14 +2,16 @@ import _ from "lodash"
 import { computed, observable } from "mobx"
 import { Lesson } from "../common/content"
 import { ExerciseWithProgress, getReviewTime } from "../common/logic"
+import { UserLesson } from "../common/types"
 
 /** 
  * A learny represents what we know about a user's learning progress
  * associated with a given lesson.
  */
 export class Learny {
-    @observable disabled: boolean = false
-    constructor(readonly lesson: Lesson, readonly ewps: ExerciseWithProgress[]) {
+    @observable userLesson: UserLesson
+    constructor(readonly lesson: Lesson, userLesson: UserLesson, readonly ewps: ExerciseWithProgress[]) {
+        this.userLesson = userLesson
     }
 
     @computed get meanReviewLevel(): number {
@@ -25,7 +27,7 @@ export class Learny {
     }
 
     @computed get nextReview() {
-        if (this.disabled)
+        if (this.userLesson.disabled)
             return undefined
 
         const reviews = this.ewps.map(ex => {

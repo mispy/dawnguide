@@ -3,7 +3,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 import { API_BASE_URL, IS_PRODUCTION } from './settings'
 import { delay } from './utils'
-import { User, UserProgressItem, UserNotificationSettings, UserAdminReport } from '../common/types'
+import { User, UserProgressItem, UserNotificationSettings, UserAdminReport, UserLesson } from '../common/types'
 // @ts-ignore
 const NProgress = require('accessible-nprogress')
 
@@ -19,10 +19,7 @@ export type HttpProviderOptions = {
 /** Wraps axios http methods so we can do stuff on each call */
 class HttpProvider {
     http: AxiosInstance
-    nprogress: boolean
     constructor(readonly opts: HttpProviderOptions = {}) {
-        this.nprogress = opts.nprogress || true
-
         this.http = axios.create({
             baseURL: API_BASE_URL,
             timeout: 10000
@@ -42,7 +39,7 @@ class HttpProvider {
 
     async request(config: AxiosRequestConfig) {
         const req = this.http.request(config)
-        if (this.nprogress) {
+        if (this.opts.nprogress) {
             NProgress.promise(req)
         }
 
@@ -95,9 +92,9 @@ export class ClientApi {
         return new ClientApi(newOpts)
     }
 
-    async getProgressItems(): Promise<UserProgressItem[]> {
+    async getProgress(): Promise<{ userLessons: Record<string, UserLesson>, progressItems: UserProgressItem[] }> {
         const { data } = await this.http.get('/api/progress')
-        return data.items
+        return data
     }
 
     async submitProgress(exerciseId: string, remembered: boolean): Promise<void> {
@@ -106,6 +103,10 @@ export class ClientApi {
 
     async completeLesson(exerciseIds: string[]): Promise<void> {
         await this.http.post('/api/lesson', { exerciseIds: exerciseIds })
+    }
+
+    async updateUserLesson(lessonId: string, userLesson: Partial<UserLesson>): Promise<void> {
+        await this.http.patch(`/api/userLessons/${lessonId}`, userLesson)
     }
 
     async getCurrentUser(): Promise<User> {

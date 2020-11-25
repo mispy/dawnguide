@@ -161,14 +161,17 @@ cursor: pointer;
 `
 
 function MasteryProgressBar(props: { learny: Learny }) {
+    const { app } = useContext(AppContext)
     const { learny } = props
     const { nextReview } = learny
 
     const toggleDisabled = action(() => {
-        // learny.disabled = !learny.disabled
+        const inverse = !learny.userLesson.disabled
+        learny.userLesson.disabled = inverse
+        app.backgroundApi.updateUserLesson(learny.lesson.id, { disabled: inverse })
     })
 
-    return useObserver(() => <MasteryProgressBarDiv onClick={toggleDisabled} className={classNames({ disabled: learny.disabled })}>
+    return useObserver(() => <MasteryProgressBarDiv onClick={toggleDisabled} className={classNames({ disabled: learny.userLesson.disabled })}>
         <div className="d-flex">
             <div>
                 {learny.masteryLevel === 9 && <FontAwesomeIcon icon={faStar} />} Mastery level {learny.masteryLevel}/9
@@ -181,7 +184,7 @@ function MasteryProgressBar(props: { learny: Learny }) {
 
         <div>
             {nextReview && <span>Reviewing: <ReactTimeago date={nextReview.when} /></span>}
-            {learny.disabled && <span>Reviews disabled</span>}
+            {learny.userLesson.disabled && <span>Reviews disabled</span>}
         </div>
     </MasteryProgressBarDiv>)
 }

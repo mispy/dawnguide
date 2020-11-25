@@ -274,7 +274,8 @@ export namespace userLessons {
         const userLesson = lessonItems[lessonId] || {}
         Object.assign(userLesson, changes)
         lessonItems[lessonId] = userLesson
-        return await db.putJson(`user_lessons:${userId}`, lessonItems)
+        await db.putJson(`user_lessons:${userId}`, lessonItems)
+        return userLesson
     }
 
     export async function resetProgressFor(userId: string) {

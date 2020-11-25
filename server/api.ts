@@ -1,7 +1,7 @@
 import Router from "./router"
 import { ResponseError, expectKeys, trimStrings } from "./utils"
 import * as db from './db'
-import { UserProgressItem, UserAdminReport } from '../common/types'
+import { UserProgressItem, UserAdminReport, UserLesson } from '../common/types'
 import { getReviewTime } from "../common/logic"
 import * as _ from 'lodash'
 import { sendMail } from "./mail"
@@ -23,6 +23,7 @@ export async function processRequest(req: EventRequest) {
     r.get('/api/progress', getProgress)
     r.put('/api/progress', submitProgress)
     r.post('/api/lesson', completeLesson)
+    r.patch('/api/userLessons/(.*)', updateUserLesson)
     r.get('/api/users/me', getCurrentUser)
     r.post('/api/changeEmail', changeEmail)
     r.post('/api/changeUsername', changeUsername)
@@ -38,9 +39,12 @@ export async function processRequest(req: EventRequest) {
     return await r.route(req as SessionRequest)
 }
 
-async function getProgress(req: SessionRequest): Promise<{ items: UserProgressItem[] }> {
+async function getProgress(req: SessionRequest): Promise<{ userLessons: Record<string, UserLesson>, progressItems: UserProgressItem[] }> {
     const { userId } = req.session
-    return { items: await db.progressItems.allFor(userId) }
+    return {
+        userLessons: await db.userLessons.byLessonId(userId),
+        progressItems: await db.progressItems.allFor(userId)
+    }
 }
 
 /** 
@@ -75,6 +79,11 @@ async function getCurrentUser(req: SessionRequest) {
     return _.omit(user, 'cryptedPassword')
 }
 
+
+async function updateUserLesson(req: SessionRequest, lessonId: string): Promise<UserLesson> {
+    const changes = _.pick(req.json, 'disabled')
+    return await db.userLessons.update(req.session.userId, lessonId, changes)
+}
 
 /** 
  * When a user successfully completes an exercise, we increase the

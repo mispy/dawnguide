@@ -5,7 +5,7 @@ import * as bibTexParse from 'bibtex-parser-js'
 import { computed, observable } from 'mobx'
 
 import lessonDefs from '../common/lessons'
-import { LessonDef, Reference, MarkdownString, UserProgressItem, Exercise, LessonType } from './types'
+import { LessonDef, Reference, MarkdownString, UserProgressItem, Exercise, LessonType, UserLesson } from './types'
 import * as _ from 'lodash'
 import { isReadyForReview } from './logic'
 
@@ -48,14 +48,16 @@ class ContentIndex {
         return this.exerciseById[exerciseId]
     }
 
-    getLessonsAndReviews(progressItems: UserProgressItem[]) {
+    getLessonsAndReviews(userLessons: Record<string, UserLesson>, progressItems: UserProgressItem[]) {
         const progressByExerciseId = _.keyBy(progressItems, item => item.exerciseId) as _.Dictionary<UserProgressItem | undefined>
 
-        const untouchedLessons = this.lessons.filter(c => {
+        const activeLessons = this.lessons.filter(l => !userLessons[l.id]?.disabled)
+
+        const untouchedLessons = activeLessons.filter(c => {
             return c.exercises.every(e => !progressByExerciseId[e.id])
         })
 
-        const reviewableLessons = this.lessons.filter(c => {
+        const reviewableLessons = activeLessons.filter(c => {
             return c.exercises.some(e => progressByExerciseId[e.id])
         })
 

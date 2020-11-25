@@ -19,7 +19,9 @@ export async function sendReviewsEmailIfNeeded(user: User) {
         return // Don't keep sending emails if the user doesn't log in
 
     const progressItems = await db.progressItems.allFor(user.id)
-    const { lessons, reviews } = content.getLessonsAndReviews(progressItems)
+    const userLessons = await db.userLessons.byLessonId(user.id)
+
+    const { lessons, reviews } = content.getLessonsAndReviews(userLessons, progressItems)
 
     if (reviews.length === 0)
         return // No reviews to prompt about!
@@ -35,7 +37,8 @@ export async function sendReviewsEmailIfNeeded(user: User) {
 
 export async function sendReviewsEmail(user: User) {
     const progressItems = await db.progressItems.allFor(user.id)
-    const { lessons, reviews } = content.getLessonsAndReviews(progressItems)
+    const userLessons = await db.userLessons.byLessonId(user.id)
+    const { lessons, reviews } = content.getLessonsAndReviews(userLessons, progressItems)
 
     await sendMail({
         to: user.email,
