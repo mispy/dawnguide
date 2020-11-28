@@ -8,7 +8,7 @@ export default defineLesson({
     slug: 'cognitive-restructuring',
     title: 'Cognitive restructuring',
     summaryLine: "Influence your emotions by challenging negative thoughts",
-    author: "Jake Leoht",
+    author: "Jaiden Mispy",
     introduction: md`
 As a human, you've probably noticed that your ability to directly control your feelings is limited. When something happens, you can't just _decide_ to be happy, sad, calm, or angry about it: some part of your brain has already decided how it feels and tells your conscious mind about it after the fact. 
 

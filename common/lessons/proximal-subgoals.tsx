@@ -6,7 +6,7 @@ export default defineLesson({
     slug: 'proximal-subgoals',
     title: 'Proximal subgoals',
     summaryLine: "Increase your motivation by setting and achieving smaller objectives",
-    author: "Jake Leoht",
+    author: "Jaiden Mispy",
     introduction: md`
 You may have heard it said that it helps to break big tasks into small steps. This is good advice, but we want to know more: why is this helpful, and how can we do it most effectively?
 

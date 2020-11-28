@@ -6,7 +6,7 @@ export default defineLesson({
     slug: 'mental-contrasting',
     title: 'Mental contrasting',
     summaryLine: "Find energy to act by contrasting the future you want with obstacles in the present",
-    author: "Jake Leoht",
+    author: "Jaiden Mispy",
     introduction: md`
 When people are not fully occupied in the present, their thoughts often drift towards life and the future. Moments of reflection help us to reconsider strategies and how committed we are to our goals. **Mental contrasting** is a particularly effective structure for reflective thoughts[@oettingen2013mind], following these steps:
 

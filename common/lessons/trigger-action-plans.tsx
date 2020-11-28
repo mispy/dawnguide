@@ -6,7 +6,7 @@ export default defineLesson({
     slug: 'trigger-action-plans',
     title: 'Trigger-action plans',
     summaryLine: "Build good habits by associating specific cues with a behavioral response",
-    author: "Jake Leoht",
+    author: "Jaiden Mispy",
     introduction: md`
 Creating **trigger-action plans** (TAPs) is a way of turning vague goals into concrete changes in your behavior. By associating a specific _trigger_ situation with an _action_ you will do in response, you can start a new routine or modify an existing one. Some examples:
 

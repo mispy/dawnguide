@@ -5,7 +5,7 @@ export function AppFooter() {
         <div className="container">
             <ul>
                 <li>
-                    <a href="https://github.com/jeoht/dawnguide">GitHub</a>
+                    <a href="https://github.com/mispy/dawnguide">GitHub</a>
                 </li>
                 <li>
                     <a href="https://twitter.com/DawnguideApp">Twitter</a>

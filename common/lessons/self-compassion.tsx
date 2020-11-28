@@ -7,7 +7,7 @@ export default defineLesson({
     title: 'Self-compassion',
     summaryLine: "Become more emotionally resilient by caring for yourself the way you care for friends",
     // subtitle: "Caring for yourself the way you care for friends",s
-    author: "Jake Leoht",
+    author: "Jaiden Mispy",
     introduction: md`
 **Self-compassion** involves directing the same sense of caring warmth that you have for others towards yourself. Think of someone important to you, a friend or loved one, and imagine they are suffering in some way. Do you feel your heart moved by their plight, and wish for them to be safe and happy? That feeling of compassion is a beautiful strength of humanity, and intentionally invoking it can help us to deal with negative emotions.[@allen2010self]
 

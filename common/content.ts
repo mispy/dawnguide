@@ -156,7 +156,7 @@ export class Lesson {
     }
 
     @computed get author(): string {
-        return this.def.author || "Jake Leoht"
+        return this.def.author || "Jaiden Mispy"
     }
 
     @computed get type(): LessonType {
