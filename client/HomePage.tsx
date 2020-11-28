@@ -183,7 +183,8 @@ function MasteryProgressBar(props: { learny: Learny }) {
         </div>
 
         <div>
-            {nextReview && <span>Reviewing: <ReactTimeago date={nextReview.when} /></span>}
+            {nextReview && nextReview.when <= Date.now() && <span>Review available now</span>}
+            {nextReview && nextReview.when > Date.now() && <span>Reviewing: <ReactTimeago date={nextReview.when} /></span>}
             {learny.userLesson.disabled && <span>Reviews disabled</span>}
         </div>
     </MasteryProgressBarDiv>)
