@@ -53,9 +53,9 @@ export function AppRouter() {
             <Route path="/notifications">
                 <NotificationsPage />
             </Route>
-            <Route path="/subscription">
+            {/* <Route path="/subscription">
                 <SubscriptionPage />
-            </Route>
+            </Route> */}
             <Route path="/contact">
                 <ContactPage />
             </Route>
