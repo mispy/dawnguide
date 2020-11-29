@@ -53,9 +53,9 @@ export class AppStore {
         })
 
         window.addEventListener("beforeunload", e => {
-            // If there's any pending non-GET request, ask for confirmation
+            // If there's any pending non-GET request in background, ask for confirmation
             // before leaving the page
-            if (this.api.http.pendingRequests.some(r => r.config.method !== 'GET')) {
+            if (this.backgroundApi.http.pendingRequests.some(r => r.config.method !== 'GET')) {
                 e.preventDefault()
                 e.returnValue = ''
             }

@@ -47,7 +47,9 @@ class HttpProvider {
 
         const req = { promise: promise, config: config }
         this.pendingRequests.push(req)
-        promise.then(() => this.pendingRequests = this.pendingRequests.filter(r => r !== req))
+        promise.then(() => {
+            this.pendingRequests = this.pendingRequests.filter(r => r !== req)
+        })
 
         // let complete = false
         // req.then(() => complete = true)
