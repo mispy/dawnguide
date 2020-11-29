@@ -19,6 +19,8 @@ export type HttpProviderOptions = {
 /** Wraps axios http methods so we can do stuff on each call */
 class HttpProvider {
     http: AxiosInstance
+    pendingRequests: { promise: Promise<AxiosResponse<any>>, config: AxiosRequestConfig }[] = []
+
     constructor(readonly opts: HttpProviderOptions = {}) {
         this.http = axios.create({
             baseURL: API_BASE_URL,
@@ -38,10 +40,14 @@ class HttpProvider {
     }
 
     async request(config: AxiosRequestConfig) {
-        const req = this.http.request(config)
+        const promise = this.http.request(config)
         if (this.opts.nprogress) {
-            NProgress.promise(req)
+            NProgress.promise(promise)
         }
+
+        const req = { promise: promise, config: config }
+        this.pendingRequests.push(req)
+        promise.then(() => this.pendingRequests = this.pendingRequests.filter(r => r !== req))
 
         // let complete = false
         // req.then(() => complete = true)
@@ -51,7 +57,7 @@ class HttpProvider {
         //     }
         // })
 
-        return req
+        return promise
     }
 
     async get(url: string, config?: AxiosRequestConfig | undefined): Promise<AxiosResponse> {

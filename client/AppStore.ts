@@ -51,10 +51,21 @@ export class AppStore {
             this.handleUnexpectedError(ev.reason)
             ev.preventDefault()
         })
+
+        window.addEventListener("beforeunload", e => {
+            // If there's any pending non-GET request, ask for confirmation
+            // before leaving the page
+            if (this.api.http.pendingRequests.some(r => r.config.method !== 'GET')) {
+                e.preventDefault()
+                e.returnValue = ''
+            }
+        })
     }
 
     async loadProgress() {
-        const { userLessons, progressItems } = await this.api.getProgress()
+        // Do it in the background if we already have progress data
+        const req = this.progressItems ? this.backgroundApi.getProgress() : this.api.getProgress()
+        const { userLessons, progressItems } = await req
         runInAction(() => {
             this.userLessons = userLessons
             this.progressItems = progressItems
