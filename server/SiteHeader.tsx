@@ -11,7 +11,7 @@ function LessonsDropdown() {
         <label className="nav-link" htmlFor="lessonsDropdownToggle">Lessons <FontAwesomeIcon icon={faAngleDown} /></label>
         <ul>
             {content.lessons.map(lesson => <li key={lesson.id}>
-                <a href={`/${lesson.id}`}>{lesson.title}</a>
+                <a href={`/${lesson.slug}`}>{lesson.title}</a>
             </li>)}
         </ul>
     </li>

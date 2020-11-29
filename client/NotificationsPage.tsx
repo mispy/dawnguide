@@ -43,7 +43,7 @@ function NotificationsSection() {
                     onChange={e => state.update({ emailAboutNewConcepts: e.currentTarget.checked })} id="emailAboutNewConcepts" />
                 <label className="form-check-label" htmlFor="emailAboutNewConcepts">
                     New lesson emails
-                    <aside className="text-secondary">Get an email when we release a new Lesson to learn</aside>
+                    <aside className="text-secondary">Get an email when we release a new lesson to learn</aside>
                 </label>
             </div><br />
             <div className="form-check">

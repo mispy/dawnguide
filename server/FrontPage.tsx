@@ -44,7 +44,7 @@ export function FrontPage() {
                 <section className="desc">
                     <div className="container">
                         <hr />
-                        <p>A project by <a href="https://twitter.com/mispy11">Jaiden Mispy</a></p>
+                        <p>A project by <a href="https://mispy.me">Jaiden Mispy</a></p>
                         <p>Hello! This site is still pretty new!</p>
                         <p>Dawnguide is a free collection of research about people, condensed into summaries of what is most useful to know for maintaining good mental health. It's also a spaced learning system for memorizing those results long-term.</p>
                         <p>I'm working on this because I feel there really needs to be an easily accessible evidence-based resource for this stuff. However, I'm not a clinical psychologist, so please use your own judgment in determining whether what I've written is true for you 💛</p>
