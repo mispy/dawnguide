@@ -13,6 +13,7 @@ import { Passage } from '../common/Passage'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
+import { FillblankExerciseDef } from '../common/types'
 
 export function showReviewTime(ewp: ExerciseWithProgress) {
     if (!ewp.progress)
@@ -30,17 +31,14 @@ export function showReviewTime(ewp: ExerciseWithProgress) {
 export function LessonPage(props: { lesson: Lesson }) {
     const { app } = React.useContext(AppContext)
     const { lesson } = props
-    const progress = app.learnyByLessonId[lesson.id]!
+    const learny = app.learnyByLessonId[lesson.id]!
 
     return useObserver(() => {
-        // const LessonProgress = store.LessonsWithProgressById[Lesson.id]
-        const exercisesWithProgress = app.exercisesWithProgress.filter(ewp => ewp.exercise.lessonId === lesson.id)
-
         return <AppLayout title={props.lesson.title}>
             <main className="LessonPage">
                 <Container>
                     <Passage lesson={lesson} />
-                    {progress.learned ? <section className="exercises">
+                    {learny.learned ? <section className="exercises">
                         <h2>Exercises</h2>
                         <table className="table">
                             <thead>
@@ -51,16 +49,16 @@ export function LessonPage(props: { lesson: Lesson }) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {exercisesWithProgress.map(ewp => <tr key={ewp.exercise.id}>
-                                    <td>{ewp.exercise.question}</td>
-                                    <td>
-                                        {ewp.exercise.type === 'fillblank'
-                                            ? ewp.exercise.possibleAnswers[0]
-                                            : <Markdown>{ewp.exercise.answer}</Markdown>}
-
-                                    </td>
-                                    <td>{showReviewTime(ewp)}</td>
-                                </tr>)}
+                                {learny.ewps.filter(e => e.exercise.type === 'fillblank').map(ewp => {
+                                    const exercise = ewp.exercise as FillblankExerciseDef
+                                    return <tr key={ewp.exercise.id}>
+                                        <td>{exercise.question}</td>
+                                        <td>
+                                            {exercise.possibleAnswers[0]}
+                                        </td>
+                                        <td>{showReviewTime(ewp)}</td>
+                                    </tr>
+                                })}
                             </tbody>
                         </table>
                     </section> : <section>

@@ -13,7 +13,7 @@ import { renderToStaticMarkup } from "react-dom/server"
 export function LessonPage(props: { lesson: Lesson }) {
     const { lesson } = props
 
-    const intro = renderToStaticMarkup(<Markdown>{lesson.introduction.replace(/\[@[^\]]+\]/g, '')}</Markdown>)
+    const intro = renderToStaticMarkup(<Markdown>{lesson.text.replace(/\[@[^\]]+\]/g, '')}</Markdown>)
     const pageDesc = lesson.summaryLine || htmlToPlaintext(intro).split("\n\n")[0]
 
     return <html lang="en">

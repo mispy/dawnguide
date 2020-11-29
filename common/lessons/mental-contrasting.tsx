@@ -7,7 +7,7 @@ export default defineLesson({
     title: 'Mental contrasting',
     summaryLine: "People are more motivated when they consider a desired future in contrast with obstacles in the present",
     author: "Jaiden Mispy",
-    introduction: md`
+    text: md`
 When people are not fully occupied in the present, their thoughts often drift towards life and the future. Moments of reflection help us to reconsider strategies and how committed we are to our goals. **Mental contrasting** is a particularly effective structure for reflective thoughts[@oettingen2013mind], following these steps:
 
 - Consider what you want to achieve

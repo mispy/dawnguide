@@ -7,7 +7,7 @@ export default defineLesson({
     title: 'Proximal subgoals',
     summaryLine: "Setting and achieving small goals increases motivation to tackle a larger task",
     author: "Jaiden Mispy",
-    introduction: md`
+    text: md`
 You may have heard it said that it helps to break big tasks into small steps. This is good advice, but we want to know more: why is this helpful, and how can we do it most effectively?
 
 In psychology the steps of a task are called **proximal subgoals**, "proximal" meaning "close by". They are defined relative to _distal goals_ which are our longer-term aims. For example, studying a page in a textbook would be considered a proximal subgoal of the distal goal to learn the material in the chapter. Learning the chapter is itself a proximal goal relative to the more distal aim of mastering the subject, and so on.

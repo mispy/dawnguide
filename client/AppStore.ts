@@ -108,7 +108,7 @@ export class AppStore {
     }
 
     @computed get learnies() {
-        return content.lessons.map(lesson => {
+        return content.lessonsWithDrafts.map(lesson => {
             const userLesson = (this.userLessons || {})[lesson.id] || {}
             const ewps = this.exercisesWithProgress.filter(ewp => ewp.exercise.lessonId === lesson.id)
             return new Learny(lesson, userLesson, ewps)

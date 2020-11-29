@@ -8,7 +8,7 @@ export default defineLesson({
     summaryLine: "People who treat themselves with caring patience are more resilient and kinder to others as well",
     // subtitle: "Caring for yourself the way you care for friends",s
     author: "Jaiden Mispy",
-    introduction: md`
+    text: md`
 **Self-compassion** involves directing the same sense of caring warmth that you have for others towards yourself. Think of someone important to you, a friend or loved one, and imagine they are suffering in some way. Do you feel your heart moved by their plight, and wish for them to be safe and happy? That feeling of compassion is a beautiful strength of humanity, and intentionally invoking it can help us to deal with negative emotions.[@allen2010self]
 
 Self-compassion is an ancient idea long discussed in Eastern philosophy-- its introduction as a psychological concept comes from the comparatively recent work of Kristin Neff[@neff2003development]. She describes self-compassion as “being open to and moved by one's own suffering, experiencing feelings of caring and kindness toward oneself, taking an understanding, nonjudgmental attitude toward one's inadequacies and failures, and recognizing that one's experience is part of the common human experience”.

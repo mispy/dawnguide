@@ -1,13 +1,13 @@
 
-// @ts-ignore
-import * as bibTexParse from 'bibtex-parser-js'
-
 import { computed, observable } from 'mobx'
 
 import lessonDefs from '../common/lessons'
-import { LessonDef, Reference, MarkdownString, UserProgressItem, Exercise, LessonType, UserLesson } from './types'
+import type { LessonDef, Reference, MarkdownString, UserProgressItem, Exercise, LessonType, UserLesson, ReadingLessonDef, MeditationLessonDef } from './types'
 import * as _ from 'lodash'
 import { isReadyForReview } from './logic'
+
+// @ts-ignore
+import * as bibTexParse from 'bibtex-parser-js'
 
 /**
  * Singleton class that everything goes through to access Dawnguide content.
@@ -131,6 +131,10 @@ export class Lesson {
         this.def = def
     }
 
+    @computed get text() {
+        return this.def.text.trim()
+    }
+
     @computed get id(): string {
         return this.def.id
     }
@@ -167,10 +171,6 @@ export class Lesson {
         return !!this.def.draft
     }
 
-    @computed get introduction(): MarkdownString {
-        return this.def.introduction.trim()
-    }
-
     @computed get furtherReading(): MarkdownString | undefined {
         return this.def.furtherReading
     }
@@ -190,7 +190,23 @@ export class Lesson {
     }
 
     @computed get references(): Reference[] {
-        return parseBibliography(this.def.bibliography)
+        return this.def.bibliography ? parseBibliography(this.def.bibliography) : []
+    }
+}
+
+export class ReadingLesson extends Lesson {
+    def!: ReadingLessonDef
+}
+
+export class MeditationLesson extends Lesson {
+    def!: MeditationLessonDef
+
+    @computed get exercises() {
+        return [{
+            type: 'meditation' as 'meditation',
+            id: this.id,
+            lessonId: this.id
+        }]
     }
 }
 

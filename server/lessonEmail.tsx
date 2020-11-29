@@ -107,7 +107,7 @@ function AbsImg(props: { src: string }) {
 export function LessonEmailBody(props: { lesson: Lesson }) {
     const { lesson } = props
     const referencesById = _.keyBy(lesson.references, r => r.id)
-    const [introduction, referenceIds] = transformRefs(lesson.introduction, lesson.id)
+    const [lessonText, referenceIds] = transformRefs(lesson.text, lesson.id)
     const referencesInText = referenceIds.map(id => referencesById[id]!)
 
     const markdownOptions = {
@@ -121,7 +121,7 @@ export function LessonEmailBody(props: { lesson: Lesson }) {
         <h1>
             {lesson.title}
         </h1>
-        <Markdown options={markdownOptions}>{introduction}</Markdown>
+        <Markdown options={markdownOptions}>{lessonText}</Markdown>
         {lesson.furtherReading ? <section id="furtherReading">
             <h2>Further Reading</h2>
             <Markdown options={markdownOptions}>{lesson.furtherReading}</Markdown>

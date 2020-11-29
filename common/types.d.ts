@@ -45,7 +45,11 @@ export type FillblankExerciseDef = {
     reviseFeedback?: string
 }
 
-export type ExerciseDef = BasicExerciseDef | FillblankExerciseDef
+export type MeditationExerciseDef = {
+    type: 'meditation'
+}
+
+export type ExerciseDef = BasicExerciseDef | FillblankExerciseDef | MeditationExerciseDef
 
 export type Exercise = ExerciseDef & {
     id: string
@@ -54,21 +58,32 @@ export type Exercise = ExerciseDef & {
 
 export type LessonType = 'reading' | 'writing' | 'meditation'
 
-export type LessonDef = {
+type BaseLessonDef = {
     id: string
     slug: string
     title: string
-    type?: string
     subtitle?: string
     author?: string
     summaryLine: string
     draft?: true
-    introduction: MarkdownString
     furtherReading?: MarkdownString
     notes?: MarkdownString
-    exercises: ExerciseDef[]
     bibliography: BibtexString
 }
+
+export type ReadingLessonDef = LessonDef & {
+    type: 'reading'
+    exercises: ExerciseDef[]
+    text: MarkdownString
+}
+
+export type MeditationLessonDef = LessonDef & {
+    type: 'meditation'
+    text: string
+    duration: number
+}
+
+export type LessonDef = ReadingLessonDef | MeditationLessonDef
 
 export type Review = {
     lesson: Lesson

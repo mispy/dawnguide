@@ -37,7 +37,7 @@ export function Passage(props: { lesson: Lesson }) {
     const { lesson } = props
     const referencesById = _.keyBy(lesson.references, r => r.id)
 
-    const [introduction, referenceIds] = transformRefs(lesson.introduction)
+    const [lessonText, referenceIds] = transformRefs(lesson.text)
     const referencesInText = referenceIds.map(id => referencesById[id]!)
 
     const markdownOptions = {
@@ -53,7 +53,7 @@ export function Passage(props: { lesson: Lesson }) {
         {lesson.subtitle && <div className="subtitle">
             {lesson.subtitle}
         </div>}
-        <Markdown options={markdownOptions}>{introduction}</Markdown>
+        <Markdown options={markdownOptions}>{lessonText}</Markdown>
         <div className="authorship">
             Written by {lesson.author}
         </div>

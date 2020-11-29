@@ -1,6 +1,32 @@
 import * as React from 'react'
 
-import { Reference } from "./types"
+import { Reference, MarkdownString } from "./types"
+
+export function transformRefs(markdown: MarkdownString): [MarkdownString, string[]] {
+    const referenceIds: string[] = []
+    const content = markdown.replace(/\[@([^\]]+)\]/g, (substr, id) => {
+        let index = referenceIds.indexOf(id)
+        if (index === -1) {
+            index = referenceIds.length
+            referenceIds.push(id)
+        }
+        return `<a href="#${id}"><sup>[${index + 1}]</sup></a>`
+    })
+    return [content, referenceIds]
+}
+
+export function transformRefsMultipart(parts: MarkdownString[]): [MarkdownString[], string[]] {
+    const referenceIds: string[] = []
+    const transformed = parts.map(part => part.replace(/\[@([^\]]+)\]/g, (substr, id) => {
+        let index = referenceIds.indexOf(id)
+        if (index === -1) {
+            index = referenceIds.length
+            referenceIds.push(id)
+        }
+        return `<a href="#${id}"><sup>[${index + 1}]</sup></a>`
+    }))
+    return [transformed, referenceIds]
+}
 
 export function BibliographyReference(props: { reference: Reference }) {
     const ref = props.reference

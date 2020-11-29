@@ -10,7 +10,7 @@ export default defineLesson({
     slug: 'behavioral-activation',
     title: "Behavioral activation",
     summaryLine: "Scheduling meaningful activities in defiance of avoidant feelings helps to defeat depression",
-    introduction: md`
+    text: md`
 Behavioral activation is a strategy for combating depression. It could be summarized as "consciously taking opportunities to do fun and meaningful things even if you don't feel like it". For example, you might schedule a game with your friends even though you feel like hiding, or decide to get out of bed when you've had enough sleep despite lack of emotional motivation to do so.
 
 Behavioral activation is a key part of cognitive-behavioral therapy, and is also an effective treatment for depression in its own right.[@cuijpers2007behavioral] In the relationship between thoughts, feelings, and actions, it seeks to intercede at the level of actions.

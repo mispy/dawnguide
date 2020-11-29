@@ -8,7 +8,7 @@ export default defineLesson({
     slug: 'mindfulness',
     title: "Mindfulness",
     summaryLine: "Practicing a perceptual focus on immediate experience can help us cope with difficult thoughts and situations",
-    introduction: md`
+    text: md`
 Mindfulness is the process of bringing your attention to experiences occurring in the present moment, without judgment. It's a strategy of "slowing down" the mind when it's going too fast, the mental equivalent of taking a deep breath. Mindfulness is sort of the opposite of being lost in thought, which makes it a useful strategy for coping with intense thoughts and feelings.
 
 <img src="${mindfulnessImg}" alt="Mindfulness is about focusing your awareness on the present" title="yay!"/>
