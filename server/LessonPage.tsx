@@ -28,7 +28,8 @@ export function LessonPage(props: { lesson: Lesson }) {
                     <Passage lesson={lesson} />
                     <section>
                         <div className="text-right">
-                            <a href={`/review/${lesson.slug}`} className="btn btn-dawn">Review {lesson.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></a>
+                            {lesson.type === 'reading' && <a href={`/review/${lesson.slug}`} className="btn btn-dawn">Review {lesson.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></a>}
+                            {lesson.type === 'meditation' && <a href={`/login?then=${encodeURIComponent(`/${lesson.slug}`)}`} className="btn btn-dawn">Log in to try {lesson.name.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></a>}
                         </div>
                     </section>
                 </div>

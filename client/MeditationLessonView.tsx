@@ -13,6 +13,8 @@ import { faPause, faPlay, faRedo, faUndo } from '@fortawesome/free-solid-svg-ico
 import { AppContext } from '../client/AppContext'
 import { Link } from 'react-router-dom'
 import { MeditationTimerState } from '../client/MeditationTimerState'
+import { Container } from 'react-bootstrap'
+import { Learny } from './Learny'
 
 const MeditationTimerDiv = styled.div`
 .controls {
@@ -24,6 +26,17 @@ p {
     margin-bottom: 0;
 }
 `
+
+function LessonCompleteLink(props: { lesson: Lesson }) {
+    // const { app } = useContext(AppContext)
+    // const { lesson } = props
+    // const nextLesson = app.getLessonAfter(lesson.id)
+    // if (nextLesson) {
+    //     return <Link className="btn btn-dawn" to={`/${nextLesson.slug}`}>Next lesson: {nextLesson.title}</Link>
+    // } else {
+    return <Link className="btn btn-dawn" to={`/home`}>Home</Link>
+    // }
+}
 
 function MeditationTimer(props: { seconds: string }) {
     const state = useLocalStore(() => new MeditationTimerState(parseFloat(props.seconds)))
@@ -47,47 +60,32 @@ function MeditationTimer(props: { seconds: string }) {
     </MeditationTimerDiv>)
 }
 
-class MeditationLessonState {
-    @observable complete: boolean = false
-    constructor() {
-    }
-
-    @action.bound finishLesson() {
-        this.complete = true
-    }
-}
-
 export function MeditationLessonView(props: { lesson: MeditationLesson }) {
     const { app } = useContext(AppContext)
     const { lesson } = props
-    // const { nextLesson } = lesson
+    const learny = app.learnyForLesson(lesson.id)
     const referencesById = _.keyBy(lesson.references, r => r.id)
     const [text, referenceIds] = transformRefs(lesson.def.text)
     const referencesInText = referenceIds.map(id => referencesById[id]!)
 
-    const state = useLocalStore(() => ({ complete: false }))
-
-    const overrides = {
-        MeditationTimer: MeditationTimer
-    }
+    const state = useLocalStore(() => ({ complete: learny.learned }))
 
     const finishLesson = action(() => {
         state.complete = true
-        // app.markLearned(lesson.id)
+        app.backgroundApi.completeLesson([lesson.id])
     })
 
-    return useObserver(() => <article className="Lesson">
-        <h1>
-            {lesson.title} {lesson.draft && <span className="draft-marker">// Draft</span>}
-        </h1>
-        <Markdown overrides={overrides}>{text}</Markdown>
+    return useObserver(() => <Container>
+        <h1>{lesson.title}</h1>
+        <Markdown>{text}</Markdown>
         {referencesInText.length > 0 && <section id="references">
             <h2>References</h2>
             <Bibliography references={referencesInText} />
         </section>}
+        <MeditationTimer seconds={lesson.def.seconds} />
         <div className="text-right mt-4">
             {!state.complete && <button className="btn btn-dawn" onClick={finishLesson}>I've finished meditating</button>}
-            {/* {state.complete && <LessonCompleteLink lesson={lesson} />} */}
+            {state.complete && <LessonCompleteLink lesson={lesson} />}
         </div>
-    </article>)
+    </Container>)
 }

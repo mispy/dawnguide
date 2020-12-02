@@ -1,6 +1,6 @@
 import * as React from 'react'
 import LibMarkdown, { MarkdownOptions } from 'markdown-to-jsx'
-import { SmartLink } from './SmartLink'
+import { SmartLink } from './Passage'
 
 /** Wrap markdown-to-jsx with Dawnguide defaults */
 export function Markdown(props: { options?: MarkdownOptions, overrides?: any, children: any }) {

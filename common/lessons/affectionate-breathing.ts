@@ -3,13 +3,15 @@ import { md, defineLesson } from '../lesson'
 export default defineLesson({
     draft: true,
     type: 'meditation',
-    id: '50727bee-8da2-46b1-ab99-c5b86af87ce5',
+    id: 'affectionate-breathing',
     slug: 'affectionate-breathing',
-    title: 'Exercise: Affectionate breathing',
-    text: md`    
+    title: 'Affectionate breathing',
+    name: "affectionate breathing",
+    seconds: 60 * 5,
+    text: md`
 Affectionate Breathing is the first of the three core meditations taught in MSC. The sensation of breathing is a handy object for meditation because it is relatively easy to notice and is available everywhere we go. Allowing ourselves to be comforted and soothed by the rhythm of our breathing adds important elements to traditional breath meditation—a sense of being supported by the breath, pleasure in breathing, and gratitude for how the breath nourishes the body. Focusing on the soothing rhythm of the breath was inspired by Paul Gilbert (2009). Affectionate Breathing differs from Gilbert’s method in its emphasis on savoring the natural rhythm of the breath, rather than intentionally breathing in a rhythmic manner to calm the body. 
 
-It's kind of hard to read once you close your eyes, so you'd best go over the instructions first and try them out before starting the timer. Alternatively, you could do the longer [guided audio version](https://self-compassion.org/wp-content/uploads/2020/08/affectionatebreathing_cleanedbydan.mp3) of this meditation by Kristin Neff. The version presented in the text here is a bit more compact since we'll be using it in SRS practice.
+It's kind of hard to read once you close your eyes, so you'd best go over the instructions first and try them out before starting the timer. Alternatively, you could do the longer [guided audio version](https://self-compassion.org/wp-content/uploads/2020/08/affectionatebreathing_cleanedbydan.mp3) of this meditation by Kristin Neff. The version presented in the text here is a bit more compact since we'll be using it in [SRS](/spaced-learning) practice.
 
 - Find a comfortable posture, and let your eyes gently close. Take a few slow, easy breaths.
 

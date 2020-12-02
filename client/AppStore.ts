@@ -77,6 +77,25 @@ export class AppStore {
         runInAction(() => this.user = user)
     }
 
+    learnyForLesson(lessonId: string) {
+        const learny = this.learnyByLessonId[lessonId]
+        if (!learny) {
+            throw new Error(`Unknown lesson id ${lessonId}`)
+        }
+        return learny
+    }
+
+    getLessonAfter(lessonId: string): Lesson | undefined {
+        const learny = this.learnyForLesson(lessonId)
+        const index = this.learnies.indexOf(learny)
+        for (let i = index + 1; i < this.learnies.length; i++) {
+            const maybeNext = this.learnies[i]!
+            if (!maybeNext.learned) {
+                return maybeNext.lesson
+            }
+        }
+    }
+
     @computed get loading(): boolean {
         // return true
         return this.progressItems === null
@@ -108,7 +127,7 @@ export class AppStore {
     }
 
     @computed get learnies() {
-        return content.lessonsWithDrafts.map(lesson => {
+        return content.lessons.map(lesson => {
             const userLesson = (this.userLessons || {})[lesson.id] || {}
             const ewps = this.exercisesWithProgress.filter(ewp => ewp.exercise.lessonId === lesson.id)
             return new Learny(lesson, userLesson, ewps)

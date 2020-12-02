@@ -23,7 +23,7 @@ function transformRefs(markdown: MarkdownString): [MarkdownString, string[]] {
     return [content, referenceIds]
 }
 
-function SmartLink(props: { href: string }) {
+export function SmartLink(props: { href: string }) {
     if (isExternalUrl(props.href)) {
         return <a target="_blank" {...props} className="text-link" />
     } else if (IS_SERVER) {

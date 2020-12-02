@@ -9,15 +9,24 @@ import { isReadyForReview } from './logic'
 // @ts-ignore
 import * as bibTexParse from 'bibtex-parser-js'
 
+declare const window: any
+
 /**
  * Singleton class that everything goes through to access Dawnguide content.
  * Wraps all the plain object defs into mobx instances w/ useful computed properties.
  */
 class ContentIndex {
-    @observable.ref lessonsWithDrafts: Lesson[] = []
+    @observable.ref lessons: Lesson[] = []
 
-    @computed get lessons() {
-        return this.lessonsWithDrafts.filter(c => !c.draft)
+    constructor() {
+        if (typeof window !== 'undefined') window.content = this
+
+        for (const def of lessonDefs) {
+            if (def.type === 'meditation')
+                this.lessons.push(new MeditationLesson(def))
+            else
+                this.lessons.push(new ReadingLesson(def))
+        }
     }
 
     @computed get lessonById() {
@@ -76,12 +85,6 @@ class ContentIndex {
 
         return { lessons: untouchedLessons, reviews }
     }
-
-    constructor() {
-        for (const def of lessonDefs) {
-            this.lessonsWithDrafts.push(new Lesson(def))
-        }
-    }
 }
 
 function parseBibliography(bibliography: string): Reference[] {
@@ -125,7 +128,7 @@ function parseBibliography(bibliography: string): Reference[] {
     }))
 }
 
-export class Lesson {
+export class BaseLesson {
     @observable def: LessonDef
     constructor(def: LessonDef) {
         this.def = def
@@ -148,7 +151,7 @@ export class Lesson {
     }
 
     @computed get name(): string {
-        return this.def.title.toLowerCase()
+        return this.def.name || this.def.title.toLowerCase()
     }
 
     @computed get subtitle(): string | undefined {
@@ -161,14 +164,6 @@ export class Lesson {
 
     @computed get author(): string {
         return this.def.author || "Jaiden Mispy"
-    }
-
-    @computed get type(): LessonType {
-        return (this.def.type || 'reading') as LessonType
-    }
-
-    @computed get draft(): boolean {
-        return !!this.def.draft
     }
 
     @computed get furtherReading(): MarkdownString | undefined {
@@ -192,16 +187,23 @@ export class Lesson {
     @computed get references(): Reference[] {
         return this.def.bibliography ? parseBibliography(this.def.bibliography) : []
     }
+
+    @computed get nextLesson(): Lesson | undefined {
+        const index = content.lessons.indexOf(this as any as Lesson)
+        return content.lessons[index + 1]
+    }
 }
 
-export class ReadingLesson extends Lesson {
+export class ReadingLesson extends BaseLesson {
+    type: 'reading' = 'reading'
     def!: ReadingLessonDef
 }
 
-export class MeditationLesson extends Lesson {
+export class MeditationLesson extends BaseLesson {
+    type: 'meditation' = 'meditation'
     def!: MeditationLessonDef
 
-    @computed get exercises() {
+    @computed get exercises(): Exercise[] {
         return [{
             type: 'meditation' as 'meditation',
             id: this.id,
@@ -209,6 +211,8 @@ export class MeditationLesson extends Lesson {
         }]
     }
 }
+
+export type Lesson = ReadingLesson | MeditationLesson
 
 export type Review = {
     lesson: Lesson
