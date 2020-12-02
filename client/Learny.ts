@@ -10,8 +10,10 @@ import { UserLesson } from "../common/types"
  */
 export class Learny {
     @observable userLesson: UserLesson
-    constructor(readonly lesson: Lesson, userLesson: UserLesson, readonly ewps: ExerciseWithProgress[]) {
+    @observable ewps: ExerciseWithProgress[]
+    constructor(readonly lesson: Lesson, userLesson: UserLesson, ewps: ExerciseWithProgress[]) {
         this.userLesson = userLesson
+        this.ewps = ewps
     }
 
     @computed get meanReviewLevel(): number {

@@ -134,3 +134,8 @@ export type UserNotificationSettings = {
     /** When the last weekly review email was sent */
     lastWeeklyReviewEmail: number
 }
+
+export type UserProgress = {
+    userLessons: Record<string, UserLessons>,
+    progressItems: UserProgressItem[]
+}

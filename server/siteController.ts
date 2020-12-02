@@ -12,8 +12,16 @@ export async function frontPage() {
 }
 
 export async function appPage(req: SessionRequest) {
-    const user = _.omit(await db.users.expect(req.session.userId), 'cryptedPassword')
-    return pageResponse(AppPage, { user: user })
+    const userReq = db.users.expect(req.session.userId)
+    const progressItemsReq = db.progressItems.allFor(req.session.userId)
+    const userLessonsReq = db.userLessons.byLessonId(req.session.userId)
+
+    const user = _.omit(await userReq, 'cryptedPassword')
+    const progress = {
+        userLessons: await userLessonsReq,
+        progressItems: await progressItemsReq
+    }
+    return pageResponse(AppPage, { user: user, progress: progress })
 }
 
 export async function lessonPage(req: EventRequest, lessonId: string) {

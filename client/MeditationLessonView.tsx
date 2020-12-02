@@ -3,7 +3,6 @@ import * as _ from 'lodash'
 
 import { Lesson, MeditationLesson } from "../common/content"
 import { Bibliography, transformRefs } from "../common/Bibliography"
-import styled from 'styled-components'
 import { observable, action, computed } from 'mobx'
 import { useLocalStore, useObserver } from 'mobx-react-lite'
 import { useContext } from 'react'
@@ -12,20 +11,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPause, faPlay, faRedo, faUndo } from '@fortawesome/free-solid-svg-icons'
 import { AppContext } from '../client/AppContext'
 import { Link } from 'react-router-dom'
-import { MeditationTimerState } from '../client/MeditationTimerState'
 import { Container } from 'react-bootstrap'
 import { Learny } from './Learny'
+import ReactTimeago from 'react-timeago'
+import { MeditationTimer } from './MeditationTimer'
 
-const MeditationTimerDiv = styled.div`
-.controls {
-    display: flex;
-    align-items: center;
-}
 
-p {
-    margin-bottom: 0;
-}
-`
 
 function LessonCompleteLink(props: { lesson: Lesson }) {
     // const { app } = useContext(AppContext)
@@ -38,28 +29,6 @@ function LessonCompleteLink(props: { lesson: Lesson }) {
     // }
 }
 
-function MeditationTimer(props: { seconds: string }) {
-    const state = useLocalStore(() => new MeditationTimerState(parseFloat(props.seconds)))
-
-    return useObserver(() => <MeditationTimerDiv className="card">
-        <div className="card-body">
-            <h6>Meditation Timer</h6>
-            <div className="controls">
-                <button className="btn" onClick={state.reset}>
-                    <FontAwesomeIcon icon={faUndo} />
-                </button>
-                <button className="btn" onClick={state.toggle}>
-                    {state.playing ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />}
-                </button>
-                <div>
-                    {state.durationStr}
-                </div>
-            </div>
-            <p className="text-secondary mt-2">There will be a little chime sound at the end.</p>
-        </div>
-    </MeditationTimerDiv>)
-}
-
 export function MeditationLessonView(props: { lesson: MeditationLesson }) {
     const { app } = useContext(AppContext)
     const { lesson } = props
@@ -68,10 +37,13 @@ export function MeditationLessonView(props: { lesson: MeditationLesson }) {
     const [text, referenceIds] = transformRefs(lesson.def.text)
     const referencesInText = referenceIds.map(id => referencesById[id]!)
 
-    const state = useLocalStore(() => ({ complete: learny.learned }))
-
     const finishLesson = action(() => {
-        state.complete = true
+        learny.ewps[0]!.progress = {
+            exerciseId: lesson.id,
+            level: 1,
+            learnedAt: Date.now(),
+            reviewedAt: Date.now()
+        }
         app.backgroundApi.completeLesson([lesson.id])
     })
 
@@ -83,9 +55,15 @@ export function MeditationLessonView(props: { lesson: MeditationLesson }) {
             <Bibliography references={referencesInText} />
         </section>}
         <MeditationTimer seconds={lesson.def.seconds} />
-        <div className="text-right mt-4">
-            {!state.complete && <button className="btn btn-dawn" onClick={finishLesson}>I've finished meditating</button>}
-            {state.complete && <LessonCompleteLink lesson={lesson} />}
+        <div className="d-flex align-items-center mt-4">
+            <div>
+                {learny.nextReview && learny.nextReview.when <= Date.now() && <span>Review available now</span>}
+                {learny.nextReview && learny.nextReview.when > Date.now() && <span>Reviewing: <ReactTimeago date={learny.nextReview.when} /></span>}
+            </div>
+            <div className="ml-auto">
+                {!learny.learned && <button className="btn btn-dawn" onClick={finishLesson}>I've finished meditating</button>}
+                {learny.learned && <LessonCompleteLink lesson={lesson} />}
+            </div>
         </div>
     </Container>)
 }

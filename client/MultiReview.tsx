@@ -22,6 +22,12 @@ export function MultiReview(props: { reviews: Review[], onComplete: () => void }
             if (state.reviews.length === 0) {
                 onComplete()
             }
+        } else if (review?.exercise.type === 'meditation') {
+            // Skip for now
+            state.reviews.pop()
+            if (state.reviews.length === 0) {
+                onComplete()
+            }
         } else {
             // Didn't remember, push this card to the back
             const review = state.reviews.pop()!

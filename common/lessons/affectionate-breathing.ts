@@ -9,10 +9,11 @@ export default defineLesson({
     name: "affectionate breathing",
     seconds: 60 * 5,
     text: md`
-Affectionate Breathing is the first of the three core meditations taught in MSC. The sensation of breathing is a handy object for meditation because it is relatively easy to notice and is available everywhere we go. Allowing ourselves to be comforted and soothed by the rhythm of our breathing adds important elements to traditional breath meditation—a sense of being supported by the breath, pleasure in breathing, and gratitude for how the breath nourishes the body. Focusing on the soothing rhythm of the breath was inspired by Paul Gilbert (2009). Affectionate Breathing differs from Gilbert’s method in its emphasis on savoring the natural rhythm of the breath, rather than intentionally breathing in a rhythmic manner to calm the body. 
+Affectionate Breathing is the first of the three core meditations taught in MSC. The sensation of breathing is a handy object for meditation because it is relatively easy to notice and is available everywhere we go. Allowing ourselves to be comforted and soothed by the rhythm of our breathing adds important elements to traditional breath meditation—a sense of being supported by the breath, pleasure in breathing, and gratitude for how the breath nourishes the body. Focusing on the soothing rhythm of the breath was inspired by Paul Gilbert (2009). Affectionate Breathing differs from Gilbert’s method in its emphasis on savoring the natural rhythm of the breath, rather than intentionally breathing in a rhythmic manner to calm the body.
 
 It's kind of hard to read once you close your eyes, so you'd best go over the instructions first and try them out before starting the timer. Alternatively, you could do the longer [guided audio version](https://self-compassion.org/wp-content/uploads/2020/08/affectionatebreathing_cleanedbydan.mp3) of this meditation by Kristin Neff. The version presented in the text here is a bit more compact since we'll be using it in [SRS](/spaced-learning) practice.
-
+`,
+    steps: md`
 - Find a comfortable posture, and let your eyes gently close. Take a few slow, easy breaths.
 
 - If you like, place a hand over your heart, as a reminder of the intent towards affectionate awareness. You can leave your hand there or let it rest at any time.

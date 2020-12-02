@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { Head } from "./Head"
-import { User } from "../common/types"
+import { User, UserProgress } from "../common/types"
 import * as _ from 'lodash'
 import { resolveAsset } from './utils'
 
-export function AppPage(props: { user: User }) {
-    const script = `window.initApp(${JSON.stringify(props.user)})`
+export function AppPage(props: { user: User, progress: UserProgress }) {
+    const script = `window.initApp(${JSON.stringify(props)})`
     return <html lang="en">
         <Head canonicalUrl={null} cssUrl={resolveAsset("app.css")} />
         <body>

@@ -6,13 +6,13 @@ import { AppRouter } from './AppRouter'
 import { AppContext } from './AppContext'
 import { AppStore } from './AppStore'
 import { useMemo } from 'react'
-import { User } from '../common/types'
+import { User, UserProgress } from '../common/types'
 import { CanvasEffects } from './CanvasEffects'
 
 // These props come from AppPage on the server
-function App(props: { user: User }) {
+function App(props: { user: User, progress: UserProgress }) {
     const context = useMemo(() => {
-        const app = new AppStore(props.user)
+        const app = new AppStore(props.user, props.progress)
 
         return {
             app: app,
@@ -33,6 +33,6 @@ if (module.hot) {
 }
 
 declare const window: any
-window.initApp = (user: User) => {
-    ReactDOM.render(<App user={user} />, document.getElementById("root"))
+window.initApp = (props: { user: User, progress: UserProgress }) => {
+    ReactDOM.render(<App {...props} />, document.getElementById("root"))
 }

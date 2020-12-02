@@ -4,7 +4,7 @@ import { Lesson, Review } from "../common/content"
 import * as _ from 'lodash'
 import { ClientApi } from "./ClientApi"
 import { content } from "../common/content"
-import { UserProgressItem, User, Exercise, UserLesson } from "../common/types"
+import { UserProgressItem, User, Exercise, UserLesson, UserProgress } from "../common/types"
 import * as Sentry from '@sentry/browser'
 import { SENTRY_DSN_URL } from "./settings"
 import { AxiosError } from "axios"
@@ -27,13 +27,13 @@ export class AppStore {
     api: ClientApi
     backgroundApi: ClientApi
     @observable user: User
-    @observable userLessons: Record<string, UserLesson> | null = null
-    @observable.ref progressItems: UserProgressItem[] | null = null
+    @observable progress: UserProgress
     @observable.ref unexpectedError?: Error
 
-    constructor(user: User) {
+    constructor(user: User, progress: UserProgress) {
         (window as any).app = this
         this.user = user
+        this.progress = progress
 
         this.backgroundApi = new ClientApi()
         this.api = this.backgroundApi.with({ nprogress: true })
@@ -64,11 +64,10 @@ export class AppStore {
 
     async loadProgress() {
         // Do it in the background if we already have progress data
-        const req = this.progressItems ? this.backgroundApi.getProgress() : this.api.getProgress()
-        const { userLessons, progressItems } = await req
+        const req = this.progress.progressItems ? this.backgroundApi.getProgress() : this.api.getProgress()
+        const progress = await req
         runInAction(() => {
-            this.userLessons = userLessons
-            this.progressItems = progressItems
+            this.progress = progress
         })
     }
 
@@ -94,22 +93,15 @@ export class AppStore {
                 return maybeNext.lesson
             }
         }
-    }
-
-    @computed get loading(): boolean {
-        // return true
-        return this.progressItems === null
+        return undefined
     }
 
     @computed get lessonsAndReviews() {
-        if (this.progressItems === null || this.userLessons === null)
-            return { lessons: [], reviews: [] }
-
-        return content.getLessonsAndReviews(this.userLessons, this.progressItems)
+        return content.getLessonsAndReviews(this.progress.userLessons, this.progress.progressItems)
     }
 
     @computed get progressByExerciseId() {
-        return _.keyBy(this.progressItems, item => item.exerciseId) as _.Dictionary<UserProgressItem | undefined>
+        return _.keyBy(this.progress.progressItems, item => item.exerciseId) as _.Dictionary<UserProgressItem | undefined>
     }
 
     @computed get exercisesWithProgress() {
@@ -128,7 +120,7 @@ export class AppStore {
 
     @computed get learnies() {
         return content.lessons.map(lesson => {
-            const userLesson = (this.userLessons || {})[lesson.id] || {}
+            const userLesson = this.progress.userLessons[lesson.id] || {}
             const ewps = this.exercisesWithProgress.filter(ewp => ewp.exercise.lessonId === lesson.id)
             return new Learny(lesson, userLesson, ewps)
         })
@@ -173,7 +165,7 @@ export class AppStore {
                 exercise: ex.exercise,
                 when: ex.progress ? getReviewTime(ex.progress) : Infinity
             }
-        }).filter(d => !(this.userLessons || {})[d.lesson.id]?.disabled && isFinite(d.when))
+        }).filter(d => !this.progress.userLessons[d.lesson.id]?.disabled && isFinite(d.when))
 
         return _.sortBy(reviews, d => d.when)
     }
