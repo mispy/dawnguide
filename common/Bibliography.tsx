@@ -4,7 +4,8 @@ import { Reference, MarkdownString } from "./types"
 
 export function transformRefs(markdown: MarkdownString): [MarkdownString, string[]] {
     const referenceIds: string[] = []
-    const content = markdown.replace(/\[@([^\]]+)\]/g, (substr, id) => {
+    const content = markdown.replace(/\[@([^\]]+)\]/g, (substr, id: string) => {
+        id = id.toLowerCase()
         let index = referenceIds.indexOf(id)
         if (index === -1) {
             index = referenceIds.length
@@ -17,7 +18,8 @@ export function transformRefs(markdown: MarkdownString): [MarkdownString, string
 
 export function transformRefsMultipart(parts: MarkdownString[]): [MarkdownString[], string[]] {
     const referenceIds: string[] = []
-    const transformed = parts.map(part => part.replace(/\[@([^\]]+)\]/g, (substr, id) => {
+    const transformed = parts.map(part => part.replace(/\[@([^\]]+)\]/g, (substr, id: string) => {
+        id = id.toLowerCase()
         let index = referenceIds.indexOf(id)
         if (index === -1) {
             index = referenceIds.length
