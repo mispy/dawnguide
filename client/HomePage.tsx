@@ -86,46 +86,6 @@ function NextReviewCard(props: { reviews: ReviewWithTime[] }) {
     }
 }
 
-// export function HomePage() {
-//     const { app } = useContext(AppContext)
-
-//     return useObserver(() => <AppLayout>
-//         <main className="HomePage">
-//             {!app.loading && <Container className="mt-2">
-//                 <div className="row mb-4">
-//                     <div className="col-md-6 mt-2">
-//                         <NextLessonCard lesson={app.nextLesson} />
-//                     </div>
-//                     <div className="col-md-6 mt-2">
-//                         <NextReviewCard reviews={app.upcomingReviews} />
-//                     </div>
-//                 </div>
-//                 {app.exercisesWithProgress.length ? <>
-//                     <table className="table mt-4">
-//                         <thead>
-//                             <tr>
-//                                 <th>Lesson</th>
-//                                 <th>Exercise</th>
-//                                 <th>Level</th>
-//                                 <th>Next Review</th>
-//                             </tr>
-//                         </thead>
-//                         <tbody>
-//                             {app.exercisesWithProgress.map(item => <tr key={item.exercise.id}>
-//                                 <td><Link className="text-link" to={`/${item.exercise.lessonId}`}>{content.lessonById[item.exercise.lessonId].title}</Link></td>
-//                                 <td style={{ maxWidth: '300px' }}>{item.exercise.question}</td>
-//                                 <td>{item.progress ? item.progress.level : 0}</td>
-//                                 <td>{app.reviews.some(r => r.exercise.id === item.exercise.id) ? "Available now" : showReviewTime(item)}</td>
-//                             </tr>)}
-//                         </tbody>
-//                     </table>
-//                 </> : undefined}
-//                 {!IS_PRODUCTION ? <DebugTools /> : undefined}
-//             </Container>}
-//         </main>
-//     </AppLayout>)
-// }
-
 const MasteryProgressBarDiv = styled.div`
 display: flex;
 flex-direction: column;
@@ -157,6 +117,14 @@ cursor: pointer;
 .outer:not(.mastered) .inner {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+}
+
+@media (max-width: 550px) {
+    padding-right: 0.5rem;
+
+    .outer {
+        width: 150px;
+    }
 }
 `
 
@@ -241,13 +209,14 @@ li.learned .intermarker {
 li > a {
     padding: 1rem;
     display: flex;
+    align-items: center;
 }
 
 li .marker {
     width: 1.8rem;
     height: 1.8rem;
     border: 1px solid rgba(33,36,44,0.50);
-    margin-right: 1rem;
+    margin-right: 0.75rem;
     position: relative;
     background: white;
     border-radius: 10%;
@@ -287,6 +256,17 @@ li.learned .fillbar {
     border-bottom: 5px solid #008656;
     border-radius: 10%;
 }
+
+@media (max-width: 550px) {
+    li > a {
+        max-width: 50%;
+        padding: 1rem 0.5rem;
+    }
+
+    li .intermarker {
+        left: calc(0.5rem + 0.9rem);
+    }
+}
 `
 
 export function HomePage() {
@@ -322,7 +302,7 @@ export function HomePage() {
                                 <FontAwesomeIcon className="lessonType" icon={lessonIcons[learny.lesson.type]} />
                                 {learny.learned && <div className="fillbar" />}
                             </div>
-                            <div>{learny.lesson.title}</div>
+                            <div className="lesson-title">{learny.lesson.title}</div>
                         </Link>
                         <div className="ml-auto">
                             {learny.learned && <MasteryProgressBar learny={learny} />}
