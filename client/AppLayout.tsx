@@ -27,8 +27,10 @@ export function AppLayout(props: { title?: string, noHeader?: boolean, noFooter?
         {app.unexpectedError ? <ErrorModal error={app.unexpectedError} /> : undefined}
         <div className="fullScreen">
             {!noHeader ? <AppHeader /> : undefined}
-            {props.children}
+            <div>
+                {props.children}
+                {!noFooter ? <AppFooter /> : undefined}
+            </div>
         </div>
-        {!noFooter ? <AppFooter /> : undefined}
     </div>)
 }

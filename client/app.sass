@@ -14,6 +14,14 @@
 #root
     min-height: 100vh
 
+// Fix header overlapping anchor targets by
+// always positioning content after the header
+@media (min-width: $desktop)
+    .AppHeader + *
+        position: absolute
+        top: 60px
+        width: 100%
+
 #effectCanvas
     position: fixed
     left: 0

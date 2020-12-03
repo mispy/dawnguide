@@ -18,6 +18,18 @@ $landing-color: #167475
         > :first-child
             margin-top: -20px
 
+// Fix header overlapping anchor targets by
+// always positioning content after the header
+@media (min-width: $desktop)
+    .SiteHeader + *
+        position: absolute
+        top: 60px
+        width: 100%
+
+    .FrontPage .SiteHeader + *
+        position: relative
+        top: 0
+
 .SiteHeader
     position: sticky
     top: 0
@@ -137,7 +149,7 @@ $landing-color: #167475
     .jumbotron
         background: none
 
-    .jumbotron:before
+    .intro:before
         // Pseudo-background-opacity
         content: ''
         position: absolute
