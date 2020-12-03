@@ -122,9 +122,6 @@ export function InitialReviewPage(props: { lesson: Lesson }) {
     const { lesson } = props
 
     function content() {
-        if (app.loading)
-            return <></>
-
         if (app.learnyByLessonId[lesson.id]!.learned) {
             // User already did initial exercises for this Lesson
             return <Redirect to="/home" />

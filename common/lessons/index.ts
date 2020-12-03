@@ -9,4 +9,4 @@ import selfActualization from './self-actualization'
 import iis from './implementation-intentions'
 import mentalContrasting from './mental-contrasting'
 
-export default [spacedLearning, selfCompassion, affectionateBreathing, mindfulness, behavioralActivation, cognitiveRestructuring, proximalSubgoals, selfActualization, iis, mentalContrasting]
+export default [spacedLearning, selfCompassion, mindfulness, affectionateBreathing, behavioralActivation, cognitiveRestructuring, proximalSubgoals, selfActualization, iis, mentalContrasting]

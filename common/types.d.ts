@@ -1,3 +1,5 @@
+import Markdown from "markdown-to-jsx"
+
 export type MarkdownString = string
 export type BibtexString = string
 
@@ -62,6 +64,7 @@ type BaseLessonDef = {
     id: string
     slug: string
     title: string
+    name?: string
     subtitle?: string
     author?: string
     summaryLine: string
@@ -71,16 +74,17 @@ type BaseLessonDef = {
     bibliography: BibtexString
 }
 
-export type ReadingLessonDef = LessonDef & {
+export type ReadingLessonDef = BaseLessonDef & {
     type: 'reading'
     exercises: ExerciseDef[]
     text: MarkdownString
 }
 
-export type MeditationLessonDef = LessonDef & {
+export type MeditationLessonDef = BaseLessonDef & {
     type: 'meditation'
-    text: string
-    duration: number
+    text: MarkdownString
+    seconds: number
+    steps: MarkdownString
 }
 
 export type LessonDef = ReadingLessonDef | MeditationLessonDef

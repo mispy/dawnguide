@@ -108,29 +108,33 @@ function parseBibliography(bibliography: string): Reference[] {
 
     const json = bibTexParse.toJSON(bibliography)
 
-    return json.map((entry: any) => ({
-        id: entry.citationKey.toLowerCase(),
-        title: entry.entryTags.TITLE,
-        author: entry.entryTags.AUTHOR.split(" and ").map((s: string) => {
-            const a = s.split(", ")
-            return {
-                family: a[0],
-                given: a[1]
-            }
-        }),
-        journal: entry.entryTags.JOURNAL,
-        volume: entry.entryTags.VOLUME,
-        issue: entry.entryTags.NUMBER,
-        page: entry.entryTags.PAGES,
-        year: entry.entryTags.YEAR,
-        publisher: entry.entryTags.PUBLISHER,
-        url: entry.entryTags.URL
-    }))
+    return json.map((entry: any) => {
+        return {
+            // bibtex parser uppercases them for some reason
+            id: entry.citationKey.toLowerCase(),
+            title: entry.entryTags.TITLE,
+            author: entry.entryTags.AUTHOR.split(" and ").map((s: string) => {
+                const a = s.split(", ")
+                return {
+                    family: a[0],
+                    given: a[1]
+                }
+            }),
+            journal: entry.entryTags.JOURNAL,
+            volume: entry.entryTags.VOLUME,
+            issue: entry.entryTags.NUMBER,
+            page: entry.entryTags.PAGES,
+            year: entry.entryTags.YEAR,
+            publisher: entry.entryTags.PUBLISHER,
+            url: entry.entryTags.URL
+        }
+    })
 }
 
-export class BaseLesson {
-    @observable def: LessonDef
-    constructor(def: LessonDef) {
+export class BaseLesson<T extends LessonDef> {
+    @observable def: T
+
+    constructor(def: T) {
         this.def = def
     }
 
@@ -174,6 +178,31 @@ export class BaseLesson {
         return this.def.notes
     }
 
+    @computed get references(): Reference[] {
+        return this.def.bibliography ? parseBibliography(this.def.bibliography) : []
+    }
+
+    @computed get nextLesson(): Lesson | undefined {
+        const index = content.lessons.indexOf(this as any as Lesson)
+        return content.lessons[index + 1]
+    }
+
+    @computed get referencesById(): Record<string, Reference> {
+        return _.keyBy(this.references, ref => ref.id)
+    }
+
+    expectReference(refId: string): Reference {
+        const ref = this.referencesById[refId.toLowerCase()]
+        if (!ref) {
+            throw new Error(`Unable to find reference by id ${refId} (valid refs: ${JSON.stringify(this.references.map(r => r.id))})`)
+        }
+        return ref
+    }
+}
+
+export class ReadingLesson extends BaseLesson<ReadingLessonDef> {
+    type: 'reading' = 'reading'
+
     @computed get exercises(): Exercise[] {
         return this.def.exercises.map((e, i) => {
             return {
@@ -183,25 +212,10 @@ export class BaseLesson {
             }
         })
     }
-
-    @computed get references(): Reference[] {
-        return this.def.bibliography ? parseBibliography(this.def.bibliography) : []
-    }
-
-    @computed get nextLesson(): Lesson | undefined {
-        const index = content.lessons.indexOf(this as any as Lesson)
-        return content.lessons[index + 1]
-    }
 }
 
-export class ReadingLesson extends BaseLesson {
-    type: 'reading' = 'reading'
-    def!: ReadingLessonDef
-}
-
-export class MeditationLesson extends BaseLesson {
+export class MeditationLesson extends BaseLesson<MeditationLessonDef> {
     type: 'meditation' = 'meditation'
-    def!: MeditationLessonDef
 
     @computed get exercises(): Exercise[] {
         return [{

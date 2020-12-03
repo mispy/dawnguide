@@ -40,16 +40,16 @@ The meta-analysis is striking in its confidence about implementation intentions 
     exercises: [
         {
             type: 'fillblank',
-            question: `Creating trigger-____ plans is a way of turning vague goals into concrete changes in behavior`,
+            question: `Creating implementation ____ is a way of turning vague goals into concrete changes in behavior`,
             possibleAnswers: [
-                "action"
+                "intentions"
             ],
             successFeedback: "Supported by lots of evidence!",
-            reviseFeedback: "They're called trigger-_action_ plans, also if-then plans or implementation intentions."
+            reviseFeedback: "They're called _implementation_ intentions, also if-then plans or trigger-action plans."
         },
         {
             type: 'fillblank',
-            question: "An example trigger-action plan: ____ I see a reminder email from Dawnguide, I'll complete my reviews",
+            question: "An example implementation intention: ____ I see a reminder email from Dawnguide, I'll complete my reviews",
             possibleAnswers: [
                 'when',
                 'if',
@@ -60,7 +60,7 @@ The meta-analysis is striking in its confidence about implementation intentions 
         },
         {
             type: 'fillblank',
-            question: `After creating a trigger-action plan, it's important to ____ the causal link`,
+            question: `After creating an implementation intention it's important to ____ the causal link`,
             possibleAnswers: [
                 "rehearse",
                 "practice",

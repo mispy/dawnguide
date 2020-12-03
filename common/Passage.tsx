@@ -38,7 +38,7 @@ export function Passage(props: { lesson: Lesson }) {
     const referencesById = _.keyBy(lesson.references, r => r.id)
 
     const [lessonText, referenceIds] = transformRefs(lesson.text)
-    const referencesInText = referenceIds.map(id => referencesById[id]!)
+    const referencesInText = referenceIds.map(id => lesson.expectReference(id))
 
     const markdownOptions = {
         overrides: {
@@ -48,12 +48,12 @@ export function Passage(props: { lesson: Lesson }) {
 
     return <div className={classNames("Passage", lesson.subtitle && 'hasSubtitle')}>
         <h1>
-            {lesson.title} {lesson.draft && <span className="draft-marker">// Draft</span>}
+            {lesson.title}
         </h1>
-        {lesson.subtitle && <div className="subtitle">
-            {lesson.subtitle}
-        </div>}
         <Markdown options={markdownOptions}>{lessonText}</Markdown>
+        {'steps' in lesson.def ? <section id="steps">
+            <Markdown options={markdownOptions}>{lesson.def.steps}</Markdown>
+        </section> : undefined}
         <div className="authorship">
             Written by {lesson.author}
         </div>

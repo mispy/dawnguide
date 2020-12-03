@@ -53,6 +53,9 @@ class MeditationTimerState {
     }
 
     @action.bound play() {
+        if (this.timePassed === 0) {
+            this.bell.play()
+        }
         this.lastTime = undefined
         this.frameHandle = requestAnimationFrame(this.frame)
     }
@@ -88,8 +91,8 @@ p {
 }
 `
 
-export function MeditationTimer(props: { seconds: string }) {
-    const state = useLocalStore(() => new MeditationTimerState(parseFloat(props.seconds)))
+export function MeditationTimer(props: { seconds: number }) {
+    const state = useLocalStore(() => new MeditationTimerState(props.seconds))
 
     return useObserver(() => <MeditationTimerDiv className="card">
         <div className="card-body">
@@ -105,7 +108,7 @@ export function MeditationTimer(props: { seconds: string }) {
                     {state.durationStr}
                 </div>
             </div>
-            <p className="text-secondary mt-2">There will be a little chime sound at the end.</p>
+            <p className="text-secondary mt-2">There is a little chime sound at the start and end.</p>
         </div>
     </MeditationTimerDiv>)
 }

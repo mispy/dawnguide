@@ -30,7 +30,7 @@ function NextLessonCard(props: { lesson: Lesson | undefined }) {
             </div>
         </div>
     } else {
-        return <Link to={`/${lesson.id}`} className="NextLessonCard">
+        return <Link to={`/${lesson.slug}`} className="NextLessonCard">
             <h4>Next Lesson</h4>
             <div>
                 <div className="summaryLine">
@@ -300,7 +300,7 @@ export function HomePage() {
 
     return useObserver(() => <AppLayout>
         <Main>
-            {!app.loading && <Container className="mt-2">
+            <Container className="mt-2">
                 <div className="row mb-4">
                     <div className="col-md-6 mt-2">
                         <NextLessonCard lesson={app.nextLesson} />
@@ -330,7 +330,7 @@ export function HomePage() {
                     </li>)}
                 </ul>
                 {!IS_PRODUCTION ? <DebugTools /> : undefined}
-            </Container>}
+            </Container>
         </Main>
     </AppLayout>)
 }

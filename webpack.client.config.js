@@ -53,7 +53,7 @@ module.exports = (env, argv) => {
                     use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
                 },
                 {
-                    test: /\.(jpe?g|gif|png|eot|woff|ttf|svg|woff2)$/,
+                    test: /\.(jpe?g|gif|png|eot|woff|ttf|svg|woff2|mp3)$/,
                     use: [{
                         loader: 'file-loader',
                         options: {

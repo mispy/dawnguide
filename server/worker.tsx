@@ -83,7 +83,7 @@ async function processRequest(req: EventRequest): Promise<Response> {
     }
 
     const r = new Router<EventRequest>()
-    r.get('/(assets/.*)|.*\\.js|.*\\.css|.*\\.jpg|.*\\.png|.*\\.ico|.*\\.svg|.*\\.webmanifest|.*\\.json|.*\\.txt', serveStatic)
+    r.get('/(assets/.*)|.*\\.js|.*\\.css|.*\\.jpg|.*\\.png|.*\\.ico|.*\\.svg|.*\\.webmanifest|.*\\.json|.*\\.txt|.*\\.mp3', serveStatic)
     r.get('/login', auth.loginPage)
     r.post('/login', auth.submitLogin)
     r.get('/signup', auth.signupPage)

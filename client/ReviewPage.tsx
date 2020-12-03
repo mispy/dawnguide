@@ -22,9 +22,6 @@ export function ReviewPage() {
     const state = useLocalStore(() => new ReviewsState())
 
     function content() {
-        if (app.loading)
-            return <></>
-
         if (!app.reviews.length)
             return <div>Nothing to review!</div>
 

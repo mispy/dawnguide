@@ -20,12 +20,12 @@ export function AppHeader() {
                         <ul className="navigation-shortcuts">
                             <li className="navigation-shortcut navigation-shortcut--lessons">
                                 <Link to="/lesson" className={app.numLessons === 0 ? 'inactive' : undefined}>
-                                    <span>{app.loading ? <LittleSpinner /> : app.numLessons}</span> Lessons
+                                    <span>{app.numLessons}</span> Lessons
                                 </Link>
                             </li>
                             <li className="navigation-shortcut navigation-shortcut--reviews">
                                 <Link to="/review" className={app.numReviews === 0 ? 'inactive' : undefined}>
-                                    <span>{app.loading ? <LittleSpinner /> : app.numReviews}</span> Reviews
+                                    <span>{app.numReviews}</span> Reviews
                                 </Link>
                             </li>
                         </ul>
