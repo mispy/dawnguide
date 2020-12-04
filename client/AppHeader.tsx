@@ -6,6 +6,24 @@ import { AppContext } from "./AppContext"
 import { Logo } from "../common/Logo"
 import { LittleSpinner } from "./littleComponents"
 import { useObserver } from "mobx-react-lite"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
+
+function UserDropdown() {
+    const { app } = useContext(AppContext)
+    return <li className="nav-item UserDropdown">
+        <input id="userDropdownToggle" type="checkbox" />
+        <label className="nav-link" htmlFor="userDropdownToggle">{app.user.username} <FontAwesomeIcon icon={faAngleDown} /></label>
+        <ul>
+            <li>
+                <a href="/settings">Settings</a>
+            </li>
+            <li>
+                <a href="/logout">Sign out</a>
+            </li>
+        </ul>
+    </li>
+}
 
 export function AppHeader() {
     const { app } = useContext(AppContext)
@@ -31,8 +49,7 @@ export function AppHeader() {
                         </ul>
                     </Nav>
                     <Nav className="other">
-                        <Nav.Link as={Link} to="/settings">Settings</Nav.Link>
-                        <Nav.Link href="/logout">Logout</Nav.Link>
+                        <UserDropdown />
                     </Nav>
                 </div>
             </Container>

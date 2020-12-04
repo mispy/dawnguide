@@ -14,7 +14,7 @@ export function AppFooter() {
                     <a href="/contact">Contact</a>
                 </li>
                 <li>
-                    Copyright © Dawnlight Technology
+                    <a href="https://patreon.com/mispy">Support Dawnguide on Patreon</a>
                 </li>
             </ul>
         </div>
