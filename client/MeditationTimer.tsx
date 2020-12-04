@@ -12,6 +12,7 @@ class MeditationTimerState {
     @observable timePassed: number = 0
     @observable frameHandle?: number
     bell: HTMLAudioElement
+    wakeLock?: any
 
     constructor(readonly seconds: number) {
         this.duration = seconds * 1000
@@ -29,8 +30,8 @@ class MeditationTimerState {
 
         if (isComplete) {
             this.timePassed = this.duration
-            this.frameHandle = undefined
             this.bell.play()
+            this.pause()
             return
         }
 
@@ -58,12 +59,23 @@ class MeditationTimerState {
         }
         this.lastTime = undefined
         this.frameHandle = requestAnimationFrame(this.frame)
+        try {
+            const nav = navigator as any
+            nav.wakeLock.request('screen').then((lock: any) => this.wakeLock = lock)
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     @action.bound pause() {
         if (this.frameHandle !== undefined) {
             cancelAnimationFrame(this.frameHandle)
             this.frameHandle = undefined
+        }
+
+        if (this.wakeLock !== undefined) {
+            this.wakeLock.release()
+            this.wakeLock = undefined
         }
     }
 
