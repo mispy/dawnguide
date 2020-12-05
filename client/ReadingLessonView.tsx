@@ -12,6 +12,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import { FillblankExerciseDef } from '../common/types'
+import { Markdown } from '../common/Markdown'
+import { Bibliography, transformRefs } from '../common/Bibliography'
+import classNames from 'classnames'
 
 export function showReviewTime(ewp: ExerciseWithProgress) {
     if (!ewp.progress)
@@ -29,12 +32,42 @@ export function showReviewTime(ewp: ExerciseWithProgress) {
 export function ReadingLessonView(props: { lesson: Lesson }) {
     const { app } = React.useContext(AppContext)
     const { lesson } = props
+    const [lessonText, referenceIds] = transformRefs(lesson.text)
+    const referencesInText = referenceIds.map(id => lesson.expectReference(id))
     const learny = app.learnyByLessonId[lesson.id]!
 
     return useObserver(() => {
         return <Container>
-            <Passage lesson={lesson} />
-            {learny.learned ? <section className="exercises">
+            <div className={classNames("Passage", lesson.subtitle && 'hasSubtitle')}>
+                <h1>
+                    {lesson.title}
+                </h1>
+                <Markdown>{lessonText}</Markdown>
+                {'steps' in lesson.def ? <section id="steps">
+                    <Markdown>{lesson.def.steps}</Markdown>
+                </section> : undefined}
+                <div className="authorship">
+                    Written by {lesson.author}
+                </div>
+                {!learny.learned && <section>
+                    <div className="text-right">
+                        <Link to={`/review/${lesson.slug}`} className="btn btn-dawn">Review {lesson.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></Link>
+                    </div>
+                </section>}
+                {lesson.furtherReading ? <section id="furtherReading">
+                    <h2>Further Reading</h2>
+                    <Markdown>{lesson.furtherReading}</Markdown>
+                </section> : undefined}
+                {lesson.notes ? <section id="notes">
+                    <h2>Notes</h2>
+                    <Markdown>{lesson.notes}</Markdown>
+                </section> : undefined}
+                {referencesInText.length ? <section id="references">
+                    <h2>References</h2>
+                    <Bibliography references={referencesInText} />
+                </section> : undefined}
+            </div>
+            {learny.learned && <section className="exercises">
                 <h2>Exercises</h2>
                 <table className="table">
                     <thead>
@@ -57,12 +90,7 @@ export function ReadingLessonView(props: { lesson: Lesson }) {
                         })}
                     </tbody>
                 </table>
-            </section> : <section>
-                    <div className="text-right">
-                        <Link to={`/review/${lesson.slug}`} className="btn btn-dawn">Review {lesson.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></Link>
-                    </div>
-                </section>}
-
+            </section>}
         </Container>
     })
 }

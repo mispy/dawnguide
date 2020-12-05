@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import Markdown from 'markdown-to-jsx'
+import { Markdown } from './Markdown'
 
 import { Lesson } from "./content"
 import { Bibliography } from "./Bibliography"
@@ -35,35 +35,27 @@ export function SmartLink(props: { href: string }) {
 
 export function Passage(props: { lesson: Lesson }) {
     const { lesson } = props
-    const referencesById = _.keyBy(lesson.references, r => r.id)
-
     const [lessonText, referenceIds] = transformRefs(lesson.text)
     const referencesInText = referenceIds.map(id => lesson.expectReference(id))
-
-    const markdownOptions = {
-        overrides: {
-            a: SmartLink,
-        }
-    }
 
     return <div className={classNames("Passage", lesson.subtitle && 'hasSubtitle')}>
         <h1>
             {lesson.title}
         </h1>
-        <Markdown options={markdownOptions}>{lessonText}</Markdown>
+        <Markdown>{lessonText}</Markdown>
         {'steps' in lesson.def ? <section id="steps">
-            <Markdown options={markdownOptions}>{lesson.def.steps}</Markdown>
+            <Markdown>{lesson.def.steps}</Markdown>
         </section> : undefined}
         <div className="authorship">
             Written by {lesson.author}
         </div>
         {lesson.furtherReading ? <section id="furtherReading">
             <h2>Further Reading</h2>
-            <Markdown options={markdownOptions}>{lesson.furtherReading}</Markdown>
+            <Markdown>{lesson.furtherReading}</Markdown>
         </section> : undefined}
         {lesson.notes ? <section id="notes">
             <h2>Notes</h2>
-            <Markdown options={markdownOptions}>{lesson.notes}</Markdown>
+            <Markdown>{lesson.notes}</Markdown>
         </section> : undefined}
         {referencesInText.length ? <section id="references">
             <h2>References</h2>
