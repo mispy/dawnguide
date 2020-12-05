@@ -47,8 +47,10 @@ class HttpProvider {
 
         const req = { promise: promise, config: config }
         this.pendingRequests.push(req)
-        promise.then(() => {
-            this.pendingRequests = this.pendingRequests.filter(r => r !== req)
+        promise.finally(() => {
+            const index = this.pendingRequests.indexOf(req)
+            if (index !== -1)
+                this.pendingRequests.splice(index, 1)
         })
 
         // let complete = false
