@@ -16,7 +16,7 @@ function UserDropdown() {
         <label className="nav-link" htmlFor="userDropdownToggle">{app.user.username} <FontAwesomeIcon icon={faAngleDown} /></label>
         <ul>
             <li>
-                <a href="/settings">Settings</a>
+                <Link to="/settings">Settings</Link>
             </li>
             <li>
                 <a href="/logout">Sign out</a>
