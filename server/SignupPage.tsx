@@ -15,7 +15,7 @@ export function SignupPage(props: { then?: string, error?: string }) {
                     <h4 className="mb-4">Create your account</h4>
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
-                        <input name="email" id="email" type="email" className="form-control" placeholder="Email" required />
+                        <input name="email" id="email" className="form-control" placeholder="Email" required />
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">Password</label>

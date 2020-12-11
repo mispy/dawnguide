@@ -1,5 +1,5 @@
 import Router from "./router"
-import { ResponseError, expectKeys, trimStrings } from "./utils"
+import { ResponseError } from "./utils"
 import * as db from './db'
 import { UserProgressItem, UserAdminReport, UserLesson } from '../common/types'
 import { getReviewTime } from "../common/logic"
@@ -13,6 +13,7 @@ import { content } from "../common/content"
 import { sendLessonEmail } from "./lessonEmail"
 import { absurl } from "../common/utils"
 import { sendReviewsEmail } from "./reviewsEmail"
+import * as z from 'zod'
 
 export async function processRequest(req: EventRequest) {
     if (!req.session) {
@@ -51,8 +52,11 @@ async function getProgress(req: SessionRequest): Promise<{ userLessons: Record<s
  * Called when a user has completed the lesson for a Lesson and is moving
  * on to reviews
  */
+const completeLessonForm = z.object({
+    exerciseIds: z.array(z.string()).min(1)
+})
 async function completeLesson(req: SessionRequest) {
-    const { exerciseIds } = expectKeys(req.json, 'exerciseIds')
+    const { exerciseIds } = completeLessonForm.parse(req.json)
     const { userId } = req.session
 
     const toSave = []
@@ -79,9 +83,11 @@ async function getCurrentUser(req: SessionRequest) {
     return _.omit(user, 'cryptedPassword')
 }
 
-
+const updateLessonForm = z.object({
+    disabled: z.boolean()
+})
 async function updateUserLesson(req: SessionRequest, lessonId: string): Promise<UserLesson> {
-    const changes = _.pick(req.json, 'disabled')
+    const changes = updateLessonForm.parse(req.json)
     return await db.userLessons.update(req.session.userId, lessonId, changes)
 }
 
@@ -89,9 +95,13 @@ async function updateUserLesson(req: SessionRequest, lessonId: string): Promise<
  * When a user successfully completes an exercise, we increase the
  * SRS level in their exercise progress.
  **/
+const submitProgressForm = z.object({
+    exerciseId: z.string(),
+    remembered: z.boolean()
+})
 async function submitProgress(req: SessionRequest) {
     // TODO check level matches
-    const { exerciseId, remembered } = expectKeys(req.json, 'exerciseId', 'remembered')
+    const { exerciseId, remembered } = submitProgressForm.parse(req.json)
 
     const { userId } = req.session
 
@@ -123,11 +133,11 @@ async function submitProgress(req: SessionRequest) {
 
 async function debugHandler(req: SessionRequest) {
     const { userId } = req.session
-    const json = trimStrings(req.json, 'action')
+    const { action } = req.json
 
-    if (json.action === 'resetProgress') {
+    if (action === 'resetProgress') {
         await db.progressItems.resetAllProgressTo(userId, [])
-    } else if (json.action === 'moveReviewsForward') {
+    } else if (action === 'moveReviewsForward') {
         const items = await db.progressItems.allFor(userId)
 
         const now = Date.now()
@@ -138,17 +148,24 @@ async function debugHandler(req: SessionRequest) {
         }
         await db.progressItems.resetAllProgressTo(userId, items)
     } else {
-        throw new Error(`Unknown debug action ${json.action}`)
+        throw new Error(`Unknown debug action ${action}`)
     }
 }
 
+const changeUsernameForm = z.object({
+    newUsername: z.string().max(100)
+})
 async function changeUsername(req: SessionRequest) {
-    const { newUsername } = trimStrings(req.json, 'newUsername')
+    const { newUsername } = changeUsernameForm.parse(req.json)
     await db.users.changeUsername(req.session.userId, newUsername)
 }
 
+const changeEmailForm = z.object({
+    newEmail: z.string().email(),
+    password: z.string()
+})
 async function changeEmail(req: SessionRequest) {
-    const { newEmail, password } = trimStrings(req.json, 'newEmail', 'password')
+    const { newEmail, password } = changeEmailForm.parse(req.json)
     const user = await db.users.expect(req.session.userId)
 
     if (user.email === newEmail && user.emailConfirmed)
@@ -172,8 +189,12 @@ async function changeEmail(req: SessionRequest) {
     }
 }
 
+const changePasswordForm = z.object({
+    newPassword: z.string().min(10),
+    currentPassword: z.string()
+})
 async function changePassword(req: SessionRequest) {
-    const { newPassword, currentPassword } = trimStrings(req.json, 'newPassword', 'currentPassword')
+    const { newPassword, currentPassword } = changePasswordForm.parse(req.json)
     const user = await db.users.expect(req.session.userId)
 
     if (newPassword.length < 10) {
@@ -193,27 +214,23 @@ async function getNotificationSettings(req: SessionRequest) {
     return await db.notificationSettings.get(req.session.userId)
 }
 
+const notifSettingsForm = z.object({
+    disableNotificationEmails: z.boolean().optional(),
+    emailAboutNewConcepts: z.boolean().optional(),
+    emailAboutWeeklyReviews: z.boolean().optional()
+})
 async function updateNotificationSettings(req: SessionRequest) {
-    const settings = await db.notificationSettings.get(req.session.userId)
-
-    if ('disableNotificationEmails' in req.json) {
-        settings.disableNotificationEmails = !!req.json.disableNotificationEmails
-    }
-
-    if ('emailAboutNewConcepts' in req.json) {
-        settings.emailAboutNewConcepts = !!req.json.emailAboutNewConcepts
-    }
-
-    if ('emailAboutWeeklyReviews' in req.json) {
-        settings.emailAboutWeeklyReviews = !!req.json.emailAboutWeeklyReviews
-    }
-
-    await db.notificationSettings.set(req.session.userId, settings)
+    const changes = notifSettingsForm.parse(req.json)
+    await db.notificationSettings.update(req.session.userId, changes)
 }
 
+const contactForm = z.object({
+    subject: z.string().max(300),
+    body: z.string().max(30000)
+})
 async function sendContactMessage(req: SessionRequest) {
     const user = await db.users.expect(req.session.userId)
-    const { subject, body } = trimStrings(req.json, 'subject', 'body')
+    const { subject, body } = contactForm.parse(req.json)
     return await sendMail({
         to: CONTACT_FORM_EMAIL,
         subject: `Contact from ${user.username}: ${subject}`,
@@ -262,8 +279,7 @@ export namespace admin {
     }
 
     export async function testLessonEmail(req: SessionRequest) {
-        const { lessonId } = trimStrings(req.json, 'lessonId')
-        const lesson = content.expectLesson(lessonId)
+        const lesson = content.expectLesson(req.json.lessonId)
 
         const user = await db.users.expect(req.session.userId)
         await sendLessonEmail(user, lesson)
@@ -275,8 +291,7 @@ export namespace admin {
     }
 
     export async function emailEveryone(req: SessionRequest) {
-        const { lessonId } = trimStrings(req.json, 'lessonId')
-        const Lesson = content.expectLesson(lessonId)
+        const Lesson = content.expectLesson(req.json.lessonId)
 
         const promises = []
         for (const user of await db.users.all()) {

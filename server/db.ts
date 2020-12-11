@@ -124,14 +124,6 @@ export namespace users {
         // TODO don't allow duplicate email
         const userId = uuidv4()
 
-        if (props.username.length < 1 || props.username.length > 50) {
-            throw new ResponseError(`'${props.username}' is not a valid display name. Your name must be between 1 and 50 characters.`, 422)
-        }
-
-        if (props.password.length < 10) {
-            throw new ResponseError(`Please use a password at least 10 characters long`, 422)
-        }
-
         // Must be done synchronously or CF will think worker never exits
         const hashed = users.hashPassword(props.password)
         const now = Date.now()

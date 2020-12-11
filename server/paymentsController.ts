@@ -10,7 +10,7 @@ import { absurl } from '../common/utils'
 export async function subscribeToPlan(req: SessionRequest): Promise<{ checkoutSessionId: string } | { user: User }> {
     const user = await db.users.expect(req.session.userId)
 
-    const { planId } = trimStrings(req.params, 'planId')
+    const { planId } = req.json
 
     if (user.subscription) {
         if (user.subscription.planId === planId) {

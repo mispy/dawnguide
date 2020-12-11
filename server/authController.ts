@@ -12,15 +12,22 @@ import { EventRequest } from './requests'
 import { ResetPasswordFinalizePage } from './ResetPasswordFinalizePage'
 import { absurl } from '../common/utils'
 import { BASE_URL } from '../common/settings'
+import * as z from 'zod'
 
 export async function signupPage(req: EventRequest) {
     const { then } = req.params as { then: string | undefined }
     return pageResponse(SignupPage, { then: then })
 }
 
+const signupForm = z.object({
+    email: z.string().email(),
+    password: z.string().min(10),
+    then: z.string().optional()
+})
+
 export async function submitSignup(req: EventRequest) {
     try {
-        const { email, password } = trimStrings(req.json, 'email', 'password')
+        const { email, password } = trimStrings(signupForm.parse(req.json))
 
         const existingUser = await db.users.getByEmail(email)
         if (existingUser) {
@@ -63,11 +70,7 @@ export async function submitSignup(req: EventRequest) {
 
         return res
     } catch (err) {
-        if ('status' in err) {
-            return pageResponse(SignupPage, { then: req.json.then, error: err.message }, { status: err.status })
-        } else {
-            throw err
-        }
+        return pageResponse(SignupPage, { then: req.json.then, error: err.message }, { status: err.status || 500 })
     }
 }
 
@@ -76,9 +79,15 @@ export async function loginPage(req: EventRequest) {
     return pageResponse(LoginPage, { then: then })
 }
 
+const loginForm = z.object({
+    email: z.string().email(),
+    password: z.string(),
+    then: z.string().optional()
+})
+
 export async function submitLogin(req: EventRequest) {
     try {
-        const { email, password } = trimStrings(req.json, 'email', 'password')
+        const { email, password } = loginForm.parse(req.json)
 
         const sessionKey = await expectLogin(email, password)
 
@@ -86,11 +95,7 @@ export async function submitLogin(req: EventRequest) {
         res.headers.set('Set-Cookie', sessionCookie(sessionKey))
         return res
     } catch (err) {
-        if ('status' in err) {
-            return pageResponse(LoginPage, { then: req.json.then, error: err.message, status: err.status })
-        } else {
-            throw err
-        }
+        return pageResponse(LoginPage, { then: req.json.then, error: err.message, status: err.status || 500 })
     }
 }
 
@@ -99,7 +104,7 @@ export async function resetPasswordPage(req: EventRequest) {
 }
 
 export async function submitResetPassword(req: EventRequest) {
-    const { email } = trimStrings(req.json, 'email')
+    const { email } = z.object({ email: z.string().email() }).parse(req.json)
     const user = await db.users.getByEmail(email)
 
     if (user) {
@@ -120,7 +125,7 @@ export async function resetPasswordConfirmPage(req: EventRequest, token: string)
 }
 
 export async function submitResetPasswordConfirm(req: EventRequest, token: string) {
-    const { newPassword } = trimStrings(req.json, 'newPassword')
+    const { newPassword } = z.object({ newPassword: z.string() }).parse(req.json)
 
     const email = await db.passwordResets.get(token)
     if (!email) {
