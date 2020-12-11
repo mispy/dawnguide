@@ -4,6 +4,17 @@ import { Session } from "./db"
 import * as cookie from "cookie"
 import _ from "lodash"
 
+function trimDeep(obj: any) {
+    for (const key in obj) {
+        let val = obj[key]
+        if (_.isString(val)) {
+            obj[key] = val.trim()
+        } else if (_.isObject(val)) {
+            trimDeep(val)
+        }
+    }
+}
+
 /** Our annotation wrapper around incoming FetchEvents */
 export class EventRequest {
     static async from(event: FetchEvent) {
@@ -41,6 +52,7 @@ export class EventRequest {
 
     constructor(event: FetchEvent, json: Json | undefined, session: Session | undefined) {
         this.event = event
+        trimDeep(json)
         this._json = json
         this.session = session
         this.url = new URL(this.event.request.url)
