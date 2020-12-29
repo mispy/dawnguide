@@ -1,7 +1,7 @@
 
 import { computed, observable } from 'mobx'
 
-import lessonDefs from '../common/lessons'
+import lessonDefs from '../common/pages'
 import type { LessonDef, Reference, MarkdownString, UserProgressItem, Exercise, LessonType, UserLesson, ReadingLessonDef, MeditationLessonDef } from './types'
 import * as _ from 'lodash'
 import { isReadyForReview } from './logic'

@@ -12,7 +12,7 @@ import * as api from './api'
 import * as _ from 'lodash'
 import { logToSentry } from './sentry'
 import { EventRequest, SessionRequest } from './requests'
-import lessonDefs from '../common/lessons'
+import lessonDefs from '../common/pages'
 
 // Workers require that this be a sync callback
 addEventListener('fetch', event => {
