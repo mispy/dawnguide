@@ -2,11 +2,9 @@ import * as React from 'react'
 import { useObserver } from 'mobx-react-lite'
 // @ts-ignore
 const TimeAgo = require('react-timeago').default
-import Markdown from 'markdown-to-jsx'
 
 import { Lesson } from '../common/content'
 import { AppLayout } from './AppLayout'
-import { AppContext } from './AppContext'
 import { getReviewTime, ExerciseWithProgress } from '../common/logic'
 import { ReadingLessonView } from './ReadingLessonView'
 import { MeditationLessonView } from './MeditationLessonView'

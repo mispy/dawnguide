@@ -9,7 +9,7 @@ export default defineLesson({
     summaryLine: "Sleep",
     text: md`
 
- Sleep-like behavior is remarkably common across different forms of animal life. Even invertebrates such as fruit flies or sea slugs appear to sleep, despite lacking the brain structures we use to identify sleep phases in humans. The particular way in which sleep manifests depends on the species.   [@joiner2016unraveling]
+ Sleep-like behavior is remarkably common across different forms of animal life. Even invertebrates such as fruit flies or sea slugs appear to sleep, despite lacking the brain structures we use to identify sleep phases in humans. The particular way in which sleep manifests depends on the species.[@joiner2016unraveling]
 
  
  ## The structure of sleep

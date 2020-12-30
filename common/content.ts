@@ -3,7 +3,7 @@ import { computed, observable } from 'mobx'
 
 import lessonDefs from '../common/pages'
 import type { LessonDef, Reference, MarkdownString, UserProgressItem, Exercise, LessonType, UserLesson, ReadingLessonDef, MeditationLessonDef } from './types'
-import * as _ from 'lodash'
+import _ from 'lodash'
 import { isReadyForReview } from './logic'
 
 // @ts-ignore

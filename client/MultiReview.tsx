@@ -5,7 +5,7 @@ import { action } from "mobx"
 import * as _ from 'lodash'
 import { AppContext } from "./AppContext"
 import { useContext } from "react"
-import { Lesson, Review } from "../common/content"
+import { Review } from "../common/content"
 import { ExerciseView } from './ExerciseView'
 
 export function MultiReview(props: { reviews: Review[], onComplete: () => void }) {

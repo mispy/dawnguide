@@ -7,7 +7,6 @@ import { Lesson } from '../common/content'
 import { Container } from 'react-bootstrap'
 import { AppContext } from './AppContext'
 import { getReviewTime, ExerciseWithProgress } from '../common/logic'
-import { Passage } from '../common/Passage'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
@@ -15,6 +14,7 @@ import { FillblankExerciseDef } from '../common/types'
 import { Markdown } from '../common/Markdown'
 import { Bibliography, transformRefs } from '../common/Bibliography'
 import classNames from 'classnames'
+import { CardsEmbed } from './CardsEmbed'
 
 export function showReviewTime(ewp: ExerciseWithProgress) {
     if (!ewp.progress)
@@ -46,14 +46,13 @@ export function ReadingLessonView(props: { lesson: Lesson }) {
                 {'steps' in lesson.def ? <section id="steps">
                     <Markdown>{lesson.def.steps}</Markdown>
                 </section> : undefined}
+                { }
+                {!learny.learned && <section>
+                    <CardsEmbed reviews={lesson.exercises.map(e => ({ lesson: lesson, exercise: e }))} />
+                </section>}
                 <div className="authorship">
                     Written by {lesson.author}
                 </div>
-                {!learny.learned && <section>
-                    <div className="text-right">
-                        <Link to={`/review/${lesson.slug}`} className="btn btn-dawn">Review {lesson.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></Link>
-                    </div>
-                </section>}
                 {lesson.furtherReading ? <section id="furtherReading">
                     <h2>Further Reading</h2>
                     <Markdown>{lesson.furtherReading}</Markdown>
