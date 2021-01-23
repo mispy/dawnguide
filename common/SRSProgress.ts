@@ -1,3 +1,6 @@
+import _ from "lodash"
+import { computed } from "mobx"
+import { getTimeFromLevel } from './time'
 
 
 type Timestamp = number
@@ -14,13 +17,30 @@ type CardProgressItem = {
 /**
  * Encapsulates a user's progress on SRS cards across the site
  * This is a common interface that should be usable whether you're
- * logged in or not
+ * logged in or not, with persistence handled elsewhere
  */
 export class SRSProgress {
     byCardId: { [cardId: string]: CardProgressItem } = {}
 
     constructor() {
 
+    }
+
+    @computed get upcomingReviews() {
+        const upcomingReviews = []
+        for (const cardId in this.byCardId) {
+            const item = this.expect(cardId)
+            const time = getTimeFromLevel(item.level)
+
+            if (time && isFinite(time)) {
+                upcomingReviews.push({
+                    cardId: cardId,
+                    nextReviewAt: item.reviewedAt + time
+                })
+            }
+
+        }
+        return _.sortBy(upcomingReviews, r => r.nextReviewAt)
     }
 
     expect(cardId: string): CardProgressItem {
