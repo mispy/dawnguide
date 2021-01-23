@@ -4,57 +4,57 @@ import * as time from '../common/time'
 
 describe('SRSProgress', () => {
     it("learns a new card", async () => {
-        const progress = new SRSProgress()
-        progress.update({ cardId: 'foo', remembered: true })
+        const srs = new SRSProgress()
+        srs.update({ cardId: 'foo', remembered: true })
 
-        const item = progress.expect('foo')
+        const item = srs.expect('foo')
         expect(item.level).toBe(1)
         expect(item.learnedAt).toBeGreaterThan(Date.now() - 10000)
         expect(item.reviewedAt).toBeGreaterThan(Date.now() - 10000)
     })
 
     it("doesn't learn a card if no reason to", async () => {
-        const progress = new SRSProgress()
-        progress.update({ cardId: 'foo', remembered: false })
+        const srs = new SRSProgress()
+        srs.update({ cardId: 'foo', remembered: false })
 
-        expect(progress.byCardId).not.toHaveProperty('foo')
+        expect(srs.progress).not.toHaveProperty('foo')
     })
 
     it("has a minimum level of 1", async () => {
-        const progress = new SRSProgress()
-        progress.update({ cardId: 'foo', remembered: true })
-        progress.update({ cardId: 'foo', remembered: false })
+        const srs = new SRSProgress()
+        srs.update({ cardId: 'foo', remembered: true })
+        srs.update({ cardId: 'foo', remembered: false })
 
-        const item = progress.expect('foo')
+        const item = srs.expect('foo')
         expect(item.level).toBe(1)
     })
 
     it("progresses in level", async () => {
-        const progress = new SRSProgress()
-        progress.update({ cardId: 'foo', remembered: true })
-        progress.update({ cardId: 'foo', remembered: true })
+        const srs = new SRSProgress()
+        srs.update({ cardId: 'foo', remembered: true })
+        srs.update({ cardId: 'foo', remembered: true })
 
-        const item = progress.expect('foo')
+        const item = srs.expect('foo')
         expect(item.level).toBe(2)
     })
 
     it("has a maximum level of 9", async () => {
-        const progress = new SRSProgress()
+        const srs = new SRSProgress()
         for (let i = 0; i < 100; i++) {
-            progress.update({ cardId: 'foo', remembered: true })
+            srs.update({ cardId: 'foo', remembered: true })
         }
 
-        const item = progress.expect('foo')
+        const item = srs.expect('foo')
         expect(item.level).toBe(9)
     })
 
     it("plans upcoming reviews", async () => {
-        const progress = new SRSProgress()
-        progress.update({ cardId: 'mochi', remembered: true })
-        progress.update({ cardId: 'sushi', remembered: true })
-        progress.update({ cardId: 'bao', remembered: true })
+        const srs = new SRSProgress()
+        srs.update({ cardId: 'mochi', remembered: true })
+        srs.update({ cardId: 'sushi', remembered: true })
+        srs.update({ cardId: 'bao', remembered: true })
 
-        const reviews = progress.upcomingReviews
+        const reviews = srs.upcomingReviews
         expect(reviews.length).toBe(3)
         expect(reviews[0]!.cardId).toBe('mochi')
         expect(reviews[1]!.cardId).toBe('sushi')
@@ -63,25 +63,52 @@ describe('SRSProgress', () => {
 
     it("increases the time between reviews as level grows", async () => {
         const now = Date.now()
-        const progress = new SRSProgress()
-        progress.update({ cardId: 'mochi', remembered: true })
+        const srs = new SRSProgress()
+        srs.update({ cardId: 'mochi', remembered: true })
 
-        const firstReviewAt = progress.upcomingReviews[0]!.nextReviewAt
+        const firstReviewAt = srs.upcomingReviews[0]!.nextReviewAt
         expect(firstReviewAt - now).toBeGreaterThanOrEqual(time.hours(4))
         expect(firstReviewAt - now).toBeLessThan(time.hours(5))
 
-        progress.update({ cardId: 'mochi', remembered: true })
-        const secondReviewAt = progress.upcomingReviews[0]!.nextReviewAt
+        srs.update({ cardId: 'mochi', remembered: true })
+        const secondReviewAt = srs.upcomingReviews[0]!.nextReviewAt
         expect(secondReviewAt - now).toBeGreaterThanOrEqual(time.hours(8))
         expect(secondReviewAt - now).toBeLessThan(time.hours(9))
     })
 
     it("doesn't include a mastered card in reviews", async () => {
-        const progress = new SRSProgress()
+        const srs = new SRSProgress()
         for (let i = 0; i < 100; i++) {
-            progress.update({ cardId: 'hello world', remembered: true })
+            srs.update({ cardId: 'hello world', remembered: true })
         }
 
-        expect(progress.upcomingReviews.length).toBe(0)
+        expect(srs.upcomingReviews.length).toBe(0)
+    })
+
+    it("reconciles two progress stores without losing progress", async () => {
+        const srs1 = new SRSProgress()
+        srs1.update({ cardId: 'mochi', remembered: true })
+        srs1.update({ cardId: 'sushi', remembered: true })
+        srs1.update({ cardId: 'waffles', remembered: true })
+        srs1.update({ cardId: 'waffles', remembered: true })
+
+        const srs2 = new SRSProgress()
+        srs2.update({ cardId: 'mochi', remembered: true })
+        srs2.update({ cardId: 'mochi', remembered: true })
+        srs2.update({ cardId: 'sushi', remembered: true })
+        srs2.update({ cardId: 'waffles', remembered: true })
+
+        srs1.reconcile(srs2.progress)
+        const mochi = srs1.expect('mochi')
+        expect(mochi.level).toBe(2)
+        expect(mochi.reviewedAt).toEqual(srs2.expect('mochi').reviewedAt)
+
+        const sushi = srs1.expect('sushi')
+        expect(sushi.level).toBe(1)
+        expect(sushi.reviewedAt).toBeLessThanOrEqual(srs2.expect('sushi').reviewedAt)
+
+        const waffles = srs1.expect('waffles')
+        expect(waffles.level).toBe(2)
+        expect(waffles.reviewedAt).toBeLessThanOrEqual(srs2.expect('waffles').reviewedAt)
     })
 })
