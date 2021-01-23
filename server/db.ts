@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import * as bcrypt from 'bcryptjs'
 import { KVNamespace } from '@cloudflare/workers-types'
-import { weeks, days } from './time'
+import * as time from '../common/time'
 
 import { UserProgressItem, UserNotificationSettings, UserLesson } from '../common/types'
 import { isReadyForReview } from '../common/logic'
@@ -318,7 +318,7 @@ export namespace progressItems {
 export namespace passwordResets {
     export async function create(email: string): Promise<string> {
         const token = uuidv4()
-        await cfstore.put(`password_resets:${token}`, email, { expirationTtl: days(1) }) // Expires after a day
+        await cfstore.put(`password_resets:${token}`, email, { expirationTtl: time.days(1) }) // Expires after a day
         return token
     }
 
@@ -335,7 +335,7 @@ export namespace passwordResets {
 export namespace emailConfirmTokens {
     export async function create(userId: string, email: string): Promise<string> {
         const token = uuidv4()
-        await db.putJson(`email_confirm_tokens:${token}`, { userId: userId, email: email }, { expirationTtl: weeks(4) })
+        await db.putJson(`email_confirm_tokens:${token}`, { userId: userId, email: email }, { expirationTtl: time.weeks(4) })
         return token
     }
 

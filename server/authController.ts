@@ -5,7 +5,7 @@ import { redirect, trimStrings, QueryParams, pageResponse, ResponseError } from 
 import { sendMail } from './mail'
 import * as _ from 'lodash'
 import { ResetPasswordPage } from './ResetPasswordPage'
-import { weeks } from './time'
+import * as time from '../common/time'
 import { LoginPage } from './LoginPage'
 import { SignupPage } from './SignupPage'
 import { EventRequest } from './requests'
@@ -182,7 +182,7 @@ export async function tryTokenLogin(token: string): Promise<string | false> {
 export function sessionCookie(sessionKey: string) {
     return cookie.serialize('sessionKey', sessionKey, {
         httpOnly: true,
-        maxAge: weeks(1)
+        maxAge: time.weeks(1)
     })
 }
 

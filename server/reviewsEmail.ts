@@ -3,7 +3,7 @@ import * as _ from 'lodash'
 import * as db from './db'
 import { content } from "../common/content"
 import { sendMail } from "./mail"
-import { weeks } from "./time"
+import * as time from "../common/time"
 import { absurl } from "../common/utils"
 import { emailHtmlTemplate } from "./emailUtils"
 
@@ -12,10 +12,10 @@ export async function sendReviewsEmailIfNeeded(user: User) {
     if (settings.disableNotificationEmails || !settings.emailAboutWeeklyReviews)
         return // User doesn't want reviews email
 
-    if (settings.lastWeeklyReviewEmail + weeks(1) > Date.now())
+    if (settings.lastWeeklyReviewEmail + time.weeks(1) > Date.now())
         return // Not yet time for weekly reviews email
 
-    if (user.lastSeenAt <= settings.lastWeeklyReviewEmail - weeks(1))
+    if (user.lastSeenAt <= settings.lastWeeklyReviewEmail - time.weeks(1))
         return // Don't keep sending emails if the user doesn't log in
 
     const progressItems = await db.progressItems.allFor(user.id)

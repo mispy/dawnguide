@@ -2,7 +2,7 @@
 import { heartbeat } from '../server/systemController'
 import { testMailsSent } from '../server/mail'
 import * as db from '../server/db'
-import { weeks } from '../server/time'
+import * as time from '../common/time'
 import { api } from './helpers'
 import { content } from '../common/content'
 
@@ -19,7 +19,7 @@ describe('emails', () => {
             password: "imfluffles"
         })
 
-        const weekAgo = Date.now() - weeks(1)
+        const weekAgo = Date.now() - time.weeks(1)
 
         // Make sure user has some reviews to do
         const lesson = content.lessons[0]!
@@ -41,7 +41,7 @@ describe('emails', () => {
 
         // Imagine the user was created a week ago
         await db.notificationSettings.update(user.id, {
-            lastWeeklyReviewEmail: Date.now() - weeks(1)
+            lastWeeklyReviewEmail: Date.now() - time.weeks(1)
         })
 
         await heartbeat()
@@ -62,7 +62,7 @@ describe('emails', () => {
         })
 
         await db.users.update(user.id, {
-            lastSeenAt: weekAgo - weeks(1)
+            lastSeenAt: weekAgo - time.weeks(1)
         })
 
         await heartbeat()
