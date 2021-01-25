@@ -17,7 +17,7 @@ describe('SRSProgress', () => {
         const srs = new SRSProgress()
         srs.update({ cardId: 'foo', remembered: false })
 
-        expect(srs.progress).not.toHaveProperty('foo')
+        expect(srs.get('foo')).toBeUndefined()
     })
 
     it("has a minimum level of 1", async () => {
@@ -98,7 +98,7 @@ describe('SRSProgress', () => {
         srs2.update({ cardId: 'sushi', remembered: true })
         srs2.update({ cardId: 'waffles', remembered: true })
 
-        srs1.reconcile(srs2.progress)
+        srs1.reconcile(srs2.store)
         const mochi = srs1.expect('mochi')
         expect(mochi.level).toBe(2)
         expect(mochi.reviewedAt).toEqual(srs2.expect('mochi').reviewedAt)

@@ -1,11 +1,10 @@
 import _ from "lodash"
-import { computed } from "mobx"
-import { getTimeFromLevel } from './time'
-
+import { computed, observable } from "mobx"
+import { hours, days, weeks, months } from './time'
 
 type Timestamp = number
 
-type CardProgressItem = {
+type ProgressStoreItem = {
     /** SRS stage from 1 to 10 */
     level: number
     /** When this card was initially learned */
@@ -15,33 +14,82 @@ type CardProgressItem = {
 }
 
 type ProgressStore = {
-    cards: { [cardId: string]: CardProgressItem }
+    cards: { [cardId: string]: ProgressStoreItem }
+}
+
+
+const reviewDelayByLevel = [
+    0,          // 0, not used
+    hours(4),   // 1
+    hours(8),   // 2
+    days(1),    // 3
+    days(2),    // 4
+    days(4),    // 5
+    weeks(2),   // 6
+    months(1),  // 7
+    months(4),  // 8
+    Infinity    // 9 / Graduated
+]
+
+
+export function getReviewDelayByLevel(level: number): number {
+    const time = reviewDelayByLevel[level]
+    if (!time) {
+        throw new Error(`Timing level ${level} is out of range`)
+    } else {
+        return time
+    }
+}
+
+export class SRSProgressItem {
+    constructor(readonly store: ProgressStoreItem) { }
+
+    get level() {
+        return this.store.level
+    }
+
+    get learnedAt() {
+        return this.store.learnedAt
+    }
+
+    get reviewedAt() {
+        return this.store.reviewedAt
+    }
+
+    @computed get mastered(): boolean {
+        return this.level >= 9
+    }
+
+    @computed get nextReviewAt(): Timestamp | undefined {
+        if (this.mastered) {
+            return undefined
+        } else {
+            return this.reviewedAt + getReviewDelayByLevel(this.level)
+        }
+    }
 }
 
 /**
  * Encapsulates a user's progress on SRS cards across the site
- * This is a common interface that should be usable whether you're
- * logged in or not, with persistence handled elsewhere
+ * This is a common interface only responsible for progress calculation
+ * that should be agnostic as to the persistence method and content of the cards
  */
 export class SRSProgress {
-    progress: ProgressStore = {
-        cards: {}
-    }
+    store: ProgressStore
 
-    constructor() {
-
+    constructor(store?: ProgressStore) {
+        this.store = store || observable({ cards: {} })
     }
 
     @computed get upcomingReviews() {
         const upcomingReviews = []
-        for (const cardId in this.progress.cards) {
+        for (const cardId in this.store.cards) {
             const item = this.expect(cardId)
-            const time = getTimeFromLevel(item.level)
 
-            if (time && isFinite(time)) {
+            if (item.nextReviewAt) {
                 upcomingReviews.push({
                     cardId: cardId,
-                    nextReviewAt: item.reviewedAt + time
+                    nextReviewAt: item.nextReviewAt
                 })
             }
 
@@ -49,8 +97,13 @@ export class SRSProgress {
         return _.sortBy(upcomingReviews, r => r.nextReviewAt)
     }
 
-    expect(cardId: string): CardProgressItem {
-        const item = this.progress.cards[cardId]
+    get(cardId: string): SRSProgressItem | undefined {
+        const store = this.store.cards[cardId]
+        return store ? new SRSProgressItem(store) : undefined
+    }
+
+    expect(cardId: string): SRSProgressItem {
+        const item = this.get(cardId)
         if (!item)
             throw new Error(`Expected to have progress for card id ${cardId}`)
         else
@@ -58,13 +111,13 @@ export class SRSProgress {
     }
 
     update({ cardId, remembered }: { cardId: string, remembered: boolean }) {
-        let item = this.progress.cards[cardId]
+        let item = this.store.cards[cardId]
         const now = Date.now()
         if (!item) {
             if (!remembered)
                 return
 
-            this.progress.cards[cardId] = {
+            this.store.cards[cardId] = {
                 level: 1,
                 learnedAt: now,
                 reviewedAt: now
@@ -72,7 +125,7 @@ export class SRSProgress {
         } else {
             const level = remembered ? Math.min(item.level + 1, 9) : Math.max(item.level - 1, 1)
 
-            this.progress.cards[cardId] = {
+            this.store.cards[cardId] = {
                 level: level,
                 learnedAt: item.learnedAt,
                 reviewedAt: now
@@ -84,13 +137,13 @@ export class SRSProgress {
      * Update this progress tracker to include all the progress from another one,
      * resolving any conflicts along the way
      */
-    reconcile(progress: ProgressStore) {
-        for (const cardId in progress.cards) {
-            const incomingItem = progress.cards[cardId]!
-            const item = this.progress.cards[cardId]
+    reconcile(store: ProgressStore) {
+        for (const cardId in store.cards) {
+            const incomingItem = store.cards[cardId]!
+            const item = this.store.cards[cardId]
             // Favor higher level or earlier review so user can't lose progress
             if (!item || incomingItem.level > item.level || (incomingItem.level === item.level && incomingItem.reviewedAt < item.reviewedAt)) {
-                this.progress.cards[cardId] = incomingItem
+                this.store.cards[cardId] = incomingItem
             }
         }
     }
