@@ -90,6 +90,29 @@ export class JsonResponse extends Response {
     }
 }
 
+
+/** For providing progress indication on CLI curl operations */
+export class StreamingTextResponse extends Response {
+    writer: WritableStreamDefaultWriter
+    encoder: TextEncoder
+
+    constructor(init: ResponseInit = {}) {
+        const { readable, writable } = new TransformStream()
+        super(readable, init)
+        this.writer = writable.getWriter()
+        this.encoder = new TextEncoder()
+    }
+
+    log(text: string) {
+        this.writer.write(this.encoder.encode(text + "\n"))
+    }
+
+    close() {
+        this.writer.close()
+    }
+}
+
+
 export function htmlToPlaintext(html: string): string {
     return fromString(html, {
         tables: true,

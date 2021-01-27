@@ -1,5 +1,5 @@
 import db = require('../server/db')
-import { JsonResponse } from '../server/utils'
+import { StreamingTextResponse } from '../server/utils'
 
 declare const process: any
 const hash = process.env.CFSCRIPT_HASH
@@ -14,17 +14,16 @@ function sendMessage(message: string, writer: WritableStreamDefaultWriter) {
 }
 
 
-async function importdb(writable: WritableStream) {
-    const writer = writable.getWriter()
-    sendMessage("fetching...\n", writer)
+async function importdb(res: StreamingTextResponse) {
+    res.log(`Fetching live db...`)
     await fetch(`https://dawnguide.com/export/${secret}`)
     await fetch(`https://dawnguide.com/export/${secret}`)
     await fetch(`https://dawnguide.com/export/${secret}`)
     await fetch(`https://dawnguide.com/export/${secret}`)
     await fetch(`https://dawnguide.com/export/${secret}`)
-    sendMessage("done!", writer)
-    // sendMessage(JSON.stringify(await res.json()), writer)
-    writer.close()
+    res.log(`Writing export to KV store...`)
+
+    res.close()
 }
 
 async function main(event: FetchEvent) {
@@ -32,14 +31,9 @@ async function main(event: FetchEvent) {
         return new Response("Can't download from live db without LIVE_ADMIN_SECRET", { status: 400 })
     }
 
-    const { readable, writable } = new TransformStream()
-
-
-    // const json = await res.json()
-    // return new JsonResponse(json)
-
-    event.waitUntil(importdb(writable))
-    event.respondWith(new Response(readable))
+    const res = new StreamingTextResponse()
+    event.waitUntil(importdb(res))
+    event.respondWith(res)
 }
 
 addEventListener('fetch', event => {
