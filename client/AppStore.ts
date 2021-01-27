@@ -9,6 +9,7 @@ import * as Sentry from '@sentry/browser'
 import { SENTRY_DSN_URL } from "./settings"
 import { AxiosError } from "axios"
 import { Learny } from "./Learny"
+import { ProgressStore, SRSProgress } from "../common/SRSProgress"
 
 export type ReviewWithTime = {
     lesson: Lesson
@@ -29,6 +30,7 @@ export class AppStore {
     @observable user: User
     @observable progress: UserProgress
     @observable.ref unexpectedError?: Error
+    srs: SRSProgress = new SRSProgress()
 
     constructor(user: User, progress: UserProgress) {
         (window as any).app = this
@@ -68,6 +70,16 @@ export class AppStore {
         const progress = await req
         runInAction(() => {
             this.progress = progress
+
+            const store: ProgressStore = { cards: {} }
+            for (const item of progress.progressItems) {
+                store.cards[item.exerciseId] = {
+                    level: item.level,
+                    learnedAt: item.learnedAt,
+                    reviewedAt: item.reviewedAt
+                }
+            }
+            this.srs.reconcile(store)
         })
     }
 
@@ -107,7 +119,7 @@ export class AppStore {
     @computed get exercisesWithProgress() {
         const exercisesWithProgress: ExerciseWithProgress[] = []
         for (const exercise of content.exercises) {
-            const item = this.progressByExerciseId[exercise.id]
+            const item = this.srs.get(exercise.id)
 
             exercisesWithProgress.push({
                 exercise: exercise,
@@ -159,13 +171,18 @@ export class AppStore {
     }
 
     @computed get upcomingReviews() {
-        const reviews = this.exercisesWithProgress.map(ex => {
-            return {
-                lesson: content.expectLesson(ex.exercise.lessonId),
-                exercise: ex.exercise,
-                when: ex.progress ? getReviewTime(ex.progress) : Infinity
-            }
-        }).filter(d => !this.progress.userLessons[d.lesson.id]?.disabled && isFinite(d.when))
+        const reviews = []
+        for (const r of this.srs.upcomingReviews) {
+            const exercise = content.getExercise(r.cardId)
+            if (!exercise) continue
+
+            const lesson = content.expectLesson(exercise.lessonId)
+            reviews.push({
+                lesson: lesson,
+                exercise: exercise,
+                when: r.nextReviewAt
+            })
+        }
 
         return _.sortBy(reviews, d => d.when)
     }

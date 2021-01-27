@@ -13,7 +13,7 @@ type ProgressStoreItem = {
     reviewedAt: Timestamp
 }
 
-type ProgressStore = {
+export type ProgressStore = {
     cards: { [cardId: string]: ProgressStoreItem }
 }
 

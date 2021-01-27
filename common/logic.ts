@@ -18,7 +18,7 @@ export interface UserExerciseProgress {
 
 export interface ExerciseWithProgress {
     exercise: Exercise
-    progress?: ExerciseProgressItem
+    progress?: SRSProgressItem
 }
 
 const seconds = (s: number) => s * 1000
@@ -78,6 +78,7 @@ function distanceTolerance(s: string) {
 }
 
 import { levenshtein } from './levenshtein'
+import { SRSProgressItem } from "./SRSProgress"
 import { Exercise } from "./types"
 
 export function matchesAnswerPermissively(attempt: string, correctAnswer: string): boolean {

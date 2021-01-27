@@ -10,7 +10,7 @@
         "build": "npm-run-all build-client build-server",
         "td": "yarn build && wrangler publish --env test",
         "deploy": "yarn typecheck && yarn test && yarn build && wrangler publish --env live",
-        "typecheck": "tsc -p server/tsconfig.json && tsc -p client/tsconfig.json",
+        "typecheck": "tsc -p server/tsconfig.json --noEmit && tsc -p client/tsconfig.json --noEmit",
         "test": "jest"
     },
     "dependencies": {
