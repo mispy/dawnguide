@@ -103,8 +103,17 @@ export class StreamingTextResponse extends Response {
         this.encoder = new TextEncoder()
     }
 
-    log(text: string) {
-        this.writer.write(this.encoder.encode(text + "\n"))
+    log(...things: any) {
+
+        const stringify = (obj: any) => {
+            if (_.isObject(obj)) {
+                return JSON.stringify(obj)
+            } else {
+                return _.toString(obj)
+            }
+        }
+        const msg = things.map(stringify).join(' ')
+        this.writer.write(this.encoder.encode(msg + "\n"))
     }
 
     close() {
@@ -176,4 +185,23 @@ function prodFilename(filename: string) {
 
 export function resolveAsset(filename: string) {
     return '/assets/' + (IS_PRODUCTION ? prodFilename(filename) : devFilename(filename))
+}
+
+/** 
+ * An interface for once-off scripts to ensure they are only run if the
+ * requester wanted that particular script. This is important as there is
+ * a slight delay between deploying with wrangler and the endpoint being updated.
+ */
+export function runScript(handler: (event: FetchEvent) => void) {
+    const hash = process.env.CFSCRIPT_HASH
+
+    addEventListener('fetch', event => {
+        const url = new URL(event.request.url)
+
+        if (url.pathname === `/${hash}`) {
+            handler(event)
+        } else {
+            event.respondWith(new Response(`Script hash did not match: ${url.pathname} !== /${hash}`))
+        }
+    })
 }

@@ -3,6 +3,7 @@ import { sendReviewsEmailIfNeeded } from './reviewsEmail'
 import { EventRequest } from './requests'
 import { ResponseError } from './utils'
 import { ADMIN_SECRET } from './settings'
+import _ from 'lodash'
 
 /** Called every ten minutes by easycron.com */
 export async function heartbeat() {
@@ -40,6 +41,11 @@ export async function databaseExport(req: EventRequest, secret: string) {
     const promises = []
     while (result.keys.length) {
         for (const key of result.keys) {
+            // Ignore temporary data
+            if (_.startsWith(key.name, 'sessions:') || _.startsWith(key.name, 'email_confirm_tokens')) {
+                continue
+            }
+
             promises.push(recordKey(key.name))
         }
 

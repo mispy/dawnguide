@@ -1,49 +1,53 @@
 import db = require('../server/db')
-import { StreamingTextResponse } from '../server/utils'
+import { runScript, StreamingTextResponse } from '../server/utils'
 
-declare const process: any
-const hash = process.env.CFSCRIPT_HASH
 declare const global: any
-const secret = global.LIVE_ADMIN_SECRET
-
-function sendMessage(message: string, writer: WritableStreamDefaultWriter) {
-    // defaultWriter is of type WritableStreamDefaultWriter
-    const encoder = new TextEncoder()
-
-    writer.write(encoder.encode(message))
-}
-
 
 async function importdb(res: StreamingTextResponse) {
+    if (!global.LIVE_ADMIN_SECRET) {
+        res.log("Can't download from live db without LIVE_ADMIN_SECRET")
+        res.close()
+        return
+    }
+
     res.log(`Fetching live db...`)
-    await fetch(`https://dawnguide.com/export/${secret}`)
-    await fetch(`https://dawnguide.com/export/${secret}`)
-    await fetch(`https://dawnguide.com/export/${secret}`)
-    await fetch(`https://dawnguide.com/export/${secret}`)
-    await fetch(`https://dawnguide.com/export/${secret}`)
-    res.log(`Writing export to KV store...`)
+    const dbres = await fetch(`https://dawnguide.com/export/${global.LIVE_ADMIN_SECRET}`)
+    const json = await dbres.json()
+
+    res.log(`Deleting keys that don't exist in live dump...`)
+
+    let result = await db.cfstore.list({})
+    const deletePromises = []
+    while (result.keys.length) {
+        for (const key of result.keys) {
+            if (!(key.name in json)) {
+                deletePromises.push(db.cfstore.delete(key.name))
+            }
+        }
+
+        if (result.cursor) {
+            result = await db.cfstore.list({ cursor: result.cursor })
+        } else {
+            break
+        }
+    }
+    await Promise.all(deletePromises)
+
+    res.log(`Writing live dump to KV store...`)
+
+    const importPromises = []
+    for (const key in json) {
+        importPromises.push(db.cfstore.put(key, Buffer.from(json[key])))
+    }
+    await Promise.all(importPromises)
+
+    res.log(`Done!`)
 
     res.close()
 }
 
-async function main(event: FetchEvent) {
-    if (!secret) {
-        return new Response("Can't download from live db without LIVE_ADMIN_SECRET", { status: 400 })
-    }
-
+runScript(event => {
     const res = new StreamingTextResponse()
     event.waitUntil(importdb(res))
     event.respondWith(res)
-}
-
-addEventListener('fetch', event => {
-    const url = new URL(event.request.url)
-
-
-
-    if (url.pathname === `/${hash}`) {
-        main(event)
-    } else {
-        event.respondWith(new Response(`Script hash did not match: ${url.pathname} !== /${hash}`))
-    }
 })
