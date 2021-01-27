@@ -156,8 +156,6 @@ export namespace users {
     export async function del(userId: string) {
         const user = await users.expect(userId)
 
-        // TODO find their sessions somehow and expire them
-
         await Promise.all([
             db.delete(`users:${userId}`),
             db.delete(`user_id_by_email:${user.email}`),
@@ -243,9 +241,8 @@ export namespace sessions {
     }
 
     export async function create(userId: string): Promise<string> {
-        // TODO session expiry
         const sessionKey = uuidv4()
-        await db.putJson(`sessions:${sessionKey}`, { userId: userId })
+        await db.putJson(`sessions:${sessionKey}`, { userId: userId }, { expirationTtl: time.weeks(4) })
         return sessionKey
     }
 
