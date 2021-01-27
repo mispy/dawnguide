@@ -1,6 +1,5 @@
 import db = require('../server/db')
 import { JsonResponse } from '../server/utils'
-import { weeks } from '../server/time'
 
 declare const process: any
 const hash = process.env.CFSCRIPT_HASH

@@ -32,7 +32,8 @@ module.exports = (env, argv) => {
         plugins: [
             new webpack.EnvironmentPlugin({
                 WEBPACK_MANIFEST: maybeReadFile(path.resolve(__dirname, 'client/dist/assets/manifest.json')),
-                BUILD_ID: uuid()
+                BUILD_ID: uuid(),
+                CFSCRIPT_HASH: null // To be used by once-off scripts identifying themselves
             })
         ],
         module: {
