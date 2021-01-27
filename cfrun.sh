@@ -35,4 +35,5 @@ cat << EOF > cfscripts/tmp/package.json
 EOF
 cd cfscripts/tmp && ../../node_modules/.bin/wrangler publish
 sleep 1
+echo "Requesting script run from https://$WORKER_NAME.suns.workers.dev/$HASH"
 curl https://$WORKER_NAME.suns.workers.dev/$HASH
