@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react"
 import { AppContext } from "./AppContext"
-import { useLocalStore, useObserver } from "mobx-react-lite"
+import { useLocalObservable, useObserver } from "mobx-react-lite"
 import * as _ from 'lodash'
 import * as React from 'react'
 import { AppLayout } from "./AppLayout"
@@ -38,13 +38,13 @@ class AdminPageState {
 
 export function AdminPage() {
     const { api } = useContext(AppContext)
-    const state = useLocalStore(() => new AdminPageState(api))
+    const state = useLocalObservable(() => new AdminPageState(api))
 
     useEffect(() => {
         state.loadUsers()
     }, [])
 
-    return useObserver(() => <AppLayout>
+    return <Observer>{() => <AppLayout>
         <main className="AdminPage">
             <Container>
                 <h3>Users</h3>
@@ -89,7 +89,7 @@ export function AdminPage() {
                 </table>
             </Container>
         </main>
-    </AppLayout>)
+    </AppLayout>}</Observer>
 }
 
 // export const AdminPage = () => {

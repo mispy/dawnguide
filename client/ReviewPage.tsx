@@ -4,7 +4,7 @@ import { observable, action, makeObservable } from "mobx"
 import * as _ from 'lodash'
 import { useContext } from "react"
 import { AppContext } from "./AppContext"
-import { useObserver, useLocalStore } from "mobx-react-lite"
+import { Observer, useLocalObservable } from "mobx-react-lite"
 import { Link } from "react-router-dom"
 import { MultiReview } from "./MultiReview"
 import { AppLayout } from "./AppLayout"
@@ -23,7 +23,7 @@ class ReviewsState {
 
 export function ReviewPage() {
     const { app } = useContext(AppContext)
-    const state = useLocalStore(() => new ReviewsState())
+    const state = useLocalObservable(() => new ReviewsState())
 
     function content() {
         if (!app.reviews.length)
@@ -44,7 +44,7 @@ export function ReviewPage() {
         return <MultiReview reviews={_.shuffle(app.reviews)} onComplete={state.completeReview} />
     }
 
-    return useObserver(() =>
+    return <Observer>{() =>
         <AppLayout title="Reviews" noHeader noFooter>
             <div className="LessonPage">
                 <div className="topbar">
@@ -54,5 +54,5 @@ export function ReviewPage() {
                 {content()}
             </div>
         </AppLayout>
-    )
+    }</Observer>
 }

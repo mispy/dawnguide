@@ -4,10 +4,9 @@ import { Navbar, Container, Nav } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { AppContext } from "./AppContext"
 import { Logo } from "../common/Logo"
-import { LittleSpinner } from "./littleComponents"
-import { useObserver } from "mobx-react-lite"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
+import { Observer } from 'mobx-react-lite'
 
 function UserDropdown() {
     const { app } = useContext(AppContext)
@@ -27,7 +26,7 @@ function UserDropdown() {
 
 export function AppHeader() {
     const { app } = useContext(AppContext)
-    return useObserver(() => <header className="AppHeader">
+    return <Observer>{() => <header className="AppHeader">
         <Navbar>
             <Container>
                 <Navbar.Brand as={Link} to="/home">
@@ -54,5 +53,5 @@ export function AppHeader() {
                 </div>
             </Container>
         </Navbar>
-    </header>)
+    </header>}</Observer>
 }

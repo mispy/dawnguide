@@ -2,7 +2,7 @@ import { faUndo, faPause, faPlay } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import _ from "lodash"
 import { observable, action, computed, makeObservable } from "mobx"
-import { Observer, useLocalStore, useObserver } from "mobx-react-lite"
+import { Observer, useLocalObservable, useObserver } from "mobx-react-lite"
 import React from "react"
 import styled from 'styled-components'
 
@@ -105,7 +105,7 @@ p {
 `
 
 export function MeditationTimer(props: { seconds: number }) {
-    const state = useLocalStore(() => new MeditationTimerState(props.seconds))
+    const state = useLocalObservable(() => new MeditationTimerState(props.seconds))
 
     return <Observer>
         {() => <MeditationTimerDiv className="card">

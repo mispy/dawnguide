@@ -1,7 +1,7 @@
 import React = require('react')
 import { useEffect, useContext } from 'react'
 import { AppContext } from './AppContext'
-import { useObserver } from 'mobx-react-lite'
+import { Observer } from 'mobx-react-lite'
 import { AppHeader } from './AppHeader'
 import { ErrorModal } from './ErrorModal'
 import { AppFooter } from './AppFooter'
@@ -23,7 +23,7 @@ export function AppLayout(props: { title?: string, noHeader?: boolean, noFooter?
         }, [])
     }
 
-    return useObserver(() => <div className="AppLayout">
+    return <Observer>{() => <div className="AppLayout">
         {app.unexpectedError ? <ErrorModal error={app.unexpectedError} /> : undefined}
         <div className="fullScreen">
             {!noHeader ? <AppHeader /> : undefined}
@@ -32,5 +32,5 @@ export function AppLayout(props: { title?: string, noHeader?: boolean, noFooter?
                 {!noFooter ? <AppFooter /> : undefined}
             </div>
         </div>
-    </div>)
+    </div>}</Observer>
 }

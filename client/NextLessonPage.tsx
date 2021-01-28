@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useObserver } from "mobx-react-lite"
+import { Observer } from "mobx-react-lite"
 import { AppContext } from "./AppContext"
 import { Redirect } from "react-router-dom"
 import { AppLayout } from "./AppLayout"
@@ -18,9 +18,9 @@ export function NextLessonPage() {
         }
     }
 
-    return useObserver(() => {
+    return <Observer>{() => {
         return <AppLayout noHeader noFooter>
             {content()}
         </AppLayout>
-    })
+    }}</Observer>
 }

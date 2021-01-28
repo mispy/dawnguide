@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react"
-import { useLocalStore, observer } from "mobx-react-lite"
+import { useLocalObservable, observer } from "mobx-react-lite"
 import { action, observable, makeObservable } from "mobx"
 import * as React from 'react'
 import type { FillblankExerciseDef } from "../common/types"
@@ -10,7 +10,7 @@ import { faEye, faChevronRight } from "@fortawesome/free-solid-svg-icons"
 import Markdown from "markdown-to-jsx"
 import { matchesAnswerPermissively } from "../common/logic"
 import { AppContext } from "./AppContext"
-import { useCanvasEffects } from "./CanvasEffects"
+import { CanvasEffects, useCanvasEffects } from "./CanvasEffects"
 
 type FillblankProps = { exercise: FillblankExerciseDef, lesson: Lesson, onSubmit: (remembered: boolean) => void }
 
@@ -74,7 +74,7 @@ export const FillblankCard = observer(function FillblankCard(props: FillblankPro
     const { exercise } = props
     const canonicalAnswer = exercise.possibleAnswers[0]!
     const responseInput = useRef<HTMLInputElement>(null)
-    const store = useLocalStore(() => ({ state: new FillblankState(props, effects) }))
+    const store = useLocalObservable(() => ({ state: new FillblankState(props, effects) }))
     const { state } = store
 
     const windowKeydown = action((e: KeyboardEvent) => {

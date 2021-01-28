@@ -4,7 +4,7 @@ import { STRIPE_PUBLIC_KEY } from "./settings"
 import { AppContext } from "./AppContext"
 import { MONTHLY_PLAN_ID, ANNUAL_PLAN_ID } from "../common/settings"
 import { SettingsLayout } from "./SettingsLayout"
-import { useObserver, useLocalStore } from "mobx-react-lite"
+import { Observer, useLocalObservable } from "mobx-react-lite"
 import { loadStripe } from '@stripe/stripe-js'
 import type { AppStore } from "./AppStore"
 import { runInAction, observable, action, makeObservable } from "mobx"
@@ -103,9 +103,9 @@ class SubscriptionPageState {
 
 export const SubscriptionPage = () => {
     const { app } = React.useContext(AppContext)
-    const state = useLocalStore(() => new SubscriptionPageState(app))
+    const state = useLocalObservable(() => new SubscriptionPageState(app))
 
-    return useObserver(() => {
+    return <Observer>{() => {
         // Allow Stripe redirect to override currently known plan id
         // Solves eventual consistency problem with reloading immediately after subscribing
         const urlParams = new URLSearchParams(window.location.search)
@@ -155,7 +155,7 @@ export const SubscriptionPage = () => {
                 {activePlanId ? <><p className="mt-2">Thank you for your support, nice human! 💛</p><button onClick={state.cancelSubscription} className="btn cancelSubscription">Cancel subscription</button></> : <p className="disclaimer">Please keep in mind that Dawnguide is still very young! By subscribing at this early stage, you're helping to fund the expansion of content and features.</p>}
             </div>
         </SettingsLayout>
-    })
+    }}</Observer>
 }
 
 

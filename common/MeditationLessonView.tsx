@@ -4,7 +4,6 @@ import * as _ from 'lodash'
 import type { Lesson, MeditationLesson } from "../common/content"
 import { Bibliography, transformRefs } from "../common/Bibliography"
 import { action } from 'mobx'
-import { useObserver } from 'mobx-react-lite'
 import { useContext } from 'react'
 import { Markdown } from '../common/Markdown'
 import { Link } from 'react-router-dom'
@@ -13,6 +12,7 @@ import ReactTimeago from 'react-timeago'
 /// #if CLIENT
 import { AppContext } from '../client/AppContext'
 import { MeditationTimer } from '../client/MeditationTimer'
+import { Observer } from 'mobx-react-lite'
 /// #endif
 
 
@@ -48,7 +48,7 @@ export function MeditationLessonView(props: { lesson: MeditationLesson }) {
     const referencesInText = referenceIds.map(id => lesson.expectReference(id))
 
 
-    return useObserver(() => {
+    return <Observer>{() => {
         return <Container>
             <h1>Meditation: {lesson.title}</h1>
             <Markdown>{text}</Markdown>
@@ -69,5 +69,5 @@ export function MeditationLessonView(props: { lesson: MeditationLesson }) {
                 <Bibliography references={referencesInText} />
             </section>}
         </Container>
-    })
+    }}</Observer>
 }

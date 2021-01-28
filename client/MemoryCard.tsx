@@ -1,4 +1,4 @@
-import { useObserver, useLocalStore } from "mobx-react-lite"
+import { useLocalObservable, Observer } from "mobx-react-lite"
 import * as React from 'react'
 import type { Lesson } from "../common/content"
 import classnames from 'classnames'
@@ -13,7 +13,7 @@ import { Container } from "react-bootstrap"
 
 export function MemoryCard(props: { lesson: Lesson, exercise: BasicExerciseDef, onSubmit: (remembered: boolean) => void }) {
     const { lesson, exercise, onSubmit } = props
-    const state = useLocalStore<{ revealed: boolean, showLesson: boolean }>(() => ({ revealed: false, showLesson: false }))
+    const state = useLocalObservable<{ revealed: boolean, showLesson: boolean }>(() => ({ revealed: false, showLesson: false }))
 
     const reveal = action(() => state.revealed = true)
 
@@ -22,7 +22,7 @@ export function MemoryCard(props: { lesson: Lesson, exercise: BasicExerciseDef, 
 
     const showLesson = action(() => state.showLesson = !state.showLesson)
 
-    return useObserver(() => <div className="MemoryCardContainer mt-2">
+    return <Observer>{() => <div className="MemoryCardContainer mt-2">
         <div className="container">
             <div className="MemoryCard">
                 <div className="card">
@@ -40,5 +40,5 @@ export function MemoryCard(props: { lesson: Lesson, exercise: BasicExerciseDef, 
             <button className="btn btn-outline-secondary" disabled={!state.revealed} onClick={showLesson}><FontAwesomeIcon icon={faEye} /> Show Lesson</button>
         </div>
         {state.showLesson && <Container><Passage lesson={lesson} /></Container>}
-    </div>)
+    </div>}</Observer>
 }

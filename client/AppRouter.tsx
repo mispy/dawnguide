@@ -10,8 +10,6 @@ import { HomePage } from "./HomePage"
 import { LessonPage } from './LessonPage'
 import { NextLessonPage } from "./NextLessonPage"
 import { ReviewPage } from "./ReviewPage"
-import { InitialReviewPage } from "./InitialReviewPage"
-import { SubscriptionPage } from "./SubscriptionPage"
 import { AdminPage } from './AdminPage'
 import { AdminEmailsPage } from './AdminEmailsPage'
 import { AccountPage } from './AccountPage'
@@ -30,11 +28,6 @@ export function AppRouter() {
             <Route path="/lesson">
                 <NextLessonPage />
             </Route>
-            {content.lessons.map(lesson =>
-                <Route key={lesson.id} path={`/review/${lesson.slug}`}>
-                    <InitialReviewPage lesson={lesson} />
-                </Route>
-            )}
             <Route path="/review">
                 <ReviewPage />
             </Route>

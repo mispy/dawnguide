@@ -49,5 +49,4 @@ export function CardsEmbed(props: { reviews: Review[] }) {
             {review ? <ExerciseView lesson={review.lesson} exercise={review.exercise} onSubmit={onCardComplete} /> : undefined}
         </div>
     }}</Observer>
-
 }

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useLocalStore, useObserver } from "mobx-react-lite"
+import { Observer, useLocalObservable, useObserver } from "mobx-react-lite"
 import { action } from "mobx"
 
 import * as _ from 'lodash'
@@ -10,7 +10,7 @@ import { ExerciseView } from './ExerciseView'
 
 export function MultiReview(props: { reviews: Review[], onComplete: () => void }) {
     const { reviews, onComplete } = props
-    const state = useLocalStore(() => ({ showLesson: false, reviews: _.clone(reviews).reverse() }))
+    const state = useLocalObservable(() => ({ showLesson: false, reviews: _.clone(reviews).reverse() }))
     const { app } = useContext(AppContext)
 
     const onCardComplete = action((remembered: boolean) => {
@@ -35,14 +35,14 @@ export function MultiReview(props: { reviews: Review[], onComplete: () => void }
         }
     })
 
-    return useObserver(() => {
+    return <Observer>{() => {
         const review = state.reviews[state.reviews.length - 1]
         if (!review) return null
 
         return <div className="MultiReview">
             <ExerciseView exercise={review.exercise} lesson={review.lesson} onSubmit={onCardComplete} />
         </div>
-    })
+    }}</Observer>
 }
 
 

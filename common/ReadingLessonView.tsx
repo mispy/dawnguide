@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useObserver } from 'mobx-react-lite'
 // @ts-ignore
 const TimeAgo = require('react-timeago').default
 
@@ -16,6 +15,7 @@ import { Bibliography, transformRefs } from '../common/Bibliography'
 import type { Learny } from '../client/Learny'
 import classNames from 'classnames'
 import { useInteractivity } from './ProgressiveEnhancement'
+import { Observer } from 'mobx-react-lite'
 
 export function showReviewTime(ewp: ExerciseWithProgress) {
     if (!ewp.progress)
@@ -44,7 +44,7 @@ export function ReadingLessonView(props: { lesson: Lesson }) {
         }
     }
 
-    return useObserver(() => {
+    return <Observer>{() => {
         return <Container>
             <div className={classNames("LessonView", "Passage", lesson.subtitle && 'hasSubtitle')}>
                 <h1>
@@ -102,5 +102,5 @@ export function ReadingLessonView(props: { lesson: Lesson }) {
                 </table>
             </section>}
         </Container>
-    })
+    }}</Observer>
 }

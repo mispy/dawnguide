@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react"
 import { AppContext } from "./AppContext"
-import { useLocalStore, useObserver } from "mobx-react-lite"
+import { Observer, useLocalObservable, useObserver } from "mobx-react-lite"
 import * as _ from 'lodash'
 import * as React from 'react'
 import { AppLayout } from "./AppLayout"
@@ -43,13 +43,13 @@ class AdminPageState {
 
 export function AdminEmailsPage() {
     const { api } = useContext(AppContext)
-    const state = useLocalStore(() => new AdminPageState(api))
+    const state = useLocalObservable(() => new AdminPageState(api))
 
     useEffect(() => {
         state.loadUsers()
     }, [])
 
-    return useObserver(() => <AppLayout>
+    return <Observer>{() => <AppLayout>
         <main className="AdminEmailsPage mt-4">
             <Container>
                 <h3>Lessons</h3>
@@ -75,5 +75,5 @@ export function AdminEmailsPage() {
                 <button className="btn btn-sm btn-outline-dawn" onClick={() => state.testReviewsEmail()}>Test Reviews Email</button>
             </Container>
         </main>
-    </AppLayout>)
+    </AppLayout>}</Observer>
 }

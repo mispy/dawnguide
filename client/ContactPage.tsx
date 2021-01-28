@@ -2,14 +2,14 @@ import * as _ from 'lodash'
 import * as React from 'react'
 import { AppLayout } from "./AppLayout"
 import { Container } from "react-bootstrap"
-import { useLocalStore, useObserver } from "mobx-react-lite"
+import { useLocalObservable, useObserver } from "mobx-react-lite"
 import { action } from "mobx"
 import { AppContext } from "./AppContext"
 import { useContext } from "react"
 
 export function ContactPage() {
     const { api } = useContext(AppContext)
-    const state = useLocalStore(() => ({ subject: "", body: "", loading: false }))
+    const state = useLocalObservable(() => ({ subject: "", body: "", loading: false }))
 
     async function sendMessage(ev: React.FormEvent) {
         ev.preventDefault()
@@ -25,7 +25,7 @@ export function ContactPage() {
         }
     }
 
-    return useObserver(() => <AppLayout>
+    return <Observer>{() => <AppLayout>
         <main className="ContactPage mt-4">
             <Container style={{ maxWidth: 800 }}>
                 <h1>Contact</h1>
@@ -48,5 +48,5 @@ export function ContactPage() {
                 </form>
             </Container>
         </main>
-    </AppLayout>)
+    </AppLayout>}</Observer>
 }

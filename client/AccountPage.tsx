@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { AppContext } from "./AppContext"
-import { useLocalStore, useObserver } from "mobx-react-lite"
+import { Observer, useLocalObservable, useLocalObservable, useObserver } from "mobx-react-lite"
 import * as _ from 'lodash'
 import * as React from 'react'
 import { runInAction, action } from "mobx"
@@ -8,7 +8,7 @@ import { SettingsLayout } from "./SettingsLayout"
 
 function ChangeUsernameSection() {
     const { api, user } = useContext(AppContext)
-    const state = useLocalStore(() => ({ newUsername: "", loading: false }))
+    const state = useLocalObservable(() => ({ newUsername: "", loading: false }))
 
     async function changeUsername(e: React.FormEvent) {
         e.preventDefault()
@@ -22,7 +22,7 @@ function ChangeUsernameSection() {
         }
     }
 
-    return useObserver(() => <section>
+    return <Observer>{() => <section>
         <h2 id="name">Name</h2>
         <p>Your current name is <strong>{user.username}</strong></p>
         <p>This name is currently just used for addressing you in emails and such. You can update it here.</p>
@@ -36,12 +36,12 @@ function ChangeUsernameSection() {
                 Update name
             </button>
         </form>
-    </section>)
+    </section>}</Observer>
 }
 
 function ChangeEmailSection() {
     const { api, user } = useContext(AppContext)
-    const state = useLocalStore(() => ({ newEmail: "", newEmailPassword: "", loading: false }))
+    const state = useLocalObservable(() => ({ newEmail: "", newEmailPassword: "", loading: false }))
 
     async function startChangeEmail(e: React.FormEvent) {
         e.preventDefault()
@@ -54,7 +54,7 @@ function ChangeEmailSection() {
         }
     }
 
-    return useObserver(() => <section>
+    return <Observer>{() => <section>
         <h2 id="email">Email</h2>
         <p>Your current email address is <strong>{user.email}</strong></p>
         <p>
@@ -74,12 +74,12 @@ function ChangeEmailSection() {
                 Update email address
             </button>
         </form>
-    </section>)
+    </section>}</Observer>
 }
 
 function ChangePasswordSection() {
     const { api } = useContext(AppContext)
-    const state = useLocalStore(() => ({ newPassword: "", currentPassword: "", loading: false }))
+    const state = useLocalObservable(() => ({ newPassword: "", currentPassword: "", loading: false }))
 
     async function changePassword(e: React.FormEvent) {
         e.preventDefault()
@@ -92,7 +92,7 @@ function ChangePasswordSection() {
         }
     }
 
-    return useObserver(() => <section>
+    return <Observer>{() => <section>
         <h2 id="password">Password</h2>
         <p>
             A group of angry possums trying to break into your account? Update your password here to keep them away!
@@ -111,7 +111,7 @@ function ChangePasswordSection() {
                 Update password
             </button>
         </form>
-    </section>)
+    </section>}</Observer>
 }
 
 export function AccountPage() {

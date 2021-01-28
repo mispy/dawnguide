@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react"
 import { AppContext } from "./AppContext"
-import { useLocalStore, useObserver } from "mobx-react-lite"
+import { Observer, useLocalObservable, useObserver } from "mobx-react-lite"
 import _ from 'lodash'
 import * as React from 'react'
 import { observable, runInAction, action, makeObservable } from "mobx"
@@ -29,7 +29,7 @@ class NotificationsSectionState {
 }
 function NotificationsSection() {
     const { api } = useContext(AppContext)
-    const state = useLocalStore(() => new NotificationsSectionState(api))
+    const state = useLocalObservable(() => new NotificationsSectionState(api))
 
     useEffect(() => {
         state.loadSettings()
@@ -64,10 +64,10 @@ function NotificationsSection() {
         </>
     }
 
-    return useObserver(() => <section>
+    return <Observer>{() => <section>
         <h2 id="notifications">Notifications</h2>
         {state.settings ? renderLoaded(state.settings) : "Loading..."}
-    </section>)
+    </section>}</Observer>
 }
 
 export function NotificationsPage() {

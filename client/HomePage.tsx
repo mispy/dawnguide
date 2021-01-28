@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Observer, useObserver } from "mobx-react-lite"
+import { Observer } from "mobx-react-lite"
 import { AppLayout } from "./AppLayout"
 import { AppContext } from "./AppContext"
 import _ from 'lodash'
@@ -278,39 +278,41 @@ export function HomePage() {
         'meditation': faHeart
     }
 
-    return useObserver(() => <AppLayout>
-        <Main>
-            <Container className="mt-2">
-                <div className="row mb-4">
-                    <div className="col-md-6 mt-2">
-                        <NextLessonCard lesson={app.nextLesson} />
-                    </div>
-                    <div className="col-md-6 mt-2">
-                        <NextReviewCard reviews={app.upcomingReviews} />
-                    </div>
-                </div>
-                {/* <h2>
-                    Self-compassion
-                    <div>Learn about being kind to yourself as well as those around you.</div>
-                </h2> */}
-                <ul>
-                    {app.learnies.map(learny => <li key={learny.lesson.id} className={classNames({ lessonItem: true, learned: learny.learned })}>
-                        <Link to={learny.lesson.slug}>
-                            <div className="intermarker"></div>
-                            <div className="marker">
-                                {learny.learned && <FontAwesomeIcon className="tick" icon={faCheckCircle} />}
-                                <FontAwesomeIcon className="lessonType" icon={lessonIcons[learny.lesson.type]} />
-                                {learny.learned && <div className="fillbar" />}
-                            </div>
-                            <div className="lesson-title">{learny.lesson.title}</div>
-                        </Link>
-                        <div className="ml-auto">
-                            {learny.learned && <MasteryProgressBar learny={learny} />}
+    return <Observer>{() =>
+        <AppLayout>
+            <Main>
+                <Container className="mt-2">
+                    <div className="row mb-4">
+                        <div className="col-md-6 mt-2">
+                            <NextLessonCard lesson={app.nextLesson} />
                         </div>
-                    </li>)}
-                </ul>
-                {!IS_PRODUCTION ? <DebugTools /> : undefined}
-            </Container>
-        </Main>
-    </AppLayout>)
+                        <div className="col-md-6 mt-2">
+                            <NextReviewCard reviews={app.upcomingReviews} />
+                        </div>
+                    </div>
+                    {/* <h2>
+                            Self-compassion
+                            <div>Learn about being kind to yourself as well as those around you.</div>
+                        </h2> */}
+                    <ul>
+                        {app.learnies.map(learny => <li key={learny.lesson.id} className={classNames({ lessonItem: true, learned: learny.learned })}>
+                            <Link to={learny.lesson.slug}>
+                                <div className="intermarker"></div>
+                                <div className="marker">
+                                    {learny.learned && <FontAwesomeIcon className="tick" icon={faCheckCircle} />}
+                                    <FontAwesomeIcon className="lessonType" icon={lessonIcons[learny.lesson.type]} />
+                                    {learny.learned && <div className="fillbar" />}
+                                </div>
+                                <div className="lesson-title">{learny.lesson.title}</div>
+                            </Link>
+                            <div className="ml-auto">
+                                {learny.learned && <MasteryProgressBar learny={learny} />}
+                            </div>
+                        </li>)}
+                    </ul>
+                    {!IS_PRODUCTION ? <DebugTools /> : undefined}
+                </Container>
+            </Main>
+        </AppLayout>}
+    </Observer>
 }

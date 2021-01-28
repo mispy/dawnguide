@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react"
-import { useLocalStore, observer } from "mobx-react-lite"
+import { useLocalObservable, observer } from "mobx-react-lite"
 import * as React from 'react'
 import type { MeditationLesson } from "../common/content"
 import Markdown from "markdown-to-jsx"
@@ -8,7 +8,7 @@ import { MeditationTimer } from "./MeditationTimer"
 
 export function MeditationCard(props: { lesson: MeditationLesson, onSubmit: (remembered: boolean) => void }) {
     const { lesson } = props
-    const state = useLocalStore(() => ({ showSteps: false })) as { showSteps: boolean }
+    const state = useLocalObservable(() => ({ showSteps: false })) as { showSteps: boolean }
     return <div className="MeditationCard card">
         <h4 className="mb-4">Meditation Review: {lesson.title}</h4>
         <MeditationTimer seconds={lesson.def.seconds} />
