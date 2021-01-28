@@ -47,7 +47,8 @@ module.exports = (env, argv) => {
                                 configFile: "server/tsconfig.json",
                                 transpileOnly: true
                             }
-                        }
+                        },
+                        { loader: "ifdef-loader", options: { CLIENT: false, SERVER: true } }
                     ],
                     exclude: /client|node_modules/
                 },

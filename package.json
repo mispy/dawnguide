@@ -55,6 +55,7 @@
         "file-loader": "^6.0.0",
         "html-entities": "^1.2.1",
         "html-to-text": "^5.1.1",
+        "ifdef-loader": "^2.1.5",
         "juice": "^6.0.0",
         "lodash": "^4.17.4",
         "markdown-to-jsx": "^6.11.0",

@@ -8,6 +8,8 @@ import { AppStore } from './AppStore'
 import { useMemo } from 'react'
 import { User, UserProgress } from '../common/types'
 import { CanvasEffects } from './CanvasEffects'
+import { content } from '../common/content'
+import { LessonView } from '../common/LessonView'
 
 // These props come from AppPage on the server
 function App(props: { user: User, progress: UserProgress }) {
@@ -35,4 +37,9 @@ if (module.hot) {
 declare const window: any
 window.initApp = (props: { user: User, progress: UserProgress }) => {
     ReactDOM.render(<App {...props} />, document.getElementById("root"))
+}
+
+window.hydrateLesson = function (lessonId: string) {
+    const lesson = content.expectLesson(lessonId)
+    ReactDOM.hydrate(<LessonView lesson={lesson} />, document.getElementsByClassName('lessonContainer')[0])
 }

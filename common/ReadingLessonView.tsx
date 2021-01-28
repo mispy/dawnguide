@@ -5,24 +5,23 @@ const TimeAgo = require('react-timeago').default
 
 import { Lesson } from '../common/content'
 import { Container } from 'react-bootstrap'
-import { AppContext } from './AppContext'
-import { getReviewTime, ExerciseWithProgress } from '../common/logic'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
-import { Link } from 'react-router-dom'
+/// #if CLIENT
+import { AppContext } from '../client/AppContext'
+import { CardsEmbed } from '../client/CardsEmbed'
+/// #endif
+import { ExerciseWithProgress } from '../common/logic'
 import { FillblankExerciseDef } from '../common/types'
 import { Markdown } from '../common/Markdown'
 import { Bibliography, transformRefs } from '../common/Bibliography'
 import classNames from 'classnames'
-import { CardsEmbed } from './CardsEmbed'
 
 export function showReviewTime(ewp: ExerciseWithProgress) {
     if (!ewp.progress)
         return "Available now"
 
-    const time = getReviewTime(ewp.progress)
+    const time = ewp.progress.nextReviewAt
 
-    if (time <= Date.now()) {
+    if (!time || time <= Date.now()) {
         return "Available now"
     } else {
         return <TimeAgo date={time} />
@@ -30,15 +29,21 @@ export function showReviewTime(ewp: ExerciseWithProgress) {
 }
 
 export function ReadingLessonView(props: { lesson: Lesson }) {
-    const { app } = React.useContext(AppContext)
     const { lesson } = props
     const [lessonText, referenceIds] = transformRefs(lesson.text)
     const referencesInText = referenceIds.map(id => lesson.expectReference(id))
-    const learny = app.learnyByLessonId[lesson.id]!
+
+    let learny: any = null
+    if (typeof AppContext !== "undefined") {
+        const { app } = React.useContext(AppContext)
+        if (app) {
+            learny = app.learnyByLessonId[lesson.id]!
+        }
+    }
 
     return useObserver(() => {
         return <Container>
-            <div className={classNames("Passage", lesson.subtitle && 'hasSubtitle')}>
+            <div className={classNames("LessonView", "Passage", lesson.subtitle && 'hasSubtitle')}>
                 <h1>
                     {lesson.title}
                 </h1>
@@ -47,7 +52,7 @@ export function ReadingLessonView(props: { lesson: Lesson }) {
                     <Markdown>{lesson.def.steps}</Markdown>
                 </section> : undefined}
                 { }
-                {!learny.learned && <section>
+                {learny && !learny.learned && <section>
                     <CardsEmbed reviews={lesson.exercises.map(e => ({ lesson: lesson, exercise: e }))} />
                 </section>}
                 <div className="authorship">
@@ -66,7 +71,7 @@ export function ReadingLessonView(props: { lesson: Lesson }) {
                     <Bibliography references={referencesInText} />
                 </section> : undefined}
             </div>
-            {learny.learned && <section className="exercises">
+            {learny?.learned && <section className="exercises">
                 <h2>Exercises</h2>
                 <table className="table">
                     <thead>

@@ -39,7 +39,8 @@ module.exports = (env, argv) => {
                                 configFile: "client/tsconfig.json",
                                 transpileOnly: true
                             }
-                        }
+                        },
+                        { loader: "ifdef-loader", options: { CLIENT: true, SERVER: false } }
                     ],
                     // TODO use webpack 5 resolve.restrictions for server when it's available
                     exclude: /server|node_modules/,
@@ -68,6 +69,7 @@ module.exports = (env, argv) => {
             port: 1234,
             contentBase: path.resolve(__dirname, 'public'),
             publicPath: '/assets/'
-        }
+        },
+        devtool: "source-map"
     }
 }

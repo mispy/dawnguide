@@ -6,8 +6,8 @@ import { fromString } from 'html-to-text'
 import { absurl, isAbsoluteUrl } from '../common/utils'
 import { WEBPACK_MANIFEST, IS_PRODUCTION } from './settings'
 
-export function renderToHtml(rootElement: Parameters<typeof ReactDOMServer.renderToStaticMarkup>[0]) {
-    const markup = ReactDOMServer.renderToStaticMarkup(rootElement)
+export function renderToHtml(rootElement: Parameters<typeof ReactDOMServer.renderToString>[0]) {
+    const markup = ReactDOMServer.renderToString(rootElement)
     return `<!doctype html>${markup}`
 }
 
