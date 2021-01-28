@@ -3,10 +3,8 @@ import { action } from "mobx"
 import { useLocalStore, useObserver } from "mobx-react-lite"
 import React, { useEffect } from "react"
 import type { Review } from "../common/types"
-/// #if CLIENT
 import { ExerciseView } from "../client/ExerciseView"
 import { usePersistentSRS } from "../client/ProgressSaving"
-/// #endif
 
 export function CardsEmbed(props: { reviews: Review[] }) {
     const srs = usePersistentSRS()
