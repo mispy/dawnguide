@@ -7,14 +7,16 @@ import type { Lesson } from '../common/content'
 import { Container } from 'react-bootstrap'
 /// #if CLIENT
 import { AppContext } from '../client/AppContext'
-import { CardsEmbed } from '../client/CardsEmbed'
 /// #endif
+import { CardsEmbed } from '../common/CardsEmbed'
 import type { ExerciseWithProgress } from '../common/logic'
 import type { FillblankExerciseDef } from '../common/types'
 import { Markdown } from '../common/Markdown'
 import { Bibliography, transformRefs } from '../common/Bibliography'
 import type { Learny } from '../client/Learny'
 import classNames from 'classnames'
+import { ClientOnly } from './ClientOnly'
+import { ServerOnly } from './ServerOnly'
 
 export function showReviewTime(ewp: ExerciseWithProgress) {
     if (!ewp.progress)
@@ -53,8 +55,15 @@ export function ReadingLessonView(props: { lesson: Lesson }) {
                     <Markdown>{lesson.def.steps}</Markdown>
                 </section> : undefined}
                 { }
-                {learny && !learny.learned && <section>
-                    <CardsEmbed reviews={lesson.exercises.map(e => ({ lesson: lesson, exercise: e }))} />
+                {<section>
+                    <ServerOnly>
+                        <div className="CardsEmbed">
+                            Interactive reviews require javascript.
+                        </div>
+                    </ServerOnly>
+                    <ClientOnly>
+                        <CardsEmbed reviews={lesson.exercises.map(e => ({ lesson: lesson, exercise: e }))} />
+                    </ClientOnly>
                 </section>}
                 <div className="authorship">
                     Written by {lesson.author}

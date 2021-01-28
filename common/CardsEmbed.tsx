@@ -1,18 +1,22 @@
 import _ from "lodash"
 import { action } from "mobx"
 import { useLocalStore, useObserver } from "mobx-react-lite"
-import React, { useContext, useEffect } from "react"
+import React, { useEffect } from "react"
 import type { Review } from "../common/types"
-import { AppContext } from "./AppContext"
-import { ExerciseView } from "./ExerciseView"
+/// #if CLIENT
+import { ExerciseView } from "../client/ExerciseView"
+import { usePersistentSRS } from "../client/ProgressSaving"
+/// #endif
 
 export function CardsEmbed(props: { reviews: Review[] }) {
-    const { api } = useContext(AppContext)
+    const srs = usePersistentSRS()
     const { reviews } = props
     const state = useLocalStore<{ reviews: Review[], completedIds: string[] }>(() => ({ reviews: _.clone(reviews).reverse(), completedIds: [] }))
 
     const onCompleteAll = async (exerciseIds: string[]) => {
-        await api.completeLesson(exerciseIds)
+        for (const id of exerciseIds) {
+            srs.update({ cardId: id, remembered: true })
+        }
     }
 
     useEffect(() => {

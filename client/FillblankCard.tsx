@@ -10,7 +10,7 @@ import { faEye, faChevronRight } from "@fortawesome/free-solid-svg-icons"
 import Markdown from "markdown-to-jsx"
 import { matchesAnswerPermissively } from "../common/logic"
 import { AppContext } from "./AppContext"
-import type { CanvasEffects } from "./CanvasEffects"
+import { useCanvasEffects } from "./CanvasEffects"
 
 type FillblankProps = { exercise: FillblankExerciseDef, lesson: Lesson, onSubmit: (remembered: boolean) => void }
 
@@ -70,7 +70,7 @@ class FillblankState {
 
 
 export const FillblankCard = observer(function FillblankCard(props: FillblankProps) {
-    const { effects } = React.useContext(AppContext)
+    const effects = useCanvasEffects()
     const { exercise } = props
     const canonicalAnswer = exercise.possibleAnswers[0]!
     const responseInput = useRef<HTMLInputElement>(null)

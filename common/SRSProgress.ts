@@ -117,6 +117,10 @@ export class SRSProgress {
             return item
     }
 
+    @computed get jsonStr() {
+        return JSON.stringify(this.store)
+    }
+
     @action update({ cardId, remembered }: { cardId: string, remembered: boolean }) {
         let item = this.store.cards[cardId]
         const now = Date.now()

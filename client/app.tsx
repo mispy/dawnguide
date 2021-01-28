@@ -19,8 +19,7 @@ function App(props: { user: User, progress: UserProgress }) {
         return {
             app: app,
             api: app.api,
-            user: app.user,
-            effects: new CanvasEffects()
+            user: app.user
         }
     }, [])
 

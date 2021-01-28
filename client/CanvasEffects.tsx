@@ -84,3 +84,13 @@ export class CanvasEffects {
         }
     }
 }
+
+
+let effects: CanvasEffects | undefined
+export function useCanvasEffects(): CanvasEffects {
+    if (!effects) {
+        effects = new CanvasEffects()
+    }
+
+    return effects
+}

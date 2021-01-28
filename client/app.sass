@@ -22,15 +22,6 @@
         top: 60px
         width: 100%
 
-#effectCanvas
-    position: fixed
-    left: 0
-    top: 0
-    width: 100vw
-    height: 100vh
-    pointer-events: none
-    z-index: 1
-
 .AppLayout
     min-height: 100vh
 
@@ -332,92 +323,6 @@ button:focus
     @media (max-width: $mobile)
         padding-left: 5vw
         padding-right: 5vw
-
-.FillblankCard
-    margin: auto
-    max-width: 400px
-    text-align: left
-
-    @media (max-width: $mobile)
-        padding-left: 5vw
-        padding-right: 5vw
-
-    .card
-        box-shadow: 0 7px 50px rgba(46,10,99,.05), 0 1px 1px 0.6px rgba(46,10,99,.1)
-        border-radius: 8px
-
-    .qline
-        padding: 2rem
-        font-size: 1.05rem
-        line-height: 2rem
-        white-space: pre-wrap
-
-        @media (max-width: $mobile)
-            padding: 1.5rem
-
-    span.fillblank
-        color: #64b5f6
-        border-bottom: 2px  solid #5f6368
-        min-width: 20px
-        display: inline-block
-        text-align: center
-        line-height: 1.5rem
-
-    input
-        width: 100%
-        padding: 1rem
-        border: 0
-        text-align: center
-        border-radius: 0 0 8px 8px
-
-        // https://thingsthemselves.com/no-input-zoom-in-safari-on-iphone-the-pixel-perfect-way/
-        font-size: 16px
-
-    // fieldset svg
-    //     display: none
-
-.FillblankCard
-    fieldset
-        position: relative
-
-    fieldset button
-        position: absolute
-        padding: 0 20px
-        right: 5px
-        height: 100%
-        font-size: 1.3em
-        line-height: 1em
-        border: none
-        background: none
-
-.FillblankCard.correct
-    span.fillblank
-        color: rgba(71, 209, 71, .8)
-
-    input
-        background: rgba(71, 209, 71, 0.8)
-
-    input, fieldset svg
-        color: white
-
-    .successFeedback
-        margin-top: 1rem
-        color: rgba(0, 151, 0, 0.8)
-        text-align: center
-
-.FillblankCard.incorrect
-    span.fillblank
-        color: rgba(255, 77, 77, 0.8)
-
-    input
-        background: rgba(255, 77, 77, 0.8)
-
-    input, fieldset svg
-        color: white
-
-    .reviseFeedback
-        margin-top: 1rem
-        text-align: center
 
 .SettingsLayout
     padding-top: 2rem
