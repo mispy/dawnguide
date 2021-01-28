@@ -42,8 +42,12 @@ export function getReviewDelayByLevel(level: number): number {
 }
 
 export class SRSProgressItem {
-    constructor(readonly store: ProgressStoreItem) {
+    constructor(readonly srs: SRSProgress, readonly cardId: string) {
         makeObservable(this)
+    }
+
+    @computed get store() {
+        return this.srs.store.cards[this.cardId]!
     }
 
     get level() {
@@ -78,7 +82,6 @@ export class SRSProgressItem {
  */
 export class SRSProgress {
     store: ProgressStore
-    @observable _items: { [cardId: string]: SRSProgressItem } = {}
 
     constructor(store?: ProgressStore) {
         this.store = store || observable({ cards: {} })
@@ -103,17 +106,7 @@ export class SRSProgress {
 
     get(cardId: string): SRSProgressItem | undefined {
         const store = this.store.cards[cardId]
-        const item = this._items[cardId]
-        if (item) {
-            return item
-        } else if (store) {
-            runInAction(() => {
-                this._items[cardId] = new SRSProgressItem(store)
-            })
-            return this._items[cardId]
-        } else {
-            return undefined
-        }
+        return store ? new SRSProgressItem(this, cardId) : undefined
     }
 
     expect(cardId: string): SRSProgressItem {

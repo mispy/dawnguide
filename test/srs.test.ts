@@ -1,4 +1,5 @@
 
+import { autorun } from 'mobx'
 import { SRSProgress } from '../common/SRSProgress'
 import * as time from '../common/time'
 
@@ -110,5 +111,19 @@ describe('SRSProgress', () => {
         const waffles = srs1.expect('waffles')
         expect(waffles.level).toBe(2)
         expect(waffles.reviewedAt).toBeLessThanOrEqual(srs2.expect('waffles').reviewedAt)
+    })
+
+    it("has mobx reactivity for srs updates", async () => {
+        const srs = new SRSProgress()
+
+        let level: number | undefined
+        autorun(() => level = srs.get('mochi')?.level)
+        expect(level).toBeUndefined()
+
+        srs.update({ cardId: 'mochi', remembered: true })
+        expect(level).toEqual(1)
+
+        srs.update({ cardId: 'mochi', remembered: true })
+        expect(level).toEqual(2)
     })
 })
