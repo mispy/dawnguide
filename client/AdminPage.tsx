@@ -5,7 +5,7 @@ import * as _ from 'lodash'
 import * as React from 'react'
 import { AppLayout } from "./AppLayout"
 import { ClientApi } from "./ClientApi"
-import { observable, runInAction, action } from "mobx"
+import { observable, runInAction, action, makeObservable } from "mobx"
 import { User, UserAdminReport } from "../common/types"
 
 // @ts-ignore
@@ -15,7 +15,9 @@ import { Container } from "react-bootstrap"
 class AdminPageState {
     @observable users: UserAdminReport[] = []
 
-    constructor(readonly api: ClientApi) { }
+    constructor(readonly api: ClientApi) {
+        makeObservable(this)
+    }
 
     async loadUsers() {
         const users = await this.api.admin.getUsers()

@@ -1,8 +1,8 @@
 import { faUndo, faPause, faPlay } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import _ from "lodash"
-import { observable, action, computed } from "mobx"
-import { useLocalStore, useObserver } from "mobx-react-lite"
+import { observable, action, computed, makeObservable } from "mobx"
+import { Observer, useLocalStore, useObserver } from "mobx-react-lite"
 import React from "react"
 import styled from 'styled-components'
 
@@ -10,11 +10,12 @@ class MeditationTimerState {
     lastTime?: number
     duration: number
     @observable timePassed: number = 0
-    @observable frameHandle?: number
+    @observable frameHandle: number | null = null
     bell: HTMLAudioElement
     wakeLock?: any
 
     constructor(readonly seconds: number) {
+        makeObservable(this)
         this.duration = seconds * 1000
         this.bell = new Audio('/meditation-bell.mp3')
     }
@@ -50,7 +51,7 @@ class MeditationTimerState {
     }
 
     @computed get playing() {
-        return this.frameHandle !== undefined
+        return this.frameHandle !== null
     }
 
     @action.bound play() {
@@ -68,9 +69,9 @@ class MeditationTimerState {
     }
 
     @action.bound pause() {
-        if (this.frameHandle !== undefined) {
+        if (this.frameHandle !== null) {
             cancelAnimationFrame(this.frameHandle)
-            this.frameHandle = undefined
+            this.frameHandle = null
         }
 
         if (this.wakeLock !== undefined) {
@@ -106,21 +107,23 @@ p {
 export function MeditationTimer(props: { seconds: number }) {
     const state = useLocalStore(() => new MeditationTimerState(props.seconds))
 
-    return useObserver(() => <MeditationTimerDiv className="card">
-        <div className="card-body">
-            <h6>Meditation Timer</h6>
-            <div className="controls">
-                <button className="btn" onClick={state.reset}>
-                    <FontAwesomeIcon icon={faUndo} />
-                </button>
-                <button className="btn" onClick={state.toggle}>
-                    {state.playing ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />}
-                </button>
-                <div>
-                    {state.durationStr}
+    return <Observer>
+        {() => <MeditationTimerDiv className="card">
+            <div className="card-body">
+                <h6>Meditation Timer</h6>
+                <div className="controls">
+                    <button className="btn" onClick={state.reset}>
+                        <FontAwesomeIcon icon={faUndo} />
+                    </button>
+                    <button className="btn" onClick={state.toggle}>
+                        {state.playing ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />}
+                    </button>
+                    <div>
+                        {state.durationStr}
+                    </div>
                 </div>
+                <p className="text-secondary mt-2">There is a little chime sound at the start and end.</p>
             </div>
-            <p className="text-secondary mt-2">There is a little chime sound at the start and end.</p>
-        </div>
-    </MeditationTimerDiv>)
+        </MeditationTimerDiv>}
+    </Observer>
 }

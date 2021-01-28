@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react"
 import { useLocalStore, observer } from "mobx-react-lite"
-import { action, observable } from "mobx"
+import { action, observable, makeObservable } from "mobx"
 import * as React from 'react'
 import { FillblankExerciseDef } from "../common/types"
 import { Lesson } from "../common/content"
@@ -21,6 +21,7 @@ class FillblankState {
     responseInput?: HTMLInputElement
 
     constructor(props: FillblankProps, readonly effects: CanvasEffects) {
+        makeObservable(this)
         this.props = props
     }
 

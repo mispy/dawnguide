@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { computed, observable } from "mobx"
+import { computed, observable, makeObservable, action, runInAction } from "mobx"
 import { hours, days, weeks, months } from './time'
 
 type Timestamp = number
@@ -42,7 +42,9 @@ export function getReviewDelayByLevel(level: number): number {
 }
 
 export class SRSProgressItem {
-    constructor(readonly store: ProgressStoreItem) { }
+    constructor(readonly store: ProgressStoreItem) {
+        makeObservable(this)
+    }
 
     get level() {
         return this.store.level
@@ -76,9 +78,11 @@ export class SRSProgressItem {
  */
 export class SRSProgress {
     store: ProgressStore
+    @observable _items: { [cardId: string]: SRSProgressItem } = {}
 
     constructor(store?: ProgressStore) {
         this.store = store || observable({ cards: {} })
+        makeObservable(this)
     }
 
     @computed get upcomingReviews() {
@@ -99,7 +103,17 @@ export class SRSProgress {
 
     get(cardId: string): SRSProgressItem | undefined {
         const store = this.store.cards[cardId]
-        return store ? new SRSProgressItem(store) : undefined
+        const item = this._items[cardId]
+        if (item) {
+            return item
+        } else if (store) {
+            runInAction(() => {
+                this._items[cardId] = new SRSProgressItem(store)
+            })
+            return this._items[cardId]
+        } else {
+            return undefined
+        }
     }
 
     expect(cardId: string): SRSProgressItem {
@@ -110,7 +124,7 @@ export class SRSProgress {
             return item
     }
 
-    update({ cardId, remembered }: { cardId: string, remembered: boolean }) {
+    @action update({ cardId, remembered }: { cardId: string, remembered: boolean }) {
         let item = this.store.cards[cardId]
         const now = Date.now()
         if (!item) {
@@ -137,7 +151,7 @@ export class SRSProgress {
      * Update this progress tracker to include all the progress from another one,
      * resolving any conflicts along the way
      */
-    reconcile(store: ProgressStore) {
+    @action reconcile(store: ProgressStore) {
         for (const cardId in store.cards) {
             const incomingItem = store.cards[cardId]!
             const item = this.store.cards[cardId]

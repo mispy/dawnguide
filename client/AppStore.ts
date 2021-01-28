@@ -1,10 +1,10 @@
-import { observable, runInAction, computed, action, toJS } from "mobx"
-import { ExerciseWithProgress, getReviewTime } from "../common/logic"
+import { observable, runInAction, computed, action, toJS, makeObservable, autorun } from "mobx"
+import { ExerciseWithProgress } from "../common/logic"
 import { Lesson, Review } from "../common/content"
 import * as _ from 'lodash'
 import { ClientApi } from "./ClientApi"
 import { content } from "../common/content"
-import { UserProgressItem, User, Exercise, UserLesson, UserProgress } from "../common/types"
+import { UserProgressItem, User, Exercise, UserProgress } from "../common/types"
 import * as Sentry from '@sentry/browser'
 import { SENTRY_DSN_URL } from "./settings"
 import { AxiosError } from "axios"
@@ -23,19 +23,21 @@ export type LessonWithProgress = {
     fracProgress: number
 }
 
+declare const window: any
 
 export class AppStore {
     api: ClientApi
     backgroundApi: ClientApi
     @observable user: User
     @observable progress: UserProgress
-    @observable.ref unexpectedError?: Error
+    @observable.ref unexpectedError: Error | null = null
     srs: SRSProgress = new SRSProgress()
+    learnies: Learny[] = []
 
     constructor(user: User, progress: UserProgress) {
-        (window as any).app = this
         this.user = user
         this.progress = progress
+        window.app = this
 
         this.backgroundApi = new ClientApi()
         this.api = this.backgroundApi.with({ nprogress: true })
@@ -62,6 +64,12 @@ export class AppStore {
                 e.returnValue = ''
             }
         })
+
+        for (const lesson of content.lessons) {
+            this.learnies.push(new Learny(lesson, this.srs, false))
+        }
+
+        makeObservable(this)
     }
 
     async loadProgress() {
@@ -70,6 +78,13 @@ export class AppStore {
         const progress = await req
         runInAction(() => {
             this.progress = progress
+
+            for (const lessonId in progress.userLessons) {
+                const learny = this.learnyByLessonId[lessonId]
+                if (learny) {
+                    learny.disabled = !!progress.userLessons[lessonId]!.disabled
+                }
+            }
 
             const store: ProgressStore = { cards: {} }
             for (const item of progress.progressItems) {
@@ -88,7 +103,7 @@ export class AppStore {
         runInAction(() => this.user = user)
     }
 
-    learnyForLesson(lessonId: string) {
+    learnyForLesson(lessonId: string): Learny {
         const learny = this.learnyByLessonId[lessonId]
         if (!learny) {
             throw new Error(`Unknown lesson id ${lessonId}`)
@@ -114,28 +129,6 @@ export class AppStore {
 
     @computed get progressByExerciseId() {
         return _.keyBy(this.progress.progressItems, item => item.exerciseId) as _.Dictionary<UserProgressItem | undefined>
-    }
-
-    @computed get exercisesWithProgress() {
-        const exercisesWithProgress: ExerciseWithProgress[] = []
-        for (const exercise of content.exercises) {
-            const item = this.srs.get(exercise.id)
-
-            exercisesWithProgress.push({
-                exercise: exercise,
-                progress: item
-            })
-        }
-
-        return exercisesWithProgress
-    }
-
-    @computed get learnies() {
-        return content.lessons.map(lesson => {
-            const userLesson = this.progress.userLessons[lesson.id] || {}
-            const ewps = this.exercisesWithProgress.filter(ewp => ewp.exercise.lessonId === lesson.id)
-            return new Learny(lesson, userLesson, ewps)
-        })
     }
 
     @computed get learnyByLessonId() {

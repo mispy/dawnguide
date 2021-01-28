@@ -4,7 +4,7 @@ import { useLocalStore, useObserver } from "mobx-react-lite"
 import * as _ from 'lodash'
 import * as React from 'react'
 import { AppLayout } from "./AppLayout"
-import { observable, runInAction, action } from "mobx"
+import { observable, runInAction, action, makeObservable } from "mobx"
 import { Container } from "react-bootstrap"
 import { User, UserNotificationSettings } from "../common/types"
 import { ClientApi } from "./ClientApi"
@@ -12,9 +12,11 @@ import { Link } from "react-router-dom"
 import { SettingsLayout } from "./SettingsLayout"
 
 class NotificationsSectionState {
-    @observable settings?: UserNotificationSettings
+    @observable settings: UserNotificationSettings | null = null
 
-    constructor(readonly api: ClientApi) { }
+    constructor(readonly api: ClientApi) {
+        makeObservable(this)
+    }
 
     async loadSettings() {
         const settings = await this.api.getNotificationSettings()

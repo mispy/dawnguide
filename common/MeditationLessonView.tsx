@@ -10,10 +10,10 @@ import { Markdown } from '../common/Markdown'
 import { Link } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
 import ReactTimeago from 'react-timeago'
-// #if CLIENT
-// import { AppContext } from '../client/AppContext'
-// import { MeditationTimer } from '../client/MeditationTimer'
-// #endif
+/// #if CLIENT
+import { AppContext } from '../client/AppContext'
+import { MeditationTimer } from '../client/MeditationTimer'
+/// #endif
 
 
 function LessonCompleteLink(props: { lesson: Lesson }) {
@@ -35,18 +35,14 @@ export function MeditationLessonView(props: { lesson: MeditationLesson }) {
     if (typeof AppContext !== "undefined") {
         const { app } = useContext(AppContext)
 
-        finishLesson = action(() => {
-            app.progress.progressItems.push({
-                userId: app.user.id,
-                exerciseId: lesson.id,
-                level: 1,
-                learnedAt: Date.now(),
-                reviewedAt: Date.now()
+        if (app) {
+            finishLesson = action(() => {
+                app.srs.update({ cardId: lesson.id, remembered: true })
+                app.backgroundApi.completeLesson([lesson.id])
             })
-            app.backgroundApi.completeLesson([lesson.id])
-        })
 
-        learny = app.learnyForLesson(lesson.id)
+            learny = app.learnyForLesson(lesson.id)
+        }
     }
     const [text, referenceIds] = transformRefs(lesson.def.text)
     const referencesInText = referenceIds.map(id => lesson.expectReference(id))
@@ -57,7 +53,7 @@ export function MeditationLessonView(props: { lesson: MeditationLesson }) {
             <h1>Meditation: {lesson.title}</h1>
             <Markdown>{text}</Markdown>
             <Markdown>{lesson.def.steps}</Markdown>
-            <MeditationTimer seconds={lesson.def.seconds} />
+            {learny && <MeditationTimer seconds={lesson.def.seconds} />}
             <div className="d-flex align-items-center mt-4">
                 <div>
                     {learny?.nextReview && learny.nextReview.when <= Date.now() && <span>Review available now</span>}

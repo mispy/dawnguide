@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useObserver, useLocalStore } from "mobx-react-lite"
-import { observable, action, computed } from "mobx"
+import { observable, action, computed, makeObservable } from "mobx"
 
 import { AppContext } from "./AppContext"
 import * as _ from 'lodash'
@@ -60,6 +60,7 @@ class LessonPageState {
     @observable exerciseIndex: number = 0
 
     constructor(readonly lesson: Lesson) {
+        makeObservable(this)
     }
 
     @computed get exercise() {

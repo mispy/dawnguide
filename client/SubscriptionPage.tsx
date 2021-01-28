@@ -7,14 +7,16 @@ import { SettingsLayout } from "./SettingsLayout"
 import { useObserver, useLocalStore } from "mobx-react-lite"
 import { loadStripe } from '@stripe/stripe-js'
 import { AppStore } from "./AppStore"
-import { runInAction, observable, action } from "mobx"
+import { runInAction, observable, action, makeObservable } from "mobx"
 import { bind } from "decko"
 
 declare const window: any
 
 class SubscriptionPageState {
     @observable loading: boolean = false
-    constructor(readonly app: AppStore) { }
+    constructor(readonly app: AppStore) {
+        makeObservable(this)
+    }
 
     @action startLoading() {
         this.loading = true

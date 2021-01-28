@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { observable, action } from "mobx"
+import { observable, action, makeObservable } from "mobx"
 
 import * as _ from 'lodash'
 import { useContext } from "react"
@@ -11,6 +11,10 @@ import { AppLayout } from "./AppLayout"
 
 class ReviewsState {
     @observable complete: boolean = false
+
+    constructor() {
+        makeObservable(this)
+    }
 
     @action.bound completeReview() {
         this.complete = true

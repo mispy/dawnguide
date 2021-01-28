@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useObserver } from "mobx-react-lite"
+import { Observer, useObserver } from "mobx-react-lite"
 import { AppLayout } from "./AppLayout"
 import { AppContext } from "./AppContext"
 import * as _ from 'lodash'
@@ -131,31 +131,32 @@ cursor: pointer;
 function MasteryProgressBar(props: { learny: Learny }) {
     const { app } = useContext(AppContext)
     const { learny } = props
-    const { nextReview } = learny
 
     const toggleDisabled = action(() => {
-        const inverse = !learny.userLesson.disabled
-        learny.userLesson.disabled = inverse
+        const inverse = !learny.disabled
+        learny.disabled = inverse
         app.backgroundApi.updateUserLesson(learny.lesson.id, { disabled: inverse })
     })
 
-    return useObserver(() => <MasteryProgressBarDiv onClick={toggleDisabled} className={classNames({ disabled: learny.userLesson.disabled })}>
-        <div className="d-flex">
-            <div>
-                {learny.masteryLevel === 9 && <FontAwesomeIcon icon={faStar} />} Mastery level {learny.masteryLevel}/9
+    return <Observer>
+        {() => <MasteryProgressBarDiv onClick={toggleDisabled} className={classNames({ disabled: learny.disabled })}>
+            <div className="d-flex">
+                <div>
+                    {learny.masteryLevel === 9 && <FontAwesomeIcon icon={faStar} />} Mastery level {learny.masteryLevel}/9
+                </div>
             </div>
-        </div>
 
-        <div className={classNames({ outer: true, mastered: learny.mastered })}>
-            <div className="inner" style={{ width: `${learny.masteryPercent}%` }} />
-        </div>
+            <div className={classNames({ outer: true, mastered: learny.mastered })}>
+                <div className="inner" style={{ width: `${learny.masteryPercent}%` }} />
+            </div>
 
-        <div>
-            {nextReview && nextReview.when <= Date.now() && <span>Review available now</span>}
-            {nextReview && nextReview.when > Date.now() && <span>Reviewing: <ReactTimeago date={nextReview.when} /></span>}
-            {learny.userLesson.disabled && <span>Reviews disabled</span>}
-        </div>
-    </MasteryProgressBarDiv>)
+            <div>
+                {learny.nextReview && learny.nextReview.when <= Date.now() && <span>Review available now</span>}
+                {learny.nextReview && learny.nextReview.when > Date.now() && <span>Reviewing: <ReactTimeago date={learny.nextReview.when} /></span>}
+                {learny.disabled && <span>Reviews disabled</span>}
+            </div>
+        </MasteryProgressBarDiv>}
+    </Observer>
 }
 
 const Main = styled.main`

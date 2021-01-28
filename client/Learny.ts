@@ -1,7 +1,8 @@
 import _ from "lodash"
-import { computed, observable } from "mobx"
+import { computed, observable, makeObservable } from "mobx"
 import { Lesson } from "../common/content"
 import { ExerciseWithProgress, getReviewTime } from "../common/logic"
+import { SRSProgress } from "../common/SRSProgress"
 import { UserLesson } from "../common/types"
 
 /** 
@@ -9,11 +10,21 @@ import { UserLesson } from "../common/types"
  * associated with a given lesson.
  */
 export class Learny {
-    @observable userLesson: UserLesson
-    @observable ewps: ExerciseWithProgress[]
-    constructor(readonly lesson: Lesson, userLesson: UserLesson, ewps: ExerciseWithProgress[]) {
-        this.userLesson = userLesson
-        this.ewps = ewps
+    @observable disabled: boolean
+    constructor(readonly lesson: Lesson, readonly srs: SRSProgress, disabled: boolean) {
+        this.disabled = disabled
+        makeObservable(this)
+    }
+
+    @computed get ewps(): ExerciseWithProgress[] {
+        const ewps = []
+        for (const exercise of this.lesson.exercises) {
+            ewps.push({
+                exercise: exercise,
+                progress: this.srs.get(exercise.id)
+            })
+        }
+        return ewps
     }
 
     @computed get meanReviewLevel(): number {
@@ -29,7 +40,7 @@ export class Learny {
     }
 
     @computed get nextReview() {
-        if (this.userLesson.disabled)
+        if (this.disabled)
             return undefined
 
         const reviews = this.ewps.map(ex => {
