@@ -1,10 +1,10 @@
 import * as React from 'react'
-import * as _ from 'lodash'
+import _ from 'lodash'
 import { Markdown } from './Markdown'
 
-import { Lesson } from "./content"
+import type { Lesson } from "./content"
 import { Bibliography } from "./Bibliography"
-import { MarkdownString } from "./types"
+import type { MarkdownString } from "./types"
 import classNames from 'classnames'
 import { IS_SERVER } from './settings'
 import { isExternalUrl } from './utils'

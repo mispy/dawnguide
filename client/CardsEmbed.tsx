@@ -2,7 +2,7 @@ import _ from "lodash"
 import { action } from "mobx"
 import { useLocalStore, useObserver } from "mobx-react-lite"
 import React, { useContext, useEffect } from "react"
-import { Review } from "../common/types"
+import type { Review } from "../common/types"
 import { AppContext } from "./AppContext"
 import { ExerciseView } from "./ExerciseView"
 

@@ -3,16 +3,17 @@ import { useObserver } from 'mobx-react-lite'
 // @ts-ignore
 const TimeAgo = require('react-timeago').default
 
-import { Lesson } from '../common/content'
+import type { Lesson } from '../common/content'
 import { Container } from 'react-bootstrap'
 /// #if CLIENT
 import { AppContext } from '../client/AppContext'
 import { CardsEmbed } from '../client/CardsEmbed'
 /// #endif
-import { ExerciseWithProgress } from '../common/logic'
-import { FillblankExerciseDef } from '../common/types'
+import type { ExerciseWithProgress } from '../common/logic'
+import type { FillblankExerciseDef } from '../common/types'
 import { Markdown } from '../common/Markdown'
 import { Bibliography, transformRefs } from '../common/Bibliography'
+import type { Learny } from '../client/Learny'
 import classNames from 'classnames'
 
 export function showReviewTime(ewp: ExerciseWithProgress) {
@@ -33,7 +34,7 @@ export function ReadingLessonView(props: { lesson: Lesson }) {
     const [lessonText, referenceIds] = transformRefs(lesson.text)
     const referencesInText = referenceIds.map(id => lesson.expectReference(id))
 
-    let learny: any = null
+    let learny: Learny | null = null
     if (typeof AppContext !== "undefined") {
         const { app } = React.useContext(AppContext)
         if (app) {

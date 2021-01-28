@@ -1,4 +1,4 @@
-import { LessonDef } from "./types"
+import type { LessonDef } from "./types"
 
 export function defineLesson(def: LessonDef): LessonDef {
     return def

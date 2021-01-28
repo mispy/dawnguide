@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from 'uuid'
 import * as bcrypt from 'bcryptjs'
-import { KVNamespace } from '@cloudflare/workers-types'
+import type { KVNamespace } from '@cloudflare/workers-types'
 import * as time from '../common/time'
 
-import { UserProgressItem, UserNotificationSettings, UserLesson } from '../common/types'
+import type { UserProgressItem, UserNotificationSettings, UserLesson } from '../common/types'
 import { isReadyForReview } from '../common/logic'
 import * as _ from 'lodash'
 import { ResponseError } from './utils'

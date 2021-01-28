@@ -1,4 +1,6 @@
-import { Lesson } from "./content"
+import { levenshtein } from './levenshtein'
+import type { SRSProgressItem } from "./SRSProgress"
+import type { Exercise } from "./types"
 
 export interface ExerciseProgressItem {
     /** Unique id of the exercise, which refers to a hardcoded string */
@@ -76,10 +78,6 @@ function distanceTolerance(s: string) {
             return 2 + 1 * Math.floor(s.length / 7)
     }
 }
-
-import { levenshtein } from './levenshtein'
-import { SRSProgressItem } from "./SRSProgress"
-import { Exercise } from "./types"
 
 export function matchesAnswerPermissively(attempt: string, correctAnswer: string): boolean {
     attempt = attempt.toLowerCase()

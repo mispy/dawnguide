@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Reference, MarkdownString } from "./types"
+import type { Reference, MarkdownString } from "./types"
 
 export function transformRefs(markdown: MarkdownString): [MarkdownString, string[]] {
     const referenceIds: string[] = []

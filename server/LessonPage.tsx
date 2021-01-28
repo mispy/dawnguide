@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Head } from "./Head"
 import { htmlToPlaintext, resolveAsset } from './utils'
-import { Lesson } from "../common/content"
+import type { Lesson } from "../common/content"
 import { SiteHeader } from "./SiteHeader"
 import { SiteFooter } from "./SiteFooter"
 import Markdown from "markdown-to-jsx"

@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Lesson } from "../common/content"
-import { Exercise } from "../common/types"
+import type { Lesson } from "../common/content"
+import type { Exercise } from "../common/types"
 import { FillblankCard } from './FillblankCard'
 import { MeditationCard } from './MeditationCard'
 

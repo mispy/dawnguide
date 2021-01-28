@@ -1,6 +1,6 @@
 import * as db from './db'
 import { sendReviewsEmailIfNeeded } from './reviewsEmail'
-import { EventRequest } from './requests'
+import type { EventRequest } from './requests'
 import { ResponseError } from './utils'
 import { ADMIN_SECRET } from './settings'
 import _ from 'lodash'

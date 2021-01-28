@@ -1,6 +1,6 @@
 import { pageResponse } from "./utils"
 import { FrontPage } from "./FrontPage"
-import { EventRequest, SessionRequest } from "./requests"
+import type { EventRequest, SessionRequest } from "./requests"
 import { content } from "../common/content"
 import { LessonPage } from "./LessonPage"
 import * as _ from 'lodash'

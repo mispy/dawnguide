@@ -1,14 +1,11 @@
-import { useContext, useState, useEffect } from "react"
+import { useContext, useEffect } from "react"
 import { AppContext } from "./AppContext"
 import { useLocalStore, useObserver } from "mobx-react-lite"
-import * as _ from 'lodash'
+import _ from 'lodash'
 import * as React from 'react'
-import { AppLayout } from "./AppLayout"
 import { observable, runInAction, action, makeObservable } from "mobx"
-import { Container } from "react-bootstrap"
-import { User, UserNotificationSettings } from "../common/types"
-import { ClientApi } from "./ClientApi"
-import { Link } from "react-router-dom"
+import type { UserNotificationSettings } from "../common/types"
+import type { ClientApi } from "./ClientApi"
 import { SettingsLayout } from "./SettingsLayout"
 
 class NotificationsSectionState {

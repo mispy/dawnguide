@@ -1,9 +1,8 @@
 import _ from "lodash"
 import { computed, observable, makeObservable } from "mobx"
-import { Lesson } from "../common/content"
-import { ExerciseWithProgress, getReviewTime } from "../common/logic"
-import { SRSProgress } from "../common/SRSProgress"
-import { UserLesson } from "../common/types"
+import type { Lesson } from "../common/content"
+import type { ExerciseWithProgress } from "../common/logic"
+import type { SRSProgress } from "../common/SRSProgress"
 
 /** 
  * A learny represents what we know about a user's learning progress
@@ -43,15 +42,16 @@ export class Learny {
         if (this.disabled)
             return undefined
 
-        const reviews = this.ewps.map(ex => {
+        const review = this.srs.upcomingReviews[0]
+        if (review) {
             return {
                 lesson: this.lesson,
-                exercise: ex.exercise,
-                when: ex.progress ? getReviewTime(ex.progress) : Infinity
+                exercise: this.ewps.find(e => e.exercise.id === review.cardId)!.exercise,
+                when: review.nextReviewAt
             }
-        }).filter(d => isFinite(d.when))
-
-        return _.sortBy(reviews, d => d.when)[0]
+        } else {
+            return undefined
+        }
     }
 
     @computed get peeked() {

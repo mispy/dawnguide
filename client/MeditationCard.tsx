@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react"
 import { useLocalStore, observer } from "mobx-react-lite"
 import * as React from 'react'
-import { MeditationLesson } from "../common/content"
+import type { MeditationLesson } from "../common/content"
 import Markdown from "markdown-to-jsx"
 import { MeditationTimer } from "./MeditationTimer"
 

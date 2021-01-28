@@ -1,5 +1,5 @@
 import React from "react"
-import { Lesson } from "./content"
+import type { Lesson } from "./content"
 import { MeditationLessonView } from "./MeditationLessonView"
 import { ReadingLessonView } from "./ReadingLessonView"
 

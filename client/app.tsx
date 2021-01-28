@@ -6,7 +6,7 @@ import { AppRouter } from './AppRouter'
 import { AppContext } from './AppContext'
 import { AppStore } from './AppStore'
 import { useMemo } from 'react'
-import { User, UserProgress } from '../common/types'
+import type { User, UserProgress } from '../common/types'
 import { CanvasEffects } from './CanvasEffects'
 import { content } from '../common/content'
 import { LessonView } from '../common/LessonView'
@@ -41,5 +41,6 @@ window.initApp = (props: { user: User, progress: UserProgress }) => {
 
 window.hydrateLesson = function (lessonId: string) {
     const lesson = content.expectLesson(lessonId)
+    // @ts-ignore
     ReactDOM.hydrate(<LessonView lesson={lesson} />, document.getElementsByClassName('lessonContainer')[0])
 }

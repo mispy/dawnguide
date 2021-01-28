@@ -6,7 +6,7 @@ import { MONTHLY_PLAN_ID, ANNUAL_PLAN_ID } from "../common/settings"
 import { SettingsLayout } from "./SettingsLayout"
 import { useObserver, useLocalStore } from "mobx-react-lite"
 import { loadStripe } from '@stripe/stripe-js'
-import { AppStore } from "./AppStore"
+import type { AppStore } from "./AppStore"
 import { runInAction, observable, action, makeObservable } from "mobx"
 import { bind } from "decko"
 

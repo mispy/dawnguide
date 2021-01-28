@@ -1,9 +1,9 @@
 // Ported to typescript from https://github.com/bustle/cf-sentry/blob/master/sentry.js
 
 import { SENTRY_KEY, SENTRY_PROJECT_ID, DEPLOY_ENV } from "./settings"
-import { EventRequest } from "./requests"
+import type { EventRequest } from "./requests"
 import * as _ from 'lodash'
-import { Json } from "./utils"
+import type { Json } from "./utils"
 import * as db from './db'
 
 // Get the key from the "DSN" at: https://sentry.io/settings/<org>/projects/<project>/keys/

@@ -1,5 +1,5 @@
 
-import { AxiosError, AxiosResponse } from 'axios'
+import type { AxiosError } from 'axios'
 import * as _ from 'lodash'
 import { Modal, Button } from 'react-bootstrap'
 import { action } from 'mobx'
@@ -11,7 +11,7 @@ export function ErrorModal(props: { error: Error | AxiosError }) {
     const { error } = props
     const { app } = useContext(AppContext)
 
-    const dismiss = action(() => app.unexpectedError = undefined)
+    const dismiss = action(() => app.unexpectedError = null)
 
     const serverResponse = 'response' in error && error.response ? error.response : null
 

@@ -1,5 +1,5 @@
 {
-    "extends": "../tsconfig.base.json",
+    "extends": "../tsconfig-base.json",
     "include": [
         "**/*",
         "../common"
@@ -9,7 +9,10 @@
         "outDir": "./dist/",
         "lib": [
             "esnext",
-            "webworker"
+            "webworker",
+            // Necessary to make imports for isomorphic common code work
+            // Would be nice to find a way around this at some point
+            "dom"
         ],
         "target": "es2018"
     },

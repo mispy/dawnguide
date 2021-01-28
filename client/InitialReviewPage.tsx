@@ -7,9 +7,9 @@ import * as _ from 'lodash'
 import { Link, Redirect } from "react-router-dom"
 import { AppLayout } from "./AppLayout"
 import { useContext, useEffect } from "react"
-import { Lesson } from '../common/content'
+import type { Lesson } from '../common/content'
 import { ExerciseView } from './ExerciseView'
-import { Review } from '../common/types'
+import type { Review } from '../common/types'
 
 function LessonReviews(props: { reviews: Review[], onComplete: () => void }) {
     const { api } = useContext(AppContext)

@@ -1,5 +1,5 @@
-import { Json } from "./utils"
-import { EventRequest } from "./requests"
+import type { Json } from "./utils"
+import type { EventRequest } from "./requests"
 
 type Responselike = Response | Json | string | void
 type RouteHandler<T> = (req: T, ...args: string[]) => Responselike | Promise<Responselike>

@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { Lesson } from "../common/content"
+import type { Lesson } from "../common/content"
 import Markdown from "markdown-to-jsx"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
 import { renderToStaticMarkup } from "react-dom/server"
-import { MarkdownString, User } from '../common/types'
+import type { MarkdownString, User } from '../common/types'
 import _ from 'lodash'
 import { Bibliography } from '../common/Bibliography'
 import { emailHtmlTemplate } from './emailUtils'

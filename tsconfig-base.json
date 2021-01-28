@@ -18,7 +18,9 @@
         ],
         "resolveJsonModule": true,
         "skipLibCheck": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "importsNotUsedAsValues": "error",
+        "isolatedModules": true
     },
     // Stop base being used directly, it should always be overridden
     "exclude": [

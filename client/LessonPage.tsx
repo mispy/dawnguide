@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useObserver } from 'mobx-react-lite'
-import { Lesson } from '../common/content'
+import type { Lesson } from '../common/content'
 import { AppLayout } from './AppLayout'
 import { LessonView } from '../common/LessonView'
 

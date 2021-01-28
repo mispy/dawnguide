@@ -4,9 +4,9 @@ import { useLocalStore, useObserver } from "mobx-react-lite"
 import * as _ from 'lodash'
 import * as React from 'react'
 import { AppLayout } from "./AppLayout"
-import { ClientApi } from "./ClientApi"
+import type { ClientApi } from "./ClientApi"
 import { observable, runInAction, action, makeObservable } from "mobx"
-import { User } from "../common/types"
+import type { User } from "../common/types"
 import { content } from "../common/content"
 
 // @ts-ignore

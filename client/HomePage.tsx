@@ -2,22 +2,21 @@ import * as React from 'react'
 import { Observer, useObserver } from "mobx-react-lite"
 import { AppLayout } from "./AppLayout"
 import { AppContext } from "./AppContext"
-import * as _ from 'lodash'
+import _ from 'lodash'
 import { Container } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { useContext } from "react"
-import { showReviewTime } from "./LessonPage"
 import { DebugTools } from "./DebugTools"
 import { IS_PRODUCTION } from "./settings"
-import { Lesson, content } from '../common/content'
+import type { Lesson } from '../common/content'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faBookReader, faCheckCircle, faHeart, faPen, faStar } from '@fortawesome/free-solid-svg-icons'
-import { ReviewWithTime } from './AppStore'
+import type { ReviewWithTime } from './AppStore'
 import ReactTimeago from 'react-timeago'
 import classNames from 'classnames'
 import styled from 'styled-components'
 import { action } from 'mobx'
-import { Learny } from './Learny'
+import type { Learny } from './Learny'
 
 function NextLessonCard(props: { lesson: Lesson | undefined }) {
     const { lesson } = props

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 
-import { Lesson, MeditationLesson } from "../common/content"
+import type { Lesson, MeditationLesson } from "../common/content"
 import { Bibliography, transformRefs } from "../common/Bibliography"
 import { action } from 'mobx'
 import { useObserver } from 'mobx-react-lite'

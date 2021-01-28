@@ -1,9 +1,9 @@
 import { useObserver, useLocalStore } from "mobx-react-lite"
 import * as React from 'react'
-import { Lesson } from "../common/content"
+import type { Lesson } from "../common/content"
 import classnames from 'classnames'
 import { action } from "mobx"
-import { Exercise, BasicExerciseDef } from "../common/types"
+import type { BasicExerciseDef } from "../common/types"
 import Markdown from 'markdown-to-jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUndoAlt, faCheck } from '@fortawesome/free-solid-svg-icons'

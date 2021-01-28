@@ -1,6 +1,6 @@
 import { Json, getQueryParams } from "./utils"
 import * as db from './db'
-import { Session } from "./db"
+import type { Session } from "./db"
 import * as cookie from "cookie"
 import _ from "lodash"
 

@@ -1,13 +1,12 @@
 import { observable, runInAction, computed, action, toJS, makeObservable, autorun } from "mobx"
-import { ExerciseWithProgress } from "../common/logic"
-import { Lesson, Review } from "../common/content"
+import type { Lesson, Review } from "../common/content"
 import * as _ from 'lodash'
 import { ClientApi } from "./ClientApi"
 import { content } from "../common/content"
-import { UserProgressItem, User, Exercise, UserProgress } from "../common/types"
+import type { UserProgressItem, User, Exercise, UserProgress } from "../common/types"
 import * as Sentry from '@sentry/browser'
 import { SENTRY_DSN_URL } from "./settings"
-import { AxiosError } from "axios"
+import type { AxiosError } from "axios"
 import { Learny } from "./Learny"
 import { ProgressStore, SRSProgress } from "../common/SRSProgress"
 
@@ -23,7 +22,11 @@ export type LessonWithProgress = {
     fracProgress: number
 }
 
-declare const window: any
+declare global {
+    interface Window {
+        app: AppStore
+    }
+}
 
 export class AppStore {
     api: ClientApi

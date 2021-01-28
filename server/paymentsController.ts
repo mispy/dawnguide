@@ -1,10 +1,10 @@
 import * as db from './db'
-import { EventRequest, SessionRequest } from './requests'
+import type { EventRequest, SessionRequest } from './requests'
 import { trimStrings } from './utils'
 import { MONTHLY_PLAN_ID, ANNUAL_PLAN_ID } from '../common/settings'
 
 import * as stripe from './stripe'
-import { User } from '../common/types'
+import type { User } from '../common/types'
 import { absurl } from '../common/utils'
 
 export async function subscribeToPlan(req: SessionRequest): Promise<{ checkoutSessionId: string } | { user: User }> {

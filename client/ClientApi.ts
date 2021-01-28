@@ -3,7 +3,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 import { API_BASE_URL, IS_PRODUCTION } from './settings'
 import { delay } from './utils'
-import { User, UserProgressItem, UserNotificationSettings, UserAdminReport, UserLesson } from '../common/types'
+import type { User, UserProgressItem, UserNotificationSettings, UserAdminReport, UserLesson } from '../common/types'
 // @ts-ignore
 const NProgress = require('accessible-nprogress')
 

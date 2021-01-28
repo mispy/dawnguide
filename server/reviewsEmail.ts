@@ -1,4 +1,4 @@
-import { User } from "../common/types"
+import type { User } from "../common/types"
 import * as _ from 'lodash'
 import * as db from './db'
 import { content } from "../common/content"

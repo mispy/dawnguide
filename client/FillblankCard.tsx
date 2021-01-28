@@ -2,15 +2,15 @@ import { useEffect, useRef } from "react"
 import { useLocalStore, observer } from "mobx-react-lite"
 import { action, observable, makeObservable } from "mobx"
 import * as React from 'react'
-import { FillblankExerciseDef } from "../common/types"
-import { Lesson } from "../common/content"
+import type { FillblankExerciseDef } from "../common/types"
+import type { Lesson } from "../common/content"
 import classNames from "classnames"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEye, faChevronRight } from "@fortawesome/free-solid-svg-icons"
 import Markdown from "markdown-to-jsx"
 import { matchesAnswerPermissively } from "../common/logic"
 import { AppContext } from "./AppContext"
-import { CanvasEffects } from "./CanvasEffects"
+import type { CanvasEffects } from "./CanvasEffects"
 
 type FillblankProps = { exercise: FillblankExerciseDef, lesson: Lesson, onSubmit: (remembered: boolean) => void }
 

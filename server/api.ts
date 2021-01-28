@@ -1,12 +1,12 @@
 import Router from "./router"
 import { ResponseError } from "./utils"
 import * as db from './db'
-import { UserProgressItem, UserAdminReport, UserLesson } from '../common/types'
+import type { UserProgressItem, UserAdminReport, UserLesson } from '../common/types'
 import { getReviewTime } from "../common/logic"
 import * as _ from 'lodash'
 import { sendMail } from "./mail"
 import * as bcrypt from "bcryptjs"
-import { SessionRequest, EventRequest } from "./requests"
+import type { SessionRequest, EventRequest } from "./requests"
 import * as payments from './paymentsController'
 import { CONTACT_FORM_EMAIL } from "./settings"
 import { content } from "../common/content"
