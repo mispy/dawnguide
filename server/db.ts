@@ -5,7 +5,7 @@ import * as time from '../common/time'
 
 import type { UserProgressItem, UserNotificationSettings, UserLesson } from '../common/types'
 import { isReadyForReview } from '../common/logic'
-import * as _ from 'lodash'
+import _ from 'lodash'
 import { ResponseError } from './utils'
 
 declare const global: any

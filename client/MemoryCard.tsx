@@ -1,44 +1,65 @@
 import { useLocalObservable, Observer } from "mobx-react-lite"
+import { action, observable, makeObservable } from "mobx"
 import * as React from 'react'
-import type { Lesson } from "../common/content"
-import classnames from 'classnames'
-import { action } from "mobx"
-import type { BasicExerciseDef } from "../common/types"
-import Markdown from 'markdown-to-jsx'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUndoAlt, faCheck } from '@fortawesome/free-solid-svg-icons'
-import { faEye } from '@fortawesome/free-solid-svg-icons'
-import { Passage } from "../common/Passage"
-import { Container } from "react-bootstrap"
+import type { FillblankExerciseDef } from "../common/types"
+import classNames from "classnames"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faEye, faTimes } from "@fortawesome/free-solid-svg-icons"
+import { faCircle } from "@fortawesome/free-regular-svg-icons"
 
-export function MemoryCard(props: { lesson: Lesson, exercise: BasicExerciseDef, onSubmit: (remembered: boolean) => void }) {
-    const { lesson, exercise, onSubmit } = props
-    const state = useLocalObservable<{ revealed: boolean, showLesson: boolean }>(() => ({ revealed: false, showLesson: false }))
+class MemoryCardState {
+    @observable revealed: boolean = false
 
-    const reveal = action(() => state.revealed = true)
+    constructor() {
+        makeObservable(this)
+    }
 
-    const didntRemember = action(() => { onSubmit(false); state.revealed = false; state.showLesson = false })
-    const remembered = action(() => { onSubmit(true); state.revealed = false; state.showLesson = false })
+    @action.bound reveal() {
+        this.revealed = true
+    }
 
-    const showLesson = action(() => state.showLesson = !state.showLesson)
+    @action.bound reset() {
+        this.revealed = false
+    }
+}
 
-    return <Observer>{() => <div className="MemoryCardContainer mt-2">
-        <div className="container">
-            <div className="MemoryCard">
-                <div className="card">
-                    <div className="prompt"><Markdown>{exercise.question}</Markdown></div>
-                    <div className={classnames('answer', state.revealed && 'revealed')} onClick={reveal}>{!state.revealed ? "Click to reveal answer" : <Markdown>{exercise.answer}</Markdown>}</div>
-                </div>
-                <div className="buttons">
-                    <button className="btn btn-dawn" disabled={!state.revealed} onClick={didntRemember}><FontAwesomeIcon icon={faUndoAlt} /> Didn't remember</button>
-                    <button className="btn btn-dawn" disabled={!state.revealed} onClick={remembered}><FontAwesomeIcon icon={faCheck} /> Remembered</button>
-                </div>
-            </div>
+export const MemoryCard = (props: { exercise: FillblankExerciseDef, onSubmit: (remembered: boolean) => void }) => {
+    const { exercise } = props
+    const canonicalAnswer = exercise.possibleAnswers[0]!
+    const { state } = useLocalObservable(() => ({ state: new MemoryCardState() }))
 
+    // Reset state when changing to another exercise
+    React.useEffect(() => {
+        state.reset()
+    }, [props.exercise])
+
+    return <Observer>{() => {
+        // Fancy styling for cloze deletions
+        const parts = exercise.question.split(/_+/)
+        const qline: (React.ReactElement | string)[] = []
+        for (let i = 0; i < parts.length; i++) {
+            qline.push(parts[i]!)
+            if (i !== parts.length - 1) {
+                qline.push(<span className="cloze" key={i} style={{ minWidth: canonicalAnswer.length * 9 }}>{state.revealed ? canonicalAnswer : ""}</span>)
+                qline.push(" ")
+            }
+        }
+
+        return <div className={classNames('MemoryCard', state.revealed ? 'revealed' : '')}>
+            <p className="qline">{qline}</p>
+            <footer>
+                {!state.revealed && <button className="reveal" onClick={state.reveal}>
+                    <FontAwesomeIcon icon={faEye} /> Show answer
+                </button>}
+                {state.revealed && <>
+                    <button className="forgot" onClick={() => props.onSubmit(false)}>
+                        <FontAwesomeIcon icon={faTimes} /> Forgotten
+                    </button>
+                    <button className="remembered" onClick={() => props.onSubmit(true)}>
+                        <FontAwesomeIcon icon={faCircle} /> Remembered
+                    </button>
+                </>}
+            </footer>
         </div>
-        <div className="d-flex justify-content-center mt-4">
-            <button className="btn btn-outline-secondary" disabled={!state.revealed} onClick={showLesson}><FontAwesomeIcon icon={faEye} /> Show Lesson</button>
-        </div>
-        {state.showLesson && <Container><Passage lesson={lesson} /></Container>}
-    </div>}</Observer>
+    }}</Observer>
 }

@@ -10,3 +10,4 @@ tmp
 dist
 devdist
 cfscripts/playground.ts
+**/.DS_Store

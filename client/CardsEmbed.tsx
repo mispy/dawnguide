@@ -1,52 +1,82 @@
 import _ from "lodash"
-import { action } from "mobx"
-import { Observer, useLocalObservable, useObserver } from "mobx-react-lite"
-import React, { useEffect } from "react"
-import type { Review } from "../common/types"
-import { ExerciseView } from "../client/ExerciseView"
+import { action, computed, makeObservable, observable } from "mobx"
+import { Observer, useLocalObservable } from "mobx-react-lite"
+import React from "react"
+import type { FillblankExerciseDef, Review } from "../common/types"
 import { usePersistentSRS } from "../client/ProgressSaving"
+import { MemoryCard } from "./MemoryCard"
+import type { SRSProgress } from "../common/SRSProgress"
+import ReactTimeago from "react-timeago"
+import Hanamaru from "../client/Hanamaru"
 
-export function CardsEmbed(props: { reviews: Review[] }) {
-    const srs = usePersistentSRS()
-    const { reviews } = props
-    const state = useLocalObservable<{ reviews: Review[], completedIds: string[] }>(() => ({ reviews: _.clone(reviews).reverse(), completedIds: [] }))
+class CardsEmbedState {
+    @observable remainingCards: Review[]
+    @observable rememberedIds: string[] = []
 
-    const onCompleteAll = async (exerciseIds: string[]) => {
-        for (const id of exerciseIds) {
-            srs.update({ cardId: id, remembered: true })
+    constructor(readonly srs: SRSProgress, readonly allCards: Review[]) {
+        this.remainingCards = _.clone(allCards)
+        makeObservable(this)
+    }
+
+    /** Find the earliest scheduled next review for one of these cards */
+    @computed get nextReviewAt(): number | undefined {
+        const upcomingReviews = this.srs.upcomingReviews
+        const review = upcomingReviews.filter(r => this.allCards.find(c => c.exercise.id === r.cardId))[0]
+        if (review) {
+            return review.nextReviewAt
+        } else {
+            return undefined
         }
     }
 
-    useEffect(() => {
-        const beforeUnload = () => {
-            if (state.reviews.length !== 0 && state.reviews.length !== props.reviews.length) return "Really leave without finishing reviews?"
-            else return null
-        }
-
-        window.onbeforeunload = beforeUnload
-        return () => { window.onbeforeunload = null }
-    }, [])
-
-    const onCardComplete = action((remembered: boolean) => {
+    @action.bound completeCurrentCard(remembered: boolean) {
         if (remembered) {
-            const review = state.reviews.pop()
-            if (!review) return
+            const card = this.remainingCards.shift()
+            if (!card) return
 
-            state.completedIds.push(review.exercise.id)
-            if (state.reviews.length === 0) {
-                onCompleteAll(state.completedIds)
+            this.rememberedIds.push(card.exercise.id)
+            if (this.remainingCards.length === 0) {
+                this.onCompleteAll()
             }
         } else {
             // Didn't remember, push this card to the back
-            const review = state.reviews.pop()!
-            state.reviews.unshift(review)
+            const review = this.remainingCards.shift()!
+            this.remainingCards.push(review)
         }
-    })
+    }
+
+    @action.bound onCompleteAll() {
+        for (const id of this.rememberedIds) {
+            this.srs.update({ cardId: id, remembered: true })
+        }
+    }
+}
+
+export function CardsEmbed(props: { reviews: Review[] }) {
+    const { srs, user } = usePersistentSRS()
+    const { state } = useLocalObservable(() => ({ state: new CardsEmbedState(srs, props.reviews) }))
 
     return <Observer>{() => {
-        const review = state.reviews[state.reviews.length - 1]
-        return <div className="CardsEmbed">
-            {review ? <ExerciseView lesson={review.lesson} exercise={review.exercise} onSubmit={onCardComplete} /> : undefined}
+        // We want the embed to have a fixed height that encompasses all the material
+        // it needs to show, but no more than that
+        const cardLengths = props.reviews.map(r => (r.exercise as FillblankExerciseDef).question.length)
+        const longestLength = _.sortBy(cardLengths, c => -c)[0] || 100
+        const height = longestLength * 4
+
+        const card = state.remainingCards.length > 0 ? state.remainingCards[0] : undefined
+        return <div className="CardsEmbed card" style={{ height: height }}>
+            {card
+                ? <MemoryCard lesson={card.lesson} exercise={card.exercise} onSubmit={state.completeCurrentCard} />
+                : <div className="complete">
+                    <div>
+                        <Hanamaru />
+                        {props.reviews.length} cards completed
+                        {user && <p>Saved to your account {user.email}</p>}
+                        {!user && <p><a href="/login">Log in</a> to save your progress</p>}
+                        {state.nextReviewAt && <p>Review scheduled: <ReactTimeago date={state.nextReviewAt} /></p>}
+                        {!state.nextReviewAt && <><p>There are no further reviews scheduled.<br />You've completely mastered this section!</p></>}
+                    </div>
+                </div>}
         </div>
     }}</Observer>
 

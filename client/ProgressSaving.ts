@@ -3,6 +3,8 @@ import { ProgressStore, SRSProgress } from '../common/SRSProgress'
 import { AppContext } from './AppContext'
 import { tryParseJson } from '../common/utils'
 import { autorun } from 'mobx'
+import type { AppStore } from './AppStore'
+import type { User } from '../common/types'
 
 // For debug access
 declare global {
@@ -13,15 +15,15 @@ declare global {
 
 let localSrs: SRSProgress | undefined
 
-export function usePersistentSRS(): SRSProgress {
+export function usePersistentSRS(): { srs: SRSProgress, user?: User } {
     const { app } = React.useContext(AppContext)
 
     if (localSrs) {
-        return localSrs
+        return { srs: localSrs }
     } else {
         if (app) {
             window.srs = app.srs
-            return app.srs
+            return { srs: app.srs, user: app.user }
         } else {
             localSrs = new SRSProgress()
             const store = tryParseJson(localStorage.getItem('localProgressStore'))
@@ -35,7 +37,7 @@ export function usePersistentSRS(): SRSProgress {
             })
 
             window.srs = localSrs
-            return localSrs
+            return { srs: localSrs }
         }
     }
 }
