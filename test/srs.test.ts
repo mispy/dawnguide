@@ -2,6 +2,7 @@
 import { autorun } from 'mobx'
 import { SRSProgress } from '../common/SRSProgress'
 import * as time from '../common/time'
+import MockDate from 'mockdate'
 
 describe('SRSProgress', () => {
     it("learns a new card", () => {
@@ -21,32 +22,56 @@ describe('SRSProgress', () => {
         expect(srs.get('foo')).toBeUndefined()
     })
 
-    it("has a minimum level of 1", () => {
-        const srs = new SRSProgress()
-        srs.update({ cardId: 'foo', remembered: true })
-        srs.update({ cardId: 'foo', remembered: false })
 
-        const item = srs.expect('foo')
+    it("progresses in level when it's time for a review", () => {
+        const srs = new SRSProgress()
+        srs.update({ cardId: 'kittens', remembered: true })
+        const item = srs.expect('kittens')
         expect(item.level).toBe(1)
-    })
 
-    it("progresses in level", () => {
-        const srs = new SRSProgress()
-        srs.update({ cardId: 'foo', remembered: true })
-        srs.update({ cardId: 'foo', remembered: true })
+        // Not scheduled, no change expected
+        srs.update({ cardId: 'kittens', remembered: true })
+        expect(item.level).toBe(1)
 
-        const item = srs.expect('foo')
+        // Now it should change
+        MockDate.set(item.nextReviewAt!)
+        srs.update({ cardId: 'kittens', remembered: true })
         expect(item.level).toBe(2)
     })
 
-    it("has a maximum level of 9", () => {
+
+    it("falls in level when scheduled review not remembered, to a minimum of 1", () => {
         const srs = new SRSProgress()
-        for (let i = 0; i < 100; i++) {
-            srs.update({ cardId: 'foo', remembered: true })
+
+        srs.update({ cardId: 'kittens', remembered: true })
+        const item = srs.expect('kittens')
+        expect(item.level).toBe(1)
+
+        MockDate.set(item.nextReviewAt!)
+        srs.update({ cardId: 'kittens', remembered: true })
+        expect(item.level).toBe(2)
+
+        MockDate.set(item.nextReviewAt!)
+        srs.update({ cardId: 'kittens', remembered: false })
+        expect(item.level).toBe(1)
+
+        MockDate.set(item.nextReviewAt!)
+        srs.update({ cardId: 'kittens', remembered: false })
+        expect(item.level).toBe(1)
+    })
+
+    it("has a maximum level of 9 and doesn't schedule reviews beyond that", () => {
+        const srs = new SRSProgress()
+        srs.update({ cardId: 'squirrels', remembered: true })
+        const item = srs.expect('squirrels')
+
+        while (item.nextReviewAt) {
+            MockDate.set(item.nextReviewAt)
+            srs.update({ cardId: 'squirrels', remembered: true })
         }
 
-        const item = srs.expect('foo')
         expect(item.level).toBe(9)
+        expect(srs.upcomingReviews.length).toBe(0)
     })
 
     it("plans upcoming reviews", () => {
@@ -71,19 +96,11 @@ describe('SRSProgress', () => {
         expect(firstReviewAt - now).toBeGreaterThanOrEqual(time.hours(4))
         expect(firstReviewAt - now).toBeLessThan(time.hours(5))
 
+        MockDate.set(firstReviewAt)
         srs.update({ cardId: 'mochi', remembered: true })
         const secondReviewAt = srs.upcomingReviews[0]!.nextReviewAt
-        expect(secondReviewAt - now).toBeGreaterThanOrEqual(time.hours(8))
-        expect(secondReviewAt - now).toBeLessThan(time.hours(9))
-    })
-
-    it("doesn't include a mastered card in reviews", () => {
-        const srs = new SRSProgress()
-        for (let i = 0; i < 100; i++) {
-            srs.update({ cardId: 'hello world', remembered: true })
-        }
-
-        expect(srs.upcomingReviews.length).toBe(0)
+        expect(secondReviewAt - firstReviewAt).toBeGreaterThanOrEqual(time.hours(8))
+        expect(secondReviewAt - firstReviewAt).toBeLessThan(time.hours(9))
     })
 
     it("reconciles two progress stores without losing progress", () => {
@@ -91,13 +108,17 @@ describe('SRSProgress', () => {
         srs1.update({ cardId: 'mochi', remembered: true })
         srs1.update({ cardId: 'sushi', remembered: true })
         srs1.update({ cardId: 'waffles', remembered: true })
+
+        MockDate.set(srs1.expect('waffles').nextReviewAt!)
         srs1.update({ cardId: 'waffles', remembered: true })
 
         const srs2 = new SRSProgress()
         srs2.update({ cardId: 'mochi', remembered: true })
-        srs2.update({ cardId: 'mochi', remembered: true })
         srs2.update({ cardId: 'sushi', remembered: true })
         srs2.update({ cardId: 'waffles', remembered: true })
+
+        MockDate.set(srs2.expect('mochi').nextReviewAt!)
+        srs2.update({ cardId: 'mochi', remembered: true })
 
         srs1.reconcile(srs2.store)
         const mochi = srs1.expect('mochi')
@@ -123,6 +144,7 @@ describe('SRSProgress', () => {
         srs.update({ cardId: 'mochi', remembered: true })
         expect(level).toEqual(1)
 
+        MockDate.set(srs.expect('mochi').nextReviewAt!)
         srs.update({ cardId: 'mochi', remembered: true })
         expect(level).toEqual(2)
     })

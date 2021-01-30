@@ -106,18 +106,20 @@ export const FillblankCard = observer(function FillblankCard(props: FillblankPro
     })
 
     const parts = exercise.question.split(/_+/)
-    const qline = []
+    const prompt = []
     for (let i = 0; i < parts.length; i++) {
-        qline.push(parts[i])
+        prompt.push(parts[i])
         if (i !== parts.length - 1) {
-            qline.push(<span className="fillblank" key={i} style={{ minWidth: canonicalAnswer.length * 9 }}>&#8203;{state.response}&#8203;</span>)
-            qline.push(" ")
+            prompt.push(<span className="fillblank" key={i} style={{ minWidth: canonicalAnswer.length * 9 }}>&#8203;{state.response}&#8203;</span>)
+            prompt.push(" ")
         }
     }
 
     return <div className={classNames('FillblankCard', state.current)}>
         <div className="card">
-            <p className="qline">{qline}</p>
+            <div className="prompt">
+                <p>{prompt}</p>
+            </div>
             <fieldset>
                 <input
                     type="text"

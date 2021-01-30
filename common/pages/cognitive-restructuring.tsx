@@ -62,8 +62,7 @@ Evidence-wise, cognitive restructuring is a component of cognitive-behavioral th
         },
         {
             type: 'fillblank',
-            question: `
-The steps to practice cognitive restructuring in writing are:
+            question: `The steps to practice cognitive restructuring in writing are:
 
 1. Write down a negative automatic thought
 2. Identify possible ____

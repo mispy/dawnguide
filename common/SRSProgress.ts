@@ -122,18 +122,24 @@ export class SRSProgress {
     }
 
     @action update({ cardId, remembered }: { cardId: string, remembered: boolean }) {
-        let item = this.store.cards[cardId]
+        const item = this.get(cardId)
         const now = Date.now()
         if (!item) {
             if (!remembered)
                 return
 
+            // Reviewed a card for the first time
             this.store.cards[cardId] = {
                 level: 1,
                 learnedAt: now,
                 reviewedAt: now
             }
         } else {
+            // Only alter progress if there was actually a review scheduled
+            if (!item.nextReviewAt || item.nextReviewAt > now) {
+                return
+            }
+
             const level = remembered ? Math.min(item.level + 1, 9) : Math.max(item.level - 1, 1)
 
             this.store.cards[cardId] = {

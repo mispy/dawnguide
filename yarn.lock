@@ -1794,6 +1794,11 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
+"@types/mockdate@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/mockdate/-/mockdate-2.0.0.tgz#aaf388a1ead3b0f5ed6dc1611956ea7b40a57d3c"
+  integrity sha1-qvOIoerTsPXtbcFhGVbqe0ClfTw=
+
 "@types/node@*":
   version "14.0.13"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.13.tgz#ee1128e881b874c371374c1f72201893616417c9"
@@ -7621,6 +7626,11 @@ mobx@^6.1.1:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.1.1.tgz#3e5c7f993f01b29a11c6f70b5cbd98d4e4d70d24"
   integrity sha512-+HiCdWW8rQHzKEL5Yg6ncpDPBPbeLD4cWttJ9XuP9nyjZutsp8IjyIIeGKdxsEJoyd+oMs4Uea/6UTKywQIRZg==
+
+mockdate@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/mockdate/-/mockdate-3.0.2.tgz#a5a7bb5820da617747af424d7a4dcb22c6c03d79"
+  integrity sha512-ldfYSUW1ocqSHGTK6rrODUiqAFPGAg0xaHqYJ5tvj1hQyFsjuHpuWgWFTZWwDVlzougN/s2/mhDr8r5nY5xDpA==
 
 moment@^2.17.1, moment@^2.24.0:
   version "2.26.0"

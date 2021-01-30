@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { action, computed, makeObservable, observable } from "mobx"
+import { action, computed, makeObservable, observable, runInAction } from "mobx"
 import { Observer, useLocalObservable } from "mobx-react-lite"
 import React from "react"
 import type { FillblankExerciseDef, Review } from "../common/types"
@@ -16,6 +16,10 @@ class CardsEmbedState {
     constructor(readonly srs: SRSProgress, readonly allCards: Review[]) {
         this.remainingCards = _.clone(allCards)
         makeObservable(this)
+
+        if (!this.nextReviewAt) {
+            runInAction(() => this.remainingCards = [])
+        }
     }
 
     /** Find the earliest scheduled next review for one of these cards */
@@ -61,12 +65,15 @@ export function CardsEmbed(props: { reviews: Review[] }) {
         // it needs to show, but no more than that
         const cardLengths = props.reviews.map(r => (r.exercise as FillblankExerciseDef).question.length)
         const longestLength = _.sortBy(cardLengths, c => -c)[0] || 100
-        const height = longestLength * 4
+        const height = 350 + Math.max(0, Math.ceil((longestLength / 40) - 3)) * 24
 
         const card = state.remainingCards.length > 0 ? state.remainingCards[0] : undefined
         return <div className="CardsEmbed card" style={{ height: height }}>
             {card
-                ? <MemoryCard lesson={card.lesson} exercise={card.exercise} onSubmit={state.completeCurrentCard} />
+                ? <>
+                    <header>{state.remainingCards.length} cards to review</header>
+                    <MemoryCard lesson={card.lesson} exercise={card.exercise} onSubmit={state.completeCurrentCard} />
+                </>
                 : <div className="complete">
                     <div>
                         <Hanamaru />

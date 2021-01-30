@@ -36,17 +36,19 @@ export const MemoryCard = (props: { exercise: FillblankExerciseDef, onSubmit: (r
     return <Observer>{() => {
         // Fancy styling for cloze deletions
         const parts = exercise.question.split(/_+/)
-        const qline: (React.ReactElement | string)[] = []
+        const prompt: (React.ReactElement | string)[] = []
         for (let i = 0; i < parts.length; i++) {
-            qline.push(parts[i]!)
+            prompt.push(parts[i]!)
             if (i !== parts.length - 1) {
-                qline.push(<span className="cloze" key={i} style={{ minWidth: canonicalAnswer.length * 9 }}>{state.revealed ? canonicalAnswer : ""}</span>)
-                qline.push(" ")
+                prompt.push(<span className="cloze" key={i} style={{ minWidth: canonicalAnswer.length * 9 }}>{state.revealed ? canonicalAnswer : ""}</span>)
+                prompt.push(" ")
             }
         }
 
         return <div className={classNames('MemoryCard', state.revealed ? 'revealed' : '')}>
-            <p className="qline">{qline}</p>
+            <div className="prompt">
+                <p>{prompt}</p>
+            </div>
             <footer>
                 {!state.revealed && <button className="reveal" onClick={state.reveal}>
                     <FontAwesomeIcon icon={faEye} /> Show answer

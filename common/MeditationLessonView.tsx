@@ -9,10 +9,10 @@ import { Markdown } from '../common/Markdown'
 import { Link } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
 import ReactTimeago from 'react-timeago'
+import { Observer } from 'mobx-react-lite'
 /// #if CLIENT
 import { AppContext } from '../client/AppContext'
 import { MeditationTimer } from '../client/MeditationTimer'
-import { Observer } from 'mobx-react-lite'
 /// #endif
 
 
