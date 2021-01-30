@@ -1,6 +1,5 @@
-import { useContext, useState, useEffect } from "react"
-import { AppContext } from "./AppContext"
-import { useLocalObservable, useObserver } from "mobx-react-lite"
+import { useEffect } from "react"
+import { useLocalObservable } from "mobx-react-lite"
 import * as _ from 'lodash'
 import * as React from 'react'
 import { AppLayout } from "./AppLayout"
@@ -11,6 +10,7 @@ import type { User, UserAdminReport } from "../common/types"
 // @ts-ignore
 import TimeAgo from "react-timeago"
 import { Container } from "react-bootstrap"
+import { expectAuthed } from "../common/ProgressiveEnhancement"
 
 class AdminPageState {
     @observable users: UserAdminReport[] = []
@@ -37,7 +37,7 @@ class AdminPageState {
 }
 
 export function AdminPage() {
-    const { api } = useContext(AppContext)
+    const { api } = expectAuthed()
     const state = useLocalObservable(() => new AdminPageState(api))
 
     useEffect(() => {

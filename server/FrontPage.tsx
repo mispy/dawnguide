@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Head } from "./Head"
-import { SiteHeader } from "./SiteHeader"
+import { SiteHeader } from "../common/SiteHeader"
 import { content } from '../common/content'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'

@@ -104,6 +104,10 @@ export class SRSProgress {
         return _.sortBy(upcomingReviews, r => r.nextReviewAt)
     }
 
+    @computed get availableReviews() {
+        return this.upcomingReviews.filter(r => r.nextReviewAt <= Date.now())
+    }
+
     get(cardId: string): SRSProgressItem | undefined {
         const store = this.store.cards[cardId]
         return store ? new SRSProgressItem(this, cardId) : undefined

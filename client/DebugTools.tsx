@@ -1,19 +1,18 @@
 import { useContext } from "react"
 import * as React from 'react'
-
-import { AppContext } from "./AppContext"
+import { expectAuthed } from "../common/ProgressiveEnhancement"
 
 export function DebugTools() {
-    const { app, api } = useContext(AppContext)
+    const { authed, api } = expectAuthed()
 
     const moveReviewsForward = async () => {
         await api.debug.moveReviewsForward()
-        await app.loadProgress()
+        await authed.loadProgress()
     }
 
     const resetProgress = async () => {
         await api.debug.resetProgress()
-        await app.loadProgress()
+        await authed.loadProgress()
     }
 
     return <section className="DebugTools mt-4">

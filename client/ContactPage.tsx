@@ -2,13 +2,12 @@ import * as _ from 'lodash'
 import * as React from 'react'
 import { AppLayout } from "./AppLayout"
 import { Container } from "react-bootstrap"
-import { useLocalObservable, useObserver } from "mobx-react-lite"
+import { Observer, useLocalObservable } from "mobx-react-lite"
 import { action } from "mobx"
-import { AppContext } from "./AppContext"
-import { useContext } from "react"
+import { expectAuthed } from '../common/ProgressiveEnhancement'
 
 export function ContactPage() {
-    const { api } = useContext(AppContext)
+    const { api } = expectAuthed()
     const state = useLocalObservable(() => ({ subject: "", body: "", loading: false }))
 
     async function sendMessage(ev: React.FormEvent) {

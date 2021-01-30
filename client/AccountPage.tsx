@@ -1,13 +1,13 @@
 import { useContext } from "react"
-import { AppContext } from "./AppContext"
-import { Observer, useLocalObservable, useLocalObservable, useObserver } from "mobx-react-lite"
+import { Observer, useLocalObservable } from "mobx-react-lite"
 import * as _ from 'lodash'
 import * as React from 'react'
 import { runInAction, action } from "mobx"
 import { SettingsLayout } from "./SettingsLayout"
+import { expectAuthed } from "../common/ProgressiveEnhancement"
 
 function ChangeUsernameSection() {
-    const { api, user } = useContext(AppContext)
+    const { api, user } = expectAuthed()
     const state = useLocalObservable(() => ({ newUsername: "", loading: false }))
 
     async function changeUsername(e: React.FormEvent) {
@@ -40,7 +40,7 @@ function ChangeUsernameSection() {
 }
 
 function ChangeEmailSection() {
-    const { api, user } = useContext(AppContext)
+    const { api, user } = expectAuthed()
     const state = useLocalObservable(() => ({ newEmail: "", newEmailPassword: "", loading: false }))
 
     async function startChangeEmail(e: React.FormEvent) {
@@ -78,7 +78,7 @@ function ChangeEmailSection() {
 }
 
 function ChangePasswordSection() {
-    const { api } = useContext(AppContext)
+    const { api } = expectAuthed()
     const state = useLocalObservable(() => ({ newPassword: "", currentPassword: "", loading: false }))
 
     async function changePassword(e: React.FormEvent) {

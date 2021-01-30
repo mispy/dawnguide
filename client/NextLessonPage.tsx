@@ -1,20 +1,19 @@
 import * as React from 'react'
 import { Observer } from "mobx-react-lite"
-import { AppContext } from "./AppContext"
 import { Redirect } from "react-router-dom"
 import { AppLayout } from "./AppLayout"
-import { useContext } from "react"
+import { expectAuthed } from '../common/ProgressiveEnhancement'
 
 
 export function NextLessonPage() {
-    const { app } = useContext(AppContext)
+    const { authed } = expectAuthed()
 
     function content() {
-        if (!app.lessonLessons.length) {
+        if (!authed.lessonLessons.length) {
             // Nothing ready to learn
             return <Redirect to="/home" />
         } else {
-            return <Redirect to={`/${app.lessonLessons[0]!.slug}`} />
+            return <Redirect to={`/${authed.lessonLessons[0]!.slug}`} />
         }
     }
 

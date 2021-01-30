@@ -6,10 +6,9 @@ import type { FillblankExerciseDef } from "../common/types"
 import type { Lesson } from "../common/content"
 import classNames from "classnames"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faEye, faChevronRight } from "@fortawesome/free-solid-svg-icons"
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons"
 import Markdown from "markdown-to-jsx"
 import { matchesAnswerPermissively } from "../common/logic"
-import { AppContext } from "./AppContext"
 import { CanvasEffects, useCanvasEffects } from "./CanvasEffects"
 
 type FillblankProps = { exercise: FillblankExerciseDef, lesson: Lesson, onSubmit: (remembered: boolean) => void }

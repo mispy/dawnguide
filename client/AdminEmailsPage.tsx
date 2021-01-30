@@ -1,5 +1,4 @@
-import { useContext, useState, useEffect } from "react"
-import { AppContext } from "./AppContext"
+import { useEffect } from "react"
 import { Observer, useLocalObservable, useObserver } from "mobx-react-lite"
 import * as _ from 'lodash'
 import * as React from 'react'
@@ -11,6 +10,7 @@ import { content } from "../common/content"
 
 // @ts-ignore
 import { Container } from "react-bootstrap"
+import { expectAuthed } from "../common/ProgressiveEnhancement"
 
 class AdminPageState {
     @observable users: User[] = []
@@ -42,7 +42,7 @@ class AdminPageState {
 }
 
 export function AdminEmailsPage() {
-    const { api } = useContext(AppContext)
+    const { api } = expectAuthed()
     const state = useLocalObservable(() => new AdminPageState(api))
 
     useEffect(() => {

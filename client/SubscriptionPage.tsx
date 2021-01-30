@@ -1,20 +1,20 @@
 import * as React from 'react'
 import { Row, Col, Badge } from "react-bootstrap"
 import { STRIPE_PUBLIC_KEY } from "./settings"
-import { AppContext } from "./AppContext"
 import { MONTHLY_PLAN_ID, ANNUAL_PLAN_ID } from "../common/settings"
 import { SettingsLayout } from "./SettingsLayout"
 import { Observer, useLocalObservable } from "mobx-react-lite"
 import { loadStripe } from '@stripe/stripe-js'
-import type { AppStore } from "./AppStore"
+import type { AuthedState } from "./AuthedState"
 import { runInAction, observable, action, makeObservable } from "mobx"
 import { bind } from "decko"
+import { expectAuthed } from '../common/ProgressiveEnhancement'
 
 declare const window: any
 
 class SubscriptionPageState {
     @observable loading: boolean = false
-    constructor(readonly app: AppStore) {
+    constructor(readonly app: AuthedState) {
         makeObservable(this)
     }
 
@@ -102,15 +102,15 @@ class SubscriptionPageState {
 }
 
 export const SubscriptionPage = () => {
-    const { app } = React.useContext(AppContext)
-    const state = useLocalObservable(() => new SubscriptionPageState(app))
+    const { authed } = expectAuthed()
+    const state = useLocalObservable(() => new SubscriptionPageState(authed))
 
     return <Observer>{() => {
         // Allow Stripe redirect to override currently known plan id
         // Solves eventual consistency problem with reloading immediately after subscribing
         const urlParams = new URLSearchParams(window.location.search)
         const urlPlanId = urlParams.get('planId')
-        const activePlanId = urlPlanId || app.user.subscription?.planId
+        const activePlanId = urlPlanId || authed.user.subscription?.planId
 
         return <SettingsLayout active="subscription">
             <div className="SubscriptionPage">

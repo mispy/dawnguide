@@ -6,9 +6,6 @@ import type { Lesson } from "./content"
 import { Bibliography } from "./Bibliography"
 import type { MarkdownString } from "./types"
 import classNames from 'classnames'
-import { IS_SERVER } from './settings'
-import { isExternalUrl } from './utils'
-import { HashLink as Link } from 'react-router-hash-link'
 
 function transformRefs(markdown: MarkdownString): [MarkdownString, string[]] {
     const referenceIds: string[] = []
@@ -23,15 +20,6 @@ function transformRefs(markdown: MarkdownString): [MarkdownString, string[]] {
     return [content, referenceIds]
 }
 
-export function SmartLink(props: { href: string }) {
-    if (isExternalUrl(props.href)) {
-        return <a target="_blank" {...props} className="text-link" />
-    } else if (IS_SERVER) {
-        return <a href={props.href} {..._.omit(props, 'href')} className="text-link" />
-    } else {
-        return <Link to={props.href} {..._.omit(props, 'href')} className="text-link" />
-    }
-}
 
 export function Passage(props: { lesson: Lesson }) {
     const { lesson } = props

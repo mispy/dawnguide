@@ -1,22 +1,21 @@
 import * as React from 'react'
 import { Observer } from "mobx-react-lite"
 import { AppLayout } from "./AppLayout"
-import { AppContext } from "./AppContext"
 import _ from 'lodash'
 import { Container } from "react-bootstrap"
 import { Link } from "react-router-dom"
-import { useContext } from "react"
 import { DebugTools } from "./DebugTools"
 import { IS_PRODUCTION } from "./settings"
 import type { Lesson } from '../common/content'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faBookReader, faCheckCircle, faHeart, faPen, faStar } from '@fortawesome/free-solid-svg-icons'
-import type { ReviewWithTime } from './AppStore'
+import type { ReviewWithTime } from './AuthedState'
 import ReactTimeago from 'react-timeago'
 import classNames from 'classnames'
 import styled from 'styled-components'
 import { action } from 'mobx'
 import type { Learny } from './Learny'
+import { expectAuthed } from '../common/ProgressiveEnhancement'
 
 function NextLessonCard(props: { lesson: Lesson | undefined }) {
     const { lesson } = props
@@ -128,13 +127,13 @@ cursor: pointer;
 `
 
 function MasteryProgressBar(props: { learny: Learny }) {
-    const { app } = useContext(AppContext)
+    const { backgroundApi } = expectAuthed()
     const { learny } = props
 
     const toggleDisabled = action(() => {
         const inverse = !learny.disabled
         learny.disabled = inverse
-        app.backgroundApi.updateUserLesson(learny.lesson.id, { disabled: inverse })
+        backgroundApi.updateUserLesson(learny.lesson.id, { disabled: inverse })
     })
 
     return <Observer>
@@ -270,7 +269,7 @@ li.learned .fillbar {
 `
 
 export function HomePage() {
-    const { app } = useContext(AppContext)
+    const { authed } = expectAuthed()
 
     const lessonIcons = {
         'reading': faBookReader,
@@ -284,10 +283,10 @@ export function HomePage() {
                 <Container className="mt-2">
                     <div className="row mb-4">
                         <div className="col-md-6 mt-2">
-                            <NextLessonCard lesson={app.nextLesson} />
+                            <NextLessonCard lesson={authed.nextLesson} />
                         </div>
                         <div className="col-md-6 mt-2">
-                            <NextReviewCard reviews={app.upcomingReviews} />
+                            <NextReviewCard reviews={authed.upcomingReviews} />
                         </div>
                     </div>
                     {/* <h2>
@@ -295,7 +294,7 @@ export function HomePage() {
                             <div>Learn about being kind to yourself as well as those around you.</div>
                         </h2> */}
                     <ul>
-                        {app.learnies.map(learny => <li key={learny.lesson.id} className={classNames({ lessonItem: true, learned: learny.learned })}>
+                        {authed.learnies.map(learny => <li key={learny.lesson.id} className={classNames({ lessonItem: true, learned: learny.learned })}>
                             <Link to={learny.lesson.slug}>
                                 <div className="intermarker"></div>
                                 <div className="marker">

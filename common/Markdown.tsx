@@ -1,6 +1,6 @@
 import * as React from 'react'
 import LibMarkdown, { MarkdownOptions } from 'markdown-to-jsx'
-import { SmartLink } from './Passage'
+import { ULink } from './ULink'
 
 function Table(props: any) {
     return <table className="table">{props.children}</table>
@@ -10,7 +10,7 @@ function Table(props: any) {
 export function Markdown(props: { options?: MarkdownOptions, overrides?: any, children: any }) {
     const options = Object.assign({
         overrides: Object.assign({
-            a: SmartLink,
+            a: ULink,
             table: Table
         }, props.overrides)
     }, props.options)

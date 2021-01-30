@@ -3,15 +3,15 @@ import type { AxiosError } from 'axios'
 import * as _ from 'lodash'
 import { Modal, Button } from 'react-bootstrap'
 import { action } from 'mobx'
-import { useContext } from 'react'
-import { AppContext } from './AppContext'
 import React = require('react')
+import { useProgressiveEnhancement } from '../common/ProgressiveEnhancement'
 
 export function ErrorModal(props: { error: Error | AxiosError }) {
     const { error } = props
-    const { app } = useContext(AppContext)
+    const { errors } = useProgressiveEnhancement()
+    if (!errors) return null
 
-    const dismiss = action(() => app.unexpectedError = null)
+    const dismiss = action(() => errors.unexpectedError = null)
 
     const serverResponse = 'response' in error && error.response ? error.response : null
 

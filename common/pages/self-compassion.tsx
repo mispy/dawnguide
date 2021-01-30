@@ -70,7 +70,7 @@ A sense of _common humanity_ is key to self-compassion. You are not alone in you
       }
 
       @article{barnard2011self,
-        title={Self-compassion: Lessonualizations, correlates, & interventions},
+        title={Self-compassion: Conceptualizations, correlates, & interventions},
         author={Barnard, Laura K and Curry, John F},
         journal={Review of general psychology},
         volume={15},

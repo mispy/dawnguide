@@ -9,6 +9,7 @@ import { SENTRY_DSN_URL } from "./settings"
 import type { AxiosError } from "axios"
 import { Learny } from "./Learny"
 import { ProgressStore, SRSProgress } from "../common/SRSProgress"
+import { errors } from "./GlobalErrorHandler"
 
 export type ReviewWithTime = {
     lesson: Lesson
@@ -24,11 +25,11 @@ export type LessonWithProgress = {
 
 declare global {
     interface Window {
-        app: AppStore
+        authed: AuthedState
     }
 }
 
-export class AppStore {
+export class AuthedState {
     api: ClientApi
     backgroundApi: ClientApi
     @observable user: User
@@ -39,8 +40,9 @@ export class AppStore {
 
     constructor(user: User, progress: UserProgress) {
         this.user = user
+        errors.user = user
         this.progress = progress
-        window.app = this
+        window.authed = this
 
         this.backgroundApi = new ClientApi()
         this.api = this.backgroundApi.with({ nprogress: true })

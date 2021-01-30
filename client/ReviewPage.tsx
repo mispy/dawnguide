@@ -1,13 +1,12 @@
 import * as React from 'react'
 import { observable, action, makeObservable } from "mobx"
 
-import * as _ from 'lodash'
-import { useContext } from "react"
-import { AppContext } from "./AppContext"
+import _ from 'lodash'
 import { Observer, useLocalObservable } from "mobx-react-lite"
 import { Link } from "react-router-dom"
 import { MultiReview } from "./MultiReview"
 import { AppLayout } from "./AppLayout"
+import { expectAuthed } from '../common/ProgressiveEnhancement'
 
 class ReviewsState {
     @observable complete: boolean = false
@@ -22,11 +21,11 @@ class ReviewsState {
 }
 
 export function ReviewPage() {
-    const { app } = useContext(AppContext)
+    const { authed } = expectAuthed()
     const state = useLocalObservable(() => new ReviewsState())
 
     function content() {
-        if (!app.reviews.length)
+        if (!authed.reviews.length)
             return <div>Nothing to review!</div>
 
         if (state.complete)
@@ -41,7 +40,7 @@ export function ReviewPage() {
                 </div>
             </div>
 
-        return <MultiReview reviews={_.shuffle(app.reviews)} onComplete={state.completeReview} />
+        return <MultiReview reviews={_.shuffle(authed.reviews)} onComplete={state.completeReview} />
     }
 
     return <Observer>{() =>

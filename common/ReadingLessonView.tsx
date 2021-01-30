@@ -5,16 +5,13 @@ const TimeAgo = require('react-timeago').default
 import type { Lesson } from '../common/content'
 import { Container } from 'react-bootstrap'
 /// #if CLIENT
-import { AppContext } from '../client/AppContext'
 import { CardsEmbed } from '../client/CardsEmbed'
 /// #endif
 import type { ExerciseWithProgress } from '../common/logic'
-import type { FillblankExerciseDef } from '../common/types'
 import { Markdown } from '../common/Markdown'
 import { Bibliography, transformRefs } from '../common/Bibliography'
-import type { Learny } from '../client/Learny'
 import classNames from 'classnames'
-import { useInteractivity } from './ProgressiveEnhancement'
+import { useProgressiveEnhancement } from './ProgressiveEnhancement'
 import { Observer } from 'mobx-react-lite'
 
 export function showReviewTime(ewp: ExerciseWithProgress) {
@@ -31,18 +28,10 @@ export function showReviewTime(ewp: ExerciseWithProgress) {
 }
 
 export function ReadingLessonView(props: { lesson: Lesson }) {
-    const { interactive } = useInteractivity()
+    const { js } = useProgressiveEnhancement()
     const { lesson } = props
     const [lessonText, referenceIds] = transformRefs(lesson.text)
     const referencesInText = referenceIds.map(id => lesson.expectReference(id))
-
-    let learny: Learny | null = null
-    if (typeof AppContext !== "undefined") {
-        const { app } = React.useContext(AppContext)
-        if (app) {
-            learny = app.learnyByLessonId[lesson.id]!
-        }
-    }
 
     return <Observer>{() => {
         return <Container>
@@ -55,12 +44,12 @@ export function ReadingLessonView(props: { lesson: Lesson }) {
                     <Markdown>{lesson.def.steps}</Markdown>
                 </section> : undefined}
                 { }
-                {<section>
-                    {!interactive && <div className="CardsEmbed">
-                        Interactive reviews require javascript.
+                <section>
+                    {!js && <div className="CardsEmbed">
+                        This interactive section requires javascript.
                     </div>}
-                    {interactive && <CardsEmbed reviews={lesson.exercises.map(e => ({ lesson: lesson, exercise: e }))} />}
-                </section>}
+                    {js && <CardsEmbed reviews={lesson.exercises.map(e => ({ lesson: lesson, exercise: e }))} />}
+                </section>
                 <div className="authorship">
                     Written by {lesson.author}
                 </div>
@@ -77,30 +66,6 @@ export function ReadingLessonView(props: { lesson: Lesson }) {
                     <Bibliography references={referencesInText} />
                 </section> : undefined}
             </div>
-            {learny?.learned && <section className="exercises">
-                <h2>Exercises</h2>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Question</th>
-                            <th>Answer</th>
-                            <th>Next Review</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {learny.ewps.filter(e => e.exercise.type === 'fillblank').map(ewp => {
-                            const exercise = ewp.exercise as FillblankExerciseDef
-                            return <tr key={ewp.exercise.id}>
-                                <td>{exercise.question}</td>
-                                <td>
-                                    {exercise.possibleAnswers[0]}
-                                </td>
-                                <td>{showReviewTime(ewp)}</td>
-                            </tr>
-                        })}
-                    </tbody>
-                </table>
-            </section>}
         </Container>
     }}</Observer>
 }

@@ -5,13 +5,13 @@ import { Link } from "react-router-dom"
 import classNames = require("classnames")
 import { AppFooter } from "./AppFooter"
 import { useEffect, useContext, useRef } from "react"
-import { AppContext } from "./AppContext"
+import { expectAuthed } from "../common/ProgressiveEnhancement"
 
 export function SettingsLayout(props: { active?: 'account' | 'notifications' | 'subscription', children?: any }) {
-    const { app } = useContext(AppContext)
+    const { authed } = expectAuthed()
     useEffect(() => {
         // Refresh user on settings layout change
-        app.reloadUser()
+        authed.reloadUser()
     }, [props.active])
 
     return <AppLayout title="Settings" noFooter>

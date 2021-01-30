@@ -1,19 +1,19 @@
 import React = require('react')
 import { useEffect, useContext } from 'react'
-import { AppContext } from './AppContext'
 import { Observer } from 'mobx-react-lite'
-import { AppHeader } from './AppHeader'
+import { SiteHeader } from '../common/SiteHeader'
 import { ErrorModal } from './ErrorModal'
 import { AppFooter } from './AppFooter'
+import { expectAuthed } from '../common/ProgressiveEnhancement'
 
 export function AppLayout(props: { title?: string, noHeader?: boolean, noFooter?: boolean, children: any }) {
     const noHeader = props.noHeader || false
     const noFooter = props.noFooter || false
 
-    const { app } = useContext(AppContext)
+    const { authed, errors } = expectAuthed()
 
     useEffect(() => {
-        app.loadProgress()
+        authed.loadProgress()
     }, [])
 
     if (props.title) {
@@ -24,9 +24,9 @@ export function AppLayout(props: { title?: string, noHeader?: boolean, noFooter?
     }
 
     return <Observer>{() => <div className="AppLayout">
-        {app.unexpectedError ? <ErrorModal error={app.unexpectedError} /> : undefined}
+        {errors.unexpectedError ? <ErrorModal error={errors.unexpectedError} /> : undefined}
         <div className="fullScreen">
-            {!noHeader ? <AppHeader /> : undefined}
+            {!noHeader ? <SiteHeader /> : undefined}
             <div>
                 {props.children}
                 {!noFooter ? <AppFooter /> : undefined}

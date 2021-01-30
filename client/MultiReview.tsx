@@ -3,19 +3,18 @@ import { Observer, useLocalObservable, useObserver } from "mobx-react-lite"
 import { action } from "mobx"
 
 import * as _ from 'lodash'
-import { AppContext } from "./AppContext"
-import { useContext } from "react"
 import type { Review } from "../common/content"
 import { ExerciseView } from './ExerciseView'
+import { expectAuthed } from '../common/ProgressiveEnhancement'
 
 export function MultiReview(props: { reviews: Review[], onComplete: () => void }) {
     const { reviews, onComplete } = props
     const state = useLocalObservable(() => ({ showLesson: false, reviews: _.clone(reviews).reverse() }))
-    const { app } = useContext(AppContext)
+    const { backgroundApi } = expectAuthed()
 
     const onCardComplete = action((remembered: boolean) => {
         const review = state.reviews[state.reviews.length - 1]
-        app.backgroundApi.submitProgress(review!.exercise.id, remembered)
+        backgroundApi.submitProgress(review!.exercise.id, remembered)
 
         if (remembered) {
             state.reviews.pop()

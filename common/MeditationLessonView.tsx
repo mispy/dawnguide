@@ -1,69 +1,36 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 
+/// #if CLIENT
+import { MeditationTimer } from '../client/MeditationTimer'
+/// #endif
 import type { Lesson, MeditationLesson } from "../common/content"
 import { Bibliography, transformRefs } from "../common/Bibliography"
-import { action } from 'mobx'
-import { useContext } from 'react'
 import { Markdown } from '../common/Markdown'
 import { Link } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
-import ReactTimeago from 'react-timeago'
 import { Observer } from 'mobx-react-lite'
-/// #if CLIENT
-import { AppContext } from '../client/AppContext'
-import { MeditationTimer } from '../client/MeditationTimer'
-/// #endif
-
-
-function LessonCompleteLink(props: { lesson: Lesson }) {
-    // const { app } = useContext(AppContext)
-    // const { lesson } = props
-    // const nextLesson = app.getLessonAfter(lesson.id)
-    // if (nextLesson) {
-    //     return <Link className="btn btn-dawn" to={`/${nextLesson.slug}`}>Next lesson: {nextLesson.title}</Link>
-    // } else {
-    return <Link className="btn btn-dawn" to={`/home`}>Home</Link>
-    // }
-}
+import { useProgressiveEnhancement } from './ProgressiveEnhancement'
 
 export function MeditationLessonView(props: { lesson: MeditationLesson }) {
+    const { js } = useProgressiveEnhancement()
+
     const { lesson } = props
-    let finishLesson: any = () => null
-    let learny: any = null
-
-    if (typeof AppContext !== "undefined") {
-        const { app } = useContext(AppContext)
-
-        if (app) {
-            finishLesson = action(() => {
-                app.srs.update({ cardId: lesson.id, remembered: true })
-                app.backgroundApi.completeLesson([lesson.id])
-            })
-
-            learny = app.learnyForLesson(lesson.id)
-        }
-    }
     const [text, referenceIds] = transformRefs(lesson.def.text)
     const referencesInText = referenceIds.map(id => lesson.expectReference(id))
-
 
     return <Observer>{() => {
         return <Container>
             <h1>Meditation: {lesson.title}</h1>
             <Markdown>{text}</Markdown>
             <Markdown>{lesson.def.steps}</Markdown>
-            {learny && <MeditationTimer seconds={lesson.def.seconds} />}
-            <div className="d-flex align-items-center mt-4">
-                <div>
-                    {learny?.nextReview && learny.nextReview.when <= Date.now() && <span>Review available now</span>}
-                    {learny?.nextReview && learny.nextReview.when > Date.now() && <span>Reviewing: <ReactTimeago date={learny.nextReview.when} /></span>}
-                </div>
-                <div className="ml-auto">
-                    {!learny?.learned && <button className="btn btn-dawn" onClick={finishLesson}>I've finished meditating</button>}
-                    {learny?.learned && <LessonCompleteLink lesson={lesson} />}
-                </div>
-            </div>
+
+            <section>
+                {!js && <div>
+                    This interactive section requires JavaScript.
+                </div>}
+                {js && <MeditationTimer seconds={lesson.def.seconds} />}
+            </section>
             {referencesInText.length > 0 && <section id="references">
                 <h2>References</h2>
                 <Bibliography references={referencesInText} />

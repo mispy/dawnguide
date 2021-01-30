@@ -1,5 +1,4 @@
-import { useContext, useEffect } from "react"
-import { AppContext } from "./AppContext"
+import { useEffect } from "react"
 import { Observer, useLocalObservable, useObserver } from "mobx-react-lite"
 import _ from 'lodash'
 import * as React from 'react'
@@ -7,6 +6,7 @@ import { observable, runInAction, action, makeObservable } from "mobx"
 import type { UserNotificationSettings } from "../common/types"
 import type { ClientApi } from "./ClientApi"
 import { SettingsLayout } from "./SettingsLayout"
+import { expectAuthed } from "../common/ProgressiveEnhancement"
 
 class NotificationsSectionState {
     @observable settings: UserNotificationSettings | null = null
@@ -28,7 +28,7 @@ class NotificationsSectionState {
     }
 }
 function NotificationsSection() {
-    const { api } = useContext(AppContext)
+    const { api } = expectAuthed()
     const state = useLocalObservable(() => new NotificationsSectionState(api))
 
     useEffect(() => {
