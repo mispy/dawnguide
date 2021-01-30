@@ -1,5 +1,5 @@
 import React = require('react')
-import { useEffect, useContext } from 'react'
+import { useEffect } from 'react'
 import { Observer } from 'mobx-react-lite'
 import { SiteHeader } from '../common/SiteHeader'
 import { ErrorModal } from './ErrorModal'

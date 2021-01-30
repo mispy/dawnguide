@@ -50,17 +50,6 @@ export class AuthedState {
         const w = window as any
         w.user = toJS(user)
 
-        Sentry.init({ dsn: SENTRY_DSN_URL })
-
-        window.addEventListener("error", ev => {
-            this.handleUnexpectedError(ev.error)
-            ev.preventDefault()
-        })
-        window.addEventListener('unhandledrejection', ev => {
-            this.handleUnexpectedError(ev.reason)
-            ev.preventDefault()
-        })
-
         window.addEventListener("beforeunload", e => {
             // If there's any pending non-GET request in background, ask for confirmation
             // before leaving the page

@@ -28,12 +28,13 @@ export function showReviewTime(ewp: ExerciseWithProgress) {
 }
 
 export function ReadingLessonView(props: { lesson: Lesson }) {
-    const { js } = useProgressiveEnhancement()
     const { lesson } = props
     const [lessonText, referenceIds] = transformRefs(lesson.text)
     const referencesInText = referenceIds.map(id => lesson.expectReference(id))
 
     return <Observer>{() => {
+        const { js } = useProgressiveEnhancement()
+
         return <Container>
             <div className={classNames("LessonView", "Passage", lesson.subtitle && 'hasSubtitle')}>
                 <h1>

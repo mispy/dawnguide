@@ -1,25 +1,13 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { IS_SERVER } from "./settings"
 /// #if CLIENT
-import { InteractiveState } from "../client/InteractiveState"
-import { ClientSideContext } from "../client/ClientSideContext"
+import { BrowserContext } from "../client/BrowserContext"
 import { errors } from "../client/GlobalErrorHandler"
 /// #endif
 
-export function useInteractivity() {
-    const [interactive, setInteractive] = React.useState<InteractiveState | null>(null)
-
-    useEffect(() => {
-        setInteractive(new InteractiveState())
-    }, [])
-
-    return { interactive }
-}
-
 export function useProgressiveEnhancement() {
-    const { interactive } = useInteractivity()
     /// #if CLIENT
-    const { authed } = React.useContext(ClientSideContext)
+    const { authed, interactive } = React.useContext(BrowserContext)
     /// #endif
 
     if (IS_SERVER) {
@@ -30,7 +18,13 @@ export function useProgressiveEnhancement() {
         // TODO can global error handler run on server as well?
         return { errors }
     } else {
-        return { authed, js: interactive, srs: authed?.srs || interactive.localSrs, errors }
+        return {
+            authed,
+            user: authed?.user,
+            js: interactive,
+            srs: authed?.srs || interactive.localSrs,
+            errors
+        }
     }
 }
 

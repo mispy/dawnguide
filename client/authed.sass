@@ -1,5 +1,5 @@
 @import "node_modules/accessible-nprogress/dist/accessible-nprogress"
-@import "./shared"
+@import "./site"
 
 .form-check > *
     cursor: pointer
@@ -14,107 +14,11 @@
 #root
     min-height: 100vh
 
-// Fix header overlapping anchor targets by
-// always positioning content after the header
-@media (min-width: $desktop)
-    .AppHeader + *
-        position: absolute
-        top: 60px
-        width: 100%
-
 .AppLayout
     min-height: 100vh
 
 .AppLayout > .fullScreen
     min-height: 100vh
-
-.AppHeader
-    position: sticky
-    top: 0
-    width: 100%
-    z-index: 10
-    background-color: #fafafa
-    border-bottom: 1px solid #d5d5d5
-    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05)
-
-    .navbar-brand
-        color: #333
-        display: inline-flex
-        align-items: center
-        margin-right: 0.3rem
-
-    .navbar > .container
-        flex-wrap: wrap
-
-    .environment
-        margin-left: 0.3rem
-        color: green
-        font-size: 0.8rem
-
-    @media (max-width: $mobile)
-        position: relative
-
-        .ml-auto
-            margin-top: 0.3rem
-            margin-left: 0 !important
-            flex-wrap: wrap
-
-        .navbar-nav.other
-            margin-left: auto
-
-    ul.navigation-shortcuts
-        display: flex
-        flex: 0 1 auto
-        list-style: none
-        padding: 0
-        margin: 0
-
-        li
-            flex: 0 1 auto
-            width: auto
-            line-height: 20px
-            display: block
-
-        li:not(:first-child)
-            margin-left: 8px
-
-        li > a
-            border: 1px solid #ddd
-            border-radius: 5px
-            align-items: center
-            background: transparent
-            box-sizing: border-box
-            color: #333
-            display: flex
-            flex-direction: row
-            flex-wrap: nowrap
-            font-size: 0.875rem
-            font-weight: 300
-            justify-content: flex-start
-            line-height: 28px
-            margin: 0
-            padding: 0 14px 0 0
-            text-decoration: none
-            transition: border-color 0.2s, background 0.2s
-
-        li > a > span
-            border-radius: 4px 0 0 4px
-            background: #fdf4bb
-            border-right: 1px solid #ddd
-            display: block
-            font-size: 0.75rem
-            line-height: 32px
-            margin-right: 12px
-            min-width: 16px
-            padding: 0 8px
-            text-align: center
-
-        li > a.inactive
-            pointer-events: none
-
-        li > a.inactive > span
-            background: #ccc
-            color: white
 
 .ReviewsUI
     height: 100%

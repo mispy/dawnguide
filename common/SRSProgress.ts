@@ -81,10 +81,9 @@ export class SRSProgressItem {
  * that should be agnostic as to the persistence method and content of the cards
  */
 export class SRSProgress {
-    store: ProgressStore
+    @observable store: ProgressStore = { cards: {} }
 
-    constructor(store?: ProgressStore) {
-        this.store = store || observable({ cards: {} })
+    constructor() {
         makeObservable(this)
     }
 

@@ -1,14 +1,15 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
-import './app.sass'
+import './authed.sass'
 import { AppRouter } from './AppRouter'
-import { ClientSideContext } from './ClientSideContext'
+import { BrowserContextProvider } from './BrowserContext'
 import { useMemo } from 'react'
 import type { User, UserProgress } from '../common/types'
 import { content } from '../common/content'
 import { LessonView } from '../common/LessonView'
 import { AuthedState } from './AuthedState'
+import { SiteHeader } from '../common/SiteHeader'
 
 // These props come from AppPage on the server
 function App(props: { user: User, progress: UserProgress }) {
@@ -20,9 +21,9 @@ function App(props: { user: User, progress: UserProgress }) {
         }
     }, [])
 
-    return <ClientSideContext.Provider value={context}>
+    return <BrowserContextProvider authed={context.authed}>
         <AppRouter />
-    </ClientSideContext.Provider>
+    </BrowserContextProvider>
 }
 
 declare const module: any
@@ -38,5 +39,7 @@ window.initApp = (props: { user: User, progress: UserProgress }) => {
 window.hydrateLesson = function (lessonId: string) {
     const lesson = content.expectLesson(lessonId)
     // @ts-ignore
-    ReactDOM.hydrate(<LessonView lesson={lesson} />, document.getElementsByClassName('lessonContainer')[0])
+    ReactDOM.hydrate(<BrowserContextProvider><LessonView lesson={lesson} /></BrowserContextProvider>, document.getElementsByClassName('lessonContainer')[0])
+    // @ts-ignore
+    ReactDOM.hydrate(<BrowserContextProvider><SiteHeader /></BrowserContextProvider>, document.getElementsByClassName('headerContainer')[0])
 }

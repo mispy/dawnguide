@@ -3,11 +3,11 @@ import { action, computed, makeObservable, observable, runInAction } from "mobx"
 import { Observer, useLocalObservable } from "mobx-react-lite"
 import React from "react"
 import type { FillblankExerciseDef, Review } from "../common/types"
-import { usePersistentSRS } from "../client/ProgressSaving"
 import { MemoryCard } from "./MemoryCard"
 import type { SRSProgress } from "../common/SRSProgress"
 import ReactTimeago from "react-timeago"
 import Hanamaru from "../client/Hanamaru"
+import { useProgressiveEnhancement } from "../common/ProgressiveEnhancement"
 
 class CardsEmbedState {
     @observable remainingCards: Review[]
@@ -57,7 +57,10 @@ class CardsEmbedState {
 }
 
 export function CardsEmbed(props: { reviews: Review[] }) {
-    const { srs, user } = usePersistentSRS()
+    const { srs, user } = useProgressiveEnhancement()
+    if (!srs)
+        return null
+
     const { state } = useLocalObservable(() => ({ state: new CardsEmbedState(srs, props.reviews) }))
 
     return <Observer>{() => {

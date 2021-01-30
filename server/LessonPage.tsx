@@ -22,7 +22,9 @@ export function LessonPage(props: { lesson: Lesson }) {
         </Head>
 
         <body>
-            <SiteHeader />
+            <div className="headerContainer">
+                <SiteHeader />
+            </div>
             <main className="LessonPage">
                 <div className="lessonContainer">
                     <LessonView lesson={lesson} />

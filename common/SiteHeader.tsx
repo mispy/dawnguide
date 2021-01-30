@@ -7,6 +7,7 @@ import { Observer } from 'mobx-react-lite'
 import { useProgressiveEnhancement, expectAuthed } from './ProgressiveEnhancement'
 import { content } from './content'
 import { ULink } from './ULink'
+import type { SRSProgress } from './SRSProgress'
 
 /** Dropdown part is implemented in pure css in shared.sass */
 function LessonsDropdown() {
@@ -15,7 +16,7 @@ function LessonsDropdown() {
         <label className="nav-link" htmlFor="lessonsDropdownToggle">Lessons <FontAwesomeIcon icon={faAngleDown} /></label>
         <ul>
             {content.lessons.map(lesson => <li key={lesson.id}>
-                <a href={`/${lesson.slug}`}>{lesson.title}</a>
+                <ULink href={`/${lesson.slug}`}>{lesson.title}</ULink>
             </li>)}
         </ul>
     </li>
@@ -37,39 +38,50 @@ function UserDropdown() {
     </li>
 }
 
-export function SiteHeader() {
-    const { authed, js, srs } = useProgressiveEnhancement()
-
-    return <Observer>{() => <header className="SiteHeader">
-        <Navbar>
-            <Container>
-                <Navbar.Brand as={ULink} href="/">
-                    <Logo /> Dawnguide {js && <span className="environment">{js.window.location.origin.match(/localhost/) ? 'dev' : ''}</span>}
-                </Navbar.Brand>
-                <div className="ml-auto d-flex align-items-center">
-                    {srs && <Nav>
-                        <ul className="navigation-shortcuts">
-                            <li className="navigation-shortcut navigation-shortcut--reviews">
-                                <ULink href="/review" className={srs.availableReviews.length === 0 ? 'inactive' : undefined}>
-                                    <span>{srs.availableReviews.length}</span> Reviews
-                                </ULink>
-                            </li>
-                        </ul>
-                    </Nav>}
-                    {!authed && <ul className="navbar-nav ml-auto">
-                        <LessonsDropdown />
-                        <li className="nav-item">
-                            <a className="nav-link" href="/login">Sign in</a>
-                        </li>
-                        <li className="nav-item signup">
-                            <a className="nav-link btn btn-landing" href="/signup">Sign up</a>
-                        </li>
-                    </ul>}
-                    {authed && <Nav className="other">
-                        <UserDropdown />
-                    </Nav>}
-                </div>
-            </Container>
-        </Navbar>
-    </header>}</Observer>
+function ReviewsCounter(props: { srs: SRSProgress }) {
+    const { srs } = props
+    return <Observer>{() =>
+        <li className="nav-item">
+            <ul className="navigation-shortcuts">
+                <li className="navigation-shortcut navigation-shortcut--reviews">
+                    <ULink href="/review" className={srs.availableReviews.length === 0 ? 'inactive' : undefined}>
+                        <span>{srs.availableReviews.length}</span> Reviews
+                    </ULink>
+                </li>
+            </ul>
+        </li>
+    }</Observer>
 }
+
+export function SiteHeader() {
+    return <Observer>{() => {
+        const { authed, js, srs } = useProgressiveEnhancement()
+
+        return <header className="SiteHeader">
+            <Navbar>
+                <Container>
+                    <Navbar.Brand as={ULink} href="/">
+                        <Logo /> Dawnguide {js && <span className="environment">{js.window.location.origin.match(/localhost/) ? 'dev' : ''}</span>}
+                    </Navbar.Brand>
+                    <div className="ml-auto d-flex align-items-center">
+                        {srs && authed && <Nav>
+                        </Nav>}
+                        <ul className="navbar-nav ml-auto">
+                            {authed && srs && <ReviewsCounter srs={srs} />}
+                            <LessonsDropdown />
+                            {authed && <UserDropdown />}
+                            {!authed && <>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/login">Sign in</a>
+                                </li>
+                                <li className="nav-item signup">
+                                    <a className="nav-link btn btn-landing" href="/signup">Sign up</a>
+                                </li>
+                            </>}
+                        </ul>
+                    </div>
+                </Container>
+            </Navbar>
+        </header>
+    }}</Observer>
+}   

@@ -1,8 +1,373 @@
 @import 'node_modules/@fortawesome/fontawesome-svg-core/styles'
-@import '../client/shared'
+@import "node_modules/bootstrap/scss/bootstrap"
 
+$mobile: 550px
+$desktop: 551px
+$base-color: #008656 // For contrast against white
+$base-color-light: lighten($base-color, 50) // For contrast against black
+$secondary-color: #fdf4bb
 $landing-color: #167475
 // $landing-color: #dc8998
+
+// #ffe074
+html, body
+    min-height: 100vh
+    margin: 0
+    overflow-x: hidden
+
+body
+    margin: 0
+    color: #24292e
+
+    @media (max-width: $mobile)
+        font-size: 14px
+
+    a, a:hover
+        color: #008656
+
+    a.text-link
+        font-weight: 400
+
+.btn-dawn
+    background: #fdf4bb
+    color: #3a3a3a
+
+.btn-dawn:hover
+    color: white
+    background: #008656
+
+.btn-outline-dawn
+    color: #008656
+    border: 1px solid #008656
+
+.btn-outline-dawn:hover
+    background: #fdf4bb
+    color: #3a3a3a
+    border: 1px solid #fdf4bb
+
+// Less chonky tables
+table.table
+    td, th
+        padding: 0.4rem
+
+span.Logo
+    display: inline-block
+    margin-right: 0.3rem
+    position: relative
+    top: -2px
+
+    > svg
+        width: 32px
+        height: 32px
+
+.SiteFooter, .AppFooter
+    margin-top: 3rem
+    background-image: url("./img/lesson-footer.svg")
+    background-repeat: no-repeat
+    background-size: 100% auto
+    width: 100%
+    height: 0
+    padding-top: 35%
+
+    @media (max-width: $mobile)
+        padding-top: 40%
+
+    .container
+        position: relative
+
+    ul
+        position: absolute
+        width: 100%
+        bottom: 0
+        margin: 0
+        padding: 0
+        text-align: right
+
+        @media (max-width: $mobile)
+            right: 0
+
+        li
+            display: inline-block
+            background-color: rgba(85,85,85,0.9)
+            color: white
+
+            a
+                display: block
+                color: #fff
+                padding: 10px 15px
+                text-decoration: none
+
+        li:last-child
+            padding: 10px 15px
+            color: #3a3a3a
+            background: transparentize(#fdf4bb, 0)
+
+            a
+                color: #3a3a3a
+                padding: 0
+
+.LessonPage
+    padding-top: 2rem
+
+    .container
+        max-width: 700px
+
+    section
+        margin-top: 2rem
+
+    h2
+        font-size: 1.8rem
+        padding-bottom: 0.25em
+        margin-bottom: 0.5em
+        border-bottom: 1px solid #d5d5d5
+
+    table td
+        max-width: 300px
+
+    blockquote
+        font-style: italic
+        padding-left: 15px
+        border-left: 4px solid $base-color
+
+.LessonPage
+    h1
+        margin-bottom: 1rem
+
+    .draft-marker
+        color: rgb(200, 0, 0)
+        opacity: 0.7
+
+    .authorship
+        font-style: italic
+        margin-bottom: 1rem
+        color: #666
+
+    img
+        display: block
+        margin: auto
+        max-width: 100%
+        margin-bottom: 1rem
+
+.Passage.hasSubtitle
+    h1
+        margin-bottom: 0
+        font-weight: 500
+
+    .subtitle
+        font-style: italic
+        margin-bottom: 1rem
+
+#references, #furtherReading
+    ol, ul
+        padding-left: 0
+
+    li
+        margin-left: 20px
+        padding-left: 5px
+        list-style-position: outside
+        margin-bottom: 1em
+
+.FillblankCard
+    input
+        width: 100%
+        padding: 1rem
+        border: 0
+        text-align: center
+        border-radius: 0 0 8px 8px
+
+        // https://thingsthemselves.com/no-input-zoom-in-safari-on-iphone-the-pixel-perfect-way/
+        font-size: 16px
+
+    // fieldset svg
+    //     display: none
+
+.FillblankCard
+    fieldset
+        position: relative
+
+    fieldset button
+        position: absolute
+        padding: 0 20px
+        right: 5px
+        height: 100%
+        font-size: 1.3em
+        line-height: 1em
+        border: none
+        background: none
+
+.FillblankCard.correct
+    span.fillblank
+        color: rgba(71, 209, 71, .8)
+
+    input
+        background: rgba(71, 209, 71, 0.8)
+
+    input, fieldset svg
+        color: white
+
+    .successFeedback
+        margin-top: 1rem
+        color: rgba(0, 151, 0, 0.8)
+        text-align: center
+
+.FillblankCard.incorrect
+    span.fillblank
+        color: rgba(255, 77, 77, 0.8)
+
+    input
+        background: rgba(255, 77, 77, 0.8)
+
+    input, fieldset svg
+        color: white
+
+    .reviseFeedback
+        margin-top: 1rem
+        text-align: center
+
+#effectCanvas
+    position: fixed
+    left: 0
+    top: 0
+    width: 100vw
+    height: 100vh
+    pointer-events: none
+    z-index: 1
+
+.CardsEmbed
+    margin: auto
+    margin-bottom: 2rem
+    max-width: 400px
+    box-shadow: 0 7px 50px rgba(46,10,99,.05), 0 1px 1px 0.6px rgba(46,10,99,.1)
+    border-radius: 8px
+
+    header
+        padding-top: 1rem
+        padding-left: 2rem
+        font-size: 0.9rem
+        opacity: 0.5
+
+    .complete
+        height: 100%
+        display: flex
+        align-items: center
+        justify-content: center
+        text-align: center
+
+        .hanamaru
+            display: block
+            margin: auto
+            margin-bottom: 2rem
+            width: 120px
+
+.MemoryCard
+    text-align: left
+    height: 100%
+
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+
+    @media (max-width: $mobile)
+        padding-left: 5vw
+        padding-right: 5vw
+
+    .prompt
+        flex-grow: 1
+        display: flex
+        align-items: center
+        padding: 2rem
+        font-size: 1.05rem
+        line-height: 2rem
+        white-space: pre-wrap
+
+        @media (max-width: $mobile)
+            padding: 1.5rem
+
+    span.cloze
+        color: #64b5f6
+        border-bottom: 2px solid #5f6368
+        min-width: 20px
+        display: inline-block
+        text-align: center
+        line-height: 1.5rem
+
+    footer
+        height: 3rem
+        display: flex
+        align-items: stretch
+
+    button.reveal
+        width: 100%
+        border: 0
+        background: $base-color
+        color: white
+
+    button.forgot, button.remembered
+        width: 100%
+        border: 0
+        background: $base-color
+        color: white
+
+        position: relative
+        text-align: right
+        padding: 1rem
+        display: flex
+        align-items: center
+        justify-content: flex-start
+
+        svg
+            position: absolute
+            right: 1rem
+            top: 50%
+            transform: translateY(-50%)
+
+    button.forgot
+        margin-right: 0.1rem
+
+        // Make cross a bit bigger
+        svg
+            transform: translateY(-50%) scale(1.3)
+            margin-right: 0.1rem
+
+    button.remembered
+        margin-left: 0.1rem
+
+        // Make circle a bit thicker
+        svg path
+            stroke: currentColor
+            stroke-width: 45px
+
+.SiteHeader .LessonsDropdown
+    position: relative
+
+    label
+        background: none
+        border: none
+        cursor: pointer
+        margin: 0
+        user-select: none
+
+    ul
+        width: 200px
+        display: none
+        position: absolute
+        left: 0
+        padding: 0
+        list-style-type: none
+        background-color: white
+        color: #333
+        box-shadow: 0px 6px 11px rgba(0,0,0,0.15)
+        border-radius: 6px
+
+    li a
+        display: block
+        padding: 0.5rem 1rem
+
+    #lessonsDropdownToggle
+        display: none
+
+    #lessonsDropdownToggle:checked ~ ul
+        display: block
 
 .SignupPage, .LoginPage, .ResetPasswordPage, .ResetPasswordFinalizePage
     height: 100vh
@@ -247,3 +612,99 @@ $landing-color: #167475
 
         .lesson:after
             opacity: 1
+
+// Fix header overlapping anchor targets by
+// always positioning content after the header
+@media (min-width: $desktop)
+    .SiteHeader + *
+        position: absolute
+        top: 60px
+        width: 100%
+
+.SiteHeader
+    position: sticky
+    top: 0
+    width: 100%
+    z-index: 10
+    background-color: #fafafa
+    border-bottom: 1px solid #d5d5d5
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05)
+
+    .navbar-brand
+        color: #333
+        display: inline-flex
+        align-items: center
+        margin-right: 0.3rem
+
+    .navbar > .container
+        flex-wrap: wrap
+
+    .environment
+        margin-left: 0.3rem
+        color: green
+        font-size: 0.8rem
+
+    @media (max-width: $mobile)
+        position: relative
+
+        .ml-auto
+            margin-top: 0.3rem
+            margin-left: 0 !important
+            flex-wrap: wrap
+
+        .navbar-nav.other
+            margin-left: auto
+
+    ul.navigation-shortcuts
+        display: flex
+        flex: 0 1 auto
+        list-style: none
+        padding: 0
+        margin: 0
+
+        li
+            flex: 0 1 auto
+            width: auto
+            line-height: 20px
+            display: block
+
+        li:not(:first-child)
+            margin-left: 8px
+
+        li > a
+            border: 1px solid #ddd
+            border-radius: 5px
+            align-items: center
+            background: transparent
+            box-sizing: border-box
+            color: #333
+            display: flex
+            flex-direction: row
+            flex-wrap: nowrap
+            font-size: 0.875rem
+            font-weight: 300
+            justify-content: flex-start
+            line-height: 28px
+            margin: 0
+            padding: 0 14px 0 0
+            text-decoration: none
+            transition: border-color 0.2s, background 0.2s
+
+        li > a > span
+            border-radius: 4px 0 0 4px
+            background: #fdf4bb
+            border-right: 1px solid #ddd
+            display: block
+            font-size: 0.75rem
+            line-height: 32px
+            margin-right: 12px
+            min-width: 16px
+            padding: 0 8px
+            text-align: center
+
+        li > a.inactive
+            pointer-events: none
+
+        li > a.inactive > span
+            background: #ccc
+            color: white
