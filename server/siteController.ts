@@ -21,7 +21,7 @@ export async function appPage(req: SessionRequest) {
 }
 
 export async function lessonPage(req: EventRequest, lessonId: string) {
-    const lesson = content.lessons.find(c => c.id === lessonId)
+    const lesson = content.lessonsWithDrafts.find(c => c.id === lessonId)
 
     if (!lesson) {
         return new Response(`Unknown lesson ${lessonId}`, { status: 404 })

@@ -18,7 +18,7 @@ export function LessonPage(props: { lesson: Lesson }) {
 
     return <html lang="en">
         <Head pageTitle={lesson.title} canonicalUrl={`/${lesson.slug}`} pageDesc={pageDesc}>
-            {/* {lesson.draft ? <meta name="robots" content="noindex" /> : null} */}
+            {lesson.def.draft ? <meta name="robots" content="noindex" /> : null}
         </Head>
 
         <body>

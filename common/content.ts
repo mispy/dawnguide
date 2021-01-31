@@ -15,21 +15,29 @@ declare const window: any
  * Wraps all the plain object defs into mobx instances w/ useful computed properties.
  */
 class ContentIndex {
-    @observable.ref lessons: Lesson[] = []
+    @observable.ref lessonsWithDrafts: Lesson[] = []
 
     constructor() {
         if (typeof window !== 'undefined') window.content = this
 
         for (const def of lessonDefs) {
             if (def.type === 'meditation')
-                this.lessons.push(new MeditationLesson(def))
+                this.lessonsWithDrafts.push(new MeditationLesson(def))
             else
-                this.lessons.push(new ReadingLesson(def))
+                this.lessonsWithDrafts.push(new ReadingLesson(def))
         }
+    }
+
+    @computed get lessons() {
+        return this.lessonsWithDrafts.filter(l => !l.def.draft)
     }
 
     @computed get lessonById() {
         return _.keyBy(this.lessons, c => c.id)
+    }
+
+    @computed get lessonByIdWithDrafts() {
+        return _.keyBy(this.lessonsWithDrafts, c => c.id)
     }
 
     @computed get exercises() {
@@ -45,11 +53,11 @@ class ContentIndex {
     }
 
     expectLesson(lessonId: string): Lesson {
-        const Lesson = this.getLesson(lessonId)
-        if (!Lesson) {
+        const lesson = this.lessonByIdWithDrafts[lessonId]
+        if (!lesson) {
             throw new Error(`No known lesson with id '${lessonId}'`)
         }
-        return Lesson
+        return lesson
     }
 
     getExercise(exerciseId: string): Card | undefined {
