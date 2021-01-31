@@ -1,29 +1,40 @@
-import { ProgressStore, SRSProgress } from '../common/SRSProgress'
+import { SRSProgressStore, SRSProgress } from '../common/SRSProgress'
 import { tryParseJson } from '../common/utils'
 import { autorun } from 'mobx'
+import { ReviewPlan } from '../common/ReviewPlan'
+import type { AuthedState } from './AuthedState'
 
 /** 
- * This provides an interface to functionality that's only available
+ * This provides an interface to functionality that's available
  * in an interactive client-side js context, i.e. after SSR and after
  * initial hydration render.
  **/
 export class InteractiveState {
     window: Window & typeof globalThis
-    localSrs: SRSProgress
+    srs: SRSProgress
+    plan: ReviewPlan
 
-    constructor() {
+    constructor(readonly authed?: AuthedState) {
         this.window = window
 
-        this.localSrs = new SRSProgress()
-        const store = tryParseJson(localStorage.getItem('localProgressStore'))
-        if (store) {
-            this.localSrs.reconcile(store as ProgressStore)
+        if (authed) {
+            this.srs = authed.srs
+        } else {
+            // No progress from server provided, read from local storage
+            this.srs = new SRSProgress()
+
+            const store = tryParseJson(localStorage.getItem('localProgressStore'))
+            if (store) {
+                this.srs.overwriteWith(store as SRSProgressStore)
+            }
         }
 
         // Save changes to local storage
         autorun(() => {
-            localStorage.setItem('localProgressStore', this.localSrs.jsonStr)
+            localStorage.setItem('localProgressStore', this.srs.jsonStr)
         })
+
+        this.plan = new ReviewPlan(this.srs)
 
         // makeObservable(this)
     }

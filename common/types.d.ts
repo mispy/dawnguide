@@ -1,7 +1,10 @@
 import Markdown from "markdown-to-jsx"
+import type { Lesson } from "./content"
+import type { SRSProgressStore } from "./SRSProgress"
 
 export type MarkdownString = string
 export type BibtexString = string
+export type Timestamp = number
 
 export type User = {
     id: string
@@ -33,12 +36,6 @@ export type UserAdminReport = User & {
     notificationSettings: UserNotificationSettings
 }
 
-export type BasicExerciseDef = {
-    type?: undefined
-    question: string
-    answer: string
-}
-
 export type FillblankExerciseDef = {
     type: 'fillblank'
     question: string
@@ -47,15 +44,16 @@ export type FillblankExerciseDef = {
     reviseFeedback?: string
 }
 
-export type MeditationExerciseDef = {
-    type: 'meditation'
-}
+export type ExerciseDef = FillblankExerciseDef
 
-export type ExerciseDef = BasicExerciseDef | FillblankExerciseDef | MeditationExerciseDef
-
-export type Exercise = ExerciseDef & {
+export type Card = ExerciseDef & {
     id: string
     lessonId: string
+    lesson: Lesson
+}
+
+export type CardToReview = Card & {
+    nextReviewAt: Timestamp
 }
 
 export type LessonType = 'reading' | 'writing' | 'meditation'
@@ -88,11 +86,6 @@ export type MeditationLessonDef = BaseLessonDef & {
 }
 
 export type LessonDef = ReadingLessonDef | MeditationLessonDef
-
-export type Review = {
-    lesson: Lesson
-    exercise: Exercise
-}
 
 export type Reference = {
     id: string
@@ -140,6 +133,6 @@ export type UserNotificationSettings = {
 }
 
 export type UserProgress = {
-    userLessons: Record<string, UserLessons>,
-    progressItems: UserProgressItem[]
+    userLessons: Record<string, UserLessons>
+    progressStore: SRSProgressStore
 }

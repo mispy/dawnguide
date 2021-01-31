@@ -4,14 +4,20 @@ import * as React from 'react'
 import type { AuthedState } from "../client/AuthedState"
 import { InteractiveState } from '../client/InteractiveState'
 
-export const BrowserContext: React.Context<{ authed?: AuthedState, interactive?: InteractiveState }> = React.createContext({})
+type BrowserContextType = {
+    authed?: AuthedState
+    interactive?: InteractiveState
+}
+
+export const BrowserContext: React.Context<BrowserContextType> = React.createContext({})
 
 export const BrowserContextProvider = (props: { authed?: AuthedState, children: any }) => {
-    const state = useLocalObservable(() => ({ authed: props.authed } as { authed?: AuthedState, interactive?: InteractiveState }))
+    const { authed } = props
+    const state = useLocalObservable(() => ({ authed } as BrowserContextType))
 
-    if (props.authed) {
+    if (authed) {
         // Go straight to interactive
-        runInAction(() => state.interactive = new InteractiveState())
+        runInAction(() => state.interactive = new InteractiveState(authed))
     } else {
         React.useEffect(() => {
             runInAction(() => state.interactive = new InteractiveState())

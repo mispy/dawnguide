@@ -13,7 +13,7 @@ type ProgressStoreItem = {
     reviewedAt: Timestamp
 }
 
-export type ProgressStore = {
+export type SRSProgressStore = {
     cards: { [cardId: string]: ProgressStoreItem }
 }
 
@@ -81,7 +81,8 @@ export class SRSProgressItem {
  * that should be agnostic as to the persistence method and content of the cards
  */
 export class SRSProgress {
-    @observable store: ProgressStore = { cards: {} }
+    @observable store: SRSProgressStore = { cards: {} }
+    @observable updates: { cardId: string, remembered: boolean, reviewedAt: Timestamp }[] = []
 
     constructor() {
         makeObservable(this)
@@ -107,6 +108,10 @@ export class SRSProgress {
         return this.upcomingReviews.filter(r => r.nextReviewAt <= Date.now())
     }
 
+    @computed get allItems() {
+        return Object.keys(this.store.cards).map(cardId => this.expect(cardId))
+    }
+
     get(cardId: string): SRSProgressItem | undefined {
         const store = this.store.cards[cardId]
         return store ? new SRSProgressItem(this, cardId) : undefined
@@ -127,10 +132,16 @@ export class SRSProgress {
     @action update({ cardId, remembered }: { cardId: string, remembered: boolean }) {
         const item = this.get(cardId)
         const now = Date.now()
-        if (!item) {
-            if (!remembered)
-                return
 
+        if (!item && !remembered) {
+            // Didn't remember something we already have no progress for
+            return
+        } else if (item && (!item.nextReviewAt || item.nextReviewAt > now)) {
+            // Only want to alter progress if there was actually a review scheduled
+            return
+        }
+
+        if (!item) {
             // Reviewed a card for the first time
             this.store.cards[cardId] = {
                 level: 1,
@@ -138,11 +149,6 @@ export class SRSProgress {
                 reviewedAt: now
             }
         } else {
-            // Only alter progress if there was actually a review scheduled
-            if (!item.nextReviewAt || item.nextReviewAt > now) {
-                return
-            }
-
             const level = remembered ? Math.min(item.level + 1, 9) : Math.max(item.level - 1, 1)
 
             this.store.cards[cardId] = {
@@ -151,18 +157,33 @@ export class SRSProgress {
                 reviewedAt: now
             }
         }
+
+        this.updates.push({ cardId, remembered, reviewedAt: now })
     }
 
     /**
-     * Update this progress tracker to include all the progress from another one,
-     * resolving any conflicts along the way
+     * Overwrite progress with new state
      */
-    @action reconcile(store: ProgressStore) {
+    @action overwriteWith(store: SRSProgressStore) {
+        for (const cardId in store.cards) {
+            const incomingItem = store.cards[cardId]!
+            this.store.cards[cardId] = incomingItem
+        }
+    }
+
+    /**
+     * Update this progress tracker with progress from another one
+     * This favors the existing state as the "correct" one, and only updates if
+     * it seems likely that the user might lose progress otherwise
+     */
+    @action reconcile(store: SRSProgressStore) {
         for (const cardId in store.cards) {
             const incomingItem = store.cards[cardId]!
             const item = this.store.cards[cardId]
-            // Favor higher level or earlier review so user can't lose progress
-            if (!item || incomingItem.level > item.level || (incomingItem.level === item.level && incomingItem.reviewedAt < item.reviewedAt)) {
+            // Favor higher level + future or equal level + past
+            if (!item ||
+                (incomingItem.level > item.level && incomingItem.reviewedAt > item.reviewedAt) ||
+                (incomingItem.level === item.level && incomingItem.reviewedAt < item.reviewedAt)) {
                 this.store.cards[cardId] = incomingItem
             }
         }

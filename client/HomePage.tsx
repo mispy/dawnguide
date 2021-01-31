@@ -9,13 +9,13 @@ import { IS_PRODUCTION } from "./settings"
 import type { Lesson } from '../common/content'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faBookReader, faCheckCircle, faHeart, faPen, faStar } from '@fortawesome/free-solid-svg-icons'
-import type { ReviewWithTime } from './AuthedState'
 import ReactTimeago from 'react-timeago'
 import classNames from 'classnames'
 import styled from 'styled-components'
 import { action } from 'mobx'
 import type { Learny } from './Learny'
 import { expectAuthed } from '../common/ProgressiveEnhancement'
+import type { CardToReview } from '../common/types'
 
 function NextLessonCard(props: { lesson: Lesson | undefined }) {
     const { lesson } = props
@@ -42,7 +42,7 @@ function NextLessonCard(props: { lesson: Lesson | undefined }) {
     }
 }
 
-function NextReviewCard(props: { reviews: ReviewWithTime[] }) {
+function NextReviewCard(props: { reviews: CardToReview[] }) {
     const { reviews } = props
     const lessons = _.uniq(reviews.map(r => r.lesson))
     const now = Date.now()
@@ -53,11 +53,11 @@ function NextReviewCard(props: { reviews: ReviewWithTime[] }) {
         return <div>
 
         </div>
-    } else if (nextReview.when > now) {
+    } else if (nextReview.nextReviewAt > now) {
         return <div className="NextReviewCard">
             <h4>You're up to date on reviews</h4>
             <div>
-                <p>The next review is <ReactTimeago date={nextReview.when} />.<br /><br />It will be about {lessons[0]!.name}.</p>
+                <p>The next review is <ReactTimeago date={nextReview.nextReviewAt} />.<br /><br />It will be about {lessons[0]!.name}.</p>
             </div>
         </div>
     } else {
@@ -269,7 +269,7 @@ li.learned .fillbar {
 `
 
 export function HomePage() {
-    const { authed } = expectAuthed()
+    const { authed, plan } = expectAuthed()
 
     const lessonIcons = {
         'reading': faBookReader,
@@ -282,11 +282,11 @@ export function HomePage() {
             <Main>
                 <Container className="mt-2">
                     <div className="row mb-4">
-                        <div className="col-md-6 mt-2">
+                        {/* <div className="col-md-6 mt-2">
                             <NextLessonCard lesson={authed.nextLesson} />
-                        </div>
+                        </div> */}
                         <div className="col-md-6 mt-2">
-                            <NextReviewCard reviews={authed.upcomingReviews} />
+                            <NextReviewCard reviews={plan.upcomingReviews} />
                         </div>
                     </div>
                     {/* <h2>
@@ -294,7 +294,7 @@ export function HomePage() {
                             <div>Learn about being kind to yourself as well as those around you.</div>
                         </h2> */}
                     <ul>
-                        {authed.learnies.map(learny => <li key={learny.lesson.id} className={classNames({ lessonItem: true, learned: learny.learned })}>
+                        {authed.learnies.filter(l => l.lesson.type === "reading").map(learny => <li key={learny.lesson.id} className={classNames({ lessonItem: true, learned: learny.learned })}>
                             <Link to={learny.lesson.slug}>
                                 <div className="intermarker"></div>
                                 <div className="marker">

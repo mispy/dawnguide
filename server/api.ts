@@ -14,6 +14,7 @@ import { sendLessonEmail } from "./lessonEmail"
 import { absurl } from "../common/utils"
 import { sendReviewsEmail } from "./reviewsEmail"
 import * as z from 'zod'
+import type { SRSProgressStore } from "../common/SRSProgress"
 
 export async function processRequest(req: EventRequest) {
     if (!req.session) {
@@ -40,12 +41,9 @@ export async function processRequest(req: EventRequest) {
     return await r.route(req as SessionRequest)
 }
 
-async function getProgress(req: SessionRequest): Promise<{ userLessons: Record<string, UserLesson>, progressItems: UserProgressItem[] }> {
+async function getProgress(req: SessionRequest): Promise<{ userLessons: Record<string, UserLesson>, progressStore: SRSProgressStore }> {
     const { userId } = req.session
-    return {
-        userLessons: await db.userLessons.byLessonId(userId),
-        progressItems: await db.progressItems.allFor(userId)
-    }
+    return await db.progressItems.getProgressFor(userId)
 }
 
 /** 

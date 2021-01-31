@@ -49,7 +49,7 @@ export function ReadingLessonView(props: { lesson: Lesson }) {
                     {!js && <div className="CardsEmbed">
                         This interactive section requires javascript.
                     </div>}
-                    {js && <CardsEmbed reviews={lesson.exercises.map(e => ({ lesson: lesson, exercise: e }))} />}
+                    {js && <CardsEmbed cards={lesson.exercises} />}
                 </section>
                 <div className="authorship">
                     Written by {lesson.author}

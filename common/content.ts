@@ -2,7 +2,7 @@
 import { computed, observable } from 'mobx'
 
 import lessonDefs from '../common/pages'
-import type { LessonDef, Reference, MarkdownString, UserProgressItem, Exercise, LessonType, UserLesson, ReadingLessonDef, MeditationLessonDef } from './types'
+import type { LessonDef, Reference, MarkdownString, UserProgressItem, Card, LessonType, UserLesson, ReadingLessonDef, MeditationLessonDef } from './types'
 import _ from 'lodash'
 import { isReadyForReview } from './logic'
 
@@ -34,7 +34,7 @@ class ContentIndex {
     }
 
     @computed get exercises() {
-        return _.flatten(this.lessons.map(c => c.exercises))
+        return _.flatten(this.lessons.map(c => 'exercises' in c ? c.exercises : []))
     }
 
     @computed get exerciseById() {
@@ -53,38 +53,38 @@ class ContentIndex {
         return Lesson
     }
 
-    getExercise(exerciseId: string): Exercise | undefined {
+    getExercise(exerciseId: string): Card | undefined {
         return this.exerciseById[exerciseId]
     }
 
-    getLessonsAndReviews(userLessons: Record<string, UserLesson>, progressItems: UserProgressItem[]) {
-        const progressByExerciseId = _.keyBy(progressItems, item => item.exerciseId) as _.Dictionary<UserProgressItem | undefined>
+    // getLessonsAndReviews(userLessons: Record<string, UserLesson>, progressItems: UserProgressItem[]) {
+    //     const progressByExerciseId = _.keyBy(progressItems, item => item.exerciseId) as _.Dictionary<UserProgressItem | undefined>
 
-        const activeLessons = this.lessons.filter(l => !userLessons[l.id]?.disabled)
+    //     const activeLessons = this.lessons.filter(l => !userLessons[l.id]?.disabled)
 
-        const untouchedLessons = activeLessons.filter(c => {
-            return c.exercises.every(e => !progressByExerciseId[e.id])
-        })
+    //     const untouchedLessons = activeLessons.filter(c => {
+    //         return c.exercises.every(e => !progressByExerciseId[e.id])
+    //     })
 
-        const reviewableLessons = activeLessons.filter(c => {
-            return c.exercises.some(e => progressByExerciseId[e.id])
-        })
+    //     const reviewableLessons = activeLessons.filter(c => {
+    //         return c.exercises.some(e => progressByExerciseId[e.id])
+    //     })
 
-        const reviews: Review[] = []
-        for (const lesson of reviewableLessons) {
-            for (const exercise of lesson.exercises) {
-                const item = progressByExerciseId[exercise.id]
-                if (!item || isReadyForReview(item)) {
-                    reviews.push({
-                        lesson: lesson,
-                        exercise: exercise
-                    })
-                }
-            }
-        }
+    //     const reviews: Review[] = []
+    //     for (const lesson of reviewableLessons) {
+    //         for (const exercise of lesson.exercises) {
+    //             const item = progressByExerciseId[exercise.id]
+    //             if (!item || isReadyForReview(item)) {
+    //                 reviews.push({
+    //                     lesson: lesson,
+    //                     exercise: exercise
+    //                 })
+    //             }
+    //         }
+    //     }
 
-        return { lessons: untouchedLessons, reviews }
-    }
+    //     return { lessons: untouchedLessons, reviews }
+    // }
 }
 
 function parseBibliography(bibliography: string): Reference[] {
@@ -203,10 +203,11 @@ export class BaseLesson<T extends LessonDef> {
 export class ReadingLesson extends BaseLesson<ReadingLessonDef> {
     type: 'reading' = 'reading'
 
-    @computed get exercises(): Exercise[] {
+    @computed get exercises(): Card[] {
         return this.def.exercises.map((e, i) => {
             return {
                 id: `${this.id}:${i}`,
+                lesson: this,
                 lessonId: this.id,
                 ...e
             }
@@ -217,20 +218,11 @@ export class ReadingLesson extends BaseLesson<ReadingLessonDef> {
 export class MeditationLesson extends BaseLesson<MeditationLessonDef> {
     type: 'meditation' = 'meditation'
 
-    @computed get exercises(): Exercise[] {
-        return [{
-            type: 'meditation' as 'meditation',
-            id: this.id,
-            lessonId: this.id
-        }]
+    get exercises() {
+        return []
     }
 }
 
 export type Lesson = ReadingLesson | MeditationLesson
-
-export type Review = {
-    lesson: Lesson
-    exercise: Exercise
-}
 
 export const content = new ContentIndex()

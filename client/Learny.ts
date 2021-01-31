@@ -38,11 +38,19 @@ export class Learny {
         return (this.meanReviewLevel / 9) * 100
     }
 
+    @computed get upcomingReviews() {
+        if (this.disabled)
+            return []
+
+        const lessonCardIds = this.lesson.exercises.map(e => e.id)
+        return this.srs.upcomingReviews.filter(r => lessonCardIds.includes(r.cardId))
+    }
+
     @computed get nextReview() {
         if (this.disabled)
             return undefined
 
-        const review = this.srs.upcomingReviews[0]
+        const review = this.upcomingReviews[0]
         if (review) {
             return {
                 lesson: this.lesson,

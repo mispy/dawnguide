@@ -7,6 +7,7 @@ import type { UserProgressItem, UserNotificationSettings, UserLesson } from '../
 import { isReadyForReview } from '../common/logic'
 import _ from 'lodash'
 import { ResponseError } from './utils'
+import type { SRSProgressStore } from '../common/SRSProgress'
 
 declare const global: any
 export const cfstore: KVNamespace = global.STORE
@@ -309,6 +310,27 @@ export namespace progressItems {
 
     export async function resetAllProgressTo(userId: string, progressItems: UserProgressItem[]) {
         return await db.putJson(`user_progress:${userId}`, { items: _.keyBy(progressItems, item => item.exerciseId) })
+    }
+
+    export async function getProgressFor(userId: string) {
+        const progressItemsReq = progressItems.allFor(userId)
+        const userLessonsReq = userLessons.byLessonId(userId)
+
+        const store: SRSProgressStore = { cards: {} }
+
+        const items = await progressItemsReq
+        for (const item of items) {
+            store.cards[item.exerciseId] = {
+                level: item.level,
+                learnedAt: item.learnedAt,
+                reviewedAt: item.reviewedAt
+            }
+        }
+
+        return {
+            userLessons: await userLessonsReq,
+            progressStore: store
+        }
     }
 }
 

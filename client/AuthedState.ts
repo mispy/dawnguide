@@ -1,21 +1,16 @@
 import { observable, runInAction, computed, action, toJS, makeObservable, autorun } from "mobx"
-import type { Lesson, Review } from "../common/content"
+import type { Lesson } from "../common/content"
 import * as _ from 'lodash'
 import { ClientApi } from "./ClientApi"
 import { content } from "../common/content"
-import type { UserProgressItem, User, Exercise, UserProgress } from "../common/types"
+import type { User, UserProgress } from "../common/types"
 import * as Sentry from '@sentry/browser'
 import { SENTRY_DSN_URL } from "./settings"
 import type { AxiosError } from "axios"
 import { Learny } from "./Learny"
-import { ProgressStore, SRSProgress } from "../common/SRSProgress"
+import { SRSProgress, SRSProgressStore } from "../common/SRSProgress"
 import { errors } from "./GlobalErrorHandler"
-
-export type ReviewWithTime = {
-    lesson: Lesson
-    exercise: Exercise
-    when: number
-}
+import { tryParseJson } from "../common/utils"
 
 export type LessonWithProgress = {
     lesson: Lesson
@@ -42,6 +37,7 @@ export class AuthedState {
         this.user = user
         errors.user = user
         this.progress = progress
+        this.progressUpdate()
         window.authed = this
 
         this.backgroundApi = new ClientApi()
@@ -63,33 +59,52 @@ export class AuthedState {
             this.learnies.push(new Learny(lesson, this.srs, false))
         }
 
+        // Pull in any progress that might've happened before the user signed up / logged in
+        const store = tryParseJson(localStorage.getItem('localProgressStore'))
+        if (store) {
+            this.srs.reconcile(store as SRSProgressStore)
+        }
+
+        // Push SRS changes to the API
+        let lastSync = Date.now()
+        autorun(() => {
+            const { updates } = this.srs
+            for (let i = updates.length - 1; i >= 0; i--) {
+                const { cardId, remembered, reviewedAt } = updates[i]!
+                if (reviewedAt <= lastSync) {
+                    break
+                } else {
+                    this.backgroundApi.submitProgress(cardId, remembered)
+                }
+            }
+
+            lastSync = Date.now()
+        })
+
         makeObservable(this)
     }
 
     async loadProgress() {
         // Do it in the background if we already have progress data
-        const req = this.progress.progressItems ? this.backgroundApi.getProgress() : this.api.getProgress()
+        const req = this.progress ? this.backgroundApi.getProgress() : this.api.getProgress()
         const progress = await req
         runInAction(() => {
             this.progress = progress
-
-            for (const lessonId in progress.userLessons) {
-                const learny = this.learnyByLessonId[lessonId]
-                if (learny) {
-                    learny.disabled = !!progress.userLessons[lessonId]!.disabled
-                }
-            }
-
-            const store: ProgressStore = { cards: {} }
-            for (const item of progress.progressItems) {
-                store.cards[item.exerciseId] = {
-                    level: item.level,
-                    learnedAt: item.learnedAt,
-                    reviewedAt: item.reviewedAt
-                }
-            }
-            this.srs.reconcile(store)
+            this.progressUpdate()
         })
+    }
+
+    progressUpdate() {
+        const { progress } = this
+
+        for (const lessonId in progress.userLessons) {
+            const learny = this.learnyByLessonId[lessonId]
+            if (learny) {
+                learny.disabled = !!progress.userLessons[lessonId]!.disabled
+            }
+        }
+
+        this.srs.overwriteWith(progress.progressStore)
     }
 
     async reloadUser() {
@@ -117,44 +132,9 @@ export class AuthedState {
         return undefined
     }
 
-    @computed get lessonsAndReviews() {
-        return content.getLessonsAndReviews(this.progress.userLessons, this.progress.progressItems)
-    }
-
-    @computed get progressByExerciseId() {
-        return _.keyBy(this.progress.progressItems, item => item.exerciseId) as _.Dictionary<UserProgressItem | undefined>
-    }
 
     @computed get learnyByLessonId() {
         return _.keyBy(this.learnies, p => p.lesson.id)
-    }
-
-    // A Lesson is available as a "lesson" if any of its exercises have no progress
-    // and the conditions for unlocking it are met (currently none)
-    // Generally either all or none will be, but it's conceivable that we add more
-    // exercises to an existing lesson, in which case it goes back in the queue
-    @computed get lessonLessons(): Lesson[] {
-        return this.lessonsAndReviews.lessons
-    }
-
-    @computed get nextLesson(): Lesson | undefined {
-        return this.lessonLessons[0]
-    }
-
-    @computed get numLessons(): number {
-        return this.lessonLessons.length
-    }
-
-    @computed get reviews(): Review[] {
-        return this.lessonsAndReviews.reviews
-    }
-
-    @computed get numReviews(): number {
-        return this.reviews.length
-    }
-
-    @computed get nextReview(): Review | undefined {
-        return this.reviews[0]
     }
 
     @computed get upcomingReviews() {
