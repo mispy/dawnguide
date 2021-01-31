@@ -10,11 +10,7 @@ export function AppLayout(props: { title?: string, noHeader?: boolean, noFooter?
     const noHeader = props.noHeader || false
     const noFooter = props.noFooter || false
 
-    const { authed, errors } = expectAuthed()
-
-    useEffect(() => {
-        authed.loadProgress()
-    }, [])
+    const { errors } = expectAuthed()
 
     if (props.title) {
         useEffect(() => {

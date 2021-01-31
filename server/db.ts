@@ -311,15 +311,14 @@ export namespace progressItems {
         const progressItemsReq = progressItems.allFor(userId)
         const userLessonsReq = userLessons.byLessonId(userId)
 
-        const items = await progressItemsReq
-        const store: SRSProgressStore = { cards: {} }
-        for (const item of items) {
-            store.cards[item.exerciseId] = {
-                level: item.level,
-                learnedAt: item.learnedAt,
-                reviewedAt: item.reviewedAt
-            }
-        }
+        const dbItems = await progressItemsReq
+        const store: SRSProgressStore = { items: [] }
+        store.items = dbItems.map(item => ({
+            cardId: item.exerciseId,
+            level: item.level,
+            learnedAt: item.learnedAt,
+            reviewedAt: item.reviewedAt
+        }))
 
         const uls = await userLessonsReq
         const disabledLessons: { [lessonId: string]: boolean } = {}

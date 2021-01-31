@@ -24,32 +24,26 @@ declare global {
 }
 
 export class AuthedState {
-    api: ClientApi
-    backgroundApi: ClientApi
+    backgroundApi: ClientApi = new ClientApi()
+    api: ClientApi = this.backgroundApi.with({ nprogress: true })
     @observable user: User
-    @observable disabledLessons: UserProgress['disabledLessons'] = {}
+    @observable disabledLessons: UserProgress['disabledLessons']
     @observable.ref unexpectedError: Error | null = null
     srs: SRSProgress = new SRSProgress()
     plan: LearnyPlan
 
     constructor(user: User, progress: UserProgress) {
-        makeObservable(this)
-
         this.user = user
-        errors.user = user
         this.disabledLessons = progress.disabledLessons
         this.srs.overwriteWith(progress.progressStore)
-        window.authed = this
+        makeObservable(this)
 
-        this.backgroundApi = new ClientApi()
-        this.api = this.backgroundApi.with({ nprogress: true })
+        // Inform error handler about user context
+        errors.user = user
 
-        const w = window as any
-        w.user = toJS(user)
-
+        // If there's any pending non-GET request in background, ask for confirmation
+        // before leaving the page
         window.addEventListener("beforeunload", e => {
-            // If there's any pending non-GET request in background, ask for confirmation
-            // before leaving the page
             if (this.backgroundApi.http.pendingRequests.some(r => r.config.method !== 'GET')) {
                 e.preventDefault()
                 e.returnValue = ''
@@ -57,9 +51,13 @@ export class AuthedState {
         })
 
         // Pull in any progress that might've happened before the user signed up / logged in
-        const store = tryParseJson(localStorage.getItem('localProgressStore'))
-        if (store) {
-            this.srs.reconcile(store as SRSProgressStore)
+        const store = tryParseJson(localStorage.getItem('localProgressStore')) as SRSProgressStore
+        if (store && store.items) {
+            const { changedItems } = this.srs.reconcile(store.items)
+            if (!_.isEmpty(changedItems)) {
+                // Something changed, better tell the server about it too
+                this.backgroundApi.reconcileProgress(changedItems)
+            }
         }
 
         // Push SRS changes to the API
@@ -71,7 +69,7 @@ export class AuthedState {
                 if (reviewedAt <= lastSync) {
                     break
                 } else {
-                    this.backgroundApi.submitProgress(cardId, remembered)
+                    this.backgroundApi.srsUpdate(cardId, remembered)
                 }
             }
 

@@ -166,7 +166,7 @@ export class BaseLesson<T extends LessonDef> {
     }
 
     @computed get author(): string {
-        return this.def.author || "Jaiden Mispy"
+        return this.def.author || "Mispy"
     }
 
     @computed get furtherReading(): MarkdownString | undefined {

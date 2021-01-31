@@ -7,7 +7,7 @@ export default defineLesson({
     title: 'Self-compassion',
     summaryLine: "People who treat themselves with caring patience are more resilient and kinder to others as well",
     // subtitle: "Caring for yourself the way you care for friends",s
-    author: "Jaiden Mispy",
+    author: "Mispy",
     text: md`
 **Self-compassion** involves directing the same sense of caring warmth that you have for others towards yourself. Think of someone important to you, a friend or loved one, and imagine they are suffering in some way. Do you feel your heart moved by their plight, and wish for them to be safe and happy? That feeling of compassion is a beautiful strength of humanity, and intentionally invoking it can help us to deal with negative emotions.[@allen2010self]
 

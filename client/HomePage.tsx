@@ -282,9 +282,9 @@ export function HomePage() {
             <Main>
                 <Container className="mt-2">
                     <div className="row mb-4">
-                        {/* <div className="col-md-6 mt-2">
-                            <NextLessonCard lesson={authed.nextLesson} />
-                        </div> */}
+                        <div className="col-md-6 mt-2">
+                            <NextLessonCard lesson={plan.nextLesson} />
+                        </div>
                         <div className="col-md-6 mt-2">
                             <NextReviewCard reviews={plan.upcomingReviews} />
                         </div>

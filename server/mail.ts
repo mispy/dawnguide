@@ -1,5 +1,5 @@
 import http from './http'
-import { MAILGUN_SECRET, IS_TESTING } from './settings'
+import { MAILGUN_SECRET, IS_TESTING, IS_PRODUCTION } from './settings'
 
 type PlaintextEmailMessage = {
     to: string
@@ -16,7 +16,6 @@ type HtmlEmailMessage = {
 }
 
 type EmailMessage = PlaintextEmailMessage | HtmlEmailMessage
-
 
 export const testMailsSent: EmailMessage[] = []
 
@@ -35,7 +34,7 @@ export async function sendMail(msg: EmailMessage) {
 
     if (IS_TESTING) {
         testMailsSent.push(msg)
-    } else {
+    } else if (IS_PRODUCTION) {
         await http.post("https://api.mailgun.net/v3/dawnguide.com/messages", body, {
             headers: {
                 Authorization: `Basic ${btoa(`api:${MAILGUN_SECRET}`)}`

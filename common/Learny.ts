@@ -24,6 +24,10 @@ export class LearnyPlan {
     @computed get availableReviews() {
         return this.upcomingReviews.filter(c => c.nextReviewAt <= Date.now())
     }
+
+    @computed get nextLesson() {
+        return this.learnies.find(l => !l.learned)?.lesson
+    }
 }
 
 /** 

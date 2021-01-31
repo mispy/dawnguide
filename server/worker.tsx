@@ -13,6 +13,9 @@ import * as _ from 'lodash'
 import { logToSentry } from './sentry'
 import { EventRequest, SessionRequest } from './requests'
 import lessonDefs from '../common/pages'
+import { enableStaticRendering } from "mobx-react-lite"
+
+enableStaticRendering(true)
 
 // Workers require that this be a sync callback
 addEventListener('fetch', event => {

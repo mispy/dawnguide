@@ -21,8 +21,8 @@ export class InteractiveState {
             // No progress from server provided, read from local storage
             this.srs = new SRSProgress()
 
-            const store = tryParseJson(localStorage.getItem('localProgressStore'))
-            if (store) {
+            const store = tryParseJson(localStorage.getItem('localProgressStore')) as Partial<SRSProgressStore>
+            if (store && store.items) {
                 this.srs.overwriteWith(store as SRSProgressStore)
             }
         }

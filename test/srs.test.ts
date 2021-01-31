@@ -22,7 +22,6 @@ describe('SRSProgress', () => {
         expect(srs.get('foo')).toBeUndefined()
     })
 
-
     it("progresses in level when it's time for a review", () => {
         const srs = new SRSProgress()
         srs.update({ cardId: 'kittens', remembered: true })
@@ -120,7 +119,7 @@ describe('SRSProgress', () => {
         MockDate.set(srs2.expect('mochi').nextReviewAt!)
         srs2.update({ cardId: 'mochi', remembered: true })
 
-        srs1.reconcile(srs2.store)
+        srs1.reconcile(srs2.store.items)
         const mochi = srs1.expect('mochi')
         expect(mochi.level).toBe(2)
         expect(mochi.reviewedAt).toEqual(srs2.expect('mochi').reviewedAt)

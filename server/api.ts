@@ -1,8 +1,8 @@
 import Router from "./router"
 import { ResponseError } from "./utils"
 import * as db from './db'
-import type { UserProgressItem, UserAdminReport, UserLesson, UserProgress } from '../common/types'
-import { getReviewDelayByLevel } from "../common/SRSProgress"
+import type { UserAdminReport, UserLesson, UserProgress } from '../common/types'
+import { getReviewDelayByLevel, SRSProgress } from "../common/SRSProgress"
 import * as _ from 'lodash'
 import { sendMail } from "./mail"
 import * as bcrypt from "bcryptjs"
@@ -23,7 +23,8 @@ export async function processRequest(req: EventRequest) {
 
     const r = new Router<SessionRequest>()
     r.get('/api/progress', getProgress)
-    r.put('/api/progress', submitProgress)
+    r.patch('/api/progress', reconcileProgress)
+    r.put('/api/srs', srsUpdate)
     r.post('/api/lesson', completeLesson)
     r.patch('/api/userLessons/(.*)', updateUserLesson)
     r.get('/api/users/me', getCurrentUser)
@@ -44,6 +45,32 @@ export async function processRequest(req: EventRequest) {
 async function getProgress(req: SessionRequest): Promise<UserProgress> {
     const { userId } = req.session
     return await db.progressItems.getProgressFor(userId)
+}
+
+const reconcileProgressForm = z.object({
+    changes: z.array(z.object({
+        cardId: z.string(),
+        level: z.number(),
+        reviewedAt: z.number(),
+        learnedAt: z.number()
+    }))
+})
+async function reconcileProgress(req: SessionRequest): Promise<void> {
+    const { userId } = req.session
+    const { changes } = reconcileProgressForm.parse(req.json)
+    const { progressStore } = await db.progressItems.getProgressFor(userId)
+    const srs = new SRSProgress(progressStore)
+    const { changedItems } = srs.reconcile(changes)
+
+    const dbItems = changedItems.map(d => ({
+        userId,
+        exerciseId: d.cardId,
+        level: d.level,
+        reviewedAt: d.reviewedAt,
+        learnedAt: d.learnedAt
+    }))
+
+    await db.progressItems.saveAll(userId, dbItems)
 }
 
 /** 
@@ -93,40 +120,37 @@ async function updateUserLesson(req: SessionRequest, lessonId: string): Promise<
  * When a user successfully completes an exercise, we increase the
  * SRS level in their exercise progress.
  **/
-const submitProgressForm = z.object({
+const srsUpdateForm = z.object({
     exerciseId: z.string(),
     remembered: z.boolean()
 })
-async function submitProgress(req: SessionRequest) {
-    // TODO check level matches
-    const { exerciseId, remembered } = submitProgressForm.parse(req.json)
-
+async function srsUpdate(req: SessionRequest) {
+    const { exerciseId, remembered } = srsUpdateForm.parse(req.json)
     const { userId } = req.session
 
-    let progressItem = await db.progressItems.get(userId, exerciseId)
-    const now = Date.now()
+    const dbProgressItem = await db.progressItems.get(userId, exerciseId)
+    const store: SRSProgressStore = { items: [] }
+    if (dbProgressItem) {
+        store.items.push({
+            cardId: exerciseId,
+            level: dbProgressItem.level,
+            reviewedAt: dbProgressItem.reviewedAt,
+            learnedAt: dbProgressItem.learnedAt
+        })
+    }
+    const srs = new SRSProgress(store)
+    srs.update({ cardId: exerciseId, remembered })
 
-    if (!progressItem) {
-        if (!remembered)
-            return // Still haven't actually learned this
-
-        progressItem = {
+    if (srs.updates.length) {
+        const item = srs.expect(exerciseId)
+        await db.progressItems.save({
             userId: userId,
             exerciseId: exerciseId,
-            level: 1,
-            learnedAt: now,
-            reviewedAt: now
-        }
-    } else {
-        progressItem.reviewedAt = now
-        if (remembered) {
-            progressItem.level = Math.min(progressItem.level + 1, 9)
-        } else {
-            progressItem.level = Math.max(progressItem.level - 1, 1)
-        }
+            level: item.level,
+            reviewedAt: item.reviewedAt,
+            learnedAt: item.learnedAt
+        })
     }
-
-    await db.progressItems.save(progressItem)
 }
 
 async function debugHandler(req: SessionRequest) {

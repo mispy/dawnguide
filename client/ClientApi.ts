@@ -4,7 +4,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { API_BASE_URL, IS_PRODUCTION } from './settings'
 import { delay } from './utils'
 import type { User, UserProgressItem, UserNotificationSettings, UserAdminReport, UserLesson, UserProgress } from '../common/types'
-import type { SRSProgressStore } from '../common/SRSProgress'
+import type { SRSProgressStore, SRSProgressStoreItem } from '../common/SRSProgress'
 // @ts-ignore
 const NProgress = require('accessible-nprogress')
 
@@ -108,8 +108,13 @@ export class ClientApi {
         return data
     }
 
-    async submitProgress(exerciseId: string, remembered: boolean): Promise<void> {
-        await this.http.put('/api/progress', { exerciseId: exerciseId, remembered: remembered })
+    async srsUpdate(exerciseId: string, remembered: boolean): Promise<void> {
+        await this.http.put('/api/srs', { exerciseId: exerciseId, remembered: remembered })
+    }
+
+    async reconcileProgress(changedItems: SRSProgressStoreItem[]): Promise<SRSProgressStore> {
+        const { data } = await this.http.patch('/api/progress', { changes: changedItems })
+        return data
     }
 
     async completeLesson(exerciseIds: string[]): Promise<void> {
