@@ -46,3 +46,12 @@ export function tryParseJson(maybe: any): object | undefined {
         return undefined
     }
 }
+
+/** Like Object.assign but removes any keys from dst that aren't in src */
+export function overwrite(dst: Record<string, any>, src: Record<string, any>) {
+    for (const key in dst) {
+        if (!(key in src))
+            delete dst[key]
+    }
+    Object.assign(dst, src)
+}

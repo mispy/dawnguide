@@ -1,8 +1,8 @@
 import Router from "./router"
 import { ResponseError } from "./utils"
 import * as db from './db'
-import type { UserProgressItem, UserAdminReport, UserLesson } from '../common/types'
-import { getReviewTime } from "../common/logic"
+import type { UserProgressItem, UserAdminReport, UserLesson, UserProgress } from '../common/types'
+import { getReviewDelayByLevel } from "../common/SRSProgress"
 import * as _ from 'lodash'
 import { sendMail } from "./mail"
 import * as bcrypt from "bcryptjs"
@@ -41,7 +41,7 @@ export async function processRequest(req: EventRequest) {
     return await r.route(req as SessionRequest)
 }
 
-async function getProgress(req: SessionRequest): Promise<{ userLessons: Record<string, UserLesson>, progressStore: SRSProgressStore }> {
+async function getProgress(req: SessionRequest): Promise<UserProgress> {
     const { userId } = req.session
     return await db.progressItems.getProgressFor(userId)
 }
@@ -140,9 +140,10 @@ async function debugHandler(req: SessionRequest) {
 
         const now = Date.now()
         for (const item of items) {
-            const nextReview = getReviewTime(item)
-            if (nextReview > now)
-                item.reviewedAt -= (nextReview - now)
+            const delay = getReviewDelayByLevel(item.level)
+            const nextReviewAt = item.reviewedAt + delay
+            if (nextReviewAt > now)
+                item.reviewedAt -= (nextReviewAt - now)
         }
         await db.progressItems.resetAllProgressTo(userId, items)
     } else {

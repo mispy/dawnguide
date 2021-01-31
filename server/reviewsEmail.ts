@@ -1,7 +1,6 @@
 import type { User } from "../common/types"
-import * as _ from 'lodash'
+import _ from 'lodash'
 import * as db from './db'
-import { content } from "../common/content"
 import { sendMail } from "./mail"
 import * as time from "../common/time"
 import { absurl } from "../common/utils"
@@ -18,50 +17,37 @@ export async function sendReviewsEmailIfNeeded(user: User) {
     if (user.lastSeenAt <= settings.lastWeeklyReviewEmail - time.weeks(1))
         return // Don't keep sending emails if the user doesn't log in
 
-    const progressItems = await db.progressItems.allFor(user.id)
-    const userLessons = await db.userLessons.byLessonId(user.id)
-
-    const { lessons, reviews } = content.getLessonsAndReviews(userLessons, progressItems)
+    const plan = await db.makeLearnyPlanFor(user.id)
+    const reviews = plan.availableReviews
 
     if (reviews.length === 0)
         return // No reviews to prompt about!
 
     await sendMail({
         to: user.email,
-        subject: "Your Lessons and Reviews Update",
-        html: await reviewsEmailHtml(user, lessons.length, reviews.length)
+        subject: `You have ${reviews.length} cards ready to review on Dawnguide`,
+        html: await reviewsEmailHtml(user, reviews.length)
     })
 
     await db.notificationSettings.update(user.id, { lastWeeklyReviewEmail: Date.now() })
 }
 
 export async function sendReviewsEmail(user: User) {
-    const progressItems = await db.progressItems.allFor(user.id)
-    const userLessons = await db.userLessons.byLessonId(user.id)
-    const { lessons, reviews } = content.getLessonsAndReviews(userLessons, progressItems)
+    const plan = await db.makeLearnyPlanFor(user.id)
+    const reviews = plan.availableReviews
 
     await sendMail({
         to: user.email,
         subject: "Your Lessons and Reviews Update",
-        html: await reviewsEmailHtml(user, lessons.length, reviews.length)
+        html: await reviewsEmailHtml(user, reviews.length)
     })
 
     await db.notificationSettings.update(user.id, { lastWeeklyReviewEmail: Date.now() })
 }
 
-export async function reviewsEmailHtml(user: User, numLessons: number, numReviews: number) {
+export async function reviewsEmailHtml(user: User, numReviews: number) {
     let linkSection = ''
-    if (numLessons > 0 && numReviews > 0) {
-        linkSection = `
-        you have <a href="${absurl('/review')}">${numReviews} reviews</a> to complete<br>
-        and <a href="${absurl('/lesson')}">1 new lesson</a> available
-`
-    } else if (numLessons > 0) {
-        linkSection = `
-        you are up to date on reviews<br>
-        and <a href="${absurl('/lesson')}">1 new lesson</a> is available
-`
-    } else if (numReviews > 0) {
+    if (numReviews > 0) {
         linkSection = `
         you have <a href="${absurl('/review')}">${numReviews} reviews</a> to complete<br>
 `

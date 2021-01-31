@@ -13,7 +13,7 @@ import ReactTimeago from 'react-timeago'
 import classNames from 'classnames'
 import styled from 'styled-components'
 import { action } from 'mobx'
-import type { Learny } from './Learny'
+import type { Learny } from '../common/Learny'
 import { expectAuthed } from '../common/ProgressiveEnhancement'
 import type { CardToReview } from '../common/types'
 
@@ -127,12 +127,12 @@ cursor: pointer;
 `
 
 function MasteryProgressBar(props: { learny: Learny }) {
-    const { backgroundApi } = expectAuthed()
+    const { authed, backgroundApi } = expectAuthed()
     const { learny } = props
 
     const toggleDisabled = action(() => {
         const inverse = !learny.disabled
-        learny.disabled = inverse
+        authed.disabledLessons[learny.lesson.id] = inverse
         backgroundApi.updateUserLesson(learny.lesson.id, { disabled: inverse })
     })
 
@@ -149,8 +149,8 @@ function MasteryProgressBar(props: { learny: Learny }) {
             </div>
 
             <div>
-                {learny.nextReview && learny.nextReview.when <= Date.now() && <span>Review available now</span>}
-                {learny.nextReview && learny.nextReview.when > Date.now() && <span>Reviewing: <ReactTimeago date={learny.nextReview.when} /></span>}
+                {learny.nextReview && learny.nextReview.nextReviewAt <= Date.now() && <span>Review available now</span>}
+                {learny.nextReview && learny.nextReview.nextReviewAt > Date.now() && <span>Reviewing: <ReactTimeago date={learny.nextReview.nextReviewAt} /></span>}
                 {learny.disabled && <span>Reviews disabled</span>}
             </div>
         </MasteryProgressBarDiv>}
@@ -294,7 +294,7 @@ export function HomePage() {
                             <div>Learn about being kind to yourself as well as those around you.</div>
                         </h2> */}
                     <ul>
-                        {authed.learnies.filter(l => l.lesson.type === "reading").map(learny => <li key={learny.lesson.id} className={classNames({ lessonItem: true, learned: learny.learned })}>
+                        {plan.learnies.filter(l => l.lesson.type === "reading").map(learny => <li key={learny.lesson.id} className={classNames({ lessonItem: true, learned: learny.learned })}>
                             <Link to={learny.lesson.slug}>
                                 <div className="intermarker"></div>
                                 <div className="marker">

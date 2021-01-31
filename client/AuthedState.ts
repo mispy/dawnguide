@@ -2,15 +2,14 @@ import { observable, runInAction, computed, action, toJS, makeObservable, autoru
 import type { Lesson } from "../common/content"
 import * as _ from 'lodash'
 import { ClientApi } from "./ClientApi"
-import { content } from "../common/content"
 import type { User, UserProgress } from "../common/types"
 import * as Sentry from '@sentry/browser'
 import { SENTRY_DSN_URL } from "./settings"
 import type { AxiosError } from "axios"
-import { Learny } from "./Learny"
 import { SRSProgress, SRSProgressStore } from "../common/SRSProgress"
 import { errors } from "./GlobalErrorHandler"
-import { tryParseJson } from "../common/utils"
+import { tryParseJson, overwrite } from "../common/utils"
+import { LearnyPlan } from "../common/Learny"
 
 export type LessonWithProgress = {
     lesson: Lesson
@@ -28,16 +27,18 @@ export class AuthedState {
     api: ClientApi
     backgroundApi: ClientApi
     @observable user: User
-    @observable progress: UserProgress
+    @observable disabledLessons: UserProgress['disabledLessons'] = {}
     @observable.ref unexpectedError: Error | null = null
     srs: SRSProgress = new SRSProgress()
-    learnies: Learny[] = []
+    plan: LearnyPlan
 
     constructor(user: User, progress: UserProgress) {
+        makeObservable(this)
+
         this.user = user
         errors.user = user
-        this.progress = progress
-        this.progressUpdate()
+        this.disabledLessons = progress.disabledLessons
+        this.srs.overwriteWith(progress.progressStore)
         window.authed = this
 
         this.backgroundApi = new ClientApi()
@@ -54,10 +55,6 @@ export class AuthedState {
                 e.returnValue = ''
             }
         })
-
-        for (const lesson of content.lessons) {
-            this.learnies.push(new Learny(lesson, this.srs, false))
-        }
 
         // Pull in any progress that might've happened before the user signed up / logged in
         const store = tryParseJson(localStorage.getItem('localProgressStore'))
@@ -81,30 +78,15 @@ export class AuthedState {
             lastSync = Date.now()
         })
 
-        makeObservable(this)
+        this.plan = new LearnyPlan(this.srs, this.disabledLessons)
     }
 
     async loadProgress() {
-        // Do it in the background if we already have progress data
-        const req = this.progress ? this.backgroundApi.getProgress() : this.api.getProgress()
-        const progress = await req
+        const progress = await this.backgroundApi.getProgress()
         runInAction(() => {
-            this.progress = progress
-            this.progressUpdate()
+            overwrite(this.disabledLessons, progress.disabledLessons)
+            this.srs.overwriteWith(progress.progressStore)
         })
-    }
-
-    progressUpdate() {
-        const { progress } = this
-
-        for (const lessonId in progress.userLessons) {
-            const learny = this.learnyByLessonId[lessonId]
-            if (learny) {
-                learny.disabled = !!progress.userLessons[lessonId]!.disabled
-            }
-        }
-
-        this.srs.overwriteWith(progress.progressStore)
     }
 
     async reloadUser() {
@@ -112,47 +94,17 @@ export class AuthedState {
         runInAction(() => this.user = user)
     }
 
-    learnyForLesson(lessonId: string): Learny {
-        const learny = this.learnyByLessonId[lessonId]
-        if (!learny) {
-            throw new Error(`Unknown lesson id ${lessonId}`)
-        }
-        return learny
-    }
+    // learnyForLesson(lessonId: string): Learny {
+    //     const learny = this.learnyByLessonId[lessonId]
+    //     if (!learny) {
+    //         throw new Error(`Unknown lesson id ${lessonId}`)
+    //     }
+    //     return learny
+    // }
 
-    getLessonAfter(lessonId: string): Lesson | undefined {
-        const learny = this.learnyForLesson(lessonId)
-        const index = this.learnies.indexOf(learny)
-        for (let i = index + 1; i < this.learnies.length; i++) {
-            const maybeNext = this.learnies[i]!
-            if (!maybeNext.learned) {
-                return maybeNext.lesson
-            }
-        }
-        return undefined
-    }
-
-
-    @computed get learnyByLessonId() {
-        return _.keyBy(this.learnies, p => p.lesson.id)
-    }
-
-    @computed get upcomingReviews() {
-        const reviews = []
-        for (const r of this.srs.upcomingReviews) {
-            const exercise = content.getExercise(r.cardId)
-            if (!exercise) continue
-
-            const lesson = content.expectLesson(exercise.lessonId)
-            reviews.push({
-                lesson: lesson,
-                exercise: exercise,
-                when: r.nextReviewAt
-            })
-        }
-
-        return _.sortBy(reviews, d => d.when)
-    }
+    // @computed get learnyByLessonId() {
+    //     return _.keyBy(this.learnies, p => p.lesson.id)
+    // }
 
     /**
      * Global error handling when all else fails. Our last stand against the darkness.

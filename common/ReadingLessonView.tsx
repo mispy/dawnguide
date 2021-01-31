@@ -1,31 +1,14 @@
 import * as React from 'react'
-// @ts-ignore
-const TimeAgo = require('react-timeago').default
-
 import type { Lesson } from '../common/content'
 import { Container } from 'react-bootstrap'
 /// #if CLIENT
 import { CardsEmbed } from '../client/CardsEmbed'
 /// #endif
-import type { ExerciseWithProgress } from '../common/logic'
 import { Markdown } from '../common/Markdown'
 import { Bibliography, transformRefs } from '../common/Bibliography'
 import classNames from 'classnames'
 import { useProgressiveEnhancement } from './ProgressiveEnhancement'
 import { Observer } from 'mobx-react-lite'
-
-export function showReviewTime(ewp: ExerciseWithProgress) {
-    if (!ewp.progress)
-        return "Available now"
-
-    const time = ewp.progress.nextReviewAt
-
-    if (!time || time <= Date.now()) {
-        return "Available now"
-    } else {
-        return <TimeAgo date={time} />
-    }
-}
 
 export function ReadingLessonView(props: { lesson: Lesson }) {
     const { lesson } = props
@@ -49,7 +32,7 @@ export function ReadingLessonView(props: { lesson: Lesson }) {
                     {!js && <div className="CardsEmbed">
                         This interactive section requires javascript.
                     </div>}
-                    {js && <CardsEmbed cards={lesson.exercises} />}
+                    {js && <CardsEmbed cards={lesson.exercises} initial={true} />}
                 </section>
                 <div className="authorship">
                     Written by {lesson.author}

@@ -23,7 +23,7 @@ export function useProgressiveEnhancement() {
             user: authed?.user,
             js: interactive,
             srs: interactive.srs,
-            plan: interactive.plan,
+            plan: authed?.plan,
             errors
         }
     }
@@ -40,9 +40,9 @@ export function expectAuthed() {
         user: authed.user,
         api: authed.api,
         srs: authed.srs,
+        plan: authed.plan,
         backgroundApi: authed.backgroundApi,
         js: js,
-        plan: js.plan,
         errors: errors
     }
 }

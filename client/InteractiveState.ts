@@ -1,7 +1,6 @@
 import { SRSProgressStore, SRSProgress } from '../common/SRSProgress'
 import { tryParseJson } from '../common/utils'
 import { autorun } from 'mobx'
-import { ReviewPlan } from '../common/ReviewPlan'
 import type { AuthedState } from './AuthedState'
 
 /** 
@@ -12,7 +11,6 @@ import type { AuthedState } from './AuthedState'
 export class InteractiveState {
     window: Window & typeof globalThis
     srs: SRSProgress
-    plan: ReviewPlan
 
     constructor(readonly authed?: AuthedState) {
         this.window = window
@@ -33,8 +31,6 @@ export class InteractiveState {
         autorun(() => {
             localStorage.setItem('localProgressStore', this.srs.jsonStr)
         })
-
-        this.plan = new ReviewPlan(this.srs)
 
         // makeObservable(this)
     }

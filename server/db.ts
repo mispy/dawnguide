@@ -3,11 +3,11 @@ import * as bcrypt from 'bcryptjs'
 import type { KVNamespace } from '@cloudflare/workers-types'
 import * as time from '../common/time'
 
-import type { UserProgressItem, UserNotificationSettings, UserLesson } from '../common/types'
-import { isReadyForReview } from '../common/logic'
+import type { UserProgressItem, UserNotificationSettings, UserLesson, UserProgress } from '../common/types'
 import _ from 'lodash'
 import { ResponseError } from './utils'
-import type { SRSProgressStore } from '../common/SRSProgress'
+import { SRSProgress, SRSProgressStore } from '../common/SRSProgress'
+import { LearnyPlan } from '../common/Learny'
 
 declare const global: any
 export const cfstore: KVNamespace = global.STORE
@@ -289,11 +289,6 @@ export namespace progressItems {
         return items.find(i => i.exerciseId === exerciseId)
     }
 
-    /** Get previously learned lessons that are ready for a user to review */
-    export async function getActiveReviews(userId: string): Promise<UserProgressItem[]> {
-        return (await progressItems.allFor(userId)).filter(isReadyForReview)
-    }
-
     export async function save(progressItem: UserProgressItem) {
         const items = await progressItems.allByExerciseId(progressItem.userId)
         items[progressItem.exerciseId] = progressItem
@@ -312,13 +307,12 @@ export namespace progressItems {
         return await db.putJson(`user_progress:${userId}`, { items: _.keyBy(progressItems, item => item.exerciseId) })
     }
 
-    export async function getProgressFor(userId: string) {
+    export async function getProgressFor(userId: string): Promise<UserProgress> {
         const progressItemsReq = progressItems.allFor(userId)
         const userLessonsReq = userLessons.byLessonId(userId)
 
-        const store: SRSProgressStore = { cards: {} }
-
         const items = await progressItemsReq
+        const store: SRSProgressStore = { cards: {} }
         for (const item of items) {
             store.cards[item.exerciseId] = {
                 level: item.level,
@@ -327,8 +321,14 @@ export namespace progressItems {
             }
         }
 
+        const uls = await userLessonsReq
+        const disabledLessons: { [lessonId: string]: boolean } = {}
+        for (const lessonId in uls) {
+            disabledLessons[lessonId] = !!uls[lessonId]?.disabled
+        }
+
         return {
-            userLessons: await userLessonsReq,
+            disabledLessons,
             progressStore: store
         }
     }
@@ -366,4 +366,12 @@ export namespace emailConfirmTokens {
     export async function destroy(token: string) {
         await cfstore.delete(`email_confirm_tokens:${token}`)
     }
+}
+
+export async function makeLearnyPlanFor(userId: string) {
+    const progress = await progressItems.getProgressFor(userId)
+
+    const srs = new SRSProgress()
+    srs.overwriteWith(progress.progressStore)
+    return new LearnyPlan(srs, progress.disabledLessons)
 }

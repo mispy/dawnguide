@@ -38,14 +38,14 @@ function UserDropdown() {
     </li>
 }
 
-function ReviewsCounter(props: { srs: SRSProgress }) {
-    const { srs } = props
+function ReviewsCounter() {
+    const { plan } = expectAuthed()
     return <Observer>{() =>
         <li className="nav-item">
             <ul className="navigation-shortcuts">
                 <li className="navigation-shortcut navigation-shortcut--reviews">
-                    <ULink href="/review" className={srs.availableReviews.length === 0 ? 'inactive' : undefined}>
-                        <span>{srs.availableReviews.length}</span> Reviews
+                    <ULink href="/review" className={plan.availableReviews.length === 0 ? 'inactive' : undefined}>
+                        <span>{plan.availableReviews.length}</span> Reviews
                     </ULink>
                 </li>
             </ul>
@@ -67,7 +67,7 @@ export function SiteHeader() {
                         {srs && authed && <Nav>
                         </Nav>}
                         <ul className="navbar-nav ml-auto">
-                            {authed && srs && <ReviewsCounter srs={srs} />}
+                            {authed && <ReviewsCounter />}
                             <LessonsDropdown />
                             {authed && <UserDropdown />}
                             {!authed && <>

@@ -2,9 +2,8 @@
 import { computed, observable } from 'mobx'
 
 import lessonDefs from '../common/pages'
-import type { LessonDef, Reference, MarkdownString, UserProgressItem, Card, LessonType, UserLesson, ReadingLessonDef, MeditationLessonDef } from './types'
+import type { LessonDef, Reference, MarkdownString, Card, ReadingLessonDef, MeditationLessonDef } from './types'
 import _ from 'lodash'
-import { isReadyForReview } from './logic'
 
 // @ts-ignore
 import * as bibTexParse from 'bibtex-parser-js'

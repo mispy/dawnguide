@@ -11,7 +11,7 @@ import { CardsEmbed } from './CardsEmbed'
 export function ReviewPage() {
     const { plan } = expectAuthed()
 
-    const cards = _.clone(plan.cardsToReview)
+    const cards = _.clone(plan.availableReviews)
 
     return <Observer>{() => {
         return <AppLayout title="Reviews" noHeader noFooter>

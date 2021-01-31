@@ -133,6 +133,6 @@ export type UserNotificationSettings = {
 }
 
 export type UserProgress = {
-    userLessons: Record<string, UserLessons>
+    disabledLessons: Record<string, boolean>
     progressStore: SRSProgressStore
 }

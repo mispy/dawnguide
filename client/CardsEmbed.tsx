@@ -62,7 +62,7 @@ class CardsEmbedState {
     }
 }
 
-export function CardsEmbed(props: { cards: Card[] }) {
+export function CardsEmbed(props: { cards: Card[], initial?: true }) {
     const { srs, user } = useProgressiveEnhancement()
     if (!srs)
         return null
@@ -88,7 +88,10 @@ export function CardsEmbed(props: { cards: Card[] }) {
                         {user && <p>Saved to your account {user.email}</p>}
                     {!user && <p><a href="/login">Log in</a> to save your progress</p>}
                     {state.nextReviewAt && <p>Review scheduled: <ReactTimeago date={state.nextReviewAt} /></p>}
-                    {!state.nextReviewAt && <><p>There are no further reviews scheduled.<br />You've completely mastered this section!</p></>}
+                    {!state.nextReviewAt && <>
+                        {props.initial && <><p>There are no further reviews scheduled.<br />You've completely mastered this section!</p></>}
+                        {!props.initial && <><p>There are no further reviews scheduled for these cards.<br />You've completely mastered them!</p></>}
+                    </>}
                 </div>
             </div>}
         </div>

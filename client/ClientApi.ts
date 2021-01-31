@@ -3,7 +3,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 import { API_BASE_URL, IS_PRODUCTION } from './settings'
 import { delay } from './utils'
-import type { User, UserProgressItem, UserNotificationSettings, UserAdminReport, UserLesson } from '../common/types'
+import type { User, UserProgressItem, UserNotificationSettings, UserAdminReport, UserLesson, UserProgress } from '../common/types'
 import type { SRSProgressStore } from '../common/SRSProgress'
 // @ts-ignore
 const NProgress = require('accessible-nprogress')
@@ -103,7 +103,7 @@ export class ClientApi {
         return new ClientApi(newOpts)
     }
 
-    async getProgress(): Promise<{ userLessons: Record<string, UserLesson>, progressStore: SRSProgressStore }> {
+    async getProgress(): Promise<UserProgress> {
         const { data } = await this.http.get('/api/progress')
         return data
     }

@@ -8,7 +8,6 @@ import {
 
 import { HomePage } from "./HomePage"
 import { LessonPage } from './LessonPage'
-import { NextLessonPage } from "./NextLessonPage"
 import { ReviewPage } from "./ReviewPage"
 import { AdminPage } from './AdminPage'
 import { AdminEmailsPage } from './AdminEmailsPage'
@@ -24,9 +23,6 @@ export function AppRouter() {
         <Switch>
             <Route path="/home">
                 <HomePage />
-            </Route>
-            <Route path="/lesson">
-                <NextLessonPage />
             </Route>
             <Route path="/review">
                 <ReviewPage />
