@@ -50,7 +50,7 @@ describe('emails', () => {
         expect(testMailsSent.length).toBe(1)
         const msg = testMailsSent[0]!
         expect(msg.to).toBe("fluffles@gmail.com")
-        expect(msg.subject).toBe("Your Lessons and Reviews Update")
+        expect(msg.subject).toContain("ready to review")
 
         // But it won't send another one yet
         await heartbeat()
