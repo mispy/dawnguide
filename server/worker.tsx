@@ -43,21 +43,27 @@ async function maybeCached(req: EventRequest): Promise<Response> {
 
     if (cacheable) {
         const cachedResponse = await cache.match(req.event.request)
+        // Use cached response if available, unless it came from an earlier build
         if (cachedResponse && cachedResponse.headers.get("Dawnguide-Build-Id") === BUILD_ID) {
             return cachedResponse
         }
     }
 
+    // Process the request
     let res = await processRequest(req)
 
+    // If possible, cache the result of the request for next time
     if (cacheable && res.status === 200) {
-        // console.log(req.path, res.headers.get('Cache-Control'))
         res = new Response(res.body, { headers: res.headers, status: res.status })
+
+        // If the individual response didn't specify how it should be cached, we
+        // edge-cache it indefinitely, so long as the build id continues to match.
         res.headers.set('Dawnguide-Build-Id', BUILD_ID)
         if (!res.headers.get('Cache-Control')) {
             res.headers.set('Cache-Control', 'max-age=0, s-maxage=365000000')
         }
 
+        // Sadly, CF workers do not like to set moomin headers
         // res.headers.set("moomin0", "⠀⠀⠀⠀⠀⠀⠀⢠⢦⡀⠀⡰⣩⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀")
         // res.headers.set("moomin1", "⠀⠀⠀⠀⠀⠀⠀⠘⣄⠙⠍⠁⠙⠦⡀⠀⠀⠀⠀⠀⠀⠀⠀")
         // res.headers.set("moomin2", "⠀⠀⠀⠀⠀⠀⠀⠀⡎⠀⠀⡠⠄⠔⠊⠉⠒⠒⠒⢄⠀⠀⠀")
