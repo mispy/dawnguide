@@ -25,12 +25,12 @@ export class InteractiveState {
             if (store && store.items) {
                 this.srs.overwriteWith(store as SRSProgressStore)
             }
-        }
 
-        // Save changes to local storage
-        autorun(() => {
-            localStorage.setItem('localProgressStore', this.srs.jsonStr)
-        })
+            // Save changes to local storage
+            autorun(() => {
+                localStorage.setItem('localProgressStore', this.srs.jsonStr)
+            })
+        }
 
         // makeObservable(this)
     }

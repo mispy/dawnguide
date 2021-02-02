@@ -57,6 +57,9 @@ export class AuthedState {
             if (!_.isEmpty(changedItems)) {
                 // Something changed, better tell the server about it too
                 this.backgroundApi.reconcileProgress(changedItems)
+
+                // Clear the local storage so it doesn't get assigned to some other user account too
+                localStorage.removeItem('localProgressStore')
             }
         }
 
