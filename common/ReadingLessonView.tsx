@@ -9,31 +9,48 @@ import { Bibliography, transformRefs } from '../common/Bibliography'
 import classNames from 'classnames'
 import { useProgressiveEnhancement } from './ProgressiveEnhancement'
 import { Observer } from 'mobx-react-lite'
+import type { Card } from './types'
+
+function SectionReview(props: { cards: Card[] }) {
+    const { cards } = props
+
+    return <Observer>{() => {
+        const { js } = useProgressiveEnhancement()
+
+        return <section>
+            {!js && <div className="CardsEmbed">
+                This interactive section requires javascript.
+            </div>}
+            {js && <CardsEmbed cards={cards} initial={true} />}
+        </section>
+    }}</Observer>
+}
 
 export function ReadingLessonView(props: { lesson: Lesson }) {
     const { lesson } = props
     const [lessonText, referenceIds] = transformRefs(lesson.text)
     const referencesInText = referenceIds.map(id => lesson.expectReference(id))
 
-    return <Observer>{() => {
-        const { js } = useProgressiveEnhancement()
+    function SectionReviewMarkdown(props: { cards?: string }) {
+        let cards = lesson.exercises
+        if (props.cards) {
+            const cardIds = props.cards.split(',')
+            cards = lesson.exercises.filter(ex => cardIds.includes(ex.id))
+        }
+        return <SectionReview cards={cards} />
+    }
 
+    return <Observer>{() => {
         return <Container>
             <div className={classNames("LessonView", "Passage", lesson.subtitle && 'hasSubtitle')}>
                 <h1>
                     {lesson.title} {lesson.def.draft && <span className="draft-marker">Draft</span>}
                 </h1>
-                <Markdown>{lessonText}</Markdown>
+                <Markdown overrides={{ SectionReview: SectionReviewMarkdown }}>{lessonText}</Markdown>
                 {'steps' in lesson.def ? <section id="steps">
                     <Markdown>{lesson.def.steps}</Markdown>
                 </section> : undefined}
                 { }
-                <section>
-                    {!js && <div className="CardsEmbed">
-                        This interactive section requires javascript.
-                    </div>}
-                    {js && <CardsEmbed cards={lesson.exercises} initial={true} />}
-                </section>
                 <div className="authorship">
                     Written by {lesson.author}
                 </div>

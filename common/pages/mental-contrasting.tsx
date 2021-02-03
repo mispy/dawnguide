@@ -32,6 +32,8 @@ In intervention studies, none of these show the same motivational effectiveness 
 Because of the expectancy-dependent nature, you might want to be careful with mental contrasting when confidence is low but there are strong reasons to do something anyway. For example, a school student who really does not believe they can do well on exams may be demotivated by mental contrasting. In these cases, it can help to break the problem down using [proximal subgoals](/proximal-subgoals) and then contrast against a subgoal you feel more confident about.
 
 Mental contrasting works particularly well in conjunction with [implementation intentions](/implementation-intentions), which are a way of translating the goal commitment into concrete actions.[@oettingen2012future]
+
+<SectionReview/>
 `,
 
     furtherReading: md`

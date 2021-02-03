@@ -38,6 +38,7 @@ export type UserAdminReport = User & {
 
 export type FillblankExerciseDef = {
     type: 'fillblank'
+    id?: string
     question: string
     possibleAnswers: string[]
     successFeedback?: string

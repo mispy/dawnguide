@@ -35,6 +35,7 @@ It takes practice to do effective restructuring, and it can often help at the st
 
 Evidence-wise, cognitive restructuring is a component of cognitive-behavioral therapy, which is a strongly supported treatment for a variety of problems[@hofmann2012efficacy]. Since there seems to be less research on the technique as a standalone therapy, it's likely best used together with behavioral methods like <a href="/behavioral-activation">behavioral activation</a>.
 
+<SectionReview/>
 `,
     furtherReading: md`
 - [CBT's Cognitive Restructuring (CR) For Tackling Cognitive Distortions](https://positivepsychology.com/cbt-cognitive-restructuring-cognitive-distortions/) by Courtney E. Ackerman

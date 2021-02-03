@@ -29,6 +29,8 @@ The steps to creating an II:
 - Rehearse the causal link (e.g. with deliberate visualization)
 
 Implementation intentions are also known as "trigger-action plans", and there's strong evidence for their efficacy. A meta-analysis of 94 studies found that interventions using implementation intentions had a medium-to-large effect towards successful goal achievement, across a variety of goals such as reducing snack consumption, avoiding stereotyping, or persisting with difficult puzzles.[@gollwitzer2006implementation]  
+
+<SectionReview/>
 `,
 
     furtherReading: md`

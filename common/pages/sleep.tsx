@@ -11,7 +11,6 @@ export default defineLesson({
     text: md`
 
  Sleep-like behavior is remarkably common across different forms of animal life. Even invertebrates such as fruit flies or sea slugs appear to sleep, despite lacking the brain structures we use to identify sleep phases in humans. The particular way in which sleep manifests depends on the species.[@joiner2016unraveling]
-
  
  ## The structure of sleep
 
@@ -25,9 +24,36 @@ Before we get into what sleep is for and how to do it well, let's take a moment 
 | Muscle tone               | Normal         | Paralyzed   |
 | Dreams                    | Rare           | Common      |
 | Body temperature          | Regulated, low | Unregulated |
+
+<SectionReview cards="dream-sleep-type,average-rem-time,rem-muscles"/>
  
 `,
-    exercises: [],
+    exercises: [
+        {
+            id: 'dream-sleep-type',
+            type: 'fillblank',
+            question: "Dreams mainly happen during ___ sleep",
+            possibleAnswers: [
+                'REM'
+            ]
+        },
+        {
+            id: 'average-rem-time',
+            type: 'fillblank',
+            question: "On average, adults spend ___ of their sleep time in REM",
+            possibleAnswers: [
+                '25%'
+            ]
+        },
+        {
+            id: 'rem-muscles',
+            type: 'fillblank',
+            question: "During REM sleep, your muscles are _________",
+            possibleAnswers: [
+                'paralyzed'
+            ]
+        },
+    ],
     bibliography: `
 @article{joiner2016unraveling,
     title={Unraveling the evolutionary determinants of sleep},

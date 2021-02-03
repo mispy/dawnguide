@@ -17,6 +17,8 @@ Research suggests that proximal subgoals increase motivation by boosting your _p
 When you are already close to completing something, or have high intrinsic interest in the problem, it may be better to focus on the end goal than to set strict subgoals.[@huang2017step] Proximal subgoals are most helpful at the beginning of a new task, when uncertainty about the attainability is highest and it's important to reassure yourself that you can, in fact, do the thing.
 
 Proximal goals work best when they're tied a distal goal that means a lot to you. For example, you may want to do well in school because you are excited about trying a particular career, or because you seek opportunities to help the people you care for. A long-term, self-directed goal gives important emotional context to the work you do in the present, and proximal subgoals in turn give you the structure and confidence to follow through.[@miller2004model]
+
+<SectionReview/>
 `,
     furtherReading: md`
 - [Step by Step: Sub-Goals as a Source of Motivation](https://huangsc.people.stanford.edu/sites/g/files/sbiybj2896/f/step_by_step_obhdp_for_web_1.pdf) by Szu-chi Huang, Liyin Jin and Ying Zhang

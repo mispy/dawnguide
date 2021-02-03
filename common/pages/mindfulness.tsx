@@ -19,6 +19,7 @@ Mindfulness can also be practiced _informally_ by looking for opportunities to u
 
 If we think of mindful experience as analogous to physical activity, the difference between formal meditation and informal practice is like going to the gym vs. jogging to work. The mindfulness intervention programs that have been studied generally involve a combination of formal and informal approaches. There's some evidence that informal practice alone can have beneficial effects, so if you struggle with sitting down to meditate, you may want to emphasize the everyday-life aspect.[@birtwell2019exploration][@shankland2020improving]
 
+<SectionReview/>
 `,
     furtherReading: md`
 - [22 Mindfulness Exercises, Techniques & Activities](https://positivepsychology.com/mindfulness-exercises-techniques-activities/) by Courtney Ackerman

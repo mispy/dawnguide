@@ -18,6 +18,8 @@ Behavioral activation is a key part of cognitive-behavioral therapy, and is also
 ![The vicious cycle of depression vs. the positive cycle of activity](${baCycle})
 
 Depression biases us to underestimate the joy in things, and avoiding engaging with the world tends to make depression worse. By making a conscious decision to account for this bias, and seek joyful activities anyway, we can start to circumvent the cycle of depression. Of course, this isn't something that's easy to do-- it often takes much effort! Hopefully, knowing that behavioral activation is a good strategy supported by research will help your willpower along.
+
+<SectionReview/>
 `,
     furtherReading: md`
 - [How To Use Behavioral Activation (BA) To Overcome Depression](https://www.psychologytools.com/self-help/behavioral-activation/) at psychologytools.com

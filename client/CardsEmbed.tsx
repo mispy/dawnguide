@@ -78,7 +78,9 @@ export function CardsEmbed(props: { cards: Card[], initial?: true }) {
 
         return <div className="CardsEmbed card" style={{ height: height }}>
             {state.nextCard && <>
-                <header>{state.remainingCards.length} cards to review</header>
+                {props.initial && state.allCards.length === state.remainingCards.length
+                    ? <header>Let's remember this using the <a href="/spaced-learning">spacing effect</a></header>
+                    : <header>{state.remainingCards.length} cards to review</header>}
                 <MemoryCard exercise={state.nextCard} onSubmit={state.completeCurrentCard} />
             </>}
             {state.complete && <div className="complete">

@@ -18,6 +18,8 @@ Research has shown that self-compassion is a robust resilience factor when faced
 For improving ourselves, we also want to know causation: can people change their thinking to be more self-compassionate, and does that show similar outcomes? From a number of intervention studies, the answer to both seems to be yes[@smeets2014meeting][@shapira2010benefits][@gilbert2006compassionate][@neff2007self]. "CMT (compassionate mind training) resulted in a significant decrease in depression, feelings of inferiority, submissive behavior, shame, and self-attacking tendencies."[@allen2010self] Meta-analysis is supportive but identifies the need for larger-scale RCTs.[@kirby2017meta]
 
 A sense of _common humanity_ is key to self-compassion. You are not alone in your experience of suffering, as all of us are mortal, vulnerable, and imperfect. Anyone can elicit compassion, and there is no shame in needing it. This mindset sidesteps the thoughts of comparison and deservingness those of us with low self-esteem often have. Since all people are worthy of compassion, you are worthy of your own compassion simply by virtue of being a person.
+
+<SectionReview/>
 `,
     furtherReading: md`
 - [What is self-compassion?](https://self-compassion.org/the-three-elements-of-self-compassion-2/) by Kristin Neff, and her website https://self-compassion.org/ in general. She also voices her own [audiobook on self-compassion](https://www.audible.com.au/pd/Self-Compassion-Step-by-Step-Audiobook/B00FPMXV72?ref=a_library_t_c5_libItem_&pf_rd_p=e313c100-19f4-4637-af63-57e44053b5e7&pf_rd_r=SZ7EA6GZ7HMWZV0YWHZS) which walks you through meditation exercises.

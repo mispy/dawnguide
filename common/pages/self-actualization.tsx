@@ -30,6 +30,8 @@ Which of the universal needs do you think is most important for you right now? W
 It's interesting to think about the relationship between self-actualization and [mindfulness](/mindfulness). While self-actualization encourages us to look to the future, mindfulness is all about immediate sensory experience. These are more compatible perspectives than they seem. Focusing on what we're doing right now can help us work towards the future effectively, and measures of mindfulness and self-actualization have been found to correlate.[@beitel2014stillness]
 
 You don't need to try to self-actualize all by yourself. With friends, family and peers we can help each other fulfill our universal needs, starting with social support and love. Never be afraid to seek advice and comfort from those around you. Reorienting your viewpoint, hearing the viewpoints of others, and critically analysing each need, may reveal what you want to change to move on in your journey through life!
+
+<SectionReview/>
 `,
 
     furtherReading: md`

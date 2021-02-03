@@ -14,6 +14,8 @@ Spaced learning leads to better recall than massed learning strategies, such as 
 Dawnguide's form of spaced learning starts with reading a short passage about the key ideas of a lesson (such as this one). Afterwards, you'll be shown some question-answer review cards. Each time you remember the answer to a question, we'll wait longer before showing it to you again. This way you can memorize ideas for the long term.
 
 You don't need any software to take advantage of the spacing effect, but there are a number of apps (like Dawnguide) that aim to make it easier. An app that uses spaced learning is often called a "spaced repetition system" (SRS). A common free one for making your own flashcards is [Anki](https://apps.ankiweb.net/).
+
+<SectionReview/>
 `,
     furtherReading: `
 - [Augmenting Long-term Memory](http://augmentingcognition.com/ltm.html) by Michael Nielsen
