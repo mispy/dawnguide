@@ -13,9 +13,6 @@ export function AppFooter() {
                 <li>
                     <a href="/contact">Contact</a>
                 </li>
-                <li>
-                    <a href="https://patreon.com/mispy">Support Dawnguide on Patreon</a>
-                </li>
             </ul>
         </div>
     </footer>
