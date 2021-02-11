@@ -99,6 +99,12 @@ export type Reference = {
     page: string
     publisher: string
     url: string
+    /** Open-access url where this reference can be found in full */
+    open?: string
+    /** Full-text PDF link for a closed-access reference */
+    pdf?: string
+    /** Scihub link where closed-access reference can be found */
+    scihub?: string
 }
 
 export type UserProgressItem = {

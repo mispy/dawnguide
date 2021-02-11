@@ -116,10 +116,9 @@ function parseBibliography(bibliography: string): Reference[] {
     const json = bibTexParse.toJSON(bibliography)
 
     return json.map((entry: any) => {
-        return {
+        const result: any = {
             // bibtex parser uppercases them for some reason
             id: entry.citationKey.toLowerCase(),
-            title: entry.entryTags.TITLE,
             author: entry.entryTags.AUTHOR.split(" and ").map((s: string) => {
                 const a = s.split(", ")
                 return {
@@ -127,14 +126,14 @@ function parseBibliography(bibliography: string): Reference[] {
                     given: a[1]
                 }
             }),
-            journal: entry.entryTags.JOURNAL,
-            volume: entry.entryTags.VOLUME,
-            issue: entry.entryTags.NUMBER,
-            page: entry.entryTags.PAGES,
-            year: entry.entryTags.YEAR,
-            publisher: entry.entryTags.PUBLISHER,
-            url: entry.entryTags.URL
         }
+
+        for (const key in entry.entryTags) {
+            if (!(key.toLowerCase() in result))
+                result[key.toLowerCase()] = entry.entryTags[key]
+        }
+        console.log(result, entry)
+        return result
     })
 }
 

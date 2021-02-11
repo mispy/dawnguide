@@ -36,18 +36,31 @@ export function BibliographyReference(props: { reference: Reference }) {
     // e.g. Cepeda, N. J., Pashler, H., Vul, E., Wixted, J. T., & Rohrer, D. (2006). Distributed practice in verbal recall tasks: A review and quantitative synthesis. Psychological Bulletin, 132(3), 354.
 
     const authorParts = ref.author.map(a => {
-        const initials = a.given.split(/ /g).map(n => n[0] + '.').join(" ")
-        return `${a.family}, ${initials}`
+        if (a.given) {
+            const initials = a.given.split(/ /g).map(n => n[0] + '.').join(" ")
+            return `${a.family}, ${initials}`
+        } else {
+            return a.family
+        }
     })
 
 
     const authorStr = authorParts.length === 1 ? authorParts[0] : [authorParts.slice(0, -1).join(", "), authorParts.slice(-1)].join(" & ")
 
+    // Only link the title through if it's an open-access paper
+    const titleMaybeLink = ref.open || ref.url ? <a className="text-link" href={ref.open || ref.url} target="_blank" rel="noopener">{ref.title}</a> : ref.title
+
+    // Otherwise we append method of access to the end of the reference
+    const links = <>
+        {ref.pdf && <a className="text-link" href={ref.pdf} target="_blank" rel="noopener">[pdf]</a>}
+        {ref.scihub && <a className="text-link" href={ref.scihub} target="_blank" rel="noopener">[scihub]</a>}
+    </>
+
     let format = <></>
     if (ref.volume && ref.issue && ref.page) {
-        format = <>{authorStr} ({ref.year}). <a className="text-link" href={ref.url} target="_blank" rel="noopener">{ref.title}</a> <em>{ref.journal}</em>, <em>{ref.volume}</em>({ref.issue}), {ref.page.replace("--", "—")}.</>
+        format = <>{authorStr} ({ref.year}). {titleMaybeLink} <em>{ref.journal}</em>, <em>{ref.volume}</em>({ref.issue}), {ref.page.replace("--", "—")}. {links}</>
     } else {
-        format = <>{authorStr} ({ref.year}). <a className="text-link" href={ref.url} target="_blank" rel="noopener">{ref.title}</a> <em>{ref.journal || ref.publisher}</em>.</>
+        format = <>{authorStr} ({ref.year}). {titleMaybeLink} <em>{ref.journal || ref.publisher}</em>. {links}</>
     }
 
 
