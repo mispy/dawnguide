@@ -8,12 +8,16 @@ export default defineLesson({
     summaryLine: "Such and such",
     draft: true,
     text: md`
+"Progressive muscle relaxation is an exercise that reduces stress and anxiety in your body by having you slowly tense and then relax each muscle."
+Progressive muscle relaxation is a
 
-Progressive muscle relaxation 
+Progressive muscle relaxation was originally defined by the work of Dr. Edmund Jacobson in the early 1900s.[@jacobson1938progressive] Weirdly, I found that some 5000+ citations of Jacobson's 1938 second edition book were <a href="/img/pmr-misattribution.png">misattributed</a> by Google Scholar to a <a href="https://is.muni.cz/el/phil/podzim2017/PSX_111/um/Jacobson_Progressive_muscle_relaxation_eng.pdf">random two-page document</a> intended for students at Masaryk University in Czechia. It's kind of charming to read because of the poor translation. "Grit both your fists so strong!"
 
-Progressive muscle relaxation was originally defined by the work of Dr. Edmund Jacobson in the early 1900s.[@jacobson1938progressive] Weirdly, I found that some 5000+ citations of Jacobson's 1938 second edition book were <a href="/img/pmr-misattribution.png">misattributed</a> by Google Scholar to a <a href="https://is.muni.cz/el/phil/podzim2017/PSX_111/um/Jacobson_Progressive_muscle_relaxation_eng.pdf">random two-page document</a> intended for students at a Czech university. The poor English translation makes it kind of charming to read. "Grit both your fists so strong!"
+While Jacobson believed muscle tension to be deeply connected to emotion in a physiological way, modern research is more mixed on this point. PMR's mechanism might actually have nothing to do with physiological muscle tension, but rather be about the cognitive element of directing attention to regions of the body (see: mindfulness meditation).
 
 There are many videos on YouTube that aim to demonstrate PMR. It seems like practically every institution with a tangential interest in stress reduction has made one, so the quality is... variable. Here's a [decent one](https://www.youtube.com/watch?v=5HmCYpbQZbA).
+
+
 
 
 <SectionReview/>
@@ -55,8 +59,34 @@ There are many videos on YouTube that aim to demonstrate PMR. It seems like prac
         pages={18},
         year={1938},
         url={}
-
       }
+
+      @article{hoyle1993efficacy,
+        title={Efficacy of abbreviated progressive muscle relaxation training: A quantitative review of behavioral medicine research},
+        author={Hoyle, Rick H and others},
+        journal={Journal of consulting and clinical psychology},
+        volume={61},
+        number={6},
+        pages={1059--1067},
+        year={1993},
+        publisher={American Psychological Association},
+        url={https://search.proquest.com/openview/e7077b67ae6010371a887b50a1612559/1?pq-origsite=gscholar&cbl=60945},
+        scihub={yes}
+      }
+
+      @article{pluess2009muscle,
+        title={Muscle tension in generalized anxiety disorder: a critical review of the literature},
+        author={Pluess, Michael and Conrad, Ansgar and Wilhelm, Frank H},
+        journal={Journal of anxiety disorders},
+        volume={23},
+        number={1},
+        pages={1--11},
+        year={2009},
+        publisher={Elsevier},
+        url={https://doi.org/10.1016/j.janxdis.2008.03.016},
+        pdf={http://philosonic.com/michaelpluess_construction/Files/Pluess_2009_Muscle%20Tension%20in%20Generalized%20Anxiety%20Disorder%20-%20A%20Critical%20Review%20of%20the%20Literature.pdf}
+      }
+
 @article{manzoni2008relaxation,
     title={Relaxation training for anxiety: a ten-years systematic review with meta-analysis},
     author={Manzoni, Gian Mauro and Pagnini, Francesco and Castelnuovo, Gianluca and Molinari, Enrico},

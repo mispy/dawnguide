@@ -11,17 +11,17 @@ export default defineLesson({
 Creating **implementation intentions** is a way of turning vague goals into concrete changes in your behavior. By associating a specific experiential cue with an action you will do in response, you can start a new routine or modify an existing one. Some examples:
 
 - **Goal:** Exercise more
-- **II:** When I see the stairs, I will take them instead of the elevator
+- **Intention:** When I see the stairs, I will take them instead of the elevator
 
 - **Goal:** Do more nice things
-- **II:** When I see an item that reminds me of a friend, I'll write it down as a birthday gift idea
+- **Intention:** When I see an item that reminds me of a friend, I'll write it down as a birthday gift idea
 
 - **Goal:** Improve mental health
-- **II:** When I see a reminder email from Dawnguide, I'll complete my reviews
+- **Intention:** When I see a reminder email from Dawnguide, I'll complete my reviews
 
 Implementation intentions are effective because they remove the uncertainity about when and how to act. The best ones are clear and precise in their wording: you don't want an ambiguous trigger, or an action you can't realistically do every time. For example "when there's a test coming up, I will study all day" is no good; the trigger isn't at any specific time, and it's pretty hard to study all day. "when I get home from school, I will open my textbook" is a better start.
 
-The steps to creating an II:
+The steps to creating an implementation intention:
 
 - Choose a goal (a desired outcome or behavior)
 - Identify a trigger (something that will happen naturally)
