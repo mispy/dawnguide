@@ -9,12 +9,9 @@ import type { CardToReview } from "./types"
  * the actual content to be reviewed
  **/
 export class LearnyPlan {
+    learnies = content.lessons.filter(l => l.type === 'reading').map(l => new Learny(this, l as ReadingLesson))
     constructor(readonly srs: SRSProgress, readonly disabledLessons: { [lessonId: string]: boolean }) {
         makeObservable(this)
-    }
-
-    @computed get learnies(): Learny[] {
-        return content.lessons.filter(l => l.type === 'reading').map(l => new Learny(this, l as ReadingLesson))
     }
 
     @computed get upcomingReviews(): CardToReview[] {

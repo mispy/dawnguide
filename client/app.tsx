@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import * as mobx from 'mobx'
 
 import './authed.sass'
 import { AppRouter } from './AppRouter'
@@ -10,6 +11,19 @@ import { content } from '../common/content'
 import { LessonView } from '../common/LessonView'
 import { AuthedState } from './AuthedState'
 import { SiteHeader } from '../common/SiteHeader'
+
+mobx.configure({
+    enforceActions: "always",
+    computedRequiresReaction: true,
+    // reactionRequiresObservable: true,
+    // observableRequiresReaction: true
+})
+
+// Enable hot module reloading
+declare const module: any
+if (module.hot) {
+    module.hot.accept()
+}
 
 // These props come from AppPage on the server
 function App(props: { user: User, progress: UserProgress }) {
@@ -24,11 +38,6 @@ function App(props: { user: User, progress: UserProgress }) {
     return <BrowserContextProvider authed={context.authed}>
         <AppRouter />
     </BrowserContextProvider>
-}
-
-declare const module: any
-if (module.hot) {
-    module.hot.accept()
 }
 
 declare const window: any
