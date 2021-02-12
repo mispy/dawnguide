@@ -30,6 +30,7 @@ export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, p
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{fullPageTitle}</title>
+        <meta name="google-site-verification" content="zK9l4ZgeuzmpRmIqj_V0cbZmMawOW65VYp-qMwLPYRA" />
         {canonicalUrl ? <>
             {pageDesc ? <meta name="description" content={pageDesc} /> : undefined}
             <link rel="canonical" href={canonicalUrl} />
