@@ -1162,9 +1162,9 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@dollarshaveclub/cloudworker@github:leohtj/cloudworker":
+"@dollarshaveclub/cloudworker@github:mispy/cloudworker":
   version "0.1.2"
-  resolved "https://codeload.github.com/leohtj/cloudworker/tar.gz/e895e1f19219837d3515a56d6ebf4f3bb46da2b1"
+  resolved "https://codeload.github.com/mispy/cloudworker/tar.gz/e895e1f19219837d3515a56d6ebf4f3bb46da2b1"
   dependencies:
     "@dollarshaveclub/node-fetch" "^3.2.0"
     arraybuffer-equal "^1.0.4"

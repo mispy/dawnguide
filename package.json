@@ -97,7 +97,7 @@
         "@babel/preset-env": "^7.9.6",
         "@babel/preset-typescript": "^7.9.0",
         "@cloudflare/wrangler": "^1.12.2",
-        "@dollarshaveclub/cloudworker": "github:leohtj/cloudworker",
+        "@dollarshaveclub/cloudworker": "github:mispy/cloudworker",
         "@types/jest": "^25.2.1",
         "@types/mockdate": "^2.0.0",
         "@typescript-eslint/eslint-plugin": "^2.11.0",
