@@ -12,17 +12,52 @@ Progressive muscle relaxation is a stress-reduction exercise in which you slowly
 
 The exercise was defined by Edmund Jacobson in the early 1900s.[@jacobson1938progressive] His original version was pretty intense and involved some 30 muscle groups; current forms are more abbreviated. Weirdly, I found that some 5000+ citations of Jacobson's 1938 second edition book were <a href="/img/pmr-misattribution.png">misattributed</a> by Google Scholar to a <a href="https://is.muni.cz/el/phil/podzim2017/PSX_111/um/Jacobson_Progressive_muscle_relaxation_eng.pdf">random two-page document</a> intended for students at Masaryk University in Czechia. It's kind of charming to read because of the poor translation. "Grit both your fists so strong!"
 
-While Jacobson believed it is impossible to feel anxious when your muscles are fully relaxed, modern research is not convinced on this point. Anxious people do consistently report tenser muscles than nonanxious controls. However, people's _perceived_ muscle tension doesn't match that well with the actual physiological contraction measured by electromyography, and it has not consistently been shown that decreased muscle tension results in a diminished experience of anxiety.[@pluess2009muscle] PMR works, but we're not entirely sure why-- it may be partly a meditation in disguise, operating on your perceptions as much as on your muscles.[@conrad2007muscle] Like meditation, it becomes more effective the more you practice it.
+While Jacobson believed it impossible to feel anxious when your muscles are fully relaxed, modern research is not convinced on this point. Anxious people do consistently report tenser muscles than nonanxious controls. However, _perceived_ muscle tension doesn't match that well with the actual physiological contraction measured by electromyography, and it has not consistently been shown that decreased muscle tension results in a diminished experience of anxiety.[@pluess2009muscle] PMR works for many people, but we're not entirely sure why-- it may be partly a meditation in disguise, operating on your perceptions as much as on your muscles.[@conrad2007muscle]
 
-There are many videos on YouTube that aim to demonstrate PMR. It seems like just about every institution with a tangential interest in stress reduction has made one, so the quality is... variable. Here's a [decent one](https://www.youtube.com/watch?v=5HmCYpbQZbA).
+Below are instructions for a short version of PMR based on the [University of Michigan Health Library](https://www.uofmhealth.org/health-library/uz2225). If you're interested in the full form as practised by therapists, you might want to look at the the Bernstein & Borkovec training manual[@bernstein2000new] that is mentioned in the review papers.
 
-Below is a quick PMR sequence based on (based on what?)
+For each muscle group:
 
-Remember to email draft!
+1. Breathe in, while tensing the muscles hard (so long as it is not painful).  
 
+2. Maintain tension for ~5 seconds.
 
-<SectionReview/>
+3. Breathe out, and suddenly and completely relax the muscle group.
+
+4. Focus your attention on the area as it relaxes. Can you feel how it is different from the tense state?
+
+<br/>
+
+<style>
+table td:first-child {
+    width: 25%;
+}
+
+table td, table th {
+    padding: 0.5rem !important;
+}
+</style>
+
+| Muscle group                           | What to do  |
+| -------------------------------------- | ----------- |
+| Hands                                  | Clench them. |
+| Wrists and forearms                    | Extend them, and bend your hands back at the wrist. |
+| Biceps and upper arms                  | Clench your hands into fists, bend your arms at the elbows, and flex your biceps. |
+| Shoulders                              | Shrug them (raise toward your ears). |
+| Forehead                               | Wrinkle it into a deep frown. |
+| Around the eyes and bridge of the nose | Close your eyes as tightly as you can. (Remove contact lenses before you start the exercise.) |
+| Cheeks and jaws                        | Smile as widely as you can. |
+| Around the mouth                       | Press your lips together tightly. (Check your face for tension. You just want to use your lips.) |
+| Back of the neck                       | Press the back of your head against the floor or chair. |
+| Front of the neck                      | Touch your chin to your chest. (Try not to create tension in your neck and head.) |
+| Chest                                  | Take a deep breath, and hold it for 4 to 10 seconds. |
+| Back                                   | Arch your back up and away from the floor or chair. |
+| Stomach                                | Suck it into a tight knot. (Check your chest and stomach for tension.) |
+| Hips and buttocks                      | Press your buttocks together tightly. |
+| Thighs                                 | Clench them hard. |
+| Lower legs                             | Point your toes toward your face. Then point your toes away, and curl them downward at the same time. (Check the area from your waist down for tension.) |
  
+<SectionReview/>
 `,
     exercises: [
         {
@@ -34,21 +69,29 @@ Remember to email draft!
             ]
         },
         {
-            id: 'average-rem-time',
+            id: 'pmr-indication',
             type: 'fillblank',
-            question: "On average, adults spend ___ of their sleep time in REM",
+            question: "Muscle relaxation therapy is an evidence-supported treatment for anxiety and ________",
             possibleAnswers: [
-                '25%'
+                'insomnia'
             ]
         },
         {
-            id: 'rem-muscles',
+            id: 'pmr-tense-time',
             type: 'fillblank',
-            question: "During REM sleep, your muscles are _________",
+            question: `For each muscle group in the PMR exercise, you maintain tension for __ seconds`,
             possibleAnswers: [
-                'paralyzed'
+                '~5'
             ]
         },
+        {
+            id: 'pmr-relaxation',
+            type: 'fillblank',
+            question: `In PMR, it's important to focus on the sensation of _______ tense muscles`,
+            possibleAnswers: [
+                'relaxing'
+            ]
+        }
     ],
     bibliography: `
 @article{manzoni2008relaxation,
@@ -120,6 +163,14 @@ Remember to email draft!
     year={2007},
     publisher={Elsevier},
     scihub={https://sci-hub.se/https://doi.org/10.1016/j.janxdis.2006.08.001}
+}
+
+@book{bernstein2000new,
+    title={New directions in progressive relaxation training: A guidebook for helping professionals},
+    author={Bernstein, Douglas A and Borkovec, Thomas D and Hazlett-Stevens, Holly},
+    year={2000},
+    publisher={Greenwood Publishing Group},
+    libgen={https://libgen.is/book/index.php?md5=1D0BB18720FCC35B6DED2680617AECD9}
 }
 
 

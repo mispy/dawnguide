@@ -17,12 +17,12 @@ function SectionReview(props: { cards: Card[] }) {
     return <Observer>{() => {
         const { js } = useProgressiveEnhancement()
 
-        return <section>
+        return <div>
             {!js && <div className="CardsEmbed">
                 This interactive section requires javascript.
             </div>}
             {js && <CardsEmbed cards={cards} initial={true} />}
-        </section>
+        </div>
     }}</Observer>
 }
 

@@ -3,7 +3,8 @@ import React from 'react'
 import { isExternalUrl } from './utils'
 import { IS_SERVER } from './settings'
 /// #if CLIENT
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+import { HashLink as Link } from 'react-router-hash-link'
 /// #endif
 
 function inRouter(): boolean {

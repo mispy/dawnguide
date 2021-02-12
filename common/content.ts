@@ -132,7 +132,6 @@ function parseBibliography(bibliography: string): Reference[] {
             if (!(key.toLowerCase() in result))
                 result[key.toLowerCase()] = entry.entryTags[key]
         }
-        console.log(result, entry)
         return result
     })
 }
@@ -173,7 +172,7 @@ export class BaseLesson<T extends LessonDef> {
     }
 
     @computed get author(): string {
-        return this.def.author || "Mispy"
+        return this.def.author || "Mispy Evenfeld"
     }
 
     @computed get furtherReading(): MarkdownString | undefined {

@@ -3,7 +3,7 @@ import LibMarkdown, { MarkdownOptions } from 'markdown-to-jsx'
 import { ULink } from './ULink'
 
 function Table(props: any) {
-    return <table className="table">{props.children}</table>
+    return <table className="table table-striped">{props.children}</table>
 }
 
 /** Wrap markdown-to-jsx with Dawnguide defaults */

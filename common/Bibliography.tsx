@@ -54,6 +54,7 @@ export function BibliographyReference(props: { reference: Reference }) {
     const links = <>
         {ref.pdf && <a className="text-link" href={ref.pdf} target="_blank" rel="noopener">[pdf]</a>}
         {ref.scihub && <a className="text-link" href={ref.scihub} target="_blank" rel="noopener">[scihub]</a>}
+        {ref.libgen && <a className="text-link" href={ref.libgen} target="_blank" rel="noopener">[libgen]</a>}
     </>
 
     let format = <></>

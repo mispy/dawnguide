@@ -105,6 +105,8 @@ export type Reference = {
     pdf?: string
     /** Scihub link where closed-access reference can be found */
     scihub?: string
+    /** Libgen link where closed-access reference can be found */
+    libgen?: string
 }
 
 export type UserProgressItem = {
