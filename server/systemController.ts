@@ -1,8 +1,8 @@
 import * as db from './db'
 import { sendReviewsEmailIfNeeded } from './reviewsEmail'
 import type { EventRequest } from './requests'
-import { ResponseError } from './utils'
-import { ADMIN_SECRET } from './settings'
+import { JsonResponse, ResponseError } from './utils'
+import { ADMIN_SECRET, IS_PRODUCTION } from './settings'
 import _ from 'lodash'
 
 /** Called every ten minutes by easycron.com */
@@ -18,7 +18,11 @@ export async function heartbeat() {
     }
 
     await Promise.all(promises)
-    return "💛"
+    return new Response("💛", {
+        headers: {
+            'Cache-Control': 'no-cache, max-age=0'
+        }
+    })
 }
 
 /** 
@@ -26,7 +30,7 @@ export async function heartbeat() {
  * Won't scale to larger number of keys, but sufficient for now
  */
 export async function databaseExport(req: EventRequest, secret: string) {
-    if (!secret.length || secret !== ADMIN_SECRET) {
+    if (IS_PRODUCTION && (!secret.length || secret !== ADMIN_SECRET)) {
         throw new ResponseError("Forbidden", 403)
     }
 
@@ -57,5 +61,10 @@ export async function databaseExport(req: EventRequest, secret: string) {
     }
 
     await Promise.all(promises)
-    return dbexport
+
+    return new JsonResponse(dbexport, {
+        headers: {
+            'Cache-Control': 'no-cache, max-age=0'
+        }
+    })
 }
