@@ -40,5 +40,7 @@ export async function sendMail(msg: EmailMessage) {
                 Authorization: `Basic ${btoa(`api:${MAILGUN_SECRET}`)}`
             }
         })
+    } else {
+        console.log(body)
     }
 }
