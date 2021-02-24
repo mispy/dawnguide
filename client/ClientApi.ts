@@ -3,7 +3,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 import { API_BASE_URL, IS_PRODUCTION } from './settings'
 import { delay } from './utils'
-import type { User, UserProgressItem, UserNotificationSettings, UserAdminReport, UserLesson, UserProgress } from '../common/types'
+import type { UserInfo, UserProgressItem, UserNotificationSettings, UserAdminReport, UserLesson, UserProgress } from '../common/types'
 import type { SRSProgressStore, SRSProgressStoreItem } from '../common/SRSProgress'
 // @ts-ignore
 const NProgress = require('accessible-nprogress')
@@ -125,17 +125,17 @@ export class ClientApi {
         await this.http.patch(`/api/userLessons/${lessonId}`, userLesson)
     }
 
-    async getCurrentUser(): Promise<User> {
+    async getCurrentUser(): Promise<UserInfo> {
         const { data } = await this.http.get('/api/users/me')
         return data
     }
 
-    async subscribe(planId: string): Promise<{ checkoutSessionId: string } | { user: User }> {
+    async subscribe(planId: string): Promise<{ checkoutSessionId: string } | { user: UserInfo }> {
         const { data } = await this.http.post(`/api/subscribe?planId=${planId}`)
         return data
     }
 
-    async cancelSubscription(): Promise<{ user: User }> {
+    async cancelSubscription(): Promise<{ user: UserInfo }> {
         const { data } = await this.http.post(`/api/cancelSubscription`)
         return data
     }

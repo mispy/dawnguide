@@ -5,7 +5,7 @@ import * as React from 'react'
 import { AppLayout } from "./AppLayout"
 import type { ClientApi } from "./ClientApi"
 import { observable, runInAction, action, makeObservable } from "mobx"
-import type { User } from "../common/types"
+import type { UserInfo } from "../common/types"
 import { content } from "../common/content"
 
 // @ts-ignore
@@ -13,7 +13,7 @@ import { Container } from "react-bootstrap"
 import { expectAuthed } from "../common/ProgressiveEnhancement"
 
 class AdminPageState {
-    @observable users: User[] = []
+    @observable users: UserInfo[] = []
 
     constructor(readonly api: ClientApi) {
         makeObservable(this)

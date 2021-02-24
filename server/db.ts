@@ -204,6 +204,7 @@ export namespace notificationSettings {
         const json = await db.getJson(`user_notification_settings:${userId}`)
         const settings: UserNotificationSettings = _.defaults({}, json, {
             disableNotificationEmails: false,
+            emailAboutNewDrafts: false,
             emailAboutNewConcepts: true,
             emailAboutWeeklyReviews: true,
             lastWeeklyReviewEmail: Date.now()

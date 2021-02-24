@@ -1,13 +1,13 @@
 import { observable, action, makeObservable } from "mobx"
 import * as _ from 'lodash'
-import type { User } from "../common/types"
+import type { UserInfo } from "../common/types"
 import * as Sentry from '@sentry/browser'
 import { SENTRY_DSN_URL } from "./settings"
 import type { AxiosError } from "axios"
 
 export class GlobalErrorHandler {
     @observable.ref unexpectedError: Error | null = null
-    user?: User // Set this to get user info on sentry reports
+    user?: UserInfo // Set this to get user info on sentry reports
 
     constructor() {
         Sentry.init({ dsn: SENTRY_DSN_URL })

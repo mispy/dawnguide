@@ -6,7 +6,7 @@ export type MarkdownString = string
 export type BibtexString = string
 export type Timestamp = number
 
-export type User = {
+export type UserInfo = {
     id: string
     email: string
     username: string
@@ -21,6 +21,7 @@ export type User = {
         customerId: string
         subscribedAt: number
     }
+    specialStatus?: string
 }
 
 export type UserLesson = {
@@ -30,7 +31,7 @@ export type UserLesson = {
     disabled?: boolean
 }
 
-export type UserAdminReport = User & {
+export type UserAdminReport = UserInfo & {
     meanLevel: number
     lessonsStudied: number
     notificationSettings: UserNotificationSettings
@@ -131,7 +132,10 @@ export type UserNotificationSettings = {
      * */
     disableNotificationEmails: boolean
 
-    /** Whether to email user about new Lessons */
+    /** Whether to email user about new drafts */
+    emailAboutNewDrafts: boolean
+
+    /** Whether to email user about new lessons */
     emailAboutNewConcepts: boolean
 
     /** Whether to send user a weekly email about reviews to complete */

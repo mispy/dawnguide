@@ -4,10 +4,10 @@ import { trimStrings } from './utils'
 import { MONTHLY_PLAN_ID, ANNUAL_PLAN_ID } from '../common/settings'
 
 import * as stripe from './stripe'
-import type { User } from '../common/types'
+import type { UserInfo } from '../common/types'
 import { absurl } from '../common/utils'
 
-export async function subscribeToPlan(req: SessionRequest): Promise<{ checkoutSessionId: string } | { user: User }> {
+export async function subscribeToPlan(req: SessionRequest): Promise<{ checkoutSessionId: string } | { user: UserInfo }> {
     const user = await db.users.expect(req.session.userId)
 
     const { planId } = req.json
@@ -94,7 +94,7 @@ export async function subscribeToPlan(req: SessionRequest): Promise<{ checkoutSe
     }
 }
 
-export async function cancelSubscription(req: SessionRequest): Promise<{ user: User }> {
+export async function cancelSubscription(req: SessionRequest): Promise<{ user: UserInfo }> {
     const user = await db.users.expect(req.session.userId)
 
     if (!user.subscription) {

@@ -23,19 +23,22 @@ function LessonsDropdown() {
 }
 
 function UserDropdown() {
-    const { user } = expectAuthed()
-    return <li className="nav-item UserDropdown">
+    const { authed, user } = expectAuthed()
+    return <Observer>{() => <li className="nav-item UserDropdown">
         <input id="userDropdownToggle" type="checkbox" />
         <label className="nav-link" htmlFor="userDropdownToggle">{user.username} <FontAwesomeIcon icon={faAngleDown} /></label>
         <ul>
             <li>
                 <ULink href="/settings">Settings</ULink>
             </li>
+            {authed.admin && <li>
+                <a href="/admin">Admin</a>
+            </li>}
             <li>
                 <a href="/logout">Sign out</a>
             </li>
         </ul>
-    </li>
+    </li>}</Observer>
 }
 
 function ReviewsCounter() {

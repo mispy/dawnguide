@@ -4,7 +4,7 @@ import Markdown from "markdown-to-jsx"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
 import { renderToStaticMarkup } from "react-dom/server"
-import type { MarkdownString, User } from '../common/types'
+import type { MarkdownString, UserInfo } from '../common/types'
 import _ from 'lodash'
 import { Bibliography } from '../common/Bibliography'
 import { emailHtmlTemplate } from './emailUtils'
@@ -12,7 +12,7 @@ import { isExternalUrl, absurl } from '../common/utils'
 import { sendMail } from './mail'
 import * as db from './db'
 
-export async function sendLessonEmail(user: User, lesson: Lesson) {
+export async function sendLessonEmail(user: UserInfo, lesson: Lesson) {
     const loginToken = await db.emailConfirmTokens.create(user.id, user.email)
     return sendMail({
         to: user.email,

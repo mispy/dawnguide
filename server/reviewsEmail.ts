@@ -1,4 +1,4 @@
-import type { User } from "../common/types"
+import type { UserInfo } from "../common/types"
 import _ from 'lodash'
 import * as db from './db'
 import { sendMail } from "./mail"
@@ -6,7 +6,7 @@ import * as time from "../common/time"
 import { absurl } from "../common/utils"
 import { emailHtmlTemplate } from "./emailUtils"
 
-export async function sendReviewsEmailIfNeeded(user: User) {
+export async function sendReviewsEmailIfNeeded(user: UserInfo) {
     const settings = await db.notificationSettings.get(user.id)
     if (settings.disableNotificationEmails || !settings.emailAboutWeeklyReviews)
         return // User doesn't want reviews email
@@ -32,7 +32,7 @@ export async function sendReviewsEmailIfNeeded(user: User) {
     await db.notificationSettings.update(user.id, { lastWeeklyReviewEmail: Date.now() })
 }
 
-export async function sendReviewsEmail(user: User) {
+export async function sendReviewsEmail(user: UserInfo) {
     const plan = await db.makeLearnyPlanFor(user.id)
     const reviews = plan.availableReviews
 
@@ -45,7 +45,7 @@ export async function sendReviewsEmail(user: User) {
     await db.notificationSettings.update(user.id, { lastWeeklyReviewEmail: Date.now() })
 }
 
-export async function reviewsEmailHtml(user: User, numReviews: number) {
+export async function reviewsEmailHtml(user: UserInfo, numReviews: number) {
     let linkSection = ''
     if (numReviews > 0) {
         linkSection = `

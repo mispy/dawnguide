@@ -5,7 +5,7 @@ import * as React from 'react'
 import { AppLayout } from "./AppLayout"
 import type { ClientApi } from "./ClientApi"
 import { observable, runInAction, makeObservable } from "mobx"
-import type { User, UserAdminReport } from "../common/types"
+import type { UserInfo, UserAdminReport } from "../common/types"
 
 // @ts-ignore
 import TimeAgo from "react-timeago"
@@ -26,7 +26,7 @@ class AdminPageState {
         })
     }
 
-    async deleteUser(user: User) {
+    async deleteUser(user: UserInfo) {
         if (window.confirm(`Really delete ${user.email}?`)) {
             await this.api.admin.deleteUser(user.id)
             runInAction(() => {

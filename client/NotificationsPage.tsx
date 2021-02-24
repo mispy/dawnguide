@@ -28,7 +28,7 @@ class NotificationsSectionState {
     }
 }
 function NotificationsSection() {
-    const { api } = expectAuthed()
+    const { authed, api } = expectAuthed()
     const state = useLocalObservable(() => new NotificationsSectionState(api))
 
     useEffect(() => {
@@ -37,6 +37,14 @@ function NotificationsSection() {
 
     function renderLoaded(settings: UserNotificationSettings) {
         return <>
+            {authed.canReceiveDrafts && <><div className="form-check">
+                <input className="form-check-input" type="checkbox" checked={settings.emailAboutNewDrafts} disabled={settings.disableNotificationEmails}
+                    onChange={e => state.update({ emailAboutNewDrafts: e.currentTarget.checked })} id="emailAboutNewDrafts" />
+                <label className="form-check-label" htmlFor="emailAboutNewDrafts">
+                    New draft emails
+                    <aside className="text-secondary">Get a preview email to give feedback on draft content before it is released</aside>
+                </label>
+            </div><br /></>}
             <div className="form-check">
                 <input className="form-check-input" type="checkbox" checked={settings.emailAboutNewConcepts} disabled={settings.disableNotificationEmails}
                     onChange={e => state.update({ emailAboutNewConcepts: e.currentTarget.checked })} id="emailAboutNewConcepts" />

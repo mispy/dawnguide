@@ -6,7 +6,7 @@ import './authed.sass'
 import { AppRouter } from './AppRouter'
 import { BrowserContextProvider } from './BrowserContext'
 import { useMemo } from 'react'
-import type { User, UserProgress } from '../common/types'
+import type { UserInfo, UserProgress } from '../common/types'
 import { content } from '../common/content'
 import { LessonView } from '../common/LessonView'
 import { AuthedState } from './AuthedState'
@@ -26,7 +26,7 @@ if (module.hot) {
 }
 
 // These props come from AppPage on the server
-function App(props: { user: User, progress: UserProgress }) {
+function App(props: { user: UserInfo, progress: UserProgress }) {
     const context = useMemo(() => {
         const authed = new AuthedState(props.user, props.progress)
 
@@ -41,7 +41,7 @@ function App(props: { user: User, progress: UserProgress }) {
 }
 
 declare const window: any
-window.initApp = (props: { user: User, progress: UserProgress }) => {
+window.initApp = (props: { user: UserInfo, progress: UserProgress }) => {
     ReactDOM.render(<App {...props} />, document.getElementById("root"))
 }
 

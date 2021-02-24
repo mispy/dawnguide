@@ -2,7 +2,7 @@ import { observable, runInAction, computed, action, toJS, makeObservable, autoru
 import type { Lesson } from "../common/content"
 import * as _ from 'lodash'
 import { ClientApi } from "./ClientApi"
-import type { User, UserProgress } from "../common/types"
+import type { UserInfo, UserProgress } from "../common/types"
 import * as Sentry from '@sentry/browser'
 import { SENTRY_DSN_URL } from "./settings"
 import type { AxiosError } from "axios"
@@ -23,16 +23,21 @@ declare global {
     }
 }
 
+export class AuthedUser {
+    constructor(readonly userInfo: UserInfo) {
+    }
+}
+
 export class AuthedState {
     backgroundApi: ClientApi = new ClientApi()
     api: ClientApi = this.backgroundApi.with({ nprogress: true })
-    @observable user: User
+    @observable user: UserInfo
     @observable disabledLessons: UserProgress['disabledLessons']
     @observable.ref unexpectedError: Error | null = null
     srs: SRSProgress = new SRSProgress()
     plan: LearnyPlan
 
-    constructor(user: User, progress: UserProgress) {
+    constructor(user: UserInfo, progress: UserProgress) {
         this.user = user
         this.disabledLessons = progress.disabledLessons
         this.srs.overwriteWith(progress.progressStore)
@@ -95,17 +100,14 @@ export class AuthedState {
         runInAction(() => this.user = user)
     }
 
-    // learnyForLesson(lessonId: string): Learny {
-    //     const learny = this.learnyByLessonId[lessonId]
-    //     if (!learny) {
-    //         throw new Error(`Unknown lesson id ${lessonId}`)
-    //     }
-    //     return learny
-    // }
+    @computed get admin() {
+        return this.user.email === "mispy@mispy.me"
+    }
 
-    // @computed get learnyByLessonId() {
-    //     return _.keyBy(this.learnies, p => p.lesson.id)
-    // }
+    /** Can this user pick the option to receive drafts? */
+    @computed get canReceiveDrafts() {
+        return this.user.subscription || this.user.specialStatus
+    }
 
     /**
      * Global error handling when all else fails. Our last stand against the darkness.

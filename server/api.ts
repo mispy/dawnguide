@@ -239,6 +239,7 @@ async function getNotificationSettings(req: SessionRequest) {
 
 const notifSettingsForm = z.object({
     disableNotificationEmails: z.boolean().optional(),
+    emailAboutNewDrafts: z.boolean().optional(),
     emailAboutNewConcepts: z.boolean().optional(),
     emailAboutWeeklyReviews: z.boolean().optional()
 })
