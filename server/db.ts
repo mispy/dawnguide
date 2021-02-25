@@ -3,7 +3,7 @@ import * as bcrypt from 'bcryptjs'
 import type { KVNamespace } from '@cloudflare/workers-types'
 import * as time from '../common/time'
 
-import type { UserProgressItem, UserNotificationSettings, UserLesson, UserProgress } from '../common/types'
+import type { UserProgressItem, UserNotificationSettings, UserLesson, UserProgress, UserInfo } from '../common/types'
 import _ from 'lodash'
 import { ResponseError } from './utils'
 import { SRSProgress, SRSProgressStore } from '../common/SRSProgress'
@@ -52,22 +52,7 @@ export { deleteKey as delete }
 
 const db = { get, getJson, put, putJson, findKeys, delete: deleteKey }
 
-export type User = {
-    id: string
-    email: string
-    username: string
-    createdAt: number
-    updatedAt: number
-    lastSeenAt: number
-    emailConfirmed?: true
-    subscription?: {
-        // Stripe details
-        planId: string
-        subscriptionId: string
-        customerId: string
-        subscribedAt: number
-    }
-}
+export type User = UserInfo
 
 export namespace users {
     export async function get(userId: string): Promise<User | null> {

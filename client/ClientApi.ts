@@ -131,7 +131,7 @@ export class ClientApi {
     }
 
     async subscribe(planId: string): Promise<{ checkoutSessionId: string } | { user: UserInfo }> {
-        const { data } = await this.http.post(`/api/subscribe?planId=${planId}`)
+        const { data } = await this.http.post(`/api/subscribe`, { planId: planId })
         return data
     }
 

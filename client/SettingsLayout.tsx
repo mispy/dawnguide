@@ -25,9 +25,9 @@ export function SettingsLayout(props: { active?: 'account' | 'notifications' | '
                     <li className="nav-item">
                         <Link to="/notifications" className={classNames('nav-link', props.active === 'notifications' && 'active')}>Notifications</Link>
                     </li>
-                    {/* <li className="nav-item">
+                    <li className="nav-item">
                         <Link to="/subscription" className={classNames('nav-link', props.active === 'subscription' && 'active')}>Subscription</Link>
-                    </li> */}
+                    </li>
                 </ul>
 
                 {props.children}

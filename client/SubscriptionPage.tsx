@@ -102,7 +102,7 @@ class SubscriptionPageState {
 }
 
 export const SubscriptionPage = () => {
-    const { authed } = expectAuthed()
+    const { authed, user } = expectAuthed()
     const state = useLocalObservable(() => new SubscriptionPageState(authed))
 
     return <Observer>{() => {
@@ -121,7 +121,7 @@ export const SubscriptionPage = () => {
                                 <li className="account-subscription-plan-type">Monthly</li>
                                 <li className="account-subscription-plan-price"><span className="account-subscription-plan-price-num">9.00</span><br /><span className="account-subscription-plan-price-denom-rate">USD/mo</span></li>
                                 <li>&nbsp;</li>
-                                <li>Full access to all lessons and reviews while subscription is active</li>
+                                <li>Support my work &amp; get early access to drafts of upcoming Dawnguide stuff</li>
                                 <li>Recurring charge every month</li>
                             </ul>
                             <div className="account-subscription-plan-select"><button type="button" className="btn" disabled={state.loading}>{activePlanId === MONTHLY_PLAN_ID ? "Active" : "Select"}</button></div>
@@ -133,12 +133,24 @@ export const SubscriptionPage = () => {
                                 <li className="account-subscription-plan-type">Annual</li>
                                 <li className="account-subscription-plan-price"><span className="account-subscription-plan-price-num">89.00</span><br /><span className="account-subscription-plan-price-denom-rate">USD/yr</span></li>
                                 <li><Badge variant="info">2 months free</Badge></li>
-                                <li>Full access to all lessons and reviews while subscription is active</li>
+                                <li>Support my work &amp; get early access to drafts of upcoming Dawnguide stuff</li>
                                 <li>Recurring charge every year</li>
                             </ul>
                             <div className="account-subscription-plan-select"><button type="button" className="btn" disabled={state.loading}>{activePlanId === ANNUAL_PLAN_ID ? "Active" : "Select"}</button></div>
                         </div>
                     </Col>
+                    {!activePlanId && user.specialStatus === 'cute' && <Col>
+                        <div className="account-subscription-plan" data-active={true}>
+                            <ul>
+                                <li className="account-subscription-plan-type">Ultra special cute friendship plan</li>
+                                <li className="account-subscription-plan-price"><span className="account-subscription-plan-price-num">1 million</span><br /><span className="account-subscription-plan-price-denom-rate">potential hugs/yr</span></li>
+                                <li>&nbsp;</li>
+                                <li>Free access to all features, also the subscription page calls you cute</li>
+                            </ul>
+                            <div className="account-subscription-plan-select"><button type="button" className="btn" disabled={state.loading}>Active</button></div>
+                        </div>
+                    </Col>}
+
                     {/* <Col>
                     <div className="account-subscription-plan account-subscription-plan-lifetime" onClick={subscribeLifetime}>
                         <ul>
@@ -152,7 +164,9 @@ export const SubscriptionPage = () => {
                     </div>
                 </Col> */}
                 </Row>
-                {activePlanId ? <><p className="mt-2">Thank you for your support, nice human! 💛</p><button onClick={state.cancelSubscription} className="btn cancelSubscription">Cancel subscription</button></> : <p className="disclaimer">Please keep in mind that Dawnguide is still very young! By subscribing at this early stage, you're helping to fund the expansion of content and features.</p>}
+                {(activePlanId || !user.specialStatus) && <>
+                    {activePlanId ? <><p className="mt-4">Thank you for your support, nice human! 💛</p><button onClick={state.cancelSubscription} className="btn cancelSubscription">Cancel subscription</button></> : <p className="disclaimer">Please keep in mind that Dawnguide is still very young! By subscribing at this early stage, you're helping to fund the expansion of content and features.</p>}
+                </>}
             </div>
         </SettingsLayout>
     }}</Observer>

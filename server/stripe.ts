@@ -7,8 +7,6 @@
 import http from './http'
 import { STRIPE_SECRET_KEY } from './settings'
 
-
-
 /** Stripe subscription */
 interface Subscription {
     items: {
