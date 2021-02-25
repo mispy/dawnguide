@@ -9,7 +9,7 @@ import {
 import { HomePage } from "./HomePage"
 import { LessonPage } from './LessonPage'
 import { ReviewPage } from "./ReviewPage"
-import { AdminPage } from './AdminPage'
+import { AdminUsersPage } from './AdminUsersPage'
 import { AdminEmailsPage } from './AdminEmailsPage'
 import { AccountPage } from './AccountPage'
 import { NotificationsPage } from './NotificationsPage'
@@ -31,7 +31,7 @@ export function AppRouter() {
                 <AdminEmailsPage />
             </Route>
             <Route path="/admin">
-                <AdminPage />
+                <AdminUsersPage />
             </Route>
             <Route path="/settings">
                 <Redirect to="/account" />

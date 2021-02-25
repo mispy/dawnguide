@@ -4,16 +4,17 @@ import * as _ from 'lodash'
 import * as React from 'react'
 import { AppLayout } from "./AppLayout"
 import type { ClientApi } from "./ClientApi"
-import { observable, runInAction, action, makeObservable } from "mobx"
-import type { UserInfo } from "../common/types"
+import { observable, runInAction, action, makeObservable, computed } from "mobx"
+import type { UserAdminReport, UserInfo } from "../common/types"
 import { content } from "../common/content"
 
 // @ts-ignore
 import { Container } from "react-bootstrap"
 import { expectAuthed } from "../common/ProgressiveEnhancement"
+import { AdminLayout } from "./AdminLayout"
 
 class AdminPageState {
-    @observable users: UserInfo[] = []
+    @observable users: UserAdminReport[] = []
 
     constructor(readonly api: ClientApi) {
         makeObservable(this)
@@ -49,10 +50,10 @@ export function AdminEmailsPage() {
         state.loadUsers()
     }, [])
 
-    return <Observer>{() => <AppLayout>
-        <main className="AdminEmailsPage mt-4">
-            <Container>
-                <h3>Lessons</h3>
+    return <Observer>{() => <AdminLayout active="emails">
+        <Container className="AdminEmailsPage">
+            <section>
+                <h3>Emails</h3>
                 <table className="table mt-4">
                     <thead>
                         <tr>
@@ -73,7 +74,7 @@ export function AdminEmailsPage() {
                     </tbody>
                 </table>
                 <button className="btn btn-sm btn-outline-dawn" onClick={() => state.testReviewsEmail()}>Test Reviews Email</button>
-            </Container>
-        </main>
-    </AppLayout>}</Observer>
+            </section>
+        </Container>
+    </AdminLayout>}</Observer>
 }

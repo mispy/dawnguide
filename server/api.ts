@@ -9,6 +9,7 @@ import * as bcrypt from "bcryptjs"
 import type { SessionRequest, EventRequest } from "./requests"
 import * as payments from './paymentsController'
 import { CONTACT_FORM_EMAIL } from "./settings"
+import { ADMIN_EMAILS } from "../common/settings"
 import { content } from "../common/content"
 import { sendLessonEmail } from "./lessonEmail"
 import { absurl } from "../common/utils"
@@ -265,7 +266,7 @@ async function sendContactMessage(req: SessionRequest) {
 export namespace admin {
     export async function processRequest(req: SessionRequest) {
         const user = await db.users.get(req.session.userId)
-        if (!user || user.email !== "jaiden@mispy.me") {
+        if (!user || !ADMIN_EMAILS.includes(user.email)) {
             return new Response("Unauthorized", { status: 401 })
         }
 
