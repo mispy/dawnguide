@@ -20,6 +20,10 @@ class AdminPageState {
         makeObservable(this)
     }
 
+    @computed get draftUsers() {
+        return this.users.filter(u => u.notificationSettings.emailAboutNewDrafts)
+    }
+
     async loadUsers() {
         const users = await this.api.admin.getUsers()
         runInAction(() => {
@@ -74,6 +78,7 @@ export function AdminEmailsPage() {
                     </tbody>
                 </table>
                 <button className="btn btn-sm btn-outline-dawn" onClick={() => state.testReviewsEmail()}>Test Reviews Email</button>
+                <p><b>Draft Users:</b> {state.draftUsers.map(u => u.email).join(", ")}</p>
             </section>
         </Container>
     </AdminLayout>}</Observer>

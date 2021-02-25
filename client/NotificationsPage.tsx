@@ -37,7 +37,7 @@ function NotificationsSection() {
 
     function renderLoaded(settings: UserNotificationSettings) {
         return <>
-            {authed.canReceiveDrafts && <><div className="form-check">
+            {(authed.canReceiveDrafts || settings.emailAboutNewDrafts) && <><div className="form-check">
                 <input className="form-check-input" type="checkbox" checked={settings.emailAboutNewDrafts} disabled={settings.disableNotificationEmails}
                     onChange={e => state.update({ emailAboutNewDrafts: e.currentTarget.checked })} id="emailAboutNewDrafts" />
                 <label className="form-check-label" htmlFor="emailAboutNewDrafts">

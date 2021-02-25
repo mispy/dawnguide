@@ -35,7 +35,7 @@ export async function sendMail(msg: EmailMessage) {
     if (IS_TESTING) {
         testMailsSent.push(msg)
     } else if (IS_PRODUCTION) {
-        await http.post("https://api.mailgun.net/v3/dawnguide.com/messages", body, {
+        return await http.post("https://api.mailgun.net/v3/dawnguide.com/messages", body, {
             headers: {
                 Authorization: `Basic ${btoa(`api:${MAILGUN_SECRET}`)}`
             }

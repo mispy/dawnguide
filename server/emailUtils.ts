@@ -42,7 +42,6 @@ export function emailHtmlTemplate(loginToken: string, innerBody: string, style?:
                             <tbody>
                                 <tr>
                                     <td style="border-top: 1px solid #eeeeee; padding-top: 20px; color:#606060; font-size: 11px;">
-                                        <em>Copyright &copy; 2020 Dawnlight Technology, All rights reserved.</em><br>
                                         <a href="${absurl(`/notifications?emailToken=${loginToken}`)}">Unsubscribe or update email settings</a>
                                     </td>
                                 </tr>
