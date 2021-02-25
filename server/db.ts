@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
 import * as bcrypt from 'bcryptjs'
-import type { KVNamespace } from '@cloudflare/workers-types'
 import * as time from '../common/time'
 
 import type { UserProgressItem, UserNotificationSettings, UserLesson, UserProgress, UserInfo } from '../common/types'
@@ -8,6 +7,7 @@ import _ from 'lodash'
 import { ResponseError } from './utils'
 import { SRSProgress, SRSProgressStore } from '../common/SRSProgress'
 import { LearnyPlan } from '../common/Learny'
+import type { KVNamespace } from '@cloudflare/workers-types'
 
 declare const global: any
 export const cfstore: KVNamespace = global.STORE

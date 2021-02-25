@@ -5,6 +5,7 @@ declare const process: any
 
 export const IS_PRODUCTION: boolean = global.BASE_URL && !global.BASE_URL.includes("localhost")
 
+// @ts-ignore
 export const IS_TESTING: boolean = typeof jest !== 'undefined'
 
 // export const APP_SECRET: string = global.APP_SECRET || process.env.APP_SECRET

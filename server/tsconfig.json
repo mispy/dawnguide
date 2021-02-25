@@ -8,12 +8,16 @@
     "compilerOptions": {
         "outDir": "./dist/",
         "lib": [
-            "esnext",
+            "es2020",
             "webworker",
             // Necessary to make imports for isomorphic common code work
             // Would be nice to find a way around this at some point
             "dom"
         ],
-        "target": "es2018"
+        "target": "es2018",
+        "types": [
+            "@types/node",
+            "@cloudflare/workers-types"
+        ]
     },
 }
