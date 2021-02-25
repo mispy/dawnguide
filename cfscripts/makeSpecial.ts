@@ -7,6 +7,7 @@ async function main(res: StreamingTextResponse) {
     for (const user of users) {
         if (["foo"].includes(user.email)) {
             await db.notificationSettings.update(user.id, { emailAboutNewDrafts: true })
+            res.log(user.email)
         }
     }
     res.close()

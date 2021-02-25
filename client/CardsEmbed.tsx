@@ -26,7 +26,8 @@ class CardsEmbedState {
     }
 
     @computed get complete() {
-        return this.learned && !this.readyForReview
+        return this.remainingCards.length === 0
+        // return this.learned && !this.readyForReview
     }
 
     @computed get nextCard() {

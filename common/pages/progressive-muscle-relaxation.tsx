@@ -12,7 +12,7 @@ Progressive muscle relaxation is a stress-reduction exercise in which you slowly
 
 The exercise was defined by Edmund Jacobson in the early 1900s.[@jacobson1938progressive] His original version was pretty intense and involved some 30 muscle groups; current forms are more abbreviated. Weirdly, I found that some 5000+ citations of Jacobson's 1938 second edition book were <a href="/img/pmr-misattribution.png">misattributed</a> by Google Scholar to a <a href="https://is.muni.cz/el/phil/podzim2017/PSX_111/um/Jacobson_Progressive_muscle_relaxation_eng.pdf">random two-page document</a> intended for students at Masaryk University in Czechia. It's kind of charming to read because of the poor translation. "Grit both your fists so strong!"
 
-While Jacobson believed it impossible to feel anxious when your muscles are fully relaxed, modern research is not convinced on this point. Anxious people do consistently report tenser muscles than nonanxious controls. However, _perceived_ muscle tension doesn't match that well with the actual physiological contraction measured by electromyography, and it has not consistently been shown that decreased muscle tension results in a diminished experience of anxiety.[@pluess2009muscle] PMR works for many people, but we're not entirely sure why-- it may be partly a meditation in disguise, operating on your perceptions as much as on your muscles.[@conrad2007muscle]
+While Jacobson believed it impossible to feel anxious when your muscles are fully relaxed, modern research is not convinced on this point. Anxious people do consistently report tenser muscles than nonanxious controls. However, _perceived_ muscle tension doesn't match that well with the actual physiological contraction measured by electromyography, and it has not consistently been shown that PMR actually decreases muscle tension even though it successfully decreases anxiety.[@pluess2009muscle] PMR works for many people, but we're not entirely sure why-- it may be partly a meditation in disguise, operating on your perceptions as much as on your muscles.[@conrad2007muscle]
 
 Below are instructions for a short version of PMR based on the [University of Michigan Health Library](https://www.uofmhealth.org/health-library/uz2225). If you're interested in the full form as practised by therapists, you might want to look at the the Bernstein & Borkovec training manual[@bernstein2000new] that is mentioned in the review papers.
 
@@ -87,9 +87,9 @@ table td, table th {
         {
             id: 'pmr-relaxation',
             type: 'fillblank',
-            question: `In PMR, it's important to focus on the sensation of _______ tense muscles`,
+            question: `In PMR, it's important to focus your _________ on the sensation of relaxing tense muscles`,
             possibleAnswers: [
-                'relaxing'
+                'attention'
             ]
         }
     ],

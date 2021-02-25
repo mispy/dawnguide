@@ -2,7 +2,6 @@ import { useEffect } from "react"
 import { Observer, useLocalObservable, useObserver } from "mobx-react-lite"
 import * as _ from 'lodash'
 import * as React from 'react'
-import { AppLayout } from "./AppLayout"
 import type { ClientApi } from "./ClientApi"
 import { observable, runInAction, action, makeObservable, computed } from "mobx"
 import type { UserAdminReport, UserInfo } from "../common/types"
