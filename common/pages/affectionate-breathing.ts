@@ -9,7 +9,7 @@ export default defineLesson({
     summaryLine: "A meditation practice focusing on the soothing rhythm of the breath",
     seconds: 60 * 5,
     text: md`
-**Affectionate breathing** is a core meditation associated with [mindful](/mindfulness) [self-compassion](/self-compassion).[@mscTeachingBook] The sensation of breathing is handy for meditation since it's available to us wherever we go, an everpresent ally. Affectionate breathing varies on traditional breath meditation by adding an element of warmth and compassion. We look for a sense of being soothed by the rhythm of the breath, and gratitude for how it sustains the body. You could think of it as a way of practicing the joyful feelings of friendship, by being friends with our breathing. 
+**Affectionate breathing** is a core meditation associated with [mindful](/mindfulness) [self-compassion](/self-compassion). The sensation of breathing is handy for meditation since it's available to us wherever we go, an everpresent ally. Affectionate breathing varies on traditional breath meditation by adding an element of warmth and compassion. We look for a sense of being soothed by the rhythm of the breath, and gratitude for how it sustains the body. You could think of it as a way of practicing the joyful feelings of friendship, by being friends with our breathing. 
 
 It's a bit tricky to read with your eyes closed, so you'd best go over the instructions first and try them out before starting the timer. Alternatively, you could do the longer [guided audio version](https://self-compassion.org/wp-content/uploads/2020/08/affectionatebreathing_cleanedbydan.mp3) of this meditation by Kristin Neff. The version presented in the text here is a bit more compact since we'll be using it in SRS practice.
 `,
