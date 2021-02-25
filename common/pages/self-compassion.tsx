@@ -67,7 +67,7 @@ A sense of _common humanity_ is key to self-compassion. You are not alone in you
         pages={107--118},
         year={2010},
         publisher={Wiley Online Library},
-        url={https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2914331/}
+        open={https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2914331/}
       }
 
       @article{barnard2011self,
@@ -79,7 +79,7 @@ A sense of _common humanity_ is key to self-compassion. You are not alone in you
         pages={289--303},
         year={2011},
         publisher={SAGE Publications Sage CA: Los Angeles, CA},
-        url={http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.372.2071&rep=rep1&type=pdf}
+        pdf={http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.372.2071&rep=rep1&type=pdf}
       }
 
       @article{macbeth2012exploring,
@@ -91,7 +91,7 @@ A sense of _common humanity_ is key to self-compassion. You are not alone in you
         pages={545--552},
         year={2012},
         publisher={Elsevier},
-        url={https://eprints.gla.ac.uk/64162/1/64162.pdf}
+        pdf={https://eprints.gla.ac.uk/64162/1/64162.pdf}
       }
 
       @article{leary2007self,
@@ -103,7 +103,7 @@ A sense of _common humanity_ is key to self-compassion. You are not alone in you
         pages={887},
         year={2007},
         publisher={American Psychological Association},
-        url={https://self-compassion.org/wp-content/uploads/publications/LearyJPSP.pdf}
+        pdf={https://self-compassion.org/wp-content/uploads/publications/LearyJPSP.pdf}
       }
 
       @article{neff2003development,
@@ -115,7 +115,7 @@ A sense of _common humanity_ is key to self-compassion. You are not alone in you
         pages={223--250},
         year={2003},
         publisher={Taylor & Francis},
-        url={https://www.researchgate.net/profile/Beatrice_Ewalds-Kvist/post/what_kind_of_validity_require_for_self_constructed_tool_of_psychological_well_being_scale/attachment/5ad714554cde260d15d97a2c/AS%3A616703100723202%401524044885512/download/Neff.pdf}
+        pdf={https://www.researchgate.net/profile/Beatrice_Ewalds-Kvist/post/what_kind_of_validity_require_for_self_constructed_tool_of_psychological_well_being_scale/attachment/5ad714554cde260d15d97a2c/AS%3A616703100723202%401524044885512/download/Neff.pdf}
       }
 
       @article{neff2007self,
@@ -127,7 +127,7 @@ A sense of _common humanity_ is key to self-compassion. You are not alone in you
         pages={139--154},
         year={2007},
         publisher={Elsevier},
-        url={https://self-compassion.org/wptest/wp-content/uploads/2014/10/JRP.pdf}
+        pdf={https://self-compassion.org/wptest/wp-content/uploads/2014/10/JRP.pdf}
       }
 
       @article{gilbert2006compassionate,
@@ -139,7 +139,7 @@ A sense of _common humanity_ is key to self-compassion. You are not alone in you
         pages={353--379},
         year={2006},
         publisher={Wiley Online Library},
-        url={https://www.compassionatemind.co.uk/uploads/files/compassion-group-therapy-paper.pdf}
+        pdf={https://www.compassionatemind.co.uk/uploads/files/compassion-group-therapy-paper.pdf}
       }
 
       @article{shapira2010benefits,
@@ -151,7 +151,7 @@ A sense of _common humanity_ is key to self-compassion. You are not alone in you
         pages={377--389},
         year={2010},
         publisher={Taylor & Francis},
-        url={https://sci-hub.tw/https://www.tandfonline.com/doi/abs/10.1080/17439760.2010.516763}
+        scihub={https://sci-hub.se/https://www.tandfonline.com/doi/abs/10.1080/17439760.2010.516763}
       }
 
       @article{smeets2014meeting,
@@ -163,7 +163,7 @@ A sense of _common humanity_ is key to self-compassion. You are not alone in you
         pages={794--807},
         year={2014},
         publisher={Wiley Online Library},
-        url={https://self-compassion.org/wp-content/uploads/publications/Smeets3week.pdf}
+        pdf={https://self-compassion.org/wp-content/uploads/publications/Smeets3week.pdf}
       }
 
       @article{kirby2017meta,
@@ -175,7 +175,7 @@ A sense of _common humanity_ is key to self-compassion. You are not alone in you
         pages={778--792},
         year={2017},
         publisher={Elsevier},
-        url={https://charterforcompassion.com.au/wp-content/uploads/2019/12/Kirby-Tellegen-Steindl-2017-meta-analysis.pdf}
+        pdf={https://charterforcompassion.com.au/wp-content/uploads/2019/12/Kirby-Tellegen-Steindl-2017-meta-analysis.pdf}
       }
 `
 })

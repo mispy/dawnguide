@@ -64,7 +64,7 @@ Depression biases us to underestimate the joy in things, and avoiding engaging w
         pages={318--326},
         year={2007},
         publisher={Elsevier},
-        url={https://www.researchgate.net/profile/Pim_Cuijpers/publication/239845740_Behavioral_treatment_of_depression_A_meta-analysis_of_activity_scheduling/links/00b7d52f3e4a54261c000000.pdf}
+        pdf={https://www.researchgate.net/profile/Pim_Cuijpers/publication/239845740_Behavioral_treatment_of_depression_A_meta-analysis_of_activity_scheduling/links/00b7d52f3e4a54261c000000.pdf}
       }
 `
 })

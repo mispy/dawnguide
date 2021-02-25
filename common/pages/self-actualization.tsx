@@ -77,7 +77,7 @@ You don't need to try to self-actualize all by yourself. With friends, family an
         pages={354},
         year={2011},
         publisher={American Psychological Association},
-        url={http://academic.udayton.edu/jackbauer/Readings%20595/Tay%20Diener%2011%20needs%20WB%20world%20copy.pdf}
+        pdf={http://academic.udayton.edu/jackbauer/Readings%20595/Tay%20Diener%2011%20needs%20WB%20world%20copy.pdf}
     }
       @article{wahba1976maslow,
         title={Maslow reconsidered: A review of research on the need hierarchy theory},
@@ -88,7 +88,7 @@ You don't need to try to self-actualize all by yourself. With friends, family an
         pages={212--240},
         year={1976},
         publisher={Elsevier},
-        url={http://larrybridwell.com/Maslo.pdf}
+        pdf={http://larrybridwell.com/Maslo.pdf}
       }
 
       @article{beitel2014stillness,
@@ -100,7 +100,7 @@ You don't need to try to self-actualize all by yourself. With friends, family an
         pages={187--202},
         year={2014},
         publisher={Taylor & Francis},
-        url={https://sci-hub.tw/https://doi.org/10.1080/14779757.2013.855131}
+        scihub={https://sci-hub.se/https://doi.org/10.1080/14779757.2013.855131}
       }
 `
 })

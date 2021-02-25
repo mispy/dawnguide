@@ -81,8 +81,8 @@ The psychologists who originally introduced mental contrasting and implementatio
         pages={562},
         year={2013},
         publisher={Frontiers},
-        url={https://www.frontiersin.org/articles/10.3389/fpsyg.2013.00562/full}
-      }
+        open={https://www.frontiersin.org/articles/10.3389/fpsyg.2013.00562/full}
+    }
 
     @article{oettingen2010mental,
         title={Mental contrasting of future and reality: Managing the demands of everyday life in health care professionals},
@@ -90,7 +90,7 @@ The psychologists who originally introduced mental contrasting and implementatio
         journal={Journal of Personnel Psychology},
         year={2010},
         publisher={Hogrefe Publishing},
-        url={https://econtent.hogrefe.com/doi/full/10.1027/1866-5888/a000018}
+        pdf={https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.380.8325&rep=rep1&type=pdf}
       }
 
       @article{sheeran2013gone,
@@ -102,7 +102,7 @@ The psychologists who originally introduced mental contrasting and implementatio
         pages={802},
         year={2013},
         publisher={American Psychological Association},
-        url={http://www.psych.nyu.edu/oettingen/Sheeran,%20P.,%20Harris,%20P.,%20Vaughan,%20J.,%20Oettingen,%20G.,%20&%20Gollwitzer,%20P.M.%20(2012).%20Health%20Psychology.pdf}
+        pdf={http://www.psych.nyu.edu/oettingen/Sheeran,%20P.,%20Harris,%20P.,%20Vaughan,%20J.,%20Oettingen,%20G.,%20&%20Gollwitzer,%20P.M.%20(2012).%20Health%20Psychology.pdf}
       }
 
       @article{christiansen2010short,
@@ -114,7 +114,7 @@ The psychologists who originally introduced mental contrasting and implementatio
         pages={444--452},
         year={2010},
         publisher={Elsevier},
-        url={https://www.psy.uni-hamburg.de/arbeitsbereiche/paedagogische-psychologie-und-motivation/personen/oettingen-gabriele/dokumente/christiansen-oettingen-2010.pdf}
+        pdf={https://www.psy.uni-hamburg.de/arbeitsbereiche/paedagogische-psychologie-und-motivation/personen/oettingen-gabriele/dokumente/christiansen-oettingen-2010.pdf}
       }
 
       @article{gollwitzer2011mental,
@@ -126,7 +126,7 @@ The psychologists who originally introduced mental contrasting and implementatio
         pages={403--412},
         year={2011},
         publisher={Springer},
-        url={https://www.psy.uni-hamburg.de/arbeitsbereiche/paedagogische-psychologie-und-motivation/personen/oettingen-gabriele/dokumente/gollwitzer-oettingen-kirby-2011.pdf}
+        pdf={https://www.psy.uni-hamburg.de/arbeitsbereiche/paedagogische-psychologie-und-motivation/personen/oettingen-gabriele/dokumente/gollwitzer-oettingen-kirby-2011.pdf}
       }
 
     @article{oettingen2009mental,
@@ -138,7 +138,7 @@ The psychologists who originally introduced mental contrasting and implementatio
         pages={608--622},
         year={2009},
         publisher={Sage Publications Sage CA: Los Angeles, CA},
-        url={http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.380.1911&rep=rep1&type=pdf}       
+        pdf={http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.380.1911&rep=rep1&type=pdf}       
       }
 
       @article{sevincer2017well,
@@ -147,7 +147,7 @@ The psychologists who originally introduced mental contrasting and implementatio
         journal={Social Psychology},
         year={2017},
         publisher={Hogrefe Publishing},
-        url={https://www.psy.uni-hamburg.de/en/arbeitsbereiche/paedagogische-psychologie-und-motivation/personen/sevincer-timur/dokumente/sevincer-mehl-oettingen-2017.pdf}
+        pdf={https://www.psy.uni-hamburg.de/en/arbeitsbereiche/paedagogische-psychologie-und-motivation/personen/sevincer-timur/dokumente/sevincer-mehl-oettingen-2017.pdf}
       }
 
       @article{oettingen2001self,
@@ -159,7 +159,7 @@ The psychologists who originally introduced mental contrasting and implementatio
         pages={736},
         year={2001},
         publisher={American Psychological Association},
-        url={https://www.psy.uni-hamburg.de/de/arbeitsbereiche/paedagogische-psychologie-und-motivation/personen/oettingen-gabriele/dokumente/oettingen-pak-schnetter-2001.pdf}
+        pdf={https://www.psy.uni-hamburg.de/de/arbeitsbereiche/paedagogische-psychologie-und-motivation/personen/oettingen-gabriele/dokumente/oettingen-pak-schnetter-2001.pdf}
       }
 
       @article{oettingen2012future,
@@ -171,15 +171,7 @@ The psychologists who originally introduced mental contrasting and implementatio
         pages={1--63},
         year={2012},
         publisher={Taylor & Francis},
-        url={https://sci-hub.tw/https://www.tandfonline.com/doi/abs/10.1080/10463283.2011.643698}
-      }
-
-      @article{oettingen2013regulating,
-        title={Regulating goal pursuit through mental contrasting with implementation intentions.},
-        author={Oettingen, Gabriele and Wittchen, Marion and Gollwitzer, Peter M},
-        year={2013},
-        publisher={Routledge/Taylor & Francis Group},
-        urrl={}
+        scihub={https://sci-hub.se/https://www.tandfonline.com/doi/abs/10.1080/10463283.2011.643698}
       }
 `
 })

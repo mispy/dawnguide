@@ -69,7 +69,7 @@ Proximal goals work best when they're tied a distal goal that means a lot to you
         pages={483--498},
         year={1990},
         publisher={Springer},
-        url={https://sci-hub.tw/https://link.springer.com/article/10.1007/BF01172969}
+        scihub={https://sci-hub.se/https://link.springer.com/article/10.1007/BF01172969}
       }
       
       @article{miller2004model,
@@ -81,7 +81,7 @@ Proximal goals work best when they're tied a distal goal that means a lot to you
         pages={9--33},
         year={2004},
         publisher={Springer},
-        url={https://www.prospectivepsych.org/sites/default/files/pictures/Miller-Brickman_Model-of-future-oriented-motivation-and-self-regulation-2004.pdf}
+        pdf={https://www.prospectivepsych.org/sites/default/files/pictures/Miller-Brickman_Model-of-future-oriented-motivation-and-self-regulation-2004.pdf}
       }
 
       @article{huang2017step,
@@ -92,7 +92,7 @@ Proximal goals work best when they're tied a distal goal that means a lot to you
         pages={1--15},  
         year={2017},
         publisher={Elsevier},
-        url={https://huangsc.people.stanford.edu/sites/g/files/sbiybj2896/f/step_by_step_obhdp_for_web_1.pdf}
+        pdf={https://huangsc.people.stanford.edu/sites/g/files/sbiybj2896/f/step_by_step_obhdp_for_web_1.pdf}
       }
       `
 })

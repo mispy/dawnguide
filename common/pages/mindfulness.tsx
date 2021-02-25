@@ -67,7 +67,7 @@ If we think of mindful experience as analogous to physical activity, the differe
     pages={932--932},
     year={2010},
     publisher={American Association for the Advancement of Science},
-    url={https://science.sciencemag.org/content/330/6006/932.abstract}
+    pdf={https://science.sciencemag.org/content/330/6006/932.abstract}
 }
 
 @article{goldberg2018mindfulness,
@@ -78,7 +78,7 @@ If we think of mindful experience as analogous to physical activity, the differe
     pages={52--60},
     year={2018},
     publisher={Elsevier},
-    url={https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5741505/}
+    open={https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5741505/}
 }
 
 @article{lutz2008attention,
@@ -90,7 +90,7 @@ If we think of mindful experience as analogous to physical activity, the differe
     pages={163--169},
     year={2008},
     publisher={Elsevier},
-    url={https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2693206/}
+    open={https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2693206/}
   }
 
 @article{brewer2011meditation,
@@ -102,7 +102,7 @@ If we think of mindful experience as analogous to physical activity, the differe
     pages={20254--20259},
     year={2011},
     publisher={National Acad Sciences},
-    url={https://www.pnas.org/content/pnas/108/50/20254.full.pdf}
+    pdf={https://www.pnas.org/content/pnas/108/50/20254.full.pdf}
   }
 
 @article{birtwell2019exploration,
@@ -114,7 +114,7 @@ If we think of mindful experience as analogous to physical activity, the differe
     pages={89--99},
     year={2019},
     publisher={Springer},
-    url={https://link.springer.com/content/pdf/10.1007/s12671-018-0951-y.pdf}
+    pdf={https://link.springer.com/content/pdf/10.1007/s12671-018-0951-y.pdf}
 }
 
 @article{shankland2020improving,
@@ -123,7 +123,7 @@ If we think of mindful experience as analogous to physical activity, the differe
     journal={Applied Psychology: Health and Well-Being},
     year={2020},
     publisher={Wiley Online Library},
-    url={https://www.vittoz-irdc.net/sites/vittoz-irdc.net/IMG/pdf/fovea1_shankland_2020_1_.pdf}
+    pdf={https://www.vittoz-irdc.net/sites/vittoz-irdc.net/IMG/pdf/fovea1_shankland_2020_1_.pdf}
 }
 `
 })

@@ -80,7 +80,7 @@ The meta-analysis is striking in its confidence about implementation intentions 
         pages={69--119},
         year={2006},
         publisher={Elsevier},
-        url={https://duwtje.com/wp-content/uploads/2015/06/implementation-intention.pdf}
+        pdf={https://duwtje.com/wp-content/uploads/2015/06/implementation-intention.pdf}
       }
 `
 })

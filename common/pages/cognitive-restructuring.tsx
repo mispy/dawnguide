@@ -85,7 +85,7 @@ Evidence-wise, cognitive restructuring is a component of cognitive-behavioral th
         pages={427--440},
         year={2012},
         publisher={Springer},
-        url={https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3584580/?_escaped_fragment_=po}
+        open={https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3584580/?_escaped_fragment_=po}
       }
 `
 })

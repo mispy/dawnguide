@@ -60,7 +60,7 @@ You don't need any software to take advantage of the spacing effect, but there a
       pages={354},
       year={2006},
       publisher={American Psychological Association},
-      url={https://escholarship.org/content/qt3rr6q10c/qt3rr6q10c.pdf}
+      pdf={https://escholarship.org/content/qt3rr6q10c/qt3rr6q10c.pdf}
 }
 `
 })
