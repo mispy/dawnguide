@@ -133,7 +133,7 @@ export async function submitResetPasswordConfirm(req: EventRequest, token: strin
     }
 
     const user = await db.users.expectByEmail(email)
-    await db.users.update(user.id, { cryptedPassword: db.users.hashPassword(newPassword) })
+    await db.userSecrets.set(user.id, { hashedPassword: db.users.hashPassword(newPassword) })
 
     // Expire the token now that it's used
     await db.passwordResets.destroy(token)
@@ -192,8 +192,9 @@ async function tryLogin(email: string, password: string): Promise<string | false
         return false
     }
 
+    const { hashedPassword } = await db.userSecrets.expect(user.id)
     // Must be done synchronously or CF will think worker never exits
-    const validPassword = bcrypt.compareSync(password, user.cryptedPassword)
+    const validPassword = bcrypt.compareSync(password, hashedPassword)
 
     if (validPassword) {
         // Login successful
@@ -211,8 +212,9 @@ async function expectLogin(email: string, password: string): Promise<string> {
         throw new ResponseError(`Invalid email or password`, 401)
     }
 
+    const { hashedPassword } = await db.userSecrets.expect(user.id)
     // Must be done synchronously or CF will think worker never exits
-    const validPassword = bcrypt.compareSync(password, user.cryptedPassword)
+    const validPassword = bcrypt.compareSync(password, hashedPassword)
 
     if (validPassword) {
         // Login successful

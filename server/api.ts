@@ -106,7 +106,7 @@ async function completeLesson(req: SessionRequest) {
 /** Retrieve the currently logged in user info */
 async function getCurrentUser(req: SessionRequest) {
     const user = await db.users.expect(req.session.userId)
-    return _.omit(user, 'cryptedPassword')
+    return user
 }
 
 const updateLessonForm = z.object({
@@ -191,6 +191,7 @@ const changeEmailForm = z.object({
 async function changeEmail(req: SessionRequest) {
     const { newEmail, password } = changeEmailForm.parse(req.json)
     const user = await db.users.expect(req.session.userId)
+    const { hashedPassword } = await db.userSecrets.expect(req.session.userId)
 
     if (user.email === newEmail && user.emailConfirmed)
         return // Nothing to do here!
@@ -199,7 +200,7 @@ async function changeEmail(req: SessionRequest) {
     if (existingUser && existingUser.id !== user.id)
         throw new ResponseError(`Email ${newEmail} is already associated with an account`, 409)
 
-    const validPassword = bcrypt.compareSync(password, user.cryptedPassword)
+    const validPassword = bcrypt.compareSync(password, hashedPassword)
     if (validPassword) {
         const token = await db.emailConfirmTokens.create(user.id, newEmail)
         const confirmUrl = absurl(`/account/confirmation/${token}`)
@@ -219,15 +220,15 @@ const changePasswordForm = z.object({
 })
 async function changePassword(req: SessionRequest) {
     const { newPassword, currentPassword } = changePasswordForm.parse(req.json)
-    const user = await db.users.expect(req.session.userId)
+    const { hashedPassword } = await db.userSecrets.expect(req.session.userId)
 
     if (newPassword.length < 10) {
         throw new ResponseError(`Please use a password at least 10 characters long`, 422)
     }
 
-    const validPassword = bcrypt.compareSync(currentPassword, user.cryptedPassword)
+    const validPassword = bcrypt.compareSync(currentPassword, hashedPassword)
     if (validPassword) {
-        await db.users.update(user.id, { cryptedPassword: db.users.hashPassword(newPassword) })
+        await db.userSecrets.set(req.session.userId, { hashedPassword: db.users.hashPassword(newPassword) })
         return { success: true }
     } else {
         return new Response("Unauthorized", { status: 401 })

@@ -56,7 +56,6 @@ export type User = {
     id: string
     email: string
     username: string
-    cryptedPassword: string
     createdAt: number
     updatedAt: number
     lastSeenAt: number
@@ -98,13 +97,6 @@ export namespace users {
         return user
     }
 
-    export async function getByUsername(username: string): Promise<User | null> {
-        const userId = await db.get(`user_id_by_username:${username}`)
-        if (!userId)
-            return null
-        return users.get(userId)
-    }
-
     export async function allIds(): Promise<string[]> {
         const keys = await db.findKeys(`users:`)
         return keys.map(k => k.split('users:')[1]!)
@@ -118,27 +110,32 @@ export namespace users {
     }
 
     export function hashPassword(plaintext: string) {
+        // Password hash be done synchronously or CF will think worker never exits
         return bcrypt.hashSync(plaintext, 10)
     }
 
     export async function create(props: Pick<User, 'username' | 'email'> & { 'password': string }): Promise<User> {
-        // TODO don't allow duplicate email
         const userId = uuidv4()
 
-        // Must be done synchronously or CF will think worker never exits
+        // Double check this email isn't already taken
+        const existingUserId = await db.get(`user_id_by_email:${props.email}`)
+        if (existingUserId) {
+            throw new Error(`Email ${props.email} is already associated with user id ${existingUserId}`)
+        }
+
         const hashed = users.hashPassword(props.password)
         const now = Date.now()
         const user = {
             id: userId,
             email: props.email,
             username: props.username,
-            cryptedPassword: hashed,
             createdAt: now,
             updatedAt: now,
             lastSeenAt: now
         }
 
         await users.save(user)
+        await userSecrets.set(userId, { hashedPassword: hashed })
         await db.put(`user_id_by_email:${props.email}`, userId)
         return user
     }
@@ -227,7 +224,29 @@ export namespace notificationSettings {
     }
 }
 
-export interface Session {
+export type UserSecretInfo = {
+    hashedPassword: string
+}
+
+export namespace userSecrets {
+    export async function get(userId: string): Promise<UserSecretInfo | null> {
+        return await db.getJson(`user_secrets:${userId}`)
+    }
+
+    export async function expect(userId: string): Promise<UserSecretInfo> {
+        const secrets = await userSecrets.get(userId)
+        if (!secrets) {
+            throw new Error(`Expected to find secrets for user with id ${userId}`)
+        }
+        return secrets
+    }
+
+    export async function set(userId: string, auth: UserSecretInfo) {
+        await db.putJson(`user_secrets:${userId}`, auth)
+    }
+}
+
+export type Session = {
     key: string
     userId: string
 }

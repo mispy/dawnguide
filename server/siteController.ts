@@ -15,8 +15,7 @@ export async function appPage(req: SessionRequest) {
     const userReq = db.users.expect(req.session.userId)
     const progressReq = db.progressItems.getProgressFor(req.session.userId)
     const progress = await progressReq
-
-    const user = _.omit(await userReq, 'cryptedPassword')
+    const user = await userReq
     return pageResponse(AppPage, { user: user, progress: progress })
 }
 
