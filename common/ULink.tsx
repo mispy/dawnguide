@@ -17,7 +17,7 @@ function inRouter(): boolean {
 }
 
 export function ULink(props: { href: string, className?: string, children?: any }) {
-    if (isExternalUrl(props.href)) {
+    if (isExternalUrl(props.href) || _.last(props.href.split('/'))?.includes(".")) {
         return <a target="_blank" {...props} />
     } else if (IS_SERVER || !inRouter()) {
         return <a href={props.href} {..._.omit(props, 'href')} />
