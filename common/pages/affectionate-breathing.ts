@@ -18,7 +18,7 @@ It's a bit tricky to read with your eyes closed, so you'd best go over the instr
 
 2. If you like, place a hand over your heart, as a reminder of the intent towards affectionate awareness. You can leave your hand there or let it rest at any time.
 
-3. Now begin to notice your breath, as it rises and falls, how the the body is nourished on the intake and relaxes as you breathe out.
+3. Now begin to notice your breath, as it rises and falls, how the body is nourished on the intake and relaxes as you breathe out.
 
 4. Just let your body breathe _you_. There is nothing you need to do.
 

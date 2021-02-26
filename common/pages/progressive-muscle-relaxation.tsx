@@ -14,7 +14,7 @@ The exercise was defined by Edmund Jacobson in the early 1900s.[@jacobson1938pro
 
 While Jacobson believed it impossible to feel anxious when your muscles are fully relaxed, modern research is not convinced on this point. Anxious people do consistently report tenser muscles than nonanxious controls. However, _perceived_ muscle tension doesn't match that well with the actual physiological contraction measured by electromyography, and it has not consistently been shown that PMR actually decreases muscle tension even though it successfully decreases anxiety.[@pluess2009muscle] PMR works for many people, but we're not entirely sure why-- it may be partly a meditation in disguise, operating on your perceptions as much as on your muscles.[@conrad2007muscle]
 
-Below are instructions for a short version of PMR based on the [University of Michigan Health Library](https://www.uofmhealth.org/health-library/uz2225). If you're interested in the full form as practised by therapists, you might want to look at the the Bernstein & Borkovec training manual[@bernstein2000new] that is mentioned in the review papers.
+Below are instructions for a short version of PMR based on the [University of Michigan Health Library](https://www.uofmhealth.org/health-library/uz2225). If you're interested in the full form as practised by therapists, you might want to look at the Bernstein & Borkovec training manual[@bernstein2000new] that is mentioned in the review papers.
 
 For each muscle group:
 
