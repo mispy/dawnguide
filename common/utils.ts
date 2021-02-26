@@ -8,7 +8,7 @@ export function isExternalUrl(href: string): boolean {
 }
 
 export function isAbsoluteUrl(href: string): boolean {
-    return href.startsWith("http://") || href.startsWith("https://")
+    return _.startsWith(href, "http://") || _.startsWith(href, "https://")
 }
 
 export function absurl(path: string): string {

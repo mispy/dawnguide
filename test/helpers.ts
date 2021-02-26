@@ -49,4 +49,4 @@ class APITester {
     }
 }
 
-export const api = new APITester()
+export const asPublic = new APITester()

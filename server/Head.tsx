@@ -57,8 +57,8 @@ export const Head = (props: { canonicalUrl: string | null, pageTitle?: string, p
             <meta name="theme-color" content="#ffe072" />
 
         </> : <>
-                <meta name="robots" content="noindex" />
-            </>}
+            <meta name="robots" content="noindex" />
+        </>}
 
         <link rel="stylesheet" href={cssUrl} />
         {props.children}

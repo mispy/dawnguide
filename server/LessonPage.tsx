@@ -11,7 +11,7 @@ import { LessonView } from '../common/LessonView'
 export function LessonPage(props: { lesson: Lesson }) {
     const { lesson } = props
 
-    const intro = renderToStaticMarkup(<Markdown>{lesson.text.replace(/\[@[^\]]+\]/g, '')}</Markdown>)
+    const intro = renderToStaticMarkup(<Markdown>{lesson.text.replace("<SectionReview/>", "").replace(/\[@[^\]]+\]/g, '')}</Markdown>)
     const pageDesc = lesson.summaryLine || htmlToPlaintext(intro).split("\n\n")[0]
 
     const script = `window.hydrateLesson("${lesson.id}")`

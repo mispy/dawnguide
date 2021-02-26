@@ -3,7 +3,9 @@
     "include": [
         "**/*"
     ],
-    "types": [
-        "@types/jest"
-    ]
+    "compilerOptions": {
+        "types": [
+            "@types/jest"
+        ]
+    }
 }

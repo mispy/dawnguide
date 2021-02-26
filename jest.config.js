@@ -1,6 +1,7 @@
 // https://github.com/nrwl/nx/issues/812#issuecomment-429488470
 module.exports = {
     roots: ["test"],
+
     testEnvironment: 'jsdom',
     setupFilesAfterEnv: ["<rootDir>/test/setupTests.ts"],
     moduleNameMapper: {
@@ -12,4 +13,4 @@ module.exports = {
     //     '^settings$': '<rootDir>/settings',
     //     '^serverSettings$': '<rootDir>/serverSettings'
     // }
-};
+}

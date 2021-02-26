@@ -3,7 +3,6 @@ import { heartbeat } from '../server/systemController'
 import { testMailsSent } from '../server/mail'
 import * as db from '../server/db'
 import * as time from '../common/time'
-import { api } from './helpers'
 import { content } from '../common/content'
 
 afterEach(() => {
