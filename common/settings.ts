@@ -6,6 +6,11 @@ let isServer: boolean = true
 isServer = false
 /// #endif
 
+declare let process: any
+if (typeof process === "undefined") {
+    global.process = { env: {} }
+}
+
 export const IS_SERVER = isServer
 
 export const MONTHLY_PLAN_ID = 'dawnguide_monthly'

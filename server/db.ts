@@ -7,7 +7,6 @@ import _ from 'lodash'
 import { ResponseError } from './utils'
 import { SRSProgress, SRSProgressStore } from '../common/SRSProgress'
 import { LearnyPlan } from '../common/Learny'
-import type { KVNamespace } from '@cloudflare/workers-types'
 
 declare const global: any
 export const cfstore: KVNamespace = global.STORE

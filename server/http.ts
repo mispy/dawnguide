@@ -1,5 +1,5 @@
 import * as _ from 'lodash'
-import { objectToFormData } from 'object-to-formdata'
+import { serialize } from 'object-to-formdata'
 
 export class RequestError extends Error {
     constructor(message: string) {
@@ -42,7 +42,7 @@ namespace http {
 
     export async function post(url: string, body: any, options: HttpOptions = {}) {
         return http.request(url, {
-            body: objectToFormData(body, {}, new URLSearchParams()),
+            body: serialize(body, {}, new URLSearchParams()),
             method: 'POST',
             headers: _.extend({
                 'content-type': 'application/x-www-form-urlencoded',

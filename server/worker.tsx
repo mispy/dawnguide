@@ -1,4 +1,3 @@
-// @ts-ignore
 import { getAssetFromKV } from '@cloudflare/kv-asset-handler'
 
 import Router from './router'

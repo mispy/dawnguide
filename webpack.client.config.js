@@ -1,11 +1,12 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const ManifestPlugin = require('webpack-manifest-plugin')
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = (env, argv) => {
     const isProduction = argv.mode === 'production'
     return {
+        mode: isProduction ? 'production' : 'development',
         entry: {
             app: "./client/app.tsx",
             site: "./client/site.sass"
@@ -21,7 +22,7 @@ module.exports = (env, argv) => {
             new MiniCssExtractPlugin({
                 filename: isProduction ? '[name].[contenthash].css' : '[name].development.css',
             }),
-            new ManifestPlugin(),
+            new WebpackManifestPlugin(),
             new CopyWebpackPlugin({
                 patterns: [
                     { from: 'public', to: '../' },
