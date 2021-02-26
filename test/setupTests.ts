@@ -4,6 +4,7 @@ declare const global: any
 import * as runtime from '@dollarshaveclub/cloudworker/lib/runtime'
 // @ts-ignore
 import StubCacheFactory from '@dollarshaveclub/cloudworker/lib/runtime/cache/stub'
+// @ts-ignore
 import EventEmitter from 'events'
 
 const dispatcher = new (EventEmitter as any)()
@@ -26,3 +27,8 @@ for (const key in context) {
 // @ts-ignore
 import { KeyValueStore } from '@dollarshaveclub/cloudworker/lib/kv'
 global.STORE = new KeyValueStore()
+
+beforeEach(() => {
+    // Reset the db before each test
+    global.STORE.store = new Map()
+})
