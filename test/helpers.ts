@@ -10,7 +10,7 @@ class TestFetchEvent {
     }
 }
 
-class APITester {
+export class APITester {
     cookie: string = ""
     constructor() {
     }
