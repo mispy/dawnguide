@@ -7,6 +7,7 @@ export default defineLesson({
     id: 'mindfulness',
     slug: 'mindfulness',
     title: "Mindfulness",
+    publishedDate: "2020-04-12",
     summaryLine: "Practicing a perceptual focus on immediate experience can help us cope with difficult thoughts and situations",
     text: md`
 Humans spend a great deal of their time thinking about things that are not currently a part of their immediate experience. We contemplate the past, possibilities for the future, and all sorts of hypotheticals. This is a powerful human behavior that enables us to learn and plan. However, it can also make us unhappy, particularly when it takes the form of excessive rumination or worry. In an experience sampling study, reports of mind-wandering were predictive of unhappiness at a later sample point, but not vice-versa.[@killingsworth2010wandering]

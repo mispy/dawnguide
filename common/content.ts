@@ -29,7 +29,7 @@ class ContentIndex {
     }
 
     @computed get lessons() {
-        return this.lessonsWithDrafts.filter(l => !l.def.draft)
+        return this.lessonsWithDrafts.filter(l => !!l.def.publishedDate)
     }
 
     @computed get lessonById() {
@@ -157,6 +157,10 @@ export class BaseLesson<T extends LessonDef> {
 
     @computed get title(): string {
         return this.def.title
+    }
+
+    @computed get draft(): boolean {
+        return !this.def.publishedDate
     }
 
     @computed get name(): string {

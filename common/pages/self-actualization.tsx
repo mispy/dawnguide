@@ -5,6 +5,7 @@ export default defineLesson({
     id: 'self-actualization',
     slug: 'self-actualization',
     title: 'Self-actualization',
+    publishedDate: "2020-06-13",
     summaryLine: "Humans have universal needs for things like safety, love, and autonomy",
     author: "Reece Matthews and Mispy Evenfeld",
     text: md`

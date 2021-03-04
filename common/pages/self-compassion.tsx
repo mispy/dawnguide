@@ -5,6 +5,7 @@ export default defineLesson({
     id: 'self-compassion',
     slug: 'self-compassion',
     title: 'Self-compassion',
+    publishedDate: "2020-05-21",
     summaryLine: "People who treat themselves with caring patience are more resilient and kinder to others as well",
     // subtitle: "Caring for yourself the way you care for friends",s
     text: md`

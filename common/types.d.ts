@@ -64,11 +64,11 @@ type BaseLessonDef = {
     id: string
     slug: string
     title: string
+    publishedDate?: string // If undefined, it's still a draft
     name?: string
     subtitle?: string
     author?: string
     summaryLine: string
-    draft?: true
     furtherReading?: MarkdownString
     notes?: MarkdownString
     bibliography: BibtexString
