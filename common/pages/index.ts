@@ -10,6 +10,7 @@ import iis from './implementation-intentions'
 import mentalContrasting from './mental-contrasting'
 import sleep from './sleep'
 import pmr from './progressive-muscle-relaxation'
+import sunlight from './sunlight'
 
-export default [spacedLearning, selfCompassion, mindfulness, affectionateBreathing, behavioralActivation, cognitiveRestructuring, proximalSubgoals, selfActualization, iis, mentalContrasting, sleep, pmr]
+export default [spacedLearning, selfCompassion, mindfulness, affectionateBreathing, behavioralActivation, cognitiveRestructuring, proximalSubgoals, selfActualization, iis, mentalContrasting, sleep, pmr, sunlight]
 
