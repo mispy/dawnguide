@@ -19,17 +19,6 @@ class AdminPageState {
         makeObservable(this)
     }
 
-    @computed get draftUsers() {
-        return this.users.filter(u => u.notificationSettings.emailAboutNewDrafts)
-    }
-
-    async loadUsers() {
-        const users = await this.api.admin.getUsers()
-        runInAction(() => {
-            this.users = _.sortBy(users, u => -u.createdAt)
-        })
-    }
-
     async testLessonEmail(lessonId: string) {
         await this.api.admin.testLessonEmail(lessonId)
     }
@@ -49,10 +38,6 @@ export function AdminEmailsPage() {
     const { api } = expectAuthed()
     const state = useLocalObservable(() => new AdminPageState(api))
 
-    useEffect(() => {
-        state.loadUsers()
-    }, [])
-
     return <Observer>{() => <AdminLayout active="emails">
         <Container className="AdminEmailsPage">
             <section>
@@ -70,6 +55,7 @@ export function AdminEmailsPage() {
                             <td>{lesson.title}</td>
                             {/* <td></td> */}
                             <td>
+                                <a className="btn btn-sm btn-outline-dawn mr-2" href={`/admin/emails/preview/${lesson.slug}`}>Preview Email</a>
                                 <button className="btn btn-sm btn-outline-dawn mr-2" onClick={() => state.testLessonEmail(lesson.id)}>Send Test Email</button>
                                 <button className="btn btn-sm btn-dawn" onClick={() => state.emailEveryone(lesson.id)}>Email Everyone</button>
                             </td>
@@ -77,7 +63,6 @@ export function AdminEmailsPage() {
                     </tbody>
                 </table>
                 <button className="btn btn-sm btn-outline-dawn" onClick={() => state.testReviewsEmail()}>Test Reviews Email</button>
-                <p><b>Draft Users:</b> {state.draftUsers.map(u => u.email).join(", ")}</p>
             </section>
         </Container>
     </AdminLayout>}</Observer>
