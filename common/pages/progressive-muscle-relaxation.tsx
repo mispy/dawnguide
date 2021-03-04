@@ -5,6 +5,7 @@ export default defineLesson({
     id: 'progressive-muscle-relaxation',
     slug: 'progressive-muscle-relaxation',
     title: 'Progressive muscle relaxation',
+    subtitle: "A stress-reduction exercise where you tense and release muscles in sequence",
     summaryLine: "A stress-reduction exercise where you tense and release muscles in sequence",
     draft: true,
     text: md`

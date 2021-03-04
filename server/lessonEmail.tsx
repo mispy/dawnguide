@@ -2,7 +2,6 @@ import * as React from 'react'
 import type { Lesson } from "../common/content"
 import Markdown from "markdown-to-jsx"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
 import { renderToStaticMarkup } from "react-dom/server"
 import type { MarkdownString, UserInfo } from '../common/types'
 import _ from 'lodash'
@@ -24,14 +23,21 @@ export async function sendLessonEmail(user: UserInfo, lesson: Lesson) {
 export function lessonEmailHtml(loginToken: string, lesson: Lesson) {
     const innerBody = renderToStaticMarkup(<LessonEmailBody lesson={lesson} />)
     return emailHtmlTemplate(loginToken, innerBody, `
-    a {
-        color: #c33071;
+    html {
+        font-family: 'SF Pro Display',-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';
+        color:#1a1a1a;
+        font-size:16px;
+        line-height:26px;
+        margin:0 0 1em 0;
+    }
+
+    a, a:hover {
+        color: #008656;
         text-decoration: none;
     }
 
-    p {
-        margin-top: 0;
-        margin-bottom: 1rem;
+    sup {
+        font-size: 12px;
     }
 
     img {
@@ -40,13 +46,31 @@ export function lessonEmailHtml(loginToken: string, lesson: Lesson) {
     }
 
     h1 {
-        margin-bottom: 1rem;
+        color: #1a1a1a;
+        font-family: 'Roboto Slab',sans-serif;
+        font-size: 2em;
+        font-weight: 700;
+        line-height: 130%;
+        margin: 0.378em 0 0 0;
+    }
+
+    h3 {
+        color: #757575;
+        font-family: 'SF Compact Display',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';
+        font-size: 19px;
+        font-weight: normal;
+        line-height: 1.16em;
+        margin: 4px 0 0;
+    }
+
+    .align-center {
+        width: 100%;
+        text-align: center;
     }
 
     .btn-dawn {
-        background: #c33071;
-        color: white;
-        float: right;
+        background: #008656;
+        color: #fff;
 
         display: inline-block;
         font-weight: 400;
@@ -62,16 +86,12 @@ export function lessonEmailHtml(loginToken: string, lesson: Lesson) {
         transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
 
-    .btn-dawn:hover {
-        color: white;
-        background: #9a2659;
-        text-decoration: none;
+    section table th {
+        text-align: left;
     }
 
-    blockquote {
-        font-style: italic;
-        padding-left: 15px;
-        border-left: 4px solid #c33071;
+    section table td {
+        border-top: 1px solid #dee2e6;
     }
 
     #references ol, #furtherReading ul {
@@ -103,17 +123,21 @@ function AbsImg(props: { src: string }) {
     }
 }
 
-
 export function LessonEmailBody(props: { lesson: Lesson }) {
     const { lesson } = props
     const referencesById = _.keyBy(lesson.references, r => r.id)
     const [lessonText, referenceIds] = transformRefs(lesson.text, lesson.id)
     const referencesInText = referenceIds.map(id => referencesById[id]!)
 
+    function ReviewLink() {
+        return <div className="align-center"><a className="btn btn-dawn" href={absurl(`/${lesson.slug}`)}>Review {lesson.name}</a></div>
+    }
+
     const markdownOptions = {
         overrides: {
             a: AbsLink,
-            img: AbsImg
+            img: AbsImg,
+            SectionReview: ReviewLink
         }
     }
 
@@ -121,7 +145,12 @@ export function LessonEmailBody(props: { lesson: Lesson }) {
         <h1>
             {lesson.title}
         </h1>
-        <Markdown options={markdownOptions}>{lessonText}</Markdown>
+        <h3>
+            {lesson.subtitle}
+        </h3>
+        <section>
+            <Markdown options={markdownOptions}>{lessonText}</Markdown>
+        </section>
         {lesson.furtherReading ? <section id="furtherReading">
             <h2>Further Reading</h2>
             <Markdown options={markdownOptions}>{lesson.furtherReading}</Markdown>
@@ -134,9 +163,6 @@ export function LessonEmailBody(props: { lesson: Lesson }) {
             <h2>References</h2>
             <Bibliography references={referencesInText} />
         </section> : undefined}
-        <div className="text-right">
-            <a href={absurl(`/review/${lesson.slug}`)} className="btn btn-dawn">Review {lesson.title.toLowerCase()} <FontAwesomeIcon icon={faArrowRight} /></a>
-        </div>
     </>
 }
 
