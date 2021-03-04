@@ -4,6 +4,7 @@ import { SiteHeader } from "../common/SiteHeader"
 import { content } from '../common/content'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { ContentOverview } from '../common/ContentOverview'
 // @ts-ignore
 import socialMediaLarge from '../public/social-media-large.jpg'
 
@@ -52,6 +53,7 @@ export function FrontPage() {
                     </div>
                 </section>
                 <section className="lessons">
+                    {/* <ContentOverview /> */}
                     <div className="container">
                         <h3>Lessons</h3>
                         <div className="lessonsGrid">
