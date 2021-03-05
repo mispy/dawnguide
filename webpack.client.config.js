@@ -14,6 +14,8 @@ module.exports = (env, argv) => {
         output: {
             filename: isProduction ? '[name].[contenthash].js' : '[name].development.js',
             path: path.resolve(__dirname, 'client/dist/assets'),
+            // https://github.com/shellscape/webpack-manifest-plugin/issues/229
+            publicPath: ""
         },
         resolve: {
             extensions: ['.tsx', '.ts', '.js']
