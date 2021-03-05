@@ -11,7 +11,7 @@ import ReactTimeago from 'react-timeago'
 import classNames from 'classnames'
 import { action } from 'mobx'
 import type { Learny } from '../common/Learny'
-import { expectAuthed } from '../common/ProgressiveEnhancement'
+import { expectAuthed, useProgressiveEnhancement } from '../common/ProgressiveEnhancement'
 import { DateTime } from 'luxon'
 
 function MasteryProgressBar(props: { learny: Learny }) {
@@ -26,17 +26,11 @@ function MasteryProgressBar(props: { learny: Learny }) {
 
     return <Observer>
         {() => <div className={classNames({ MasteryProgressBar: true, disabled: learny.disabled })} onClick={toggleDisabled}>
-            <div className="d-flex">
-                <div>
-                    {learny.masteryLevel === 9 && <FontAwesomeIcon icon={faStar} />} Mastery level {learny.masteryLevel}/9
-                </div>
-            </div>
 
-            <div className={classNames({ outer: true, mastered: learny.mastered })}>
-                <div className="inner" style={{ width: `${learny.masteryPercent}%` }} />
-            </div>
-
-            <div>
+            <div className="leveltext">
+                {learny.masteryLevel === 9 && <>
+                    Review level {learny.masteryLevel}/9 {learny.masteryLevel === 9 && <FontAwesomeIcon icon={faStar} />}
+                </>}
                 {learny.nextReview && learny.nextReview.nextReviewAt <= Date.now() && <span>Review available now</span>}
                 {learny.nextReview && learny.nextReview.nextReviewAt > Date.now() && <span>Reviewing: <ReactTimeago date={learny.nextReview.nextReviewAt} /></span>}
                 {learny.disabled && <span>Reviews disabled</span>}
@@ -53,6 +47,8 @@ const lessonIcons = {
 
 function LessonItem(props: { lesson: Lesson }) {
     const { lesson } = props
+    const { plan } = useProgressiveEnhancement()
+    const learny = plan?.expectLearny(lesson.id)
 
     const publishedDate = DateTime.fromISO(lesson.def.publishedDate!)
     let datestr = ""
@@ -71,10 +67,10 @@ function LessonItem(props: { lesson: Lesson }) {
                 <div className="metadata">
                     <time>{datestr}</time>
                 </div>
+                {learny?.learned && <MasteryProgressBar learny={learny} />}
             </div>
         </ULink>
         {/* <div className="ml-auto">
-            {learned && <MasteryProgressBar learny={learny} />}
         </div> */}
     </li>
 }

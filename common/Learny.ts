@@ -14,6 +14,14 @@ export class LearnyPlan {
         makeObservable(this)
     }
 
+    expectLearny(lessonId: string): Learny {
+        const learny = this.learniesByLessonId[lessonId]
+        if (!learny) {
+            throw Error(`No learny for lesson id ${lessonId}`)
+        }
+        return learny
+    }
+
     @computed get upcomingReviews(): CardToReview[] {
         return _.flatten(this.learnies.map(l => l.upcomingReviews))
     }
@@ -24,6 +32,10 @@ export class LearnyPlan {
 
     @computed get nextLesson() {
         return this.learnies.find(l => !l.learned)?.lesson
+    }
+
+    @computed get learniesByLessonId() {
+        return _.keyBy(this.learnies, l => l.lesson.id)
     }
 }
 

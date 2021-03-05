@@ -817,23 +817,30 @@ span.Logo
 
 .MasteryProgressBar
     display: flex
-    flex-direction: column
+    flex-direction: row
+    align-items: center
     color: #666
     font-size: 0.8rem
     padding-right: 1rem
     cursor: pointer
+    margin-top: 1rem
+    float: right
+
+    .leveltext
+        margin-right: 6px
+        font-size: 0.7rem
 
     .outer, .inner
         border-radius: 10px
 
     .outer
-        width: 250px
-        height: 10px
+        width: 100px
+        height: 5px
         background: rgba(33,36,44,0.08)
 
     .inner
         height: 100%
-        background-color: #9059ff
+        background-color: transparentize(#9059ff, 0.2)
         transition: background-color .3s ease
 
         &.disabled &
