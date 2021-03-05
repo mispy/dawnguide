@@ -8,40 +8,12 @@ import { DebugTools } from "./DebugTools"
 import { IS_PRODUCTION } from "./settings"
 import type { Lesson } from '../common/content'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight, faBookReader, faCheckCircle, faHeart, faPen, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import ReactTimeago from 'react-timeago'
-import classNames from 'classnames'
 import styled from 'styled-components'
-import { action } from 'mobx'
-import type { Learny } from '../common/Learny'
 import { expectAuthed } from '../common/ProgressiveEnhancement'
 import type { CardToReview } from '../common/types'
 import { ContentOverview } from '../common/ContentOverview'
-
-function NextLessonCard(props: { lesson: Lesson | undefined }) {
-    const { lesson } = props
-
-    if (!lesson) {
-        return <div className="NextLessonCard complete">
-            <h4>All lessons complete! ⭐️</h4>
-            <div>
-                <p>When we write a new one, it'll be available here.</p>
-            </div>
-        </div>
-    } else {
-        return <Link to={`/${lesson.slug}`} className="NextLessonCard">
-            <h4>Next Lesson</h4>
-            <div>
-                <div className="summaryLine">
-                    {lesson.summaryLine}
-                </div>
-                <h5>
-                    {lesson.title} <FontAwesomeIcon icon={faArrowRight} />
-                </h5>
-            </div>
-        </Link>
-    }
-}
 
 function NextReviewCard(props: { reviews: CardToReview[] }) {
     const { reviews } = props
@@ -51,8 +23,8 @@ function NextReviewCard(props: { reviews: CardToReview[] }) {
 
     if (!nextReview) {
         // TODO either no learned Lessons, or mastered all Lessons
-        return <div>
-
+        return <div className="NextReviewCard">
+            No upcoming reviews yet. Pick an article to read!
         </div>
     } else if (nextReview.nextReviewAt > now) {
         return <div className="NextReviewCard">
@@ -85,31 +57,14 @@ function NextReviewCard(props: { reviews: CardToReview[] }) {
     }
 }
 
-const Main = styled.main`
-h2 {
-    font-size: 1.7rem;
-}
-
-h2 > div {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    font-size: 1rem;
-    font-weight: normal;
-}
-
-`
-
 export function HomePage() {
     const { authed, plan } = expectAuthed()
 
     return <Observer>{() =>
         <AppLayout>
-            <Main>
+            <main className="HomePage">
                 <Container className="mt-2">
-                    <div className="row mb-4">
-                        <div className="col-md-6 mt-2">
-                            <NextLessonCard lesson={plan.nextLesson} />
-                        </div>
+                    <div className="row mb-4 d-flex justify-content-center">
                         <div className="col-md-6 mt-2">
                             <NextReviewCard reviews={plan.upcomingReviews} />
                         </div>
@@ -121,7 +76,7 @@ export function HomePage() {
                     <ContentOverview />
                     {!IS_PRODUCTION ? <DebugTools /> : undefined}
                 </Container>
-            </Main>
+            </main>
         </AppLayout>}
     </Observer>
 }
