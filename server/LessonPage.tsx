@@ -3,7 +3,7 @@ import { Head } from "./Head"
 import { htmlToPlaintext, resolveAsset } from './utils'
 import type { Lesson } from "../common/content"
 import { SiteHeader } from "../common/SiteHeader"
-import { SiteFooter } from "./SiteFooter"
+import { SiteFooter } from "../common/SiteFooter"
 import Markdown from "markdown-to-jsx"
 import { renderToStaticMarkup } from "react-dom/server"
 import { LessonView } from '../common/LessonView'

@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { Observer } from 'mobx-react-lite'
 import { SiteHeader } from '../common/SiteHeader'
 import { ErrorModal } from './ErrorModal'
-import { AppFooter } from './AppFooter'
+import { SiteFooter } from '../common/SiteFooter'
 import { expectAuthed } from '../common/ProgressiveEnhancement'
 
 export function AppLayout(props: { title?: string, noHeader?: boolean, noFooter?: boolean, children: any }) {
@@ -25,7 +25,7 @@ export function AppLayout(props: { title?: string, noHeader?: boolean, noFooter?
             {!noHeader ? <SiteHeader /> : undefined}
             <div>
                 {props.children}
-                {!noFooter ? <AppFooter /> : undefined}
+                {!noFooter ? <SiteFooter /> : undefined}
             </div>
         </div>
     </div>}</Observer>

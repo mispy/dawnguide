@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Container } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import classNames = require("classnames")
-import { AppFooter } from "./AppFooter"
+import { SiteFooter } from "../common/SiteFooter"
 import { useEffect, useContext, useRef } from "react"
 import { expectAuthed } from "../common/ProgressiveEnhancement"
 
@@ -32,7 +32,7 @@ export function SettingsLayout(props: { active?: 'account' | 'notifications' | '
 
                 {props.children}
             </Container>
-            <AppFooter />
+            <SiteFooter />
         </main>
     </AppLayout>
 }

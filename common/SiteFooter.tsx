@@ -1,7 +1,8 @@
 import * as React from 'react'
+import { ULink } from './ULink'
 
-export function AppFooter() {
-    return <footer className="AppFooter">
+export function SiteFooter() {
+    return <footer className="SiteFooter">
         <div className="container">
             <ul>
                 <li>
@@ -11,7 +12,7 @@ export function AppFooter() {
                     <a href="https://twitter.com/mispy11">Twitter</a>
                 </li>
                 <li>
-                    <a href="/contact">Contact</a>
+                    <ULink href="/contact">Contact</ULink>
                 </li>
             </ul>
         </div>

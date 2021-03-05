@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Container, Row } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import classNames = require("classnames")
-import { AppFooter } from "./AppFooter"
+import { SiteFooter } from "../common/SiteFooter"
 
 export function AdminLayout(props: { active?: 'users' | 'emails', children?: any }) {
     return <AppLayout title="Admin" noFooter>
@@ -23,7 +23,7 @@ export function AdminLayout(props: { active?: 'users' | 'emails', children?: any
                 </ul>
             </Container>
             {props.children}
-            <AppFooter />
+            <SiteFooter />
         </main>
     </AppLayout>
 }

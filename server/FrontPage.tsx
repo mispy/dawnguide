@@ -4,6 +4,7 @@ import { SiteHeader } from "../common/SiteHeader"
 import { ContentOverview } from '../common/ContentOverview'
 // @ts-ignore
 import socialMediaLarge from '../public/social-media-large.jpg'
+import { SiteFooter } from '../common/SiteFooter'
 
 export function FrontPage() {
     const pageDesc = "Dawnguide collects key research findings that help maintain good mental health. Memorize them forever using our spaced learning system."
@@ -42,22 +43,8 @@ export function FrontPage() {
                 </section>
                 <section className="lessons">
                     <ContentOverview />
-                    {/* <div className="container">
-                        <h3>Lessons</h3>
-                        <div className="lessonsGrid">
-                            {lessons.map(lesson => <a className="lesson" key={lesson.id} href={`/${lesson.slug}`}>
-                                <div>
-                                    <div className="summaryLine">
-                                        {lesson.summaryLine}
-                                    </div>
-                                    <h5>
-                                        {lesson.title} <FontAwesomeIcon icon={faArrowRight} />
-                                    </h5>
-                                </div>
-                            </a>)}
-                        </div>
-                    </div> */}
                 </section>
+                <SiteFooter />
             </main>
         </body>
     </html >
