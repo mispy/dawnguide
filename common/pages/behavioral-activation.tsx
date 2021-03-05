@@ -9,6 +9,7 @@ export default defineLesson({
     id: 'behavioral-activation',
     slug: 'behavioral-activation',
     title: "Behavioral activation",
+    featuredImg: baCycle,
     publishedDate: "2020-04-24",
     summaryLine: "Scheduling meaningful activities in defiance of avoidant feelings helps to defeat depression",
     text: md`

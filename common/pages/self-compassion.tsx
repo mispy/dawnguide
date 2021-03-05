@@ -1,4 +1,6 @@
 import { defineLesson, md } from '../lesson'
+// @ts-ignore
+import featured from './img/self-compassion.jpg'
 
 export default defineLesson({
     type: 'reading',
@@ -6,6 +8,7 @@ export default defineLesson({
     slug: 'self-compassion',
     title: 'Self-compassion',
     publishedDate: "2020-05-21",
+    featuredImg: featured,
     summaryLine: "People who treat themselves with caring patience are more resilient and kinder to others as well",
     // subtitle: "Caring for yourself the way you care for friends",s
     text: md`
@@ -176,7 +179,7 @@ A sense of _common humanity_ is key to self-compassion. You are not alone in you
         pages={778--792},
         year={2017},
         publisher={Elsevier},
-        pdf={https://charterforcompassion.com.au/wp-content/uploads/2019/12/Kirby-Tellegen-Steindl-2017-meta-analysis.pdf}
+        pdf={https://espace.library.uq.edu.au/view/UQ:693247/UQ693247_OA.pdf}
       }
 `
 })

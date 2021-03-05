@@ -64,6 +64,7 @@ type BaseLessonDef = {
     id: string
     slug: string
     title: string
+    featuredImg?: string
     publishedDate?: string // If undefined, it's still a draft
     name?: string
     subtitle?: string

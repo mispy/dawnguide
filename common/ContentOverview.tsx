@@ -6,7 +6,7 @@ import { ULink } from "../common/ULink"
 import type { Lesson } from '../common/content'
 import { content } from '../common/content'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight, faBookReader, faCheckCircle, faHeart, faPen, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faBookReader, faHeart, faPen, faStar } from '@fortawesome/free-solid-svg-icons'
 import ReactTimeago from 'react-timeago'
 import classNames from 'classnames'
 import { action } from 'mobx'
@@ -54,26 +54,24 @@ const lessonIcons = {
 function LessonItem(props: { lesson: Lesson }) {
     const { lesson } = props
 
-    const publishedDate = DateTime.fromISO("2020-01-01")
+    const publishedDate = DateTime.fromISO(lesson.def.publishedDate!)
     let datestr = ""
-    if (publishedDate.diffNow('years').as('years') >= 1) {
-        datestr = publishedDate.toFormat("LLL dd, YYYY")
+    if (publishedDate.year < DateTime.now().year) {
+        datestr = publishedDate.toFormat("LLL dd, yyyy")
     } else {
         datestr = publishedDate.toFormat("LLL dd")
     }
 
-
     return <li key={lesson.id} className={classNames({ lessonItem: true })}>
         <ULink href={`/${lesson.slug}`}>
-            <div className="marker">
-                <FontAwesomeIcon className="lessonType" icon={lessonIcons[lesson.type]} />
-            </div>
+            <img src={lesson.featuredImg} />
             <div>
                 <div className="title">{lesson.title}</div>
                 <div className="subtitle">{lesson.summaryLine}</div>
-                <time>{datestr}</time>
+                <div className="metadata">
+                    <time>{datestr}</time>
+                </div>
             </div>
-
         </ULink>
         {/* <div className="ml-auto">
             {learned && <MasteryProgressBar learny={learny} />}
@@ -82,7 +80,7 @@ function LessonItem(props: { lesson: Lesson }) {
 }
 
 export function ContentOverview() {
-    const lessons = content.lessons
+    const lessons = _.sortBy(content.lessons, l => -l.publishedDate)
 
     return <Observer>{() =>
         <div className="ContentOverview">

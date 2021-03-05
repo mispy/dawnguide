@@ -1,4 +1,6 @@
 import { defineLesson, md } from '../lesson'
+// @ts-ignore
+import featured from './img/mental-contrasting.jpg'
 
 export default defineLesson({
     type: 'reading',
@@ -6,6 +8,7 @@ export default defineLesson({
     slug: 'mental-contrasting',
     title: 'Mental contrasting',
     publishedDate: "2020-06-29",
+    featuredImg: featured,
     summaryLine: "People are more motivated when they consider a desired future in contrast with obstacles in the present",
     text: md`
 When people are not fully occupied in the present, their thoughts often drift towards life and the future. Moments of reflection help us to reconsider strategies and how committed we are to our goals. **Mental contrasting** is a particularly effective structure for reflective thoughts[@oettingen2013mind], following these steps:

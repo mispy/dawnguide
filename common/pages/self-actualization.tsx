@@ -1,10 +1,13 @@
 import { defineLesson, md } from '../lesson'
+// @ts-ignore
+import featured from './img/self-actualization.png'
 
 export default defineLesson({
     type: 'reading',
     id: 'self-actualization',
     slug: 'self-actualization',
     title: 'Self-actualization',
+    featuredImg: featured,
     publishedDate: "2020-06-13",
     summaryLine: "Humans have universal needs for things like safety, love, and autonomy",
     author: "Reece Matthews and Mispy Evenfeld",

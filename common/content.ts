@@ -7,6 +7,7 @@ import _ from 'lodash'
 
 // @ts-ignore
 import * as bibTexParse from 'bibtex-parser-js'
+import { DateTime } from 'luxon'
 
 declare const window: any
 
@@ -28,8 +29,8 @@ class ContentIndex {
         }
     }
 
-    @computed get lessons() {
-        return this.lessonsWithDrafts.filter(l => !!l.def.publishedDate)
+    @computed get lessons(): PublishedLesson[] {
+        return this.lessonsWithDrafts.filter(l => !!l.def.publishedDate) as PublishedLesson[]
     }
 
     @computed get lessonById() {
@@ -179,6 +180,14 @@ export class BaseLesson<T extends LessonDef> {
         return this.def.author || "Mispy Evenfeld"
     }
 
+    @computed get featuredImg(): string {
+        return this.def.featuredImg || "foo.jpg"
+    }
+
+    @computed get publishedDate(): DateTime | undefined {
+        return this.def.publishedDate ? DateTime.fromISO(this.def.publishedDate) : undefined
+    }
+
     @computed get furtherReading(): MarkdownString | undefined {
         return this.def.furtherReading
     }
@@ -191,8 +200,8 @@ export class BaseLesson<T extends LessonDef> {
         return this.def.bibliography ? parseBibliography(this.def.bibliography) : []
     }
 
-    @computed get nextLesson(): Lesson | undefined {
-        const index = content.lessons.indexOf(this as any as Lesson)
+    @computed get nextLesson(): PublishedLesson | undefined {
+        const index = content.lessons.indexOf(this as any as PublishedLesson)
         return content.lessons[index + 1]
     }
 
@@ -233,5 +242,7 @@ export class MeditationLesson extends BaseLesson<MeditationLessonDef> {
 }
 
 export type Lesson = ReadingLesson | MeditationLesson
+
+export type PublishedLesson = Lesson & { publishedDate: DateTime }
 
 export const content = new ContentIndex()
