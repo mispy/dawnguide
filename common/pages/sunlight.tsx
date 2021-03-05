@@ -6,7 +6,6 @@ export default defineLesson({
     slug: 'sunlight',
     title: 'Sunlight',
     summaryLine: "",
-    draft: true,
     text: md`
 The sun's vast gravitational fusion reactor is the upstream source of metabolic energy for [almost](https://en.wikipedia.org/wiki/Chemotroph) all life on the planet. Not being photosynthetic ourselves, humans access this energy through the intermediary of the plant life that we eat (and other plant-eating organisms we eat in turn).
 

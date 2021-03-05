@@ -500,7 +500,7 @@ span.Logo
         left: 0
         width: 100%
         height: 100%
-        background-color: rgba(0,0,0,0.35)
+        background-color: rgba(0,0,0,0.5)
 
     .jumbotron > .container
         max-width: 1024px
@@ -508,7 +508,7 @@ span.Logo
         height: 100%
 
     .masthead h1
-        margin-top: 50px
+        margin-top: 10px
         font-size: 3.3rem
         margin-bottom: 2rem
 
@@ -728,14 +728,8 @@ span.Logo
         align-items: center
 
 .ContentOverview
-    h2
-        font-size: 1.7rem
-
-    h2 > div
-        margin-top: 1rem
-        margin-bottom: 1rem
-        font-size: 1rem
-        font-weight: normal
+    .container
+        max-width: 728px
 
     ul
         padding: 0
@@ -744,29 +738,63 @@ span.Logo
         position: relative
         list-style-type: none
         display: flex
-        border-top: 1px solid #ccc
         align-items: center
+        padding: 16px 0 10px
+
+    li img
+        width: 168px
+        height: 121px
+        margin-right: 28px
+        object-fit: cover
+        flex-shrink: 0
+
+    li:hover
+        background-color: lighten($secondary-color, 5%)
 
     li > a
         padding: 1rem
         display: flex
         align-items: center
+        color: inherit
 
     li > a:hover
         text-decoration: none
 
+    li .title
+        display: block
+        font-family: 'SF Compact Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'
+        font-weight: bold
+        color: $base-color
+        font-size: 18px
+        line-height: 1.1em
+        text-decoration: none
+
+    li .subtitle
+        display: block
+        margin-top: 6px
+        color: #757575
+        font-size: 16px
+        line-height: 1.47em
+        text-decoration: none
+
+    li .metadata
+        color: #757575
+        padding: 7px 12px 7px 0
+        height: 20px
+        font-size: 14px
+        font-weight: 300
+        line-height: 20px
+
     li .marker
-        width: 1.8rem
-        height: 1.8rem
+        min-width: 100px
+        height: 100px
         border: 1px solid rgba(33,36,44,0.50)
         margin-right: 0.75rem
         position: relative
         background: white
-        border-radius: 10%
         display: flex
         align-items: center
         justify-content: center
-        padding: 0.5rem
         z-index: 2
 
         .lessonType
@@ -783,13 +811,9 @@ span.Logo
         border-bottom: 5px solid #008656
         border-radius: 10%
 
-    @media (max-width: 550px)
-        li > a
-            max-width: 50%
-            padding: 1rem 0.5rem
-
-        li .intermarker
-            left: calc(0.5rem + 0.9rem)
+    @media (max-width: $mobile)
+        li img
+            display: none
 
 .MasteryProgressBar
     display: flex
