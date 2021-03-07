@@ -7,7 +7,7 @@
         "allowJs": false,
         "outDir": "./dist/",
         "sourceMap": true,
-        "module": "commonjs",
+        "module": "es6",
         "moduleResolution": "node",
         "jsx": "react",
         "experimentalDecorators": true,

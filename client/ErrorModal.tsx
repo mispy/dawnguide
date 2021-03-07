@@ -3,7 +3,7 @@ import type { AxiosError } from 'axios'
 import * as _ from 'lodash'
 import { Modal, Button } from 'react-bootstrap'
 import { action } from 'mobx'
-import React = require('react')
+import * as React from 'react'
 import { useProgressiveEnhancement } from '../common/ProgressiveEnhancement'
 
 export function ErrorModal(props: { error: Error | AxiosError }) {

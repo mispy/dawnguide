@@ -2,7 +2,7 @@ import { AppLayout } from "./AppLayout"
 import * as React from 'react'
 import { Container, Row } from "react-bootstrap"
 import { Link } from "react-router-dom"
-import classNames = require("classnames")
+import classNames from "classnames"
 import { SiteFooter } from "../common/SiteFooter"
 
 export function AdminLayout(props: { active?: 'users' | 'emails', children?: any }) {

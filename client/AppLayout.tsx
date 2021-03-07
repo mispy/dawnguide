@@ -1,4 +1,4 @@
-import React = require('react')
+import * as React from 'react'
 import { useEffect } from 'react'
 import { Observer } from 'mobx-react-lite'
 import { SiteHeader } from '../common/SiteHeader'

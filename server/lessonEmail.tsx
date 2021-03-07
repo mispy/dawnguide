@@ -1,7 +1,6 @@
 import * as React from 'react'
 import type { Lesson } from "../common/content"
 import Markdown from "markdown-to-jsx"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { renderToStaticMarkup } from "react-dom/server"
 import type { MarkdownString, UserInfo } from '../common/types'
 import _ from 'lodash'

@@ -1,4 +1,4 @@
-import db = require('../server/db')
+import * as db from '../server/db'
 import { JsonResponse } from '../server/utils'
 
 declare const process: any

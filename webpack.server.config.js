@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const fs = require('fs')
 const uuid = require('uuid').v4
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 function maybeReadFile(path) {
     try {
@@ -34,7 +35,8 @@ module.exports = (env, argv) => {
                 WEBPACK_MANIFEST: maybeReadFile(path.resolve(__dirname, 'client/dist/assets/manifest.json')),
                 BUILD_ID: uuid(),
                 CFSCRIPT_HASH: null // To be used by once-off scripts identifying themselves
-            })
+            }),
+            // new BundleAnalyzerPlugin()
         ],
         module: {
             rules: [

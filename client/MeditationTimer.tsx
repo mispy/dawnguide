@@ -2,7 +2,7 @@ import { faUndo, faPause, faPlay } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import _ from "lodash"
 import { observable, action, computed, makeObservable } from "mobx"
-import { Observer, useLocalObservable, useObserver } from "mobx-react-lite"
+import { Observer, useLocalObservable } from "mobx-react-lite"
 import React from "react"
 import styled from 'styled-components'
 

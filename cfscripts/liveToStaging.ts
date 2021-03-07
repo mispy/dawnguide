@@ -1,4 +1,4 @@
-import db = require('../server/db')
+import * as db from '../server/db'
 import { runScript, StreamingTextResponse } from '../server/utils'
 
 declare const global: any
