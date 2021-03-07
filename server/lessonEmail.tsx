@@ -38,6 +38,7 @@ export function lessonEmailHtml(loginToken: string, lesson: Lesson) {
 
     sup {
         font-size: 12px;
+        line-height: 0;
     }
 
     img {
