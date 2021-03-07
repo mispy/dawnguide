@@ -7,10 +7,10 @@ import socialMediaLarge from '../public/social-media-large.jpg'
 import { SiteFooter } from '../common/SiteFooter'
 
 export function FrontPage() {
-    const pageDesc = "Dawnguide collects key research findings that help maintain good mental health. Memorize them forever using our spaced learning system."
+    const pageDesc = "A mnemonic publication about human minds. Dawnguide aims to help people internalize good mental health habits and self-knowledge using the cognitive spacing effect."
 
     return <html lang="en">
-        <Head pageTitle="Dawnguide: Learn the science of human happiness" pageDesc={pageDesc} canonicalUrl="/" imageUrl={socialMediaLarge} />
+        <Head pageTitle="Dawnguide" pageDesc={pageDesc} canonicalUrl="/" imageUrl={socialMediaLarge} />
         <body>
             <SiteHeader />
             <main className="FrontPage">
