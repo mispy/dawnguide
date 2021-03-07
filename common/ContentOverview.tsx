@@ -48,7 +48,6 @@ const lessonIcons = {
 function LessonItem(props: { lesson: Lesson }) {
     const { lesson } = props
     const { plan } = useProgressiveEnhancement()
-    const learny = plan?.expectLearny(lesson.id)
 
     const publishedDate = DateTime.fromISO(lesson.def.publishedDate!)
     let datestr = ""
@@ -58,21 +57,25 @@ function LessonItem(props: { lesson: Lesson }) {
         datestr = publishedDate.toFormat("LLL dd")
     }
 
-    return <li key={lesson.id} className={classNames({ lessonItem: true })}>
-        <ULink href={`/${lesson.slug}`}>
-            <img src={lesson.featuredImg} />
-            <div>
-                <div className="title">{lesson.title}</div>
-                <div className="subtitle">{lesson.summaryLine}</div>
-                <div className="metadata">
-                    <time>{datestr}</time>
+    return <Observer>{() => {
+        const learny = plan?.expectLearny(lesson.id)
+
+        return <li key={lesson.id} className={classNames({ lessonItem: true })}>
+            <ULink href={`/${lesson.slug}`}>
+                <img src={lesson.featuredImg} />
+                <div>
+                    <div className="title">{lesson.title}</div>
+                    <div className="subtitle">{lesson.summaryLine}</div>
+                    <div className="metadata">
+                        <time>{datestr}</time>
+                    </div>
+                    {learny?.learned && <MasteryProgressBar learny={learny} />}
                 </div>
-                {learny?.learned && <MasteryProgressBar learny={learny} />}
-            </div>
-        </ULink>
-        {/* <div className="ml-auto">
-        </div> */}
-    </li>
+            </ULink>
+            {/* <div className="ml-auto">
+            </div> */}
+        </li>
+    }}</Observer>
 }
 
 export function ContentOverview() {
@@ -82,7 +85,7 @@ export function ContentOverview() {
         <div className="ContentOverview">
             <Container className="mt-2">
                 <ul>
-                    {lessons.filter(l => l.type === "reading").map(lesson => <LessonItem lesson={lesson} />)}
+                    {lessons.filter(l => l.type === "reading").map(lesson => <LessonItem key={lesson.id} lesson={lesson} />)}
                 </ul>
             </Container>
         </div>

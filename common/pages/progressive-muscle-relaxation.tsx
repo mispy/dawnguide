@@ -7,9 +7,9 @@ export default defineLesson({
     id: 'progressive-muscle-relaxation',
     slug: 'progressive-muscle-relaxation',
     title: 'Progressive muscle relaxation',
-    subtitle: "A stress-reduction exercise where you tense and release muscles in sequence",
-    summaryLine: "A stress-reduction exercise where you tense and release muscles in sequence",
-    // publishedDate: "2021-03-05",
+    subtitle: "Practicing to tense and relax muscles in sequence can help with anxiety and insomnia",
+    summaryLine: "Practicing to tense and relax muscles in sequence can help with anxiety and insomnia",
+    publishedDate: "2021-03-08",
     featuredImg: featured,
     text: md`
 Progressive muscle relaxation is a stress-reduction exercise in which you slowly tense and relax muscle groups in sequence. It is an evidence-supported treatment for anxiety[@manzoni2008relaxation] and insomnia[@taylor2010treatment], as well as psychosomatic aspects of various medical conditions.[@hoyle1993efficacy] PMR has the nice property of being easy to learn and use in an immediate way, like when you're trying to sleep, and I find it has a nice sense of "concreteness" to it due to the physical component. 

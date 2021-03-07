@@ -9,6 +9,7 @@ export default defineLesson({
     title: 'Cognitive restructuring',
     publishedDate: "2020-05-31",
     featuredImg: cognitiveTriangle,
+    subtitle: "Thoughts influence emotions, so you can change how you feel by changing how you think",
     summaryLine: "Thoughts influence emotions, so you can change how you feel by changing how you think",
     text: md`
 As a human, you've probably noticed that your ability to directly control your feelings is limited. When something happens, you can't just _decide_ to be happy, sad, calm, or angry about it: some part of your brain has already decided how it feels and tells your conscious mind about it after the fact. 

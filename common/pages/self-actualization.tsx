@@ -9,6 +9,7 @@ export default defineLesson({
     title: 'Self-actualization',
     featuredImg: featured,
     publishedDate: "2020-06-13",
+    subtitle: "Humans have universal needs for things like safety, love, and autonomy",
     summaryLine: "Humans have universal needs for things like safety, love, and autonomy",
     author: "Reece Matthews and Mispy Evenfeld",
     text: md`

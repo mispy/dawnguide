@@ -9,6 +9,7 @@ export default defineLesson({
     title: 'Implementation intentions',
     publishedDate: "2020-06-21",
     featuredImg: featured,
+    subtitle: "Associating specific cues with a behavioral response is an effective way to build habits",
     summaryLine: "Associating specific cues with a behavioral response is an effective way to build habits",
     text: md`
 Creating **implementation intentions** is a way of turning vague goals into concrete changes in your behavior. By associating a specific experiential cue with an action you will do in response, you can start a new routine or modify an existing one. Some examples:

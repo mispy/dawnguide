@@ -9,6 +9,7 @@ export default defineLesson({
     title: 'Proximal subgoals',
     publishedDate: "2020-06-05",
     featuredImg: featured,
+    subtitle: "Setting and achieving small goals increases motivation to tackle a larger task",
     summaryLine: "Setting and achieving small goals increases motivation to tackle a larger task",
     text: md`
 You may have heard it said that it helps to break big tasks into small steps. This is good advice, but we want to know more: why is this helpful, and how can we do it most effectively?

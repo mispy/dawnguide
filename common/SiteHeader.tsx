@@ -13,7 +13,7 @@ import type { SRSProgress } from './SRSProgress'
 function LessonsDropdown() {
     return <li className="nav-item LessonsDropdown">
         <input id="lessonsDropdownToggle" type="checkbox" />
-        <label className="nav-link" htmlFor="lessonsDropdownToggle">Lessons <FontAwesomeIcon icon={faAngleDown} /></label>
+        <label className="nav-link" htmlFor="lessonsDropdownToggle">Articles <FontAwesomeIcon icon={faAngleDown} /></label>
         <ul>
             {content.lessons.map(lesson => <li key={lesson.id}>
                 <ULink href={`/${lesson.slug}`}>{lesson.title}</ULink>
@@ -87,4 +87,4 @@ export function SiteHeader() {
             </Navbar>
         </header>
     }}</Observer>
-}   
+}

@@ -30,7 +30,8 @@ class ContentIndex {
     }
 
     @computed get lessons(): PublishedLesson[] {
-        return this.lessonsWithDrafts.filter(l => !!l.def.publishedDate) as PublishedLesson[]
+        const publishedLessons = this.lessonsWithDrafts.filter(l => !!l.def.publishedDate) as PublishedLesson[]
+        return _.sortBy(publishedLessons, l => -l.publishedDate)
     }
 
     @computed get lessonById() {

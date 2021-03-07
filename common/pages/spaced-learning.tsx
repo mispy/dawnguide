@@ -6,9 +6,10 @@ export default defineLesson({
     type: 'reading',
     id: 'spaced-learning',
     slug: 'spaced-learning',
-    title: "Spacing effect",
+    title: "Spaced learning",
     publishedDate: "2020-03-24",
     featuredImg: featured,
+    subtitle: "Spacing study sessions out over a longer time period leads to better long-term recall",
     summaryLine: "Spacing study sessions out over a longer time period leads to better long-term recall",
     text: md`
 Spaced learning is a way of committing ideas to memory by reviewing them in short sessions over a longer time period. Understanding spaced learning will help you understand how Dawnguide works, and it's also a general technique that you can use yourself to learn any kind of material.

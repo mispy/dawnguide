@@ -42,10 +42,13 @@ export function ReadingLessonView(props: { lesson: Lesson }) {
 
     return <Observer>{() => {
         return <Container>
-            <div className={classNames("LessonView", "Passage", lesson.subtitle && 'hasSubtitle')}>
-                <h1>
+            <div className={classNames("LessonView")}>
+                <h1 className="title">
                     {lesson.title} {lesson.draft && <span className="draft-marker">Draft</span>}
                 </h1>
+                <h3 className="subtitle">
+                    {lesson.subtitle}
+                </h3>
                 <Markdown overrides={{ SectionReview: SectionReviewMarkdown }}>{lessonText}</Markdown>
                 {'steps' in lesson.def ? <section id="steps">
                     <Markdown>{lesson.def.steps}</Markdown>

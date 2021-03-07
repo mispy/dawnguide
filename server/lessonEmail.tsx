@@ -15,7 +15,8 @@ export async function sendLessonEmail(user: UserInfo, lesson: Lesson) {
     const loginToken = await db.emailConfirmTokens.create(user.id, user.email)
     return sendMail({
         to: user.email,
-        subject: lesson.title + ": " + lesson.summaryLine,
+        from: "Dawnguide <articles@dawnguide.com>",
+        subject: lesson.title,
         html: lessonEmailHtml(loginToken, lesson)
     })
 }
@@ -142,6 +143,10 @@ export function LessonEmailBody(props: { lesson: Lesson }) {
     }
 
     return <>
+        <div style={{ display: "none" }}>
+            {/* What's this super weird thing? It's a hack to make gmail show the subtitle as the content preview. */}
+            {lesson.subtitle} {_.range(80).map(() => <>&#8204;&#160;</>)}
+        </div>
         <h1>
             {lesson.title}
         </h1>
