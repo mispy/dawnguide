@@ -66,9 +66,9 @@ function LessonItem(props: { lesson: Lesson }) {
                 <div>
                     <div className="title">{lesson.title}</div>
                     <div className="subtitle">{lesson.summaryLine}</div>
-                    <div className="metadata">
+                    {/* <div className="metadata">
                         <time>{datestr}</time>
-                    </div>
+                    </div> */}
                     {learny?.learned && <MasteryProgressBar learny={learny} />}
                 </div>
             </ULink>
