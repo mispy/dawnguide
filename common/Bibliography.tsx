@@ -1,4 +1,6 @@
+import _ from 'lodash'
 import * as React from 'react'
+import ReactDOMServer from 'react-dom/server'
 
 import type { Reference, MarkdownString } from "./types"
 
@@ -28,6 +30,22 @@ export function transformRefsMultipart(parts: MarkdownString[]): [MarkdownString
         return `<a href="#${id}"><sup>[${index + 1}]</sup></a>`
     }))
     return [transformed, referenceIds]
+}
+
+export function expandRefsInline(markdown: MarkdownString, references: Reference[]): MarkdownString {
+    const refsById = _.keyBy(references, r => r.id)
+
+    const content = markdown.replace(/\[@([^\]]+)\]/g, (substr, id: string) => {
+        id = id.toLowerCase()
+        const ref = refsById[id]
+        if (ref) {
+            return ReactDOMServer.renderToStaticMarkup(<BibliographyReference reference={ref} />)
+        } else {
+            return substr
+        }
+    })
+
+    return content
 }
 
 export function BibliographyReference(props: { reference: Reference }) {
@@ -65,13 +83,11 @@ export function BibliographyReference(props: { reference: Reference }) {
     }
 
 
-    return <li id={ref.id}>
-        {format}
-    </li>
+    return format
 }
 
 export function Bibliography(props: { references: Reference[] }) {
     return <ol>
-        {props.references.map(ref => <BibliographyReference key={ref.id} reference={ref} />)}
+        {props.references.map(ref => <li id={ref.id} key={ref.id}><BibliographyReference reference={ref} /></li>)}
     </ol>
 }

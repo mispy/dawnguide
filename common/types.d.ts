@@ -44,6 +44,7 @@ export type FillblankExerciseDef = {
     possibleAnswers: string[]
     successFeedback?: string
     reviseFeedback?: string
+    source?: string
 }
 
 export type ExerciseDef = FillblankExerciseDef

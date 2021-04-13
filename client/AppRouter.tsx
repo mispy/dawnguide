@@ -17,6 +17,7 @@ import { ContactPage } from './ContactPage'
 import ScrollToTop from './ScrollToTop'
 import { content } from '../common/content'
 import { SubscriptionPage } from './SubscriptionPage'
+import { MemoriesPage } from './MemoriesPage'
 
 export function AppRouter() {
     return <Router>
@@ -48,6 +49,9 @@ export function AppRouter() {
             </Route>
             <Route path="/contact">
                 <ContactPage />
+            </Route>
+            <Route path="/memories">
+                <MemoriesPage />
             </Route>
             {content.lessonsWithDrafts.map(lesson =>
                 <Route key={lesson.id} path={`/${lesson.slug}`}>

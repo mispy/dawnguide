@@ -37,13 +37,17 @@ You don't need any software to take advantage of the spacing effect, but there a
         },
         {
             type: 'fillblank',
-            question: "Spaced learning involves ____ material in multiple short sessions over a longer period",
+            question: "Spaced learning across multiple sessions is much ____ effective than doing it all at once",
             possibleAnswers: [
-                'reviewing',
-                'revising'
+                'more'
             ],
             successFeedback: "That's right. The interval between the revisions is gradually increased as you go.",
-            reviseFeedback: "We want to be _reviewing_ material. That's what we're doing right now!"
+            reviseFeedback: "We want to be _reviewing_ material. That's what we're doing right now!",
+            source: md`
+"More than 100 years of distributed practice research have demonstrated that learning is powerfully affected by the temporal distribution of study time. More specifically, spaced (vs. massed) learning of items consistently shows benefits, regardless of retention interval, and learning benefits increase with increased time lags between learning presentations."
+
+[@cepeda2006distributed]
+`
         },
         {
             type: 'fillblank',
