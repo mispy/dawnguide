@@ -178,7 +178,7 @@ export class BaseLesson<T extends LessonDef> {
     }
 
     @computed get author(): string {
-        return this.def.author || "Mispy"
+        return this.def.author || "Jaiden Mica"
     }
 
     @computed get featuredImg(): string {

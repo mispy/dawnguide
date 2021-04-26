@@ -8,6 +8,14 @@ import sungraph from './img/sungraph.png'
 // While our metabolic relationship is indirect, we also directly rely on the sun for light and warmth, especially in our evolutionary past when we could not easily generate these things with electricity. So it is not too surprising that human minds have a complex relationship with sunlight.
 
 
+/*
+
+Need to reconcile Tim Brennen article
+
+
+
+*/
+
 export default defineLesson({
     type: 'reading',
     id: 'sunlight',
@@ -18,9 +26,10 @@ export default defineLesson({
     text: md`
 Like many people in covid times, I didn't go outside much over the last year. Being a reclusive programmer type with social anxiety, I didn't really get out that much to begin with, and I also sleep quite inconsistently (sometimes going completely nocturnal). So I don't see a whole lot of sunlight! I thought that if I learn some science about the sun and psychology, I'll feel more excited to develop good habits there.
 
-"Umm Mispy," you might ask, "are you sure it's sunlight in particular you're missing, given that going outside usually involves physical activity and social interaction too?" Well, true, those things are also really important. But I think the sun is particularly neat to learn about. It's an ancient fusion reactor that is the upstream source for almost all metabolic energy in the biosphere. So I want to be better friends with it.
+"Umm Jaiden," you might ask, "are you sure it's sunlight in particular you're missing, given that going outside usually involves physical activity and social interaction too?" 
 
-Sunlight and mood are particularly studied in the context of [seasonal affective disorder](https://en.wikipedia.org/wiki/Seasonal_affective_disorder), which is when people get depressed at certain times of the year (usually but not always winter). SAD affects people primarily at latitudes where there is significant seasonal variation in sunlight, and days become much shorter in the winter.
+Sunlight and mood are particularly studied in the context of [seasonal affective disorder](https://en.wikipedia.org/wiki/Seasonal_affective_disorder), which is when people supposedly get depressed at certain times of the year (usually but not always winter). However, it's [unclear whether SAD is actually a real pattern](https://psyche.co/ideas/what-happens-to-our-cognition-in-the-darkest-depths-of-winter). 
+
 
 <figure class="wide">
     <img src="${sungraph}" alt="Visualization comparing sunlight hours in Copenhagen and Perth"/>
