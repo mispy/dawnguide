@@ -65,21 +65,19 @@ export function BibliographyReference(props: { reference: Reference }) {
 
     const authorStr = authorParts.length === 1 ? authorParts[0] : [authorParts.slice(0, -1).join(", "), authorParts.slice(-1)].join(" & ")
 
-    // Only link the title through if it's an open-access paper
-    const titleMaybeLink = ref.open || ref.url ? <a className="text-link" href={ref.open || ref.url} target="_blank" rel="noopener">{ref.title}</a> : ref.title
 
-    // Otherwise we append method of access to the end of the reference
-    const links = <>
-        {ref.pdf && <a className="text-link" href={ref.pdf} target="_blank" rel="noopener">[pdf]</a>}
-        {ref.scihub && <a className="text-link" href={ref.scihub} target="_blank" rel="noopener">[scihub]</a>}
-        {ref.libgen && <a className="text-link" href={ref.libgen} target="_blank" rel="noopener">[libgen]</a>}
-    </>
+    // Only grant page rank to open access papers
+    const openurl = ref.url || ref.open
+    const rel = openurl ? 'noopener' : 'nofollow'
+    const url = openurl || ref.pdf || ref.scihub || ref.libgen
+
+    const titleMaybeLink = url ? <a className="text-link" href={url} target="_blank" rel={rel}>{ref.title}</a> : ref.title
 
     let format = <></>
     if (ref.volume && ref.issue && ref.page) {
-        format = <>{authorStr} ({ref.year}). {titleMaybeLink} <em>{ref.journal}</em>, <em>{ref.volume}</em>({ref.issue}), {ref.page.replace("--", "—")}. {links}</>
+        format = <>{authorStr} ({ref.year}). {titleMaybeLink} <em>{ref.journal}</em>, <em>{ref.volume}</em>({ref.issue}), {ref.page.replace("--", "—")}.</>
     } else {
-        format = <>{authorStr} ({ref.year}). {titleMaybeLink} <em>{ref.journal || ref.publisher}</em>. {links}</>
+        format = <>{authorStr} ({ref.year}). {titleMaybeLink} <em>{ref.journal || ref.publisher}</em>.</>
     }
 
 
