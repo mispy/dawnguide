@@ -17,7 +17,7 @@ async function main(res: StreamingTextResponse) {
             const loginToken = await db.emailConfirmTokens.create(user.id, user.email)
             const resp = await sendMail({
                 to: user.email,
-                from: "Mispy Evenfeld <mispy@dawnguide.com>",
+                from: "Jaiden Mispy <mispy@dawnguide.com>",
                 subject: "(Draft) Progressive muscle relaxation",
                 html: emailHtmlTemplate(loginToken, html, css)
             })

@@ -5,6 +5,7 @@
         "server-webpack": "webpack -w --config webpack.server.config.js",
         "server-cloudworker": "nodemon --watch server/devdist/worker.js --exec cloudworker --debug --kv-file STORE=store.json server/devdist/worker.js",
         "server": "npm-run-all --parallel server-webpack server-cloudworker",
+	"dev": "npm-run-all --parallel server-webpack server-cloudworker client",
         "build-client": "rm -rf client/dist/* && webpack --mode production --config webpack.client.config.js",
         "build-server": "rm -rf server/dist/* && webpack --mode production --config webpack.server.config.js && cp server/dist/assets/* client/dist/assets/",
         "build": "npm-run-all build-client build-server",

@@ -9,7 +9,7 @@ export function SiteFooter() {
                     <a href="https://github.com/mispy/dawnguide">GitHub</a>
                 </li>
                 <li>
-                    <a href="https://twitter.com/mispy11">Twitter</a>
+                    <a href="https://twitter.com/m1spy">Twitter</a>
                 </li>
                 <li>
                     <ULink href="/contact">Contact</ULink>

@@ -11,7 +11,7 @@ export default defineLesson({
     publishedDate: "2020-06-13",
     subtitle: "Humans have universal needs for things like safety, love, and autonomy",
     summaryLine: "Humans have universal needs for things like safety, love, and autonomy",
-    author: "Reece Matthews and Mispy Evenfeld",
+    author: "Reece Matthews and Jaiden Mispy",
     text: md`
 Humans, in general, want to improve their lives. Few people believe they are already the most awesome they could be. Instead, each of us has a sense of our potential, an idea of how it might be like if our highest needs are met and we are living each day with full purpose and authenticity. In the theory of humanistic psychology, the pursuit of this fulfillment is called **self-actualization**.
 

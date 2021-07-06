@@ -44,26 +44,13 @@ for 5 h (Czeisler et al., 1989).
 
 export default defineLesson({
     type: 'reading',
-    id: 'sleep',
-    slug: 'sleep',
-    title: 'Sleep and the mind',
-    name: "sleep",
-    summaryLine: "Sleep",
+    id: 'sleep-and-light',
+    slug: 'sleep-and-light',
+    title: 'The biology of sleep and sun',
+    name: "sleep and light",
+    summaryLine: "Sleep and stuff",
+    // publishedDate: '2021-05-05',
     text: md`
-
-This is a quick overview of some of the factors that go into good sleep. Sleep is a huge field and this isn't comprehensive by any means; if you've had experience with something you think is particularly important to consider here, let me know!
-
-### Sleep efficiency
-
-Sleep efficiency is the percentage of total time in bed actually spent asleep.[@shrivastava2014interpret] This is one way to measure "good sleep". Consensus among sleep researchers is that a normal sleep efficiency is 85% or more, meaning if you're in bed for 8 hours ideally you'd expect to be asleep for 6.8 of those.[@ohayon2017national] 90% is excellent, but if someone is close to 100% and conking right out as soon as they hit the pillow... it probably just means they're not getting enough sleep in general.
-
-### Sleep restriction therapy
-
-Define the hours of the day you want to be fast asleep. Let's say midnight to 7am, since sleep efficiency of 85% on the standard target of 8 hours means you expect to actually sleep for closer to 7 hours. Then for a couple of weeks, when it's not those hours, do everything you possibly can to keep yourself awake. Naps are banned!
-
-I think of this strategy as training your body not to take sleep for granted. Scarcity makes it precious, so you end up sleeping more deeply. It's probably a more useful strategy if you live with someone who can help you stick to it; I don't tend to have much luck with things where the primary mechanic is "exert a bunch of difficult self-control".
-
-### Artificial light, sunlight and light therapy
 
 Light is the key zeitgeber in the circadian system. Dieser "Zeitgeber" being a toll German word meaning "time giver". Basically, the molecular sleepy-clock in your brain evolved to use sunlight to align itself with the local timezone.
 
@@ -197,7 +184,7 @@ Humans have a relatively weak "type 1" phase response curve to light with <3h sh
 
   @article{tahkamo2019systematic,
     title={Systematic review of light exposure impact on human circadian rhythm},
-    author={T{\"a}hk{\"a}m{\"o}, Leena and Partonen, Timo and Pesonen, Anu-Katriina},
+    author={Tähkämö, Leena and Partonen, Timo and Pesonen, Anu-Katriina},
     journal={Chronobiology international},
     volume={36},
     number={2},
